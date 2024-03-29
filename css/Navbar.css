@@ -177,5 +177,6 @@
 }
 
 .nav-item {
-  font-size: 1em; /* Adjust the font size as needed */
+  font-size: 1em;
+  color: #fff;
 }

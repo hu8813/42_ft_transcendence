@@ -1,264 +1,94 @@
 <!-- 404 CONTENT HTML GOES HERE -->
 
-<div class="container" style="margin-top: 3rem">
-    <div id="root"></div>
-
-  <script>
-    // Define useState equivalent for managing state
-    function useState(initialValue) {
-      let value = initialValue;
-      const getValue = () => value;
-      const setValue = (newValue) => { value = newValue; };
-      return [getValue, setValue];
-    }
-
-    // Define useEffect equivalent for handling side effects
-    function useEffect(callback, dependencies) {
-      const previousDependencies = useRef([]);
-      if (!arrayEquals(previousDependencies.current, dependencies)) {
-        callback();
-        previousDependencies.current = dependencies;
-      }
-    }
-
-    // Define useRef equivalent for accessing mutable ref values
-    function useRef(initialValue) {
-      if (!useRef.cache) useRef.cache = {};
-      const key = JSON.stringify(initialValue);
-      if (!useRef.cache[key]) useRef.cache[key] = initialValue;
-      return useRef.cache[key];
-    }
-
-    // Define useLocation equivalent
-    function useLocation() {
-      const getLocation = () => window.location;
-      return getLocation();
-    }
-
-    // Define useNavigate equivalent
-    function useNavigate() {
-      const navigate = (path) => window.location.href = path;
-      return navigate;
-    }
-
-    // Define useTranslation equivalent
-    function useTranslation() {
-      // For simplicity, this function is a placeholder
-      const translate = (key) => key;
-      return { t: translate };
-    }
-
-    // Define Form component
-    function Form(props) {
-      return props.children;
-    }
-
-    // Define Button component
-    function Button(props) {
-      return <button {...props}>{props.children}</button>;
-    }
-
-    // Define Container component
-    function Container(props) {
-      return <div className="container">{props.children}</div>;
-    }
-
-    // Define Link component
-    function Link(props) {
-      return <a href={props.to}>{props.children}</a>;
-    }
-
-    // Define FiUser component
-    function FiUser() {
-      return <i className="fi-user"></i>;
-    }
-
-    // Define initial states
-    let csrftoken = "ns9y1mCcGwoeH5Sh4WTcJZfdg600L0nm";
-    let authCode = null;
-    let loginStatus = "Before clicking Login please wait a bit, as Django backend is on Free server which must be waken up first.";
-    let token = "";
-
-    // Define fetchCsrfToken function
-    async function fetchCsrfToken() {
-      try {
-        const response = await fetch("/get-csrf-token/");
-        const data = await response.json();
-        const token = data.csrfToken || "ns9y1mCcGwoeH5Sh4WTcJZfdg600L0nm";
-        csrftoken = token;
-      } catch (error) {
-        console.error("Error fetching CSRF token:", error);
-        csrftoken = "ns9y1mCcGwoeH5Sh4WTcJZfdg600L0nm";
-      }
-    }
-
-    // Define wakeUpBackend function
-    async function wakeUpBackend() {
-      try {
-        const pingURL = "https://pong42.azurewebsites.net/ping/";
-        const response = await axios.get(pingURL);
-        console.log(response.data.message);
-      } catch (error) {
-        console.error("Error waking up server:", error);
-      }
-    }
-
-    // Define exchangeCodeForAccessToken function
-    function exchangeCodeForAccessToken(code) {
-      let clientId, clientSecret, redirectUri;
-
-      clientId = process.env.REACT_APP_CLIENT_ID || "your-client-id";
-      clientSecret = process.env.REACT_APP_CLIENT_SECRET || "your-client-secret";
-      redirectUri = process.env.REACT_APP_REDIRECT_URI || "https://pong42.azurewebsites.net/api/proxy/";
-
-      const requestBody = new URLSearchParams();
-      requestBody.append("client_id", clientId);
-      requestBody.append("client_secret", clientSecret);
-      requestBody.append("code", code);
-      requestBody.append("redirect_uri", redirectUri);
-      requestBody.append("grant_type", "authorization_code");
-
-      fetch("https://api.intra.42.fr/oauth/token", {
-        method: "POST",
-        body: requestBody,
-      })
-      .then((response) => response.json())
-      .then((data) => {
-        const accessToken = data.access_token;
-        localStorage.setItem("access_token", accessToken);
-        token = accessToken;
-        navigate("/leaderboard");
-      })
-      .catch((error) => {
-        console.error("Error exchanging authorization code for access token:", error);
-      });
-    }
-
-    // Define handleLogin function
-    async function handleLogin(e) {
-      e.preventDefault();
-      const formData = new FormData(e.target);
-
-      try {
-        const response = await fetch("https://pong42.azurewebsites.net/login/", {
-          method: "POST",
-          body: formData,
-        });
-        const data = await response.text();
-        console.log("Login Response:", data);
-        loginStatus = data.trim();
-        if (data.trim() === "Login successful") {
-          setLoggedIn(true);
-          localStorage.setItem("isLoggedIn", true);
-
-          exchangeUsernamePasswordForToken(formData.get("username"), formData.get("password"));
-        }
-      } catch (error) {
-        console.error("Error logging in:", error);
-        loginStatus = "Error logging in";
-      }
-      navigate("/leaderboard");
-    }
-
-    // Define exchangeUsernamePasswordForToken function
-    function exchangeUsernamePasswordForToken(username, password) {
-      axios.post("https://pong42.azurewebsites.net/api/token/", {
-        username: username,
-        password: password,
-      })
-      .then((response) => {
-        const token = response.data.access;
-        localStorage.setItem("token", token);
-        token = token;
-      })
-      .catch((error) => {
-        console.error("Error obtaining token:", error);
-      });
-    }
-
-    // Initialize CSRF token and wake up backend on component mount
-    useEffect(() => {
-      fetchCsrfToken();
-      wakeUpBackend();
-    }, []);
-
-    // Handle OAuth redirect
-    useEffect(() => {
-      const urlParams = new URLSearchParams(location.search);
-      const code = urlParams.get("code");
-      if (code) {
-        authCode = code;
-        exchangeCodeForAccessToken(code);
-      }
-    }, [location.search]);
-
-    // Redirect if authCode is available
-    if (authCode) {
-      navigate(`/login-return?authCode=${authCode}`);
-    }
-
-    // Render login page
-    document.getElementById("container").innerHTML = `
-      <Container>
-        <div class="wrapper">
-          <div class="loader"></div>
-          <br/><br/><br/>
-          <Button
-            variant="contained"
-            color="primary"
-            href="https://api.intra.42.fr/oauth/authorize?client_id=${process.env.REACT_APP_CLIENT_ID}&redirect_uri=${process.env.REACT_APP_REDIRECT_URI}&response_type=code"
-            class="rounded mb-4 bn"
-            style="
-              width: auto;
-              min-width: 270px;
-              margin: 0 auto;
-              text-align: center;
-            "
-          >
-            <FiUser class="bn mr-2" />
-            Sign In with 42
-          </Button> 
-          <br/><br/>
-          <div class="or-separator mb-4">
-            <span class="or-text">or</span>
-          </div>
-          <div class="text-center mt-4 name">Standard Sign In:</div>
-          ${csrftoken ? `
-            <form class="p-3 mt-3" onsubmit="handleLogin(event)">
-              <input type="hidden" name="csrfmiddlewaretoken" value="${csrftoken}" />
-              <div class="form-field d-flex align-items-center">
-                <span class="far fa-user"></span>
-                <input
-                  type="text"
-                  name="username"
-                  id="userName"
-                  placeholder="Username"
-                  value="user42"
-                />
-              </div>
-              <div class="form-field d-flex align-items-center">
-                <span class="fas fa-key"></span>
-                <input
-                  type="password"
-                  name="password"
-                  id="pwd"
-                  placeholder="Password"
-                  value="Pass@42"
-                />
-              </div>
-              <Button type="submit" class="bn btn mt-3">
-                Login
-              </Button>
-            </form>
-          ` : ""}
-          <br/><hr /><br/><br/>
-          <div class="text-center fs-6">
-            <a href="/register" class="bn w-1600">Register here</a><br/>
-          </div>
-          <br/>
-          ${loginStatus ? `<div class="text-center mt-3">${loginStatus}</div>` : ""}
-        </div>
-      </Container>
-    `;
-  </script>
+<div class="login-form" style="margin-top: 3rem" id="container">
+  <div class="wrapper">
+    <div class="loader"></div>
+    <br/><br/><br/>
+    <button onclick="window.location.href = 'https://pong42.azurewebsites.net/api/signin42/'" id="signin-btn" class="rounded mb-4 bn" style="width: auto; min-width: 270px; margin: 0 auto; text-align: center;">
+      <span class="bn mr-2">&#128100;</span>
+      Sign In with 42
+    </button>
+    
+    
+    <br/><br/>
+    <div class="or-separator mb-4">
+      <span class="or-text">or</span>
+    </div>
+    <div class="text-center mt-4 name">Standard Login</div>
+    <form id="login-form" class="p-3 mt-3" onsubmit="return false;">
+      <div class="form-field d-flex align-items-center">
+        <span class="far fa-user"></span>
+        <input
+          type="text"
+          name="username"
+          id="userName"
+          placeholder="Username"
+          value="user42"
+        />
+      </div>
+      <div class="form-field d-flex align-items-center">
+        <span class="fas fa-key"></span>
+        <input
+          type="password"
+          name="password"
+          id="pwd"
+          placeholder="Password"
+          value="Pass@42"
+        />
+      </div>
+      <button id="login-btn" class="bn btn mt-3" >
+        Login
+      </button>
+    </form>
+    <br/><hr /><br/><br/>
+    <div class="text-center fs-6">
+      <a href="/register" onclick="route()" class="bn w-1600">Register here</a><br/>
+    </div>
+    <br/>
+    <div id="login-status" class="text-center mt-3"></div>
   </div>
+</div>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    console.log("DOMContentLoaded event fired."); // Log to check if DOMContentLoaded event fires
+    
+    // Add event listener to login form
+    const loginForm = document.getElementById("login-form");
+    if (loginForm) {
+      loginForm.addEventListener("submit", async (e) => {
+        console.log("Form submission intercepted.");
+        e.preventDefault(); // Prevent default form submission behavior
+        
+        const formData = new FormData(loginForm);
+    
+        try {
+          const response = await fetch("https://pong42.azurewebsites.net/login/", {
+            method: "POST",
+            body: formData,
+          });
+        
+          const data = await response.text();
+          console.log("Login Response:", data); // Log response data
+        
+          // Handle response accordingly
+          if (data.trim() === "Login successful") {
+            // Redirect or perform any action on successful login
+            window.location.href = "/leaderboard";
+          } else {
+            // Handle failed login
+            console.error("Login failed:", data);
+            // Display an error message or perform any other action
+          }
+        } catch (error) {
+          console.error("Error logging in:", error);
+          // Handle error
+        }
+        
+        return false; // Prevent form submission
+      });
+    } else {
+      console.error("Login form not found."); // Log error if login form is not found
+    }
+  });
+  </script>
+  

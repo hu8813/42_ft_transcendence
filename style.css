@@ -42,7 +42,7 @@ main {
 
 .logo a {
     text-decoration: none;
-    color: #000;
+    color: #ffffff;
 }
 
 /* navigation styles start here */
@@ -180,6 +180,7 @@ nav a:active {
 
     .logo {
         grid-column: 2/3;
+        color: #fff;
     }
 
     nav {
