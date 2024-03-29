@@ -1,0 +1,163 @@
+/* Chat.css */
+
+.chat-body {
+  background-color: #525151;
+  color: #ffffff;
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  height: 90vh; /* Full viewport height */
+}
+
+.chat-container {
+  display: flex;
+  flex: 1; /* Fill available space */
+  overflow: hidden;
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(5px);
+  margin: 20px;
+  max-width: calc(100% - 40px); /* Full width with margin */
+}
+
+.chat-main {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1; /* Take up all available space */
+  background: #333842;
+  overflow: hidden;
+}
+
+.msger-chat {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 10px;
+}
+
+.msger-inputarea {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 10px;
+  display: flex;
+}
+
+.msger-input, .msger-send-btn {
+  margin: 10px;
+  padding: 12px 10px;
+  border-radius: 5px;
+  border: none;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.msger-input {
+  flex-grow: 1;
+  background: transparent;
+  color: #ffffff;
+}
+
+.msger-send-btn {
+  background-image: linear-gradient(45deg, #21d4fd 0%, #b721ff 100%);
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.msger-send-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+}
+
+.msg {
+  display: flex;
+  align-items: flex-end;
+  margin-bottom: 10px;
+}
+
+.right-msg .msg-bubble {
+  margin-left: auto;
+  background: #21d4fd; /* Use the color from the profile */
+  color: white;
+  padding: 10px;
+  border-radius: 15px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  max-width: 70%; /* Control bubble width */
+  word-wrap: break-word;
+}
+
+.left-msg .msg-bubble {
+  background: #b721ff; /* Another color from the profile */
+  color: white;
+  padding: 10px;
+  border-radius: 15px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  max-width: 70%; /* Control bubble width */
+  word-wrap: break-word;
+}
+
+.msg-info-name {
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+/* Users list styling */
+.msger-users {
+  width: 200px; /* Fixed width */
+  background: #2f3136; /* Dark background for the sidebar */
+  color: #ffffff;
+}
+
+.msger-users h2 {
+  padding: 20px;
+  margin: 0;
+  background: #5c5c5c; /* Header color to match profile */
+  text-align: center;
+}
+
+.msger-users ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  overflow-y: auto;
+}
+
+.msger-users li {
+  padding: 10px 20px;
+  border-bottom: 1px solid #40444b; /* Separator for users */
+}
+
+.msger-users button {
+  background: #2860a0; /* Button color to match profile */
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.msger-users button:hover {
+  background: #b721ff; /* Another color from the profile */
+  color: white;
+  padding: 10px;
+  border-radius: 15px;
+  box-shadow: inset 8px 8px 8px #404e75, inset -8px -8px 8px #4b2961; /* Darker shadow colors */
+  max-width: 70%; /* Control bubble width */
+  word-wrap: break-word;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .chat-container {
+    flex-direction: column;
+    height: calc(100vh - 40px); /* Adjust height for mobile */
+  }
+
+  .msger-chat {
+    height: 300px; /* Fixed height for chat window on mobile */
+  }
+
+  .msger-users {
+    width: 100%; /* Full width users list on mobile */
+    order: -1; /* Move users list above chat on mobile */
+  }
+}

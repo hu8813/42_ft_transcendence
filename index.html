@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="./src/favicon.ico" />
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <title>Pong42</title>
+  <link rel="stylesheet" href="./style.css" />
+  <link rel="stylesheet" href="./css/App.css" />
+  <link rel="stylesheet" href="./css/Chat.css" />
+  <link rel="stylesheet" href="./css/footer.css" />
+  <link rel="stylesheet" href="./css/Home.css" />
+  <link rel="stylesheet" href="./css/index.css" />
+  <link rel="stylesheet" href="./css/Leaderboard.css" />
+  <link rel="stylesheet" href="./css/Login.css" />
+  <link rel="stylesheet" href="./css/Navbar.css" />
+  <link rel="stylesheet" href="./css/Profile.css" />
+  <link rel="stylesheet" href="./css/Register.css" />
+</head>
+<body>
+
+  <header>
+    <h1 class="logo" ><a onclick="route()" class="nav-item" href="/">Pong42</a></h1>
+    <input type="checkbox" id="nav-toggle" class="nav-toggle" />
+    <nav>
+      <ul id="nav-menu">
+        <li><a onclick="route()" href="/" class="nav-item" id="home">Home</a></li>
+        <li><a onclick="route()" href="/login" class="nav-item" id="login">Login</a></li>
+      </ul>
+    </nav>
+    
+    <!-- Language dropdown -->
+    <div class="language-container">
+      <select id="languageSelect" onchange="changeLanguage(this.value)">
+        <option value="en">EN</option>
+        <option value="at">AT</option>
+        <option value="tr">TR</option>
+        <option value="bg">BG</option>
+        <option value="eg">EG</option>
+        <option value="fr">FR</option>
+      </select>
+    </div>
+  </header>
+  
+  <footer class="footer-container">
+    <div class="footer-links">
+      <a onclick="route()" href="/privacy-policy" class="footer-link" id="privacyPolicy">Privacy Policy</a>
+      <a onclick="route()" href="/contact" class="footer-link" id="impressum">Impressum</a>
+    </div>
+  
+    <div class="footer-text" style="text-align: right; padding-right: 30px;" id="madeWith">
+      Made with</div><span class="heart-icon" style="font-size: 2em;">&#9829;</span> &nbsp;
+      <div id="at42Vienna">at 42Vienna
+    </div>
+  </footer>
+  
+  <main>
+    <div class="app" id="app"></div>
+  </main>
+  
+  <script src="./router.js" defer></script>
+  <script>
+    let currentLanguage = 'en'; // Declare currentLanguage as a global variable
+  
+    // Function to handle language change
+    function changeLanguage(languageCode) {
+      currentLanguage = languageCode; // Update the language
+      translate(currentLanguage); // Call translate function with the updated language
+    }
+  
+    // Define translation function
+    function translate(lang) {
+      // Load translations based on current language
+      fetch(`translations/${lang}.json`)
+        .then(response => response.json())
+        .then(translations => {
+          // Update text content based on translations
+          Object.keys(translations).forEach(category => {
+            Object.keys(translations[category]).forEach(key => {
+              const element = document.getElementById(key);
+              if (element) {
+                element.innerHTML = translations[category][key];
+              }
+            });
+          });
+        })
+        .catch(error => console.error('Error fetching translations:', error));
+    }
+  
+    // Call translate function to set initial translations
+    translate(currentLanguage);
+  
+    // Function to update the navigation links based on user's login status
+    function updateNavigation() {
+      const isLoggedIn = sessionStorage.getItem('isLoggedIn') === 'false';
+      const navMenu = document.getElementById('nav-menu');
+      navMenu.innerHTML = ''; // Clear existing menu items
+  
+      // Define menu items based on login status
+      const menuItems = isLoggedIn ?
+        ['Play!', 'Chat', 'Leaderboard', 'Profile', 'Logout'] :
+        ['Home', 'Login'];
+  
+      // Add menu items to the navigation menu
+      menuItems.forEach(item => {
+  const li = document.createElement('li');
+  const a = document.createElement('a');
+  a.classList.add('nav-item');
+  a.href = `/${item.toLowerCase()}`;
+  a.textContent = item;
+  a.onclick = (event) => route(event, a.href); // Call route function with event and URL
+  li.appendChild(a);
+  navMenu.appendChild(li);
+});
+
+
+    }
+  
+    // Event listener to update navigation when the page loads
+    window.addEventListener('load', () => {
+      if (sessionStorage.getItem('isLoggedIn') === null) {
+        sessionStorage.setItem('isLoggedIn', 'false');
+      }
+      updateNavigation();
+    });
+  </script>
+  
+  </body>
+  </html>

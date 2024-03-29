@@ -1,0 +1,44 @@
+/* Leaderboard.css */
+
+.l-wrapper {
+  margin: 1rem auto; /* Using rem for margin */
+  max-width: 900px;
+  padding: 1rem; /* Using rem for padding */
+  text-align: center;
+}
+
+.c-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.c-table th,
+.c-table td {
+  border: 1px solid var(--medium);
+  padding: var(--spacer-8);
+  text-align: left;
+}
+
+.c-avatar {
+  width: 55px;
+  height: 55px;
+  border-radius: 50% / 60%;
+  overflow: hidden;
+  margin-right: 15px;
+  margin-bottom: 10px;
+}
+
+.c-media {
+  display: flex;
+  align-items: center;
+}
+
+.c-media__content {
+  margin-left: var(--spacer-8);
+}
+
+.c-media__title {
+  font-weight: bold;
+}
+
+/* Add any additional styles as needed */

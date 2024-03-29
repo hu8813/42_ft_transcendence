@@ -1,0 +1,57 @@
+{
+  "home": {
+    "welcome": "Willkommen beim Pong-Spiel!"
+  },
+  "auth": {
+    "email": "E-Mail",
+    "logout": "Abmelden",
+    "username": "Benutzername",
+    "enterEmail": "Geben Sie Ihre E-Mail ein",
+    "password": "Passwort",
+    "enterPassword": "Geben Sie Ihr Passwort ein",
+    "rememberMe": "Angemeldet bleiben",
+    "login": "Anmelden",
+    "forgotPassword": "Passwort vergessen?",
+    "notRegistered": "Noch nicht registriert?",
+    "registerHere": "Hier registrieren",
+    "register": "Registrieren",
+    "signInWith42": "Anmelden mit 42Sign-in",
+    "signIn": "Standard-Anmeldung:",
+    "passwordMismatch": "Passwort leer/ungültig",
+    "confirmPassword": "Passwort bestätigen",
+    "termsAndConditions": "Nutzungsbedingungen",
+    "acceptTerms": "Ich akzeptiere die Nutzungsbedingungen",
+    "profile": "Profil"
+  },
+  "game": {
+    "title": "Spielen!",
+    "controls": "Linker Spieler: W/S - Rechter Spieler: HOCH/RUNTER"
+  },
+  "leaderboard": {
+    "title": "Bestenliste",
+    "rank": "Rang",
+    "player": "Spieler",
+    "kudos": "Punkte",
+    "membersince":"Mitglied seit",
+    "days":"Tag(e)",
+    "viewprofile":"Profil anzeigen",
+    "invitetoplay":"Zum Spielen einladen",
+    "addasfriend":"Als Freund hinzufügen",
+    "tournamentResultsTitle": "Aktuelle Turnierergebnisse"
+  },
+  "chat": {
+    "title": "Chat",
+    "users": "Online-Benutzer"
+  },
+  "common": {
+    "home": "Startseite",
+    "switchLanguage": "Sprache wechseln",
+    "or": "oder"
+  },
+  "footer": {
+    "privacyPolicy": "Datenschutzrichtlinie",
+    "impressum": "Impressum",
+    "madeWith": "Hergestellt mit",
+    "at42Vienna": "bei 42Vienna"
+  }
+}

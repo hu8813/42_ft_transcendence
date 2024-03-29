@@ -1,0 +1,57 @@
+{
+  "home": {
+    "welcome": "Welcome to the Pong Game!"
+  },
+  "auth": {
+    "email": "Email",
+    "logout": "Logout",
+    "username": "Username",
+    "enterEmail": "Enter your email",
+    "password": "Password",
+    "enterPassword": "Enter your password",
+    "rememberMe": "Remember me",
+    "login": "Login",
+    "forgotPassword": "Forgot your password?",
+    "notRegistered": "Not registered yet?",
+    "registerHere": "Register here",
+    "register": "Register",
+    "signInWith42": "Login via 42Sign-in",
+    "signIn": "Standard Login:",
+    "passwordMismatch": "Password empty/invalid",
+    "confirmPassword": "Confirm password",
+    "termsAndConditions": "Terms & Conditions",
+    "acceptTerms": "i accept Terms & Conditions",
+    "profile": "Profile"
+  },
+  "game": {
+    "title": "Play!",
+    "controls": "Left Player: W/S - Right Player: UP/DOWN"
+  },
+  "leaderboard": {
+    "title": "Leaderboard",
+    "rank": "Rank",
+    "player": "Player",
+    "kudos": "Points",
+    "membersince":"Member since",
+    "days":"day(s)",
+    "viewprofile":"View Profile",
+    "invitetoplay":"Invite to Play",
+    "addasfriend":"Add as friend",
+    "tournamentResultsTitle": "Recent Tournaments"
+  },
+  "chat": {
+    "title": "Chat",
+    "users": "Online Users"
+  },
+  "common": {
+    "home": "Home",
+    "switchLanguage": "Switch Language",
+    "or": "or"
+  },
+  "footer": {
+    "privacyPolicy": "Privacy Policy",
+    "impressum": "Imprint", 
+    "madeWith": "Made with",
+    "at42Vienna": "at 42Vienna"
+  }
+}

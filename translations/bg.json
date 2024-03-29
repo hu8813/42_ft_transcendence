@@ -1,0 +1,57 @@
+{
+  "home": {
+    "welcome": "Добре дошли в играта на понг!"
+  },
+  "auth": {
+    "email": "Имейл",
+    "logout": "Изход",
+    "username": "Потребителско име",
+    "enterEmail": "Въведете вашия имейл",
+    "password": "Парола",
+    "enterPassword": "Въведете вашата парола",
+    "rememberMe": "Запомни ме",
+    "login": "Вход",
+    "forgotPassword": "Забравена парола?",
+    "notRegistered": "Не сте регистриран?",
+    "registerHere": "Регистрирайте се тук",
+    "register": "Регистрация",
+    "signInWith42": "Вход с 42Sign-in",
+    "signIn": "Стандартен вход:",
+    "passwordMismatch": "Паролата е празна / невалидна",
+    "confirmPassword": "Потвърдете паролата",
+    "termsAndConditions": "Условия",
+    "acceptTerms": "Съгласен съм с условията",
+    "profile": "Профил"
+  },
+  "game": {
+    "title": "Играй!",
+    "controls": "Ляв играч: W/S - Десен играч: UP/DOWN"
+  },
+  "leaderboard": {
+    "title": "Класиране",
+    "rank": "Ранг",
+    "player": "Играч",
+    "kudos": "Точки",
+    "membersince": "Член от",
+    "days": "ден/дни",
+    "viewprofile": "Преглед на профила",
+    "invitetoplay": "Покани да играе",
+    "addasfriend": "Добави като приятел",
+    "tournamentResultsTitle": "Резултати от последните турнири"
+  },
+  "chat": {
+    "title": "Чат",
+    "users": "Онлайн потребители"
+  },
+  "common": {
+    "home": "Начало",
+    "switchLanguage": "Смени езика",
+    "or": "или"
+  },
+  "footer": {
+    "privacyPolicy": "Политика за поверителност",
+    "impressum": "Импресум",
+    "madeWith": "Създадено с",
+    "at42Vienna": "в 42 Виена"
+  }
+}

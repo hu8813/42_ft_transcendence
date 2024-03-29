@@ -1,0 +1,57 @@
+{
+  "home": {
+    "welcome": "مرحبًا بك في لعبة البونج!"
+  },
+  "auth": {
+    "email": "البريد الإلكتروني",
+    "logout": "تسجيل الخروج",
+    "username": "اسم المستخدم",
+    "enterEmail": "أدخل بريدك الإلكتروني",
+    "password": "كلمة المرور",
+    "enterPassword": "أدخل كلمة المرور الخاصة بك",
+    "rememberMe": "تذكرني",
+    "login": "تسجيل الدخول",
+    "forgotPassword": "هل نسيت كلمة المرور؟",
+    "notRegistered": "لم تسجل بعد؟",
+    "registerHere": "سجل هنا",
+    "register": "تسجيل",
+    "signInWith42": "تسجيل الدخول عبر 42Sign-in",
+    "signIn": "تسجيل الدخول القياسي:",
+    "passwordMismatch": "كلمة المرور فارغة / غير صالحة",
+    "confirmPassword": "تأكيد كلمة المرور",
+    "termsAndConditions": "الشروط والأحكام",
+    "acceptTerms": "أوافق على الشروط والأحكام",
+    "profile": "الملف الشخصي"
+  },
+  "game": {
+    "title": "العب!",
+    "controls": "اللاعب الأيسر: W/S - اللاعب الأيمن: UP/DOWN"
+  },
+  "leaderboard": {
+    "title": "قائمة المتصدرين",
+    "rank": "الترتيب",
+    "player": "اللاعب",
+    "kudos": "النقاط",
+    "membersince": "عضو منذ",
+    "days": "يوم/أيام",
+    "viewprofile": "عرض الملف الشخصي",
+    "invitetoplay": "دعوة للعب",
+    "addasfriend": "إضافة كصديق",
+    "tournamentResultsTitle": "نتائج البطولات الأخيرة"
+  },
+  "chat": {
+    "title": "الدردشة",
+    "users": "المستخدمون المتصلون"
+  },
+  "common": {
+    "home": "الرئيسية",
+    "switchLanguage": "تغيير اللغة",
+    "or": "أو"
+  },
+  "footer": {
+    "privacyPolicy": "سياسة الخصوصية",
+    "impressum": "الإنتاج",
+    "madeWith": "صُنع بواسطة",
+    "at42Vienna": "في 42 فيينا"
+  }
+}
