@@ -1,6 +1,30 @@
-<div class="container" style="margin-top: 3rem">
-    <hgroup>
-      <h2>Chat</h2>
-      <h3>coming soon..</h3>
-    </hgroup>
-  </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vanilla JS Chat</title>
+    <link rel="stylesheet" href="./Chat.css"> <!-- Ensure the CSS path is correct -->
+</head>
+<body>
+    <div class="chat-body">
+        <div class="chat-container">
+            <aside class="msger-users">
+                <h2>Online Users</h2>
+                <ul id="online-users"></ul>
+            </aside>
+            <div class="chat-main">
+                <main class="msger-chat" id="msger-chat"></main>
+                <header class="msger-header">
+                    <div class="msger-inputarea">
+                        <input type="text" class="msger-input" placeholder="Enter your message..." id="message-input">
+                        <button class="msger-send-btn" id="send-btn">Send</button>
+                    </div>
+                </header>
+            </div>
+        </div>
+    </div>
+
+    <script src="./chat.js"></script> <!-- Ensure the JS path is correct -->
+</body>
+</html>
