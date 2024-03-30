@@ -77,7 +77,7 @@
   <script src="./router.js" defer></script>
   <script>
     let currentLanguage = 'en'; // Declare currentLanguage as a global variable
-  
+    updateNavigation();
     // Function to handle language change
     function changeLanguage(languageCode) {
       currentLanguage = languageCode; // Update the language
@@ -109,6 +109,7 @@
     // Function to update the navigation links based on user's login status
     function updateNavigation() {
       const isLoggedIn = sessionStorage.getItem('isLoggedIn') === 'true';
+      
       const navMenu = document.getElementById('nav-menu');
       navMenu.innerHTML = ''; // Clear existing menu items
   
