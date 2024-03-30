@@ -23,7 +23,8 @@ function handleLogin() {
           // Handle response accordingly
           if (data.trim() === "Login successful") {
             // Redirect or perform any action on successful login
-            window.location.href = "/leaderboard";
+            localStorage.setItem("isLoggedIn","true");
+            window.location.href = "/";
           } else {
             // Handle failed login
             console.error("Login failed:", data);
