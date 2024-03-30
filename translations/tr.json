@@ -8,7 +8,8 @@
     "username": "Kullanıcı Adı",
     "nickname":"Takma ad",
     "score":"Skor",
-
+    "changePhoto": "Fotoğrafı Değiştir",
+    "deleteProfile": "Profili Sil",
     "enterEmail": "E-postanızı girin",
     "password": "Şifre",
     "enterPassword": "Şifrenizi girin",

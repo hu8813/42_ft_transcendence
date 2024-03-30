@@ -8,6 +8,8 @@
     "username": "اسم المستخدم",
     "nickname":"لقب",
     "score":"النتيجة",
+    "changePhoto": "تغيير الصورة",
+    "deleteProfile": "حذف الملف الشخصي",
     "enterEmail": "أدخل بريدك الإلكتروني",
     "password": "كلمة المرور",
     "enterPassword": "أدخل كلمة المرور الخاصة بك",

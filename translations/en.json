@@ -8,6 +8,8 @@
     "username": "Username",
     "nickname":"Nickname",
     "score":"Score",
+    "changePhoto":"change Photo",
+    "deleteProfile":"delete Profile",
     "enterEmail": "Enter your email",
     "password": "Password",
     "enterPassword": "Enter your password",
