@@ -29,7 +29,10 @@ const handleLocation = async () => {
     case "/leaderboard":
       fetchAndDisplayLeaderboard();
       break;
-    // Add more cases for other routes as needed
+      case "/logout":
+        logout();
+      break;
+      // Add more cases for other routes as needed
     default:
       // Handle default case
       break;
