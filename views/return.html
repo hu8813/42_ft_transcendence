@@ -28,11 +28,12 @@ document.addEventListener("DOMContentLoaded", async function() {
       localStorage.setItem("userScore", userData.score);
       localStorage.setItem("userEmail", userData.email);
 
-      window.location.href = "/"; // Redirect to home page
+      
     } catch (error) {
       console.error("Error fetching user info:", error);
       // Handle error (e.g., display error message)
     }
+    window.location.href = "/"; // Redirect to home page
   }
 });
 </script>
