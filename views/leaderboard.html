@@ -1,18 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Leaderboard</title>
-</head>
-<body>
-  <table>
+<table style="border-collapse: collapse; width: 100%;">
     <thead>
       <tr>
-        <th>Rank</th>
-        <th>Nickname &nbsp;</th>
-        <th>Score &nbsp;</th>
-        <th>Member since &nbsp;</th>
+        <th style="padding: 8px; text-align: left;">Rank</th>
+        <th style="padding: 8px; text-align: left;">Nickname</th>
+        <th style="padding: 8px; text-align: left;">Score</th>
+        <th style="padding: 8px; text-align: left;">Member since</th>
         <th></th>
         <th></th>
         <th></th>
@@ -20,11 +12,3 @@
     </thead>
     <tbody id="leaderboard-body"></tbody>
   </table>
-  
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      fetchAndDisplayLeaderboard();
-    });
-  </script>
-</body>
-</html>
