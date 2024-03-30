@@ -1,3 +1,3 @@
 ## WIP - Work in progress
 
-# Vanilla JS + Django 
+# pure JS (vanilla) frontend + Django backend
