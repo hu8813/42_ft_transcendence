@@ -6,6 +6,8 @@
   "email": "E-mail",
   "logout": "Déconnexion",
   "username": "Nom d'utilisateur",
+  "nickname":"Surnom",
+  "score":"Score",
   "enterEmail": "Entrez votre e-mail",
   "password": "Mot de passe",
   "enterPassword": "Entrez votre mot de passe",

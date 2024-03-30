@@ -1,44 +1,43 @@
-/* Chat.css Adjustments */
+/* Chat.css */
 
 .chat-body {
-  background-color: #525151; /* Dark grey background */
-  color: #ffffff; /* White text color */
+  background-color: #525151;
+  color: #ffffff;
   font-family: 'Arial', sans-serif;
   margin: 0;
   padding: 0;
   display: flex;
   flex-direction: column;
-  height: 100vh; /* Make sure it takes the full viewport height */
+  height: 90vh; /* Full viewport height */
 }
 
 .chat-container {
   display: flex;
-  flex: 1;
+  flex: 1; /* Fill available space */
   overflow: hidden;
   border-radius: 10px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(5px);
   margin: 20px;
-  max-width: calc(100% - 40px);
+  max-width: calc(100% - 40px); /* Full width with margin */
 }
 
 .chat-main {
   display: flex;
   flex-direction: column;
-  flex-grow: 1; /* Ensure it fills the space */
-  background: #333842; /* Darker grey background for the chat area */
-  overflow: hidden; /* Hide overflow */
+  flex-grow: 1; /* Take up all available space */
+  background: #333842;
+  overflow: hidden;
 }
 
 .msger-chat {
   flex-grow: 1;
-  overflow-y: auto; /* Allow scrolling */
+  overflow-y: auto;
   padding: 10px;
-  position: relative; /* Set a relative positioning context */
 }
 
 .msger-inputarea {
-  background: rgba(255, 255, 255, 0.1); /* Slightly transparent white */
+  background: rgba(255, 255, 255, 0.1);
   padding: 10px;
   display: flex;
 }
@@ -47,112 +46,118 @@
   margin: 10px;
   padding: 12px 10px;
   border-radius: 5px;
-  border: none; /* No border */
+  border: none;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .msger-input {
-  flex-grow: 1; /* Take available horizontal space */
-  background: transparent; /* Transparent background */
-  color: #ffffff; /* White text color */
+  flex-grow: 1;
+  background: transparent;
+  color: #ffffff;
 }
 
 .msger-send-btn {
-  background-image: linear-gradient(45deg, #21d4fd, #b721ff);
+  background-image: linear-gradient(45deg, #21d4fd 0%, #b721ff 100%);
   color: #ffffff;
-  cursor: pointer; /* Pointer cursor on hover */
+  cursor: pointer;
 }
 
 .msger-send-btn:hover {
   transform: translateY(-3px);
-  box-shadow: 0 8px 20px rgba(0, 0
-, 0, 0.4); /* Shadow effect on hover */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
 }
 
 .msg {
-display: flex;
-align-items: flex-end; /* Align items to the end on cross-axis /
-margin-bottom: 10px; / Space between messages */
+  display: flex;
+  align-items: flex-end;
+  margin-bottom: 10px;
 }
 
 .right-msg .msg-bubble {
-margin-left: auto; /* Push right-aligned messages to the end /
-background: #21d4fd; / Light blue background /
-color: white; / White text /
-padding: 10px;
-border-radius: 15px; / Rounded corners /
-box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); / Subtle shadow /
-max-width: 70%; / Maximum width of message bubble /
-word-wrap: break-word; / Break words to prevent overflow */
+  margin-left: auto;
+  background: #21d4fd; /* Use the color from the profile */
+  color: white;
+  padding: 10px;
+  border-radius: 15px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  max-width: 70%; /* Control bubble width */
+  word-wrap: break-word;
 }
 
 .left-msg .msg-bubble {
-background: #b721ff; /* Purple background for left-aligned messages */
-color: white;
-padding: 10px;
-border-radius: 15px;
-box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-max-width: 70%;
-word-wrap: break-word;
+  background: #b721ff; /* Another color from the profile */
+  color: white;
+  padding: 10px;
+  border-radius: 15px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  max-width: 70%; /* Control bubble width */
+  word-wrap: break-word;
 }
 
 .msg-info-name {
-font-weight: bold; /* Bold font for user name /
-margin-right: 10px; / Space between name and text */
+  font-weight: bold;
+  margin-right: 10px;
 }
 
+/* Users list styling */
 .msger-users {
-width: 200px; /* Fixed width for the user list /
-background: #2f3136; / Dark background /
-color: #ffffff; / White text /
-overflow-y: auto; / Scroll if content overflows /
-padding: 0 20px; / Padding on the sides */
+  width: 200px; /* Fixed width */
+  background: #2f3136; /* Dark background for the sidebar */
+  color: #ffffff;
 }
 
 .msger-users h2 {
-padding: 20px; /* Padding around the title /
-margin: 0; / No margin /
-background: #5c5c5c; / Grey background for the title /
-text-align: center; / Center align the title */
+  padding: 20px;
+  margin: 0;
+  background: #5c5c5c; /* Header color to match profile */
+  text-align: center;
 }
 
 .msger-users ul {
-list-style: none; /* No bullet points */
-padding: 0;
-margin: 0;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  overflow-y: auto;
 }
 
 .msger-users li {
-padding: 10px 0; /* Padding above and below user names /
-border-bottom: 1px solid #40444b; / Separator between user names */
+  padding: 10px 20px;
+  border-bottom: 1px solid #40444b; /* Separator for users */
 }
 
 .msger-users button {
-background: #2860a0; /* Blue background for buttons /
-color: white; / White text /
-border: none; / No border /
-padding: 5px 10px; / Padding inside buttons /
-border-radius: 5px; / Rounded corners for buttons /
-cursor: pointer; / Pointer cursor on hover /
-transition: background-color 0.3s ease; / Transition for background color */
+  background: #2860a0; /* Button color to match profile */
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 .msger-users button:hover {
-background: #b721ff; /* Purple background on hover */
+  background: #b721ff; /* Another color from the profile */
+  color: white;
+  padding: 10px;
+  border-radius: 15px;
+  box-shadow: inset 8px 8px 8px #404e75, inset -8px -8px 8px #4b2961; /* Darker shadow colors */
+  max-width: 70%; /* Control bubble width */
+  word-wrap: break-word;
 }
 
+/* Responsive adjustments */
 @media (max-width: 768px) {
-.chat-container {
-flex-direction: column; /* Stack children vertically on small screens /
-height: auto; / Height should be auto to fit content */
-}
+  .chat-container {
+    flex-direction: column;
+    height: calc(100vh - 40px); /* Adjust height for mobile */
+  }
 
-.msger-chat {
-height: 300px; /* Fixed height for chat area on small screens */
-}
+  .msger-chat {
+    height: 300px; /* Fixed height for chat window on mobile */
+  }
 
-.msger-users {
-width: 100%; /* Full width for user list on small screens /
-order: -1; / Put user list above chat on small screens */
-}
+  .msger-users {
+    width: 100%; /* Full width users list on mobile */
+    order: -1; /* Move users list above chat on mobile */
+  }
 }

@@ -6,6 +6,9 @@
     "email": "E-posta",
     "logout": "Çıkış Yap",
     "username": "Kullanıcı Adı",
+    "nickname":"Takma ad",
+    "score":"Skor",
+
     "enterEmail": "E-postanızı girin",
     "password": "Şifre",
     "enterPassword": "Şifrenizi girin",

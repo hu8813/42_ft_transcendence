@@ -6,6 +6,8 @@
     "email": "E-Mail",
     "logout": "Abmelden",
     "username": "Benutzername",
+    "nickname":"Spitzname",
+    "score":"Punktzahl",
     "enterEmail": "Geben Sie Ihre E-Mail ein",
     "password": "Passwort",
     "enterPassword": "Geben Sie Ihr Passwort ein",

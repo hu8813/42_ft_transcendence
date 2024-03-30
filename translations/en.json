@@ -6,6 +6,8 @@
     "email": "Email",
     "logout": "Logout",
     "username": "Username",
+    "nickname":"Nickname",
+    "score":"Score",
     "enterEmail": "Enter your email",
     "password": "Password",
     "enterPassword": "Enter your password",
