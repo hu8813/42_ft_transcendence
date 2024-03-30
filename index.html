@@ -125,7 +125,7 @@
   a.classList.add('nav-item');
   a.href = `/${item.toLowerCase()}`;
   a.textContent = item;
-  a.style.fontSize = "0.6em";
+  
   a.onclick = (event) => route(event, a.href); // Call route function with event and URL
   li.appendChild(a);
   navMenu.appendChild(li);
