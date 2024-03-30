@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function () {
+function openChat() {
     const PERSON_IMG = "https://image.flaticon.com/icons/svg/145/145867.svg";
     const PERSON_NAME = "user42";
     const onlineUsers = ["John", "Alice", "Bob"];
@@ -67,4 +67,4 @@ document.addEventListener('DOMContentLoaded', function () {
         userElement.textContent = user;
         onlineUsersElement.appendChild(userElement);
     });
-});
+};
