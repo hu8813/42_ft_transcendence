@@ -1,7 +1,7 @@
 function openChat() {
     const PERSON_IMG = "https://image.flaticon.com/icons/svg/145/145867.svg";
     const PERSON_NAME = "user42";
-    const onlineUsers = ["John", "Alice", "Bob"];
+    const onlineUsers = ["eelasam", "ddyankov", "vstockma", "huaydin"];
     const messages = [];
 
     const onlineUsersElement = document.getElementById('online-users');
@@ -61,10 +61,34 @@ function openChat() {
         }
     });
 
-
     onlineUsers.forEach(user => {
+        // Create the user element (li)
         const userElement = document.createElement('li');
-        userElement.textContent = user;
+    
+        // Create the button element
+        const button = document.createElement('button');
+        button.classList.add('button', 'bn');
+        button.title = 'View Profile';
+    
+        // Create the span element for the icon
+        const spanIcon = document.createElement('span');
+        spanIcon.classList.add('bi', 'bi-person');
+    
+        // Append the span icon to the button
+        button.appendChild(spanIcon);
+    
+        // Append the button to the user element
+        userElement.appendChild(button);
+    
+        // Create a text node for the username
+        const userNameNode = document.createTextNode(user);
+    
+        // Append the username text node to the user element
+        userElement.appendChild(userNameNode);
+    
+        // Append the user element to the online users list
         onlineUsersElement.appendChild(userElement);
     });
+    
+    
 };
