@@ -11,7 +11,12 @@ const routes = {
   "/privacy-policy": "/views/privacy.html",
   "/contact": "/views/contact.html",
   "/return": "/views/return.html",
-  "/logout": "/views/logout.html"
+  "/logout": "/views/logout.html",
+  "/pongehab": "/views/pongehab.html",
+  "/ponggame": "/views/ponggame.html",
+  "/player3d1": "/views/player3d1.html",
+  "/playerai1": "/views/playerai1.html",
+  "/playersremote2": "/views/playersremote2.html"
 };
 
 const handleLocation = async () => {

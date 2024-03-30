@@ -33,13 +33,12 @@ async function displayLeaderboard() {
               ${member.image_link ? `<img style="width: 55px; height: 55px; max-width: 55px; max-height: 55px;" src="${member.image_link}" alt="${member.username}" />` : `<div class="default-profile-pic"></div>`}
             </div>
             <div class="c-media__content">
-              <div class="c-media__title">${member.username}</div>
+              <div class="c-media__title"><button class="button bn" title="View Profile"><span class="bi bi-person"></span></button> ${member.username}</div>
             </div>
           </div>
         </td>
         <td>${member.score || 0}</td>
-        <td>${calculateDaysSinceJoining(member.date_joined)} days</td>
-        <td><button class="button bn" title="View Profile"><span class="bi bi-person"></span></button></td>
+        <td>${calculateDaysSinceJoining(member.date_joined)} </td>
         
       `;
       leaderboardBody.appendChild(row);
