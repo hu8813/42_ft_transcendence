@@ -1,6 +1,5 @@
 
-
-  document.addEventListener("DOMContentLoaded", function() {
+function handleLogin() {
     console.log("DOMContentLoaded event fired."); // Log to check if DOMContentLoaded event fires
     
     // Add event listener to login form
@@ -40,5 +39,5 @@
     } else {
       console.error("Login form not found."); // Log error if login form is not found
     }
-  });
+  };
   

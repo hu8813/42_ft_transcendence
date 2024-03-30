@@ -1,11 +1,11 @@
-document.addEventListener("DOMContentLoaded", function() {
+function fetchAndDisplayProfile() {
     // Display the user data stored in localStorage
     document.querySelector('.profile-pic').src = localStorage.getItem("userImage") || 'path/to/your/placeholder-image.jpg'; // Replace 'path/to/your/placeholder-image.jpg' with your placeholder image path
-    document.getElementById('nickname').textContent = localStorage.getItem("userNickname") || 'Not available';
-    document.getElementById('login').textContent = localStorage.getItem("userLogin") || 'Not available';
+    document.getElementById('nickname').textContent = localStorage.getItem("nickname") || 'Not available';
+    //document.getElementById('login').textContent = localStorage.getItem("userLogin") || 'Not available';
     document.getElementById('email').textContent = localStorage.getItem("userEmail") || 'Not available';
     document.getElementById('score').textContent = localStorage.getItem("userScore") || 'Not available';
-  });
+  
   
   document.getElementById('deleteProfile').addEventListener('click', function() {
     localStorage.clear();
@@ -15,7 +15,8 @@ document.addEventListener("DOMContentLoaded", function() {
   document.getElementById('changePhoto').addEventListener('click', function() {
     document.getElementById('uploadPhoto').click(); // Open the file selection dialog
   });
-  
+}
+
   function uploadPhoto(event) {
     const file = event.target.files[0];
     if (file) {
@@ -28,4 +29,3 @@ document.addEventListener("DOMContentLoaded", function() {
     }
   }
 
-  
