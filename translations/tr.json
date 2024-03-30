@@ -8,7 +8,9 @@
     "username": "Kullanıcı Adı",
     "nickname":"Takma ad",
     "score":"Skor",
-
+    "changePhoto": "Fotoğrafı Değiştir",
+    "deleteProfile": "Profili Sil",
+    "profile-title": "Pong Ustası",
     "enterEmail": "E-postanızı girin",
     "password": "Şifre",
     "enterPassword": "Şifrenizi girin",
