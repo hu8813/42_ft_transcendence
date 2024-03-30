@@ -45,7 +45,6 @@ main {
     color: #ffffff;
 }
 
-/* navigation styles start here */
 header {
     background: var(--background);
     text-align: center;
@@ -71,8 +70,6 @@ footer a, .tw-link {
     font-weight: 600;
 }
 
-/* changed this from the tutorial video to
-   allow it to gain focus, making it tabbable */
 .nav-toggle {
     position: absolute !important;
     top: -9999px !important;
@@ -117,7 +114,6 @@ footer a, .tw-link {
 .nav-toggle-label span::after {
     top: 7px;
 }
-
 nav {
     position: absolute;
     text-align: left;
@@ -125,9 +121,17 @@ nav {
     left: 0;
     background: var(--background);
     width: 100%;
-    transform: scale(1, 0);
+    display: none; /* Initially hide the navigation */
+    transform: scaleY(0); /* Initially scale the navigation vertically to 0 */
     transform-origin: top;
     transition: transform 400ms ease-in-out;
+    color: #fff;
+}
+
+nav.active {
+    display: block; /* Show the navigation when it has the active class */
+    transform: scaleY(1); /* Scale the navigation vertically to its original size */
+    color: #fff;
 }
 
 nav ul {
@@ -160,16 +164,19 @@ nav a:active {
 }
 
 .nav-toggle:checked~nav {
+    
     transform: scale(1, 1);
 }
 
 .nav-toggle:checked~nav a {
     opacity: 1;
+    
     transition: opacity 250ms ease-in-out 250ms;
 }
 
 @media screen and (min-width: 800px) {
     .nav-toggle-label {
+        
         display: none;
     }
 
@@ -184,7 +191,6 @@ nav a:active {
     }
 
     nav {
-        /* the following lines are not from my video, but add Edge support */
         position: relative;
         text-align: left;
         transition: none;
@@ -192,7 +198,7 @@ nav a:active {
         background: none;
         top: initial;
         left: initial;
-        /* end Edge support stuff */
+
         grid-column: 3/4;
         display: flex;
         justify-content: flex-end;

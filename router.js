@@ -52,12 +52,28 @@ const handleLocation = async () => {
 
 handleLocation();
 
-const route = (event) => {
-  event = event || window.event;
-  event.preventDefault();
-  window.history.pushState({}, "", event.target.href);
-  handleLocation();
+const navToggle = document.getElementById('nav-toggle');
+const navMenu = document.querySelector('nav');
+
+const toggleNavMenu = () => {
+    navMenu.classList.toggle('active');
 };
 
-window.onpopstate = handleLocation;
+// Event listener for navigation toggle button
+navToggle.addEventListener('click', toggleNavMenu);
+
+// Function to handle navigation to a new page
+const route = (event) => {
+    //toggleNavMenu(); // Close the navigation menu
+    event = event || window.event;
+    event.preventDefault();
+    window.history.pushState({}, "", event.target.href);
+    handleLocation();
+};
+
+// Event listener for navigation to a new page
+window.onpopstate = () => {
+    //toggleNavMenu(); // Close the navigation menu
+    handleLocation();
+};
 window.route = route;

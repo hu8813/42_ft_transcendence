@@ -39,9 +39,8 @@ async function displayLeaderboard() {
         </td>
         <td>${member.score || 0}</td>
         <td>${calculateDaysSinceJoining(member.date_joined)} days</td>
-        <td><button class="button bn"><span class="bi bi-person"></span></button></td>
-        <td><button class="button bn"><span class="bi bi-play-fill"></span></button></td>
-        <td><button class="button bn"><span class="bi bi-person-plus-fill"></span></button></td>
+        <td><button class="button bn" title="View Profile"><span class="bi bi-person"></span></button></td>
+        
       `;
       leaderboardBody.appendChild(row);
     });
