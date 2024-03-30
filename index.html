@@ -108,7 +108,7 @@
   
     // Function to update the navigation links based on user's login status
     function updateNavigation() {
-      const isLoggedIn = sessionStorage.getItem('isLoggedIn') === 'true';
+      const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
       
       const navMenu = document.getElementById('nav-menu');
       navMenu.innerHTML = ''; // Clear existing menu items
@@ -135,8 +135,8 @@
   
     // Event listener to update navigation when the page loads
     window.addEventListener('load', () => {
-      if (sessionStorage.getItem('isLoggedIn') === null) {
-        sessionStorage.setItem('isLoggedIn', 'false');
+      if (localStorage.getItem('isLoggedIn') === null) {
+        localStorage.setItem('isLoggedIn', 'false');
       }
       updateNavigation();
     });
