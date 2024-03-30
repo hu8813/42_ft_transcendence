@@ -57,5 +57,26 @@ function calculateDaysSinceJoining(dateString) {
   const currentDate = new Date();
   const timeDifference = currentDate.getTime() - dateJoined.getTime();
   const daysDifference = Math.floor(timeDifference / (1000 * 3600 * 24));
-  return daysDifference;
+
+  // Generate a progress bar style text
+  const progressBarText = generateProgressBar(daysDifference);
+
+  return progressBarText;
 }
+
+function generateProgressBar(days) {
+  const maxLength = 20; // Maximum length of the progress bar
+  const filledLength = Math.min(Math.round(days / 1), maxLength); // Assuming 1 character per 30 days
+
+  // Create the progress bar string
+  let progressBar = '';
+  for (let i = 0; i < filledLength; i++) {
+    progressBar += '=';
+  }
+
+  // Pad the progress bar string to the maximum length
+  progressBar = progressBar.padEnd(maxLength, '.');
+
+  return progressBar;
+}
+
