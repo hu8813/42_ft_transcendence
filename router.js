@@ -23,6 +23,12 @@ const handleLocation = async () => {
   const html = await fetch(route).then((data) => data.text());
   // fetch current path view html
   document.getElementById("app").innerHTML = html;
+  if (path === "/profile") {
+    fetchAndDisplayProfile();
+  }
+  else if (path === "/leaderboard") {
+    fetchAndDisplayLeaderboard();
+  }
   //   change view_container html to the fetched view html
 };
 
