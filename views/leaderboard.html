@@ -1,14 +1,19 @@
 <table style="border-collapse: collapse; width: 100%;">
-    <thead>
-      <tr>
-        <th style="padding: 8px; text-align: left;">Rank</th>
-        <th style="padding: 8px; text-align: left;">Nickname</th>
-        <th style="padding: 8px; text-align: left;">Score</th>
-        <th style="padding: 8px; text-align: left;">Member since</th>
-        <th></th>
-        <th></th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody id="leaderboard-body"></tbody>
-  </table>
+  <thead>
+    <tr>
+      <th style="padding: 8px; text-align: left; margin-top: 10px; margin-bottom: 10px;">Rank</th>
+      <th style="padding: 8px; text-align: left; margin-top: 10px; margin-bottom: 10px;">Nickname</th>
+      <th style="padding: 8px; text-align: left; margin-top: 10px; margin-bottom: 10px;">Score</th>
+      <th style="padding: 8px; text-align: left; margin-top: 10px; margin-bottom: 10px;">Member since</th>
+      <th colspan="4" style="margin-bottom: 10px;"></th> <!-- Empty column for spacing -->
+    </tr>
+    <tr>
+      <th colspan="8" style="text-align: right;">
+        <button onclick="fetchLeaderboardData(); displayLeaderboard();" class="btn btn-primary" style="margin-right: 30px;">
+          <span class="bi bi-arrow-clockwise"></span> Refresh
+        </button>
+      </th>
+    </tr>
+  </thead>
+  <tbody id="leaderboard-body"></tbody>
+</table>

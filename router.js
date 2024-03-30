@@ -20,20 +20,32 @@ const handleLocation = async () => {
   const html = await fetch(route).then((data) => data.text());
   document.getElementById("app").innerHTML = html;
 
+  if (localStorage.getItem("isLoggedIn") === "true") {
+    if (!leaderboardData || leaderboardData.length === 0) {
+      await fetchLeaderboardData();
+    }
+  }
 
   switch(path) {
     case "/profile":
-      fetchAndDisplayProfile();
+      if (localStorage.getItem("isLoggedIn") === "true") {
+          fetchAndDisplayProfile();
+      }
+      
       break;
     case "/leaderboard":
-      fetchAndDisplayLeaderboard();
+      if (localStorage.getItem("isLoggedIn") === "true") {
+        if (!leaderboardData || leaderboardData.length === 0) {
+          await fetchLeaderboardData();          
+        }
+        displayLeaderboard();
+      }
+      
       break;
-      case "/logout":
-        logout();
+    case "/logout":
+      logout();
       break;
-
     default:
-
       break;
   }
 };

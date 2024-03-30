@@ -22,7 +22,7 @@
   font-weight: bold;
   color: #21d4fd;
   text-transform: uppercase;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 .profile-title {
@@ -33,7 +33,7 @@
 
 .profile-subtitle {
   font-size: 1.2rem;
-  margin-top: 30px;
+  margin-top: 10px;
 }
 
 .profile-input, .profile-button {

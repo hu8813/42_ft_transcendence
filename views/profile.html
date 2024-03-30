@@ -1,11 +1,14 @@
 <div class="profile-container">
-  <h1 class="profile-title"> <br/><span  id="profile-title">Pong Master</span><br/> <span id="nicknameadr2"></span></h1>
-  <div class="avatar-preview">
-    <img class="profile-pic" src="" width="250px" height="250px" alt="Profile Picture" style="display: block; margin: 0 auto; max-width: 250px; max-height: 250px;">
-   </div>
-   <button id="changePhoto" class="profile-button">Change Photo</button>
-   <input type="file" id="uploadPhoto" class="profile-input" style="display: none;" onchange="uploadPhoto(event)">
-   <div class="profile-info-section">
+  <h1 class="profile-title">
+    <br/><span id="profile-title">Pong Master</span><br/> <span id="nicknameadr2"></span>  <div class="avatar-preview">
+      <img class="profile-pic" src="" width="200px" height="200px" alt="Profile Picture" style="display: block; margin: 0 auto; max-width: 100%; height: 200px; border-radius: 10px;">
+  
+    </div>
+  </h1>
+
+  <button id="changePhoto" class="profile-button">Change Photo</button>
+  <input type="file" id="uploadPhoto" class="profile-input" style="display: none;" onchange="uploadPhoto(event)">
+  <div class="profile-info-section">
     <h2 class="info-header"><span id="nickname">Nickname</span>: <span id="nicknameadr">Loading...</span></h2>
     <button id="changeNick" class="profile-button"><span id="changeNickname">Change Nickname</span></button>
   </div>
@@ -15,7 +18,5 @@
   <div class="score-info-section">
     <h2 class="info-header"><span id="score">Score</span>: <span id="scoreadr"></span></h2>
   </div>
-  
-  
-  <button id="deleteProfile" class="profile-button" >Delete Profile</button>
+  <button id="deleteProfile" class="profile-button">Delete Profile</button>
 </div>
