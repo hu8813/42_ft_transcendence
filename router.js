@@ -1,4 +1,3 @@
-// an object to hold the routes
 const routes = {
   404: "/views/404.html",
   "/": "/views/home.html",
@@ -21,7 +20,7 @@ const handleLocation = async () => {
   const html = await fetch(route).then((data) => data.text());
   document.getElementById("app").innerHTML = html;
 
-  // Update content based on the route
+
   switch(path) {
     case "/profile":
       fetchAndDisplayProfile();
@@ -32,9 +31,9 @@ const handleLocation = async () => {
       case "/logout":
         logout();
       break;
-      // Add more cases for other routes as needed
+
     default:
-      // Handle default case
+
       break;
   }
 };

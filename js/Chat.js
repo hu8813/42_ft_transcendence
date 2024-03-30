@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const messageInput = document.getElementById('message-input');
     const sendBtn = document.getElementById('send-btn');
 
-    // Mock WebSocket instance
+
     const WebSocketInstance = {
         newChatMessage: function (message) {
             console.log("Sending message to WebSocket:", message);
@@ -56,12 +56,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
     messageInput.addEventListener('keypress', function (e) {
         if (e.key === "Enter") {
-            e.preventDefault(); // Prevent form submission
+            e.preventDefault(); 
             sendBtn.click();
         }
     });
 
-    // Populate online users
+
     onlineUsers.forEach(user => {
         const userElement = document.createElement('li');
         userElement.textContent = user;

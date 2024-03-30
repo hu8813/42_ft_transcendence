@@ -30,7 +30,7 @@ function fetchAndDisplayLeaderboard() {
           leaderboardBody.appendChild(row);
         });
       } else {
-        // Display a message if there is no data
+
         leaderboardBody.innerHTML = '<tr><td colspan="7">No data available</td></tr>';
       }
     })

@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", async function() {
         throw new Error('Failed to fetch user data');
       }
       const responseData = await response.json();
-      const userData = responseData.user; // Accessing user data
+      const userData = responseData.user; 
 
       localStorage.setItem("isLoggedIn", true);
       localStorage.setItem("userNickname", userData.nickname);
@@ -31,9 +31,9 @@ document.addEventListener("DOMContentLoaded", async function() {
       
     } catch (error) {
       console.error("Error fetching user info:", error);
-      // Handle error (e.g., display error message)
+
     }
-    window.location.href = "/"; // Redirect to home page
+    window.location.href = "/"; 
   }
 });
 </script>
