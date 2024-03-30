@@ -2,6 +2,7 @@ function fetchAndDisplayProfile() {
     // Display the user data stored in localStorage
     document.querySelector('.profile-pic').src = localStorage.getItem("userImage") || 'path/to/your/placeholder-image.jpg'; // Replace 'path/to/your/placeholder-image.jpg' with your placeholder image path
     document.getElementById('nicknameadr').textContent = localStorage.getItem("userNickname") || 'Not available';
+    document.getElementById('nicknameadr').textContent = localStorage.getItem("userNickname2") || 'Not available';
     //document.getElementById('login').textContent = localStorage.getItem("userLogin") || 'Not available';
     document.getElementById('emailadr').textContent = localStorage.getItem("userEmail") || 'Not available';
     document.getElementById('scoreadr').textContent = localStorage.getItem("userScore") || 'Not available';
