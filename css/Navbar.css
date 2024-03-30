@@ -57,6 +57,7 @@
 .nav-items {
   display: flex;
   align-items: center;
+  
 }
 
 .language-container {
@@ -177,6 +178,6 @@
 }
 
 .nav-item {
-  font-size: 1em;
+  font-size: 0.6em !important; 
   color: #fff;
 }
