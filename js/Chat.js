@@ -41,7 +41,7 @@ function openChat() {
     sendBtn.addEventListener('click', function () {
         const inputText = messageInput.value.trim();
         if (!inputText) return;
-
+    
         const newMessage = {
             name: PERSON_NAME,
             img: PERSON_IMG,
@@ -49,10 +49,25 @@ function openChat() {
             text: inputText,
             time: formatDate(new Date()),
         };
-
-        WebSocketInstance.newChatMessage(newMessage);
+    
+        // Create a new message element
+        const messageElement = document.createElement('div');
+        messageElement.classList.add('msg', 'right-msg'); // Assuming all messages are sent from the right side
+        const msgInfoName = document.createElement('div');
+        msgInfoName.classList.add('msg-info-name');
+        msgInfoName.textContent = `${newMessage.time} ${newMessage.name}: ${newMessage.text}`;
+        messageElement.appendChild(msgInfoName);
+    
+        // Append the new message element below the input area
+        msgerChat.parentElement.insertBefore(messageElement, msgerChat.nextSibling);
+    
+        // Clear the input field
         messageInput.value = '';
+    
+        // Scroll to the bottom of the chat
+        scrollToBottom();
     });
+    
 
     messageInput.addEventListener('keypress', function (e) {
         if (e.key === "Enter") {
