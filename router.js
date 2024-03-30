@@ -11,7 +11,8 @@ const routes = {
   "/profile": "/views/profile.html",
   "/privacy-policy": "/views/privacy.html",
   "/contact": "/views/contact.html",
-  "/return": "/views/return.html"
+  "/return": "/views/return.html",
+  "/logout": "/views/logout.html"
 };
 
 const handleLocation = async () => {
