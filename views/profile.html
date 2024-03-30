@@ -1,11 +1,14 @@
 <body onload="fetchAndDisplayProfile();">
   <div class="profile-container">
-    <h1 class="profile-title"> <span  id="profile-title">Pong Master</span> <span id="nicknameadr2"></span></h1>
+    <h1 class="profile-title"> <span  id="profile-title">Pong Master</span><br/> <span id="nicknameadr2"></span></h1>
     <div class="avatar-preview">
       <img class="profile-pic" src="" alt="Profile Picture">
      </div>
-    <div class="profile-info-section">
+     <button id="changePhoto" class="profile-button">Change Photo</button>
+     <input type="file" id="uploadPhoto" class="profile-input" style="display: none;" onchange="uploadPhoto(event)">
+     <div class="profile-info-section">
       <h2 class="info-header"><span id="nickname">Nickname</span>: <span id="nicknameadr">Loading...</span></h2>
+      <button id="changeNick" class="profile-button"><span id="changeNickname">Change Nickname</span></button>
     </div>
     <div class="email-info-section">
       <h2 class="info-header"><span id="email">E-mail</span>: <span id="emailadr">Loading...</span></h2>
@@ -13,9 +16,9 @@
     <div class="score-info-section">
       <h2 class="info-header"><span id="score">Score</span>: <span id="scoreadr"></span></h2>
     </div>
-    <input type="file" id="uploadPhoto" class="profile-input" style="display: none;" onchange="uploadPhoto(event)">
-    <button id="changePhoto" class="profile-button">change Photo</button>
-    <button id="deleteProfile" class="profile-button" >delete Profile</button>
+    
+    
+    <button id="deleteProfile" class="profile-button" >Delete Profile</button>
   </div>
   
 </body> 
