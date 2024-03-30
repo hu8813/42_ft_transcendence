@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login Return</title>
+</head>
+<body>
+<div id="app">
+  <h2>Hi!</h2>
+  <div id="user-info"></div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", async function() {
+  const locationSearch = window.location.search;
+  const params = new URLSearchParams(locationSearch);
+  const code = params.get('code');
+
+  if (code) {
+    try {
+      const response = await fetch(`https://pong42.azurewebsites.net/api/userinfo/?code=${code}`);
+      const userData = await response.json();
+      
+      localStorage.setItem("isLoggedIn", true);
+      localStorage.setItem("userNickname", userData.nickname);
+      localStorage.setItem("userLogin", userData.login);
+      localStorage.setItem("userImage", userData.image_link);
+      localStorage.setItem("userScore", userData.score);
+      localStorage.setItem("userEmail", userData.email);
+      
+      renderUserInfo(userData);
+    } catch (error) {
+      console.error("Error fetching user info:", error);
+    }
+  }
+});
+
+function renderUserInfo(userInfo) {
+  const userInfoDiv = document.getElementById("user-info");
+  
+  const userAvatar = document.createElement("img");
+  userAvatar.src = userInfo.image_link;
+  userAvatar.alt = "User Avatar";
+  userAvatar.style.maxWidth = "200px";
+  userAvatar.style.maxHeight = "200px";
+  
+  const nicknameParagraph = document.createElement("p");
+  nicknameParagraph.textContent = `Nickname: ${userInfo.nickname}`;
+  
+  const loginParagraph = document.createElement("p");
+  loginParagraph.textContent = `Login: ${userInfo.login}`;
+  
+  const emailParagraph = document.createElement("p");
+  emailParagraph.textContent = `Email: ${userInfo.email}`;
+  
+  const scoreParagraph = document.createElement("p");
+  scoreParagraph.textContent = `Score: ${userInfo.score}`;
+  
+  userInfoDiv.appendChild(userAvatar);
+  userInfoDiv.appendChild(nicknameParagraph);
+  userInfoDiv.appendChild(loginParagraph);
+  userInfoDiv.appendChild(emailParagraph);
+  userInfoDiv.appendChild(scoreParagraph);
+}
+</script>
+</body>
+</html>
