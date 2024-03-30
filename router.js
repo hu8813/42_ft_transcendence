@@ -51,6 +51,9 @@ const handleLocation = async () => {
     case "/logout":
       logout();
       break;
+    case "/pongehab":
+        
+        break;
     default:
       break;
   }
