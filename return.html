@@ -15,7 +15,11 @@ document.addEventListener("DOMContentLoaded", async function() {
   if (code) {
     try {
       const response = await fetch(`https://pong42.azurewebsites.net/api/userinfo/?code=${code}`);
-      const userData = await response.json();
+      if (!response.ok) {
+        throw new Error('Failed to fetch user data');
+      }
+      const responseData = await response.json();
+      const userData = responseData.user; // Accessing user data
 
       localStorage.setItem("isLoggedIn", true);
       localStorage.setItem("userNickname", userData.nickname);
