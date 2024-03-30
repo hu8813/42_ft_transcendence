@@ -56,7 +56,13 @@ const navToggle = document.getElementById('nav-toggle');
 const navMenu = document.querySelector('nav');
 
 const toggleNavMenu = () => {
-    navMenu.classList.toggle('active');
+  if (navMenu.classList.contains('active')) {
+    //navMenu.classList.remove('active'); // Remove the 'active' class if it exists
+    
+} else {
+    navMenu.classList.add('active'); // Add the 'active' class if it doesn't exist
+
+}
 };
 
 // Event listener for navigation toggle button
@@ -64,16 +70,19 @@ navToggle.addEventListener('click', toggleNavMenu);
 
 // Function to handle navigation to a new page
 const route = (event) => {
-    //toggleNavMenu(); // Close the navigation menu
     event = event || window.event;
     event.preventDefault();
+    //navToggle.click();
     window.history.pushState({}, "", event.target.href);
     handleLocation();
 };
 
 // Event listener for navigation to a new page
 window.onpopstate = () => {
-    //toggleNavMenu(); // Close the navigation menu
+
     handleLocation();
+    //navToggle.click();
+    
+
 };
 window.route = route;
