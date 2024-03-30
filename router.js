@@ -10,7 +10,8 @@ const routes = {
   "/leaderboard": "/views/leaderboard.html",
   "/profile": "/views/profile.html",
   "/privacy-policy": "/views/privacy.html",
-  "/contact": "/views/contact.html"
+  "/contact": "/views/contact.html",
+  "/return": "/views/return.html"
 };
 
 const handleLocation = async () => {
