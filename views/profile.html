@@ -1,6 +1,30 @@
-<div class="container" style="margin-top: 3rem">
-    <hgroup>
-      <h2>Profile of ...</h2>
-      <h3>coming soon..</h3>
-    </hgroup>
+
+<link rel="stylesheet" href="Profile.css">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>User Profile</title>
+<link rel="stylesheet" href="Profile.css">
+</head>
+<body class="profile-body">
+  <div class="profile-container">
+    <h1 class="profile-title">User Profile</h1>
+    <div class="avatar-preview">
+      <img class="profile-pic" src="" alt="Profile Picture">
+     </div>
+    <div class="profile-info-section">
+      <h2 class="info-header">Nickname: <span id="nickname">Loading...</span></h2>
+    </div>
+    <div class="email-info-section">
+      <h2 class="info-header">Email: <span id="email">Loading...</span></h2>
+    </div>
+    <div class="score-info-section">
+      <h2 class="info-header">Score: <span id="score">Loading...</span></h2>
+    </div>
+    <input type="file" id="uploadPhoto" class="profile-input" style="display: none;" onchange="uploadPhoto(event)">
+    <button id="changePhoto" class="profile-button">Foto Ändern</button>
+    <button id="deleteProfile" class="profile-button">Profil Löschen</button>
   </div>
+  
