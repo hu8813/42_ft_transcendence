@@ -8,9 +8,9 @@
 }
 
 .profile-container {
-  max-width: 700px;
-  margin: 20px auto;
-  padding: 20pem;
+  max-width: 800px;
+  margin: 10px auto;
+  padding: 10pem;
   background: #333842;
   border-radius: 10px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
@@ -116,7 +116,7 @@
 @media (max-width: 768px) {
   .profile-container {
     width: 90%;
-    margin-top: 20px;
+    margin-top: 10px;
   }
 
   .profile-title {
