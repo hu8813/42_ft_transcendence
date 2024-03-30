@@ -47,3 +47,4 @@ function calculateDaysSinceJoining(dateString) {
   const daysDifference = Math.floor(timeDifference / (1000 * 3600 * 24));
   return daysDifference;
 }
+
