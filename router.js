@@ -1,4 +1,5 @@
 const routes = {
+  '*': '/views/home.html',
   404: "/views/404.html",
   "/": "/views/home.html",
   "/home": "/views/home.html",
