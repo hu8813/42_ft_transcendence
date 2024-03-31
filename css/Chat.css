@@ -27,7 +27,7 @@
   flex-direction: column;
   flex-grow: 1; /* Take up all available space */
   background: #333842;
-  overflow: hidden;
+  overflow: auto;
 }
 
 .msger-chat {
