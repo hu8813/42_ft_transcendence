@@ -1,4 +1,4 @@
-/* Register.css */
+
 .register-container {
     max-width: 350px;
     margin: 80px auto;
@@ -6,7 +6,7 @@
     background-color: #000;
     border-radius: 15px;
     box-shadow: 13px 13px 20px #111, -13px -13px 20px #333;
-    text-align: left; /* Align text to the left for better visibility */
+    text-align: left; 
 }
 
 .register-container h2 {

@@ -1,8 +1,8 @@
-/* Home.css */
 
-/* Default styles */
 
-/* Responsive styles for screens smaller than 767px (typical mobile devices) */
+
+
+
 @media (max-width: 767px) {
   body {
     font-size: 14px;
@@ -12,26 +12,26 @@
     font-size: 2em;
   }
 
-  /* Additional responsive styles for other elements */
+  
 }
 
-/* Home.css */
-/* Home.css */
+
+
 .home-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh; /* Set the height to 100% of the viewport height */
+  height: 100vh; 
 }
 
 h1 {
   font-size: 2em;
-  color: #887f7f; /* Set the text color */
+  color: #887f7f; 
 }
 
-/* App.css */
-/* Default styles */
+
+
 body {
   display: flex;
   flex-direction: column;
@@ -50,9 +50,9 @@ body {
   text-align: center;
 }
 
-/* Rest of your existing styles */
 
-/* Add the following to center the footer at the bottom */
+
+
 .footer-container {
   margin-top: auto;
   padding: 20px;
@@ -61,7 +61,7 @@ body {
   text-align: center;
 }
 
-/* Responsive styles for screens smaller than 767px (typical mobile devices) */
+
 @media (max-width: 767px) {
   .App-logo {
     height: 30vmin;
@@ -79,7 +79,7 @@ body {
 
 .game-container {
   display: flex;
-  flex-direction: column; /* Stack items vertically on small screens */
+  flex-direction: column; 
   align-items: center;
   margin-top: 20px;
 }
@@ -99,7 +99,7 @@ body {
   width: 6px;
   color: #FFF;
   animation: paddles 0.75s ease-out infinite;
-  left: 50%; /* Aligning to the right */
+  left: 50%; 
 }
 
 .loader:before {

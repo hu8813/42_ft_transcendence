@@ -1,9 +1,9 @@
-/* Leaderboard.css */
+
 
 .l-wrapper {
-  margin: 1rem auto; /* Using rem for margin */
+  margin: 1rem auto; 
   max-width: 900px;
-  padding: 1rem; /* Using rem for padding */
+  padding: 1rem; 
   text-align: center;
 }
 
@@ -41,4 +41,4 @@
   font-weight: bold;
 }
 
-/* Add any additional styles as needed */
+

@@ -1,6 +1,6 @@
-/* App.css */
 
-/* Default styles */
+
+
 body {
   display: flex;
   flex-direction: column;
@@ -16,12 +16,12 @@ body {
 .App {
   flex: 1;
   text-align: center;
-  background-color: #212529; /* Set the background color for the entire body */
+  background-color: #212529; 
 }
 
-/* Rest of your existing styles */
 
-/* Add the following to center the footer at the bottom */
+
+
 .footer-container {
   margin-top: auto;
   font-family: Arial, sans-serif !important;
@@ -31,7 +31,7 @@ body {
   text-align: center;
 }
 
-/* Responsive styles for screens smaller than 767px (typical mobile devices) */
+
 @media (max-width: 767px) {
   .App-logo {
     height: 30vmin;

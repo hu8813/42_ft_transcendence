@@ -20,13 +20,13 @@ const routes = {
   "#playersremote2": "/views/playersremote2.html"
 };
 
-let translationsCache = {}; // Global translation cache
+let translationsCache = {}; 
 let currentLanguage = 'en'; 
 updateNavigation();
 
 function changeLanguage(languageCode) {
   currentLanguage = languageCode; 
-  translationsCache = {}; // Reset the cache to an empty object
+  translationsCache = {}; 
   translate(currentLanguage); 
 }
 
@@ -40,61 +40,61 @@ async function fetchAndCacheTranslations(language) {
   }
 }
 
-// Update navigation and fetch translations for the current language at the beginning
+
 async function initialize() {
   updateNavigation();
   await fetchAndCacheTranslations(currentLanguage);
 }
 
-// Function to change the current language and fetch translations for the new language
+
 async function changeLanguage(languageCode) {
   currentLanguage = languageCode; 
-  translationsCache = {}; // Reset the cache to an empty object
+  translationsCache = {}; 
   await fetchAndCacheTranslations(currentLanguage);
   translate(currentLanguage); 
 }
 
-// Function to translate a key using the translations cache
+
 function translateKey(key) {
   const lang = currentLanguage;
 
   return new Promise((resolve, reject) => {
-    // Check if translations for the current language are available in the cache
+    
     if (translationsCache[lang]) {
       const translations = translationsCache[lang];
   
-      // Split the key into parts based on '.'
+      
       const keyParts = key.split('.');
   
-      // Iterate over the key parts to access nested translations
+      
       let translation = translations;
       for (const part of keyParts) {
         if (translation && translation[part]) {
           translation = translation[part];
         } else {
-          // If any part of the key is not found, reject the promise
+          
           reject(new Error(`Translation for key '${key}' not found`));
           return;
         }
       }
   
-      // Resolve the promise with the translation
+      
       resolve(translation);
     } else {
-      // If translations for the current language are not available in the cache, reject the promise
+      
       reject(new Error(`Translations for language '${lang}' not found in the cache`));
     }
   });
 }
 
-// Call the initialize function to set up the application
+
 initialize();
 
 
 
 
 const handleLocation = async () => {
-  const path = window.location.hash || '#'; // Use window.location.hash to get the fragment identifier
+  const path = window.location.hash || '#'; 
   const route = routes[path] || routes[404];
   const html = await fetch(route).then((data) => data.text());
   document.getElementById("app").innerHTML = html;
@@ -126,7 +126,7 @@ const handleLocation = async () => {
       openChat();
       break;
     case "#pongehab":
-      // Handle '/#pongehab' case if needed
+      
       break;
     default:
       break;
@@ -141,18 +141,18 @@ const navMenu = document.querySelector('nav');
 
 const toggleNavMenu = () => {
   if (navMenu.classList.contains('active')) {
-    //navMenu.classList.remove('active'); // Remove the 'active' class if it exists
+    //navMenu.classList.remove('active'); 
     
 } else {
-    navMenu.classList.add('active'); // Add the 'active' class if it doesn't exist
+    navMenu.classList.add('active'); 
 
 }
 };
 
-// Event listener for navigation toggle button
+
 navToggle.addEventListener('click', toggleNavMenu);
 
-// Function to handle navigation to a new page
+
 const route = (event) => {
     event = event || window.event;
     event.preventDefault();
@@ -161,7 +161,7 @@ const route = (event) => {
     handleLocation();
 };
 
-// Event listener for navigation to a new page
+
 window.onpopstate = () => {
 
     handleLocation();

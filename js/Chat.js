@@ -50,22 +50,22 @@ function openChat() {
             time: formatDate(new Date()),
         };
     
-        // Create a new message element
+        
         const messageElement = document.createElement('div');
-        messageElement.classList.add('msg', 'right-msg'); // Assuming all messages are sent from the right side
+        messageElement.classList.add('msg', 'right-msg'); 
         const msgInfoName = document.createElement('div');
         msgInfoName.classList.add('msg-info-name');
         msgInfoName.textContent = `${newMessage.time} ${newMessage.name}: ${newMessage.text}`;
         messageElement.appendChild(msgInfoName);
     
-        // Append the new message element below the input area
+        
         msgerChat.parentElement.insertBefore(messageElement, msgerChat.nextSibling);
         
 
-        // Clear the input field
+        
         messageInput.value = '';
     
-        // Scroll to the bottom of the chat
+        
         scrollToBottom();
     });
     
@@ -78,31 +78,31 @@ function openChat() {
     });
 
     onlineUsers.forEach(user => {
-        // Create the user element (li)
+        
         const userElement = document.createElement('li');
     
-        // Create the button element
+        
         const button = document.createElement('button');
         button.classList.add('button', 'bn');
         button.title = 'View Profile';
     
-        // Create the span element for the icon
+        
         const spanIcon = document.createElement('span');
         spanIcon.classList.add('bi', 'bi-person');
     
-        // Append the span icon to the button
+        
         button.appendChild(spanIcon);
     
-        // Append the button to the user element
+        
         userElement.appendChild(button);
     
-        // Create a text node for the username
+        
         const userNameNode = document.createTextNode(user);
     
-        // Append the username text node to the user element
+        
         userElement.appendChild(userNameNode);
     
-        // Append the user element to the online users list
+        
         onlineUsersElement.appendChild(userElement);
     });
     

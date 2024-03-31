@@ -1,4 +1,4 @@
-/* Chat.css */
+
 
 .chat-body {
   
@@ -8,24 +8,24 @@
   padding: 0;
   display: flex;
   flex-direction: column;
-  height: 90vh; /* Full viewport height */
+  height: 90vh; 
 }
 
 .chat-container {
   display: flex;
-  flex: 1; /* Fill available space */
+  flex: 1; 
   overflow: hidden;
   border-radius: 10px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(5px);
   margin: 20px;
-  max-width: calc(100% - 40px); /* Full width with margin */
+  max-width: calc(100% - 40px); 
 }
 
 .chat-main {
   display: flex;
   flex-direction: column;
-  flex-grow: 1; /* Take up all available space */
+  flex-grow: 1; 
   background: #333842;
   overflow: auto;
 }
@@ -80,22 +80,22 @@
 
 .right-msg .msg-bubble {
   margin-left: auto;
-  background: #21d4fd; /* Use the color from the profile */
+  background: #21d4fd; 
   color: white;
   padding: 10px;
   border-radius: 15px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-  max-width: 70%; /* Control bubble width */
+  max-width: 70%; 
   word-wrap: break-word;
 }
 
 .left-msg .msg-bubble {
-  background: #b721ff; /* Another color from the profile */
+  background: #b721ff; 
   color: white;
   padding: 10px;
   border-radius: 15px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-  max-width: 70%; /* Control bubble width */
+  max-width: 70%; 
   word-wrap: break-word;
 }
 
@@ -105,9 +105,9 @@
   
 }
 
-/* Users list styling */
+
 .msger-users {
-  width: 250px; /* Increase the width to accommodate more content */
+  width: 250px; 
   background: #2f3136;
   color: #ffffff;
 }
@@ -115,7 +115,7 @@
 .msger-users h2 {
   padding: 20px;
   margin: 0;
-  background: #5c5c5c; /* Header color to match profile */
+  background: #5c5c5c; 
   text-align: center;
 }
 
@@ -128,11 +128,11 @@
 
 .msger-users li {
   padding: 10px 20px;
-  border-bottom: 1px solid #40444b; /* Separator for users */
+  border-bottom: 1px solid #40444b; 
 }
 
 .msger-users button {
-  background: #2860a0; /* Button color to match profile */
+  background: #2860a0; 
   color: white;
   border: none;
   padding: 5px 10px;
@@ -142,28 +142,28 @@
 }
 
 .msger-users button:hover {
-  background: #b721ff; /* Another color from the profile */
+  background: #b721ff; 
   color: white;
   padding: 10px;
   border-radius: 15px;
-  box-shadow: inset 8px 8px 8px #404e75, inset -8px -8px 8px #4b2961; /* Darker shadow colors */
-  max-width: 70%; /* Control bubble width */
+  box-shadow: inset 8px 8px 8px #404e75, inset -8px -8px 8px #4b2961; 
+  max-width: 70%; 
   word-wrap: break-word;
 }
 
-/* Responsive adjustments */
+
 @media (max-width: 768px) {
   .chat-container {
     flex-direction: column;
-    height: calc(100vh - 40px); /* Adjust height for mobile */
+    height: calc(100vh - 40px); 
   }
 
   .msger-chat {
-    height: 300px; /* Fixed height for chat window on mobile */
+    height: 300px; 
   }
 
   .msger-users {
-    width: 100%; /* Full width users list on mobile */
-    order: -1; /* Move users list above chat on mobile */
+    width: 100%; 
+    order: -1; 
   }
 }

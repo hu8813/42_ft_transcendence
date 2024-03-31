@@ -1,4 +1,4 @@
-/* Unique class names for profile styling */
+
 .profile-body {
   background-color: #282c34;
   color: #ffffff;
@@ -112,7 +112,7 @@
   color: #b721ff;
 }
 
-/* Responsive adjustments */
+
 @media (max-width: 768px) {
   .profile-container {
     width: 90%;

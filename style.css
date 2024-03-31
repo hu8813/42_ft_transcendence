@@ -121,16 +121,16 @@ nav {
     left: 0;
     background: var(--background);
     width: 100%;
-    display: none; /* Initially hide the navigation */
-    transform: scaleY(0); /* Initially scale the navigation vertically to 0 */
+    display: none; 
+    transform: scaleY(0); 
     transform-origin: top;
     transition: transform 400ms ease-in-out;
     color: #fff;
 }
 
 nav.active {
-    display: block; /* Show the navigation when it has the active class */
-    transform: scaleY(1); /* Scale the navigation vertically to its original size */
+    display: block; 
+    transform: scaleY(1); 
     color: #fff;
 }
 
