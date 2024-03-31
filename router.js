@@ -142,7 +142,7 @@ const navMenu = document.querySelector('nav');
 const toggleNavMenu = () => {
   if (navMenu.classList.contains('active')) {
     //navMenu.classList.remove('active'); 
-    
+    navMenu.classList.remove('active'); 
 } else {
     navMenu.classList.add('active'); 
 
@@ -156,7 +156,8 @@ navToggle.addEventListener('click', toggleNavMenu);
 const route = (event) => {
     event = event || window.event;
     event.preventDefault();
-    //navToggle.click();
+    navToggle.click();
+    //navMenu.classList.remove('active'); 
     window.history.pushState({}, "", event.target.href);
     handleLocation();
 };
@@ -165,7 +166,7 @@ const route = (event) => {
 window.onpopstate = () => {
 
     handleLocation();
-    //navToggle.click();
+    navToggle.click();
     
 
 };
