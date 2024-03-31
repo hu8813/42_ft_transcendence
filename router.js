@@ -198,6 +198,8 @@ function updateNavigation() {
   
   const navMenu = document.getElementById('nav-menu');
   navMenu.innerHTML = ''; 
+  navMenu.style.background = 'none';
+
 
 
   const menuItems = isLoggedIn ?

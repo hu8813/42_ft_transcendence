@@ -64,7 +64,8 @@
   display: flex;
   font-size: 5rem !important;
   align-items: center; /* Center items vertically */
-  margin-right: 10px; /* Add right margin */
+  margin-left: 50%; /* Add right margin */
+  margin-right: 50%; /* Add right margin */
   color: #000;
   
   
