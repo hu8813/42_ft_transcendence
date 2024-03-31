@@ -60,7 +60,8 @@ function openChat() {
     
         // Append the new message element below the input area
         msgerChat.parentElement.insertBefore(messageElement, msgerChat.nextSibling);
-    
+        
+
         // Clear the input field
         messageInput.value = '';
     
