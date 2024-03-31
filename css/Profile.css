@@ -61,6 +61,8 @@
   font-weight: bold;
   letter-spacing: 1px;
   cursor: pointer;
+  width: 90%;
+  max-width: 90%;
 }
 
 .profile-button:active {
