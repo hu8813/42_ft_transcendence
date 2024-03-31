@@ -65,7 +65,7 @@ function calculateDaysSinceJoining(dateString) {
 }
 
 function generateProgressBar(days) {
-  const maxLength = 20; // Maximum length of the progress bar
+  const maxLength = 14; // Maximum length of the progress bar
   const filledLength = Math.min(Math.round(days / 1), maxLength); // Assuming 1 character per 30 days
 
   // Create the progress bar string
