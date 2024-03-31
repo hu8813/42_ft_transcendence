@@ -198,7 +198,7 @@ function updateNavigation() {
   
   const navMenu = document.getElementById('nav-menu');
   navMenu.innerHTML = ''; 
-  navMenu.style.background = 'block';
+  //navMenu.style.display = 'block';
 
 
 
