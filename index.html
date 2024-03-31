@@ -41,8 +41,8 @@
     <input type="checkbox" id="nav-toggle" class="nav-toggle" />
     <nav>
       <ul id="nav-menu">
-        <li><a onclick="route()" href="/#" class="nav-item" id="home">Home</a></li>
-        <li><a onclick="route()" href="/#login" class="nav-item" id="login">Login</a></li>
+        <li><a onclick="route()" href="/#" class="nav-item" id="hometitle">Home</a></li>
+        <li><a onclick="route()" href="/#login" class="nav-item" id="logintitle">Login</a></li>
         
       </ul>
     </nav>
@@ -99,73 +99,6 @@
   </main>
   
   <script src="./router.js" defer></script>
-  <script>
-    let currentLanguage = 'en'; 
-    updateNavigation();
-
-    function changeLanguage(languageCode) {
-      currentLanguage = languageCode; 
-      translate(currentLanguage); 
-    }
-  
-
-    function translate(lang) {
-
-      fetch(`translations/${lang}.json`)
-        .then(response => response.json())
-        .then(translations => {
-
-          Object.keys(translations).forEach(category => {
-            Object.keys(translations[category]).forEach(key => {
-              const element = document.getElementById(key);
-              if (element) {
-                element.innerHTML = translations[category][key];
-              }
-            });
-          });
-        })
-        .catch(error => console.error('Error fetching translations:', error));
-    }
-  
-
-    translate(currentLanguage);
-  
-
-    function updateNavigation() {
-      const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-      
-      const navMenu = document.getElementById('nav-menu');
-      navMenu.innerHTML = ''; 
-  
-
-      const menuItems = isLoggedIn ?
-        ['Play!', 'Chat', 'Leaderboard', 'Profile', 'Logout'] :
-        ['Home', 'Login'];
-  
-
-      menuItems.forEach(item => {
-  const li = document.createElement('li');
-  const a = document.createElement('a');
-  a.classList.add('nav-item');
-  a.href = `/#${item.toLowerCase()}`;
-  a.textContent = item;
-  
-  a.onclick = (event) => route(event, a.href); 
-  li.appendChild(a);
-  navMenu.appendChild(li);
-});
-
-
-    }
-  
-
-    window.addEventListener('load', () => {
-      if (localStorage.getItem('isLoggedIn') === null) {
-        localStorage.setItem('isLoggedIn', 'false');
-      }
-      updateNavigation();
-    });
-  </script>
   
   </body>
   </html>

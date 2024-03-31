@@ -4,7 +4,7 @@
   },
   "auth": {
     "email": "E-Mail",
-    "logout": "Abmelden",
+    "logouttitle": "Abmelden",
     "username": "Benutzername",
     "nickname":"Spitzname",
     "score":"Punktzahl",
@@ -15,7 +15,7 @@
     "password": "Passwort",
     "enterPassword": "Geben Sie Ihr Passwort ein",
     "rememberMe": "Angemeldet bleiben",
-    "login": "Anmelden",
+    "logintitle": "Anmelden",
     "forgotPassword": "Passwort vergessen?",
     "notRegistered": "Noch nicht registriert?",
     "registerHere": "Hier registrieren",
@@ -26,14 +26,14 @@
     "confirmPassword": "Passwort bestätigen",
     "termsAndConditions": "Nutzungsbedingungen",
     "acceptTerms": "Ich akzeptiere die Nutzungsbedingungen",
-    "profile": "Profil"
+    "profiletitle": "Profil"
   },
   "game": {
-    "title": "Spielen!",
+    "play!title": "Spielen!",
     "controls": "Linker Spieler: W/S - Rechter Spieler: HOCH/RUNTER"
   },
   "leaderboard": {
-    "title": "Bestenliste",
+    "leaderboardtitle": "Bestenliste",
     "rank": "Rang",
     "player": "Spieler",
     "kudos": "Punkte",
@@ -45,7 +45,7 @@
     "tournamentResultsTitle": "Aktuelle Turnierergebnisse"
   },
   "chat": {
-    "title": "Chat",
+    "chattitle": "Chat",
     "users": "Online-Benutzer"
   },
   "common": {

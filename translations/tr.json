@@ -4,7 +4,7 @@
   },
   "auth": {
     "email": "E-posta",
-    "logout": "Çıkış Yap",
+    "logouttitle": "Çıkış Yap",
     "username": "Kullanıcı Adı",
     "nickname":"Takma ad",
     "score":"Skor",
@@ -15,7 +15,7 @@
     "password": "Şifre",
     "enterPassword": "Şifrenizi girin",
     "rememberMe": "Beni hatırla",
-    "login": "Giriş",
+    "logintitle": "Giriş",
     "forgotPassword": "Şifrenizi mi unuttunuz?",
     "notRegistered": "Henüz kayıtlı değil misiniz?",
     "registerHere": "Buradan kayıt olun",
@@ -26,14 +26,14 @@
     "confirmPassword": "Şifreyi Onayla",
     "termsAndConditions": "Şartlar & Koşullar",
     "acceptTerms": "Şartlar & Koşulları kabul ediyorum",
-    "profile": "Profil"
+    "profiletitle": "Profil"
   },
   "game": {
-    "title": "Oyna!",
+    "play!title": "Oyna!",
     "controls": "Sol Oyuncu: W/S - Sağ Oyuncu: YUKARI/AŞAĞI"
   },
   "leaderboard": {
-    "title": "Sıralama Tablosu",
+    "leaderboardtitle": "Sıralama Tablosu",
     "rank": "Sıra",
     "player": "Oyuncu",
     "kudos": "Puanlar",
@@ -45,7 +45,7 @@
     "tournamentResultsTitle": "Son Turnuva Sonuçları"
   },
   "chat": {
-    "title": "Sohbet",
+    "chattitle": "Sohbet",
     "users": "Çevrimiçi Kullanıcılar"
   },
   "common": {

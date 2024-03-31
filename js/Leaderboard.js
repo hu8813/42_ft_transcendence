@@ -11,7 +11,6 @@ function fetchLeaderboardData() {
       leaderboardData = null; // Set leaderboardData to null in case of error
     });
 }
-
 async function displayLeaderboard() {
   const leaderboardBody = document.getElementById('leaderboard-body');
 
@@ -23,7 +22,7 @@ async function displayLeaderboard() {
 
   if (leaderboardData && leaderboardData.length > 0) {
     leaderboardBody.innerHTML = ''; // Clear existing content
-    leaderboardData.forEach((member, index) => {
+    leaderboardData.forEach(async (member, index) => {
       const row = document.createElement('tr');
       row.innerHTML = `
         <td>${index + 1}</td>
@@ -38,8 +37,7 @@ async function displayLeaderboard() {
           </div>
         </td>
         <td>${member.score || 0}</td>
-        <td>${calculateDaysSinceJoining(member.date_joined)} </td>
-        
+        <td>${await calculateDaysSinceJoining(member.date_joined)}</td> <!-- Await the result of calculateDaysSinceJoining -->
       `;
       leaderboardBody.appendChild(row);
     });
@@ -48,11 +46,13 @@ async function displayLeaderboard() {
   }
 }
 
+
 function getRandomColor() {
   return '#' + Math.floor(Math.random() * 16777215).toString(16);
 }
 
-function calculateDaysSinceJoining(dateString) {
+
+async function calculateDaysSinceJoining(dateString) {
   const dateJoined = new Date(dateString);
   const currentDate = new Date();
   const timeDifference = currentDate.getTime() - dateJoined.getTime();
@@ -61,10 +61,13 @@ function calculateDaysSinceJoining(dateString) {
   // Calculate the percentage of days passed since joining
   const percentage = (daysDifference / 50) * 100; // Assuming 365 days in a year
 
+  // Get the translation for 'days' asynchronously
+  const days_since = await translateKey('leaderboard.days');
+
   // Generate Bootstrap progress bar with tooltip
   const progressBar = `
     <div class="progress" style="height: 20px;">
-      <div class="progress-bar" role="progressbar" style="width: ${percentage}%; background-color: #007bff;" aria-valuenow="${percentage}" aria-valuemin="0" aria-valuemax="100" title="${daysDifference} days since joining">
+      <div class="progress-bar" role="progressbar" style="width: ${percentage}%; background-color: #007bff;" aria-valuenow="${percentage}" aria-valuemin="0" aria-valuemax="100" title="${daysDifference} ${days_since}">
         &nbsp;
       </div>
     </div>
@@ -72,6 +75,7 @@ function calculateDaysSinceJoining(dateString) {
 
   return progressBar;
 }
+
 
 
 

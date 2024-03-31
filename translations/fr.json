@@ -4,7 +4,7 @@
   },
   "auth": {
   "email": "E-mail",
-  "logout": "Déconnexion",
+  "logouttitle": "Déconnexion",
   "username": "Nom d'utilisateur",
   "nickname":"Surnom",
   "score":"Score",
@@ -15,7 +15,7 @@
   "password": "Mot de passe",
   "enterPassword": "Entrez votre mot de passe",
   "rememberMe": "Se souvenir de moi",
-  "login": "Connexion",
+  "logintitle": "Connexion",
   "forgotPassword": "Mot de passe oublié?",
   "notRegistered": "Pas encore enregistré?",
   "registerHere": "Inscrivez-vous ici",
@@ -26,7 +26,7 @@
   "confirmPassword": "Confirmez le mot de passe",
   "termsAndConditions": "Termes et conditions",
   "acceptTerms": "J'accepte les termes et conditions",
-  "profile": "Profil"
+  "profiletitle": "Profil"
   },
   "game": {
   "title": "Jouer!",

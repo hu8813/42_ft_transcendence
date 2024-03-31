@@ -4,7 +4,7 @@
   },
   "auth": {
     "email": "Email",
-    "logout": "Logout",
+    "logouttitle": "Logout",
     "username": "Username",
     "nickname":"Nickname",
     "score":"Score",
@@ -17,6 +17,7 @@
     "enterPassword": "Enter your password",
     "rememberMe": "Remember me",
     "login": "Login",
+    "logintitle": "Login",
     "forgotPassword": "Forgot your password?",
     "notRegistered": "Not registered yet?",
     "registerHere": "Register here",
@@ -27,14 +28,14 @@
     "confirmPassword": "Confirm password",
     "termsAndConditions": "Terms & Conditions",
     "acceptTerms": "i accept Terms & Conditions",
-    "profile": "Profile"
+    "profiletitle": "Profile"
   },
   "game": {
-    "title": "Play!",
+    "play!title": "Play!",
     "controls": "Left Player: W/S - Right Player: UP/DOWN"
   },
   "leaderboard": {
-    "title": "Leaderboard",
+    "leaderboardtitle": "Leaderboard",
     "rank": "Rank",
     "player": "Player",
     "kudos": "Points",
@@ -46,11 +47,11 @@
     "tournamentResultsTitle": "Recent Tournaments"
   },
   "chat": {
-    "title": "Chat",
+    "chattitle": "Chat",
     "users": "Online Users"
   },
   "common": {
-    "home": "Home",
+    "hometitle": "Home",
     "switchLanguage": "Switch Language",
     "or": "or"
   },

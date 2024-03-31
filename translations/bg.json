@@ -4,7 +4,7 @@
   },
   "auth": {
     "email": "Имейл",
-    "logout": "Изход",
+    "logouttitle": "Изход",
     "username": "Потребителско име",
     "nickname":"Прякор",
     "score":"Резултат",
@@ -15,7 +15,7 @@
     "profile-title": "Майстор на Понг",
     "enterPassword": "Въведете вашата парола",
     "rememberMe": "Запомни ме",
-    "login": "Вход",
+    "logintitle": "Вход",
     "forgotPassword": "Забравена парола?",
     "notRegistered": "Не сте регистриран?",
     "registerHere": "Регистрирайте се тук",
@@ -26,14 +26,14 @@
     "confirmPassword": "Потвърдете паролата",
     "termsAndConditions": "Условия",
     "acceptTerms": "Съгласен съм с условията",
-    "profile": "Профил"
+    "profiletitle": "Профил"
   },
   "game": {
-    "title": "Играй!",
+    "play!title": "Играй!",
     "controls": "Ляв играч: W/S - Десен играч: UP/DOWN"
   },
   "leaderboard": {
-    "title": "Класиране",
+    "leaderboardtitle": "Класиране",
     "rank": "Ранг",
     "player": "Играч",
     "kudos": "Точки",
@@ -45,7 +45,7 @@
     "tournamentResultsTitle": "Резултати от последните турнири"
   },
   "chat": {
-    "title": "Чат",
+    "chattitle": "Чат",
     "users": "Онлайн потребители"
   },
   "common": {
