@@ -58,11 +58,22 @@ function calculateDaysSinceJoining(dateString) {
   const timeDifference = currentDate.getTime() - dateJoined.getTime();
   const daysDifference = Math.floor(timeDifference / (1000 * 3600 * 24));
 
-  // Generate a progress bar style text
-  const progressBarText = generateProgressBar(daysDifference);
+  // Calculate the percentage of days passed since joining
+  const percentage = (daysDifference / 50) * 100; // Assuming 365 days in a year
 
-  return progressBarText;
+  // Generate Bootstrap progress bar with tooltip
+  const progressBar = `
+    <div class="progress" style="height: 20px;">
+      <div class="progress-bar" role="progressbar" style="width: ${percentage}%; background-color: #007bff;" aria-valuenow="${percentage}" aria-valuemin="0" aria-valuemax="100" title="${daysDifference} days since joining">
+        &nbsp;
+      </div>
+    </div>
+  `;
+
+  return progressBar;
 }
+
+
 
 function generateProgressBar(days) {
   const maxLength = 14; // Maximum length of the progress bar
