@@ -1,27 +1,27 @@
 const routes = {
   '*': '/views/home.html',
   404: "/views/404.html",
-  "/": "/views/home.html",
-  "/home": "/views/home.html",
-  "/login": "/views/login.html",
-  "/register": "/views/register.html",
-  "/play!": "/views/selectgame.html",
-  "/chat": "/views/chat.html",
-  "/leaderboard": "/views/leaderboard.html",
-  "/profile": "/views/profile.html",
-  "/privacy-policy": "/views/privacy.html",
-  "/contact": "/views/contact.html",
-  "/return": "/views/return.html",
-  "/logout": "/views/logout.html",
-  "/pongehab": "/views/pongehab.html",
-  "/ponggame": "/views/ponggame.html",
-  "/player3d1": "/views/player3d1.html",
-  "/playerai1": "/views/playerai1.html",
-  "/playersremote2": "/views/playersremote2.html"
+  "#": "/views/home.html",
+  "#home": "/views/home.html",
+  "#login": "/views/login.html",
+  "#register": "/views/register.html",
+  "#play!": "/views/selectgame.html",
+  "#chat": "/views/chat.html",
+  "#leaderboard": "/views/leaderboard.html",
+  "#profile": "/views/profile.html",
+  "#privacy-policy": "/views/privacy.html",
+  "#contact": "/views/contact.html",
+  "#return": "/views/return.html",
+  "#logout": "/views/logout.html",
+  "#pongehab": "/views/pongehab.html",
+  "#ponggame": "/views/ponggame.html",
+  "#player3d1": "/views/player3d1.html",
+  "#playerai1": "/views/playerai1.html",
+  "#playersremote2": "/views/playersremote2.html"
 };
 
 const handleLocation = async () => {
-  const path = window.location.pathname;
+  const path = window.location.hash || '#'; // Use window.location.hash to get the fragment identifier
   const route = routes[path] || routes[404];
   const html = await fetch(route).then((data) => data.text());
   document.getElementById("app").innerHTML = html;
@@ -33,37 +33,35 @@ const handleLocation = async () => {
   }
 
   switch(path) {
-    case "/profile":
+    case "#profile":
       if (localStorage.getItem("isLoggedIn") === "true") {
           fetchAndDisplayProfile();
       }
-      
       break;
-    case "/leaderboard":
+    case "#leaderboard":
       if (localStorage.getItem("isLoggedIn") === "true") {
         if (!leaderboardData || leaderboardData.length === 0) {
           await fetchLeaderboardData();          
         }
         displayLeaderboard();
       }
-      
       break;
-    case "/logout":
+    case "#logout":
       logout();
       break;
-    case "/chat":
+    case "#chat":
       openChat();
-    break;
-  
-      case "/pongehab":
-        
-        break;
+      break;
+    case "#pongehab":
+      // Handle '/#pongehab' case if needed
+      break;
     default:
       break;
   }
 };
 
 handleLocation();
+
 
 const navToggle = document.getElementById('nav-toggle');
 const navMenu = document.querySelector('nav');
