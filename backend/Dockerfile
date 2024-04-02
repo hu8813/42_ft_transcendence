@@ -4,8 +4,6 @@ RUN apt-get update && apt-get install -y dumb-init
 
 RUN apt-get install -y netcat postgresql-client
 
-WORKDIR /usr/src/init
-
 WORKDIR /usr/src/app
 
 ENV PYTHONDONTWRITEBYTECODE 1
