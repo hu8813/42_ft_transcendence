@@ -29,9 +29,11 @@ const privateIPRegex = /^(10\.|192\.168\.|172\.(1[6-9]|2[0-9]|3[0-1])\.)/;
 if (currentURL.includes("localhost") || currentURL.includes("127.0.0.1")) {
     backendURL = "http://localhost:8000";
 } else if (privateIPRegex.test(currentURL)) {
-    backendURL = "http://localhost:8000"; 
+    backendURL = "http://localhost:8000";
+    backendSigninURL = "http://localhost:8000/api/signin42c/"; 
 } else {
-    backendURL = "https://pong42.azurewebsites.net"; 
+    backendURL = "https://pong42.azurewebsites.net";
+    backendSigninURL = "https://pong42.azurewebsites.net/api/signin42b/";
 }
 
 console.log("Backend URL:", backendURL);
