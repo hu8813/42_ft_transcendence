@@ -1,8 +1,8 @@
 #!/bin/bash
 
-env_file="../.env"
+env_file=".env"
 
-touch "$env_file" ../backend/.env
+touch "$env_file" backend/.env
 
 read_var_from_env_file() {
     local var_name=$1
@@ -67,6 +67,6 @@ set_default_variable POSTGRES_PORT "5432"
 pgpassword_value=$(read_var_from_env_file PGPASSWORD)
 set_default_variable POSTGRES_PASSWORD "$pgpassword_value"
 
-cp $env_file ../backend/.env
+cp $env_file backend/.env
 echo "Environment variables have been updated in $env_file."
 

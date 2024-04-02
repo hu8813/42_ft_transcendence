@@ -1,6 +1,6 @@
 up:
 	@if [ ! -f ".env" ] || [ ! -f "backend/.env" ]; then \
-		./check_env.sh; \
+		./src/check_env.sh; \
 	fi	
 	@open https://localhost:8443/ || true
 	@open https://localhost:3000/ || true
