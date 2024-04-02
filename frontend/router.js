@@ -109,9 +109,12 @@ initialize();
 
 
 
-
 const handleLocation = async () => {
-  const path = window.location.hash || '#'; 
+  let path = window.location.hash || '#'; 
+  const questionMarkIndex = path.indexOf('?');
+  if (questionMarkIndex !== -1) {
+    path = path.slice(0, questionMarkIndex);
+  }
   const route = routes[path] || routes[404];
   const html = await fetch(route).then((data) => data.text());
   document.getElementById("app").innerHTML = html;

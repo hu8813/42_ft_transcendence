@@ -7,6 +7,18 @@
 </head>
 <body>
 <script>
+  const currentURL = window.location.href;
+let backendURL = "";
+const privateIPRegex = /^(10\.|192\.168\.|172\.(1[6-9]|2[0-9]|3[0-1])\.)/;
+if (currentURL.includes("localhost") || currentURL.includes("127.0.0.1")) {
+    backendURL = "http://localhost:8000";
+} else if (privateIPRegex.test(currentURL)) {
+    backendURL = "http://localhost:8000"; 
+} else {
+    backendURL = "https://pong42.azurewebsites.net"; 
+}
+
+
 document.addEventListener("DOMContentLoaded", async function() {
   const locationSearch = window.location.search;
   const params = new URLSearchParams(locationSearch);
@@ -28,12 +40,11 @@ document.addEventListener("DOMContentLoaded", async function() {
       localStorage.setItem("userScore", userData.score);
       localStorage.setItem("userEmail", userData.email);
 
-      
+      window.location.href = "/"; 
     } catch (error) {
       console.error("Error fetching user info:", error);
 
     }
-    window.location.href = "/"; 
   }
 });
 </script>
