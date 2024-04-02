@@ -25,9 +25,7 @@ clean:
 	@echo "Clean-up done."
 
 
-reboot: down up
-
-rebuild: down
+re: down
 	docker compose up --build
 
-.PHONY: clean
+.PHONY: re clean up down
