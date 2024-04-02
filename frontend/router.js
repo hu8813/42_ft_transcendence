@@ -22,6 +22,20 @@ const routes = {
 
 let translationsCache = {}; 
 let currentLanguage = 'en'; 
+
+const currentURL = window.location.href;
+let backendURL = "";
+const privateIPRegex = /^(10\.|192\.168\.|172\.(1[6-9]|2[0-9]|3[0-1])\.)/;
+if (currentURL.includes("localhost") || currentURL.includes("127.0.0.1")) {
+    backendURL = "http://localhost:8000";
+} else if (privateIPRegex.test(currentURL)) {
+    backendURL = "http://localhost:8000"; 
+} else {
+    backendURL = "https://pong42.azurewebsites.net"; 
+}
+
+console.log("Backend URL:", backendURL);
+
 updateNavigation();
 
 function changeLanguage(languageCode) {
@@ -104,7 +118,7 @@ const handleLocation = async () => {
       await fetchLeaderboardData();
     }
   }
-
+  
   switch(path) {
     case "#profile":
       if (localStorage.getItem("isLoggedIn") === "true") {
@@ -128,6 +142,9 @@ const handleLocation = async () => {
     case "#pongehab":
       
       break;
+    case "#ponggame":
+      
+      break;
     default:
       break;
   }
@@ -142,7 +159,7 @@ const navMenu = document.querySelector('nav');
 const toggleNavMenu = () => {
   if (navMenu.classList.contains('active')) {
     //navMenu.classList.remove('active'); 
-    navMenu.classList.remove('active'); 
+    
 } else {
     navMenu.classList.add('active'); 
 
@@ -156,8 +173,7 @@ navToggle.addEventListener('click', toggleNavMenu);
 const route = (event) => {
     event = event || window.event;
     event.preventDefault();
-    navToggle.click();
-    //navMenu.classList.remove('active'); 
+    //navToggle.click();
     window.history.pushState({}, "", event.target.href);
     handleLocation();
 };
@@ -166,7 +182,7 @@ const route = (event) => {
 window.onpopstate = () => {
 
     handleLocation();
-    navToggle.click();
+    //navToggle.click();
     
 
 };

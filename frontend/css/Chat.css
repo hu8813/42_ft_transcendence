@@ -40,14 +40,7 @@
 .msger-inputarea {
   background: rgba(255, 255, 255, 0.1);
   padding: 10px;
-  margin-left: 0%;
-  margin-right: 0%;
-  
   display: flex;
-  width: 100%; /* Setzt die Breite auf 100% des Elternelements */
-  
-  /* Optional: Anpassung der Größe basierend auf dem Viewport */
-  max-width: 100vw; 
   
 }
 

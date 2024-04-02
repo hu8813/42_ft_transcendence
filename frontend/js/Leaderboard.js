@@ -1,16 +1,15 @@
 let leaderboardData = null; 
 
-function fetchLeaderboardData() {
-  return fetch('https://pong42.azurewebsites.net/leaderboard/')
-    .then(response => response.json())
-    .then(data => {
-      leaderboardData = data; 
-    })
-    .catch(error => {
-      console.error('Error fetching leaderboard data:', error);
-      leaderboardData = null; 
-    });
+async function fetchLeaderboardData() {
+  try {
+    const response = await fetch(`${backendURL}/leaderboard/`);     const data = await response.json();
+    leaderboardData = data;
+  } catch (error) {
+    console.error('Error fetching leaderboard data:', error);
+    leaderboardData = null;
+  }
 }
+
 async function displayLeaderboard() {
   const leaderboardBody = document.getElementById('leaderboard-body');
 

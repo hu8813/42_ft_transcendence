@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", async function() {
 
   if (code) {
     try {
-      const response = await fetch(`https://pong42.azurewebsites.net/api/userinfo/?code=${code}`);
+      const response = await fetch(`${backendURL}/api/userinfo/?code=${code}`);
       if (!response.ok) {
         throw new Error('Failed to fetch user data');
       }

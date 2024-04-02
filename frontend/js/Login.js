@@ -12,10 +12,11 @@ function handleLogin() {
         const formData = new FormData(loginForm);
     
         try {
-          const response = await fetch("https://pong42.azurewebsites.net/login/", {
+          const response = await fetch(`${backendURL}/login/`, {
             method: "POST",
             body: formData,
           });
+                  
         
           const data = await response.text();
           console.log("Login Response:", data); 
