@@ -1,3 +1,7 @@
+# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
+# More GitHub Actions for Azure: https://github.com/Azure/actions
+# More info on Python, GitHub Actions, and Azure App Service: https://aka.ms/python-webapps-actions
+
 name: Build and deploy Python app to Azure Web App - pong42
 
 on:
@@ -22,22 +26,22 @@ jobs:
         run: |
           python -m venv venv
           source venv/bin/activate
-
+      
       - name: Install dependencies
-        run: pip install -r requirements.txt
-
+        run: pip install -r backend/requirements.txt
+        
       # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
+
       - name: Zip artifact for deployment
-        run: |
-          cd backend
-          zip -r ../release.zip ./*
-          cd ..
+        run: cd backend && zip release.zip ./* -r && cd ..
 
       - name: Upload artifact for deployment jobs
         uses: actions/upload-artifact@v3
         with:
           name: python-app
-          path: release.zip
+          path: |
+            release.zip
+            !venv/
 
   deploy:
     runs-on: ubuntu-latest
@@ -45,18 +49,21 @@ jobs:
     environment:
       name: 'Production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
-
+    
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v3
         with:
           name: python-app
 
+      - name: Unzip artifact for deployment
+        run: unzip release.zip
+
+      
       - name: 'Deploy to Azure Web App'
         uses: azure/webapps-deploy@v2
         id: deploy-to-webapp
         with:
           app-name: 'pong42'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_1DE85B7374034B939F64D99F5D9310E1 }}
-          package: ./release.zip # Specify the path to your package
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_DF16FF9442EB4556AEEBD676B14F80D4 }}
