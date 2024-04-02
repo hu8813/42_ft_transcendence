@@ -3,6 +3,8 @@ up:
 		./check_env.sh; \
 	fi	
 	@open https://localhost:8443/ || true
+	@open https://localhost:3000/ || true
+	@open http://localhost:9090/ || true
 	@echo "Open: https://localhost:8443/"
 	docker compose up
 
