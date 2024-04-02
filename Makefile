@@ -1,7 +1,8 @@
 up:
 	@if [ ! -f ".env" ] || [ ! -f "backend/.env" ]; then \
 		./src/check_env.sh; \
-	fi	
+	fi
+	@mkdir -p src/volumes/grafana src/volumes/prometheus 	
 	@open https://localhost:8443/ || true
 	@open https://localhost:3000/ || true
 	@open http://localhost:9090/ || true
