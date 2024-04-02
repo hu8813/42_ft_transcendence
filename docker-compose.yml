@@ -27,7 +27,7 @@ services:
     container_name: nginx
     restart: on-failure:5
     build:
-      context: nginx
+      context: ./src/nginx
       dockerfile: Dockerfile
     ports:
       - "8080:80"
