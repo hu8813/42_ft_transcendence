@@ -20,24 +20,16 @@ ALLOWED_HOSTS = [
     'pong42.azurewebsites.net',
     '127.0.0.1',
     'pong42.vercel.app',
-    'transcendence-beige.vercel.app',  # Add your domain name here
-    'four2trans-backend.onrender.com',  # Add Render domain here
-    'zc5vlf-3000.csb.app',
-    'mwlvdq-3000.csb.app',
-    'transcendence-git-draft-exciting-yalow-hubble42.vercel.app',
-    'y494mt-3000.csb.app',
-    '8ff524ec-5dfb-4374-9125-a53385e1cc63-00-14kx31mg03i0t.spock.replit.dev',
-    'transcendence-bynd-asb2ihs6--3000--6f234770.local-credentialless.webcontainer.io', 
-    'localhost',
+    'four2trans-backend.onrender.com', 
     'localhost:3000',
     'localhost:5500',
     'localhost:8443',
     'localhost:443',
     'localhost:8000',
     'localhost:8080',
-    'transcendence-bynd--3000--6f234770.local-corp.webcontainer.io',
     'api.intra.42.fr',
-    'https://psychic-journey-9q4rjvxwvwjf7579-443.app.github.dev/',
+    'transcendence-beige.vercel.app',
+    'psychic-journey-9q4rjvxwvwjf7579-443.app.github.dev/',
 ]
 
 
@@ -153,9 +145,9 @@ USE_I18N = True
 
 USE_TZ = True
 
-CSRF_TRUSTED_ORIGINS = ['http://localhost','https://localhost','http://localhost:8000','https://localhost:8443','https://localhost:443','https://psychic-journey-9q4rjvxwvwjf7579-8080.app.github.dev','https://psychic-journey-9q4rjvxwvwjf7579-8000.app.github.dev','https://psychic-journey-9q4rjvxwvwjf7579-443.app.github.dev','http://127.0.0.1','http://127.0.0.1:5500','https://pong42.vercel.app','http://pong42.vercel.app','http://pong42.azurewebsites.net','http://localhost:8000','http://localhost:3000','http://localhost:5500','http://localhost','https://transcendence-beige.vercel.app','https://y494mt-3000.csb.app','https://transcendence-git-draft-exciting-yalow-hubble42.vercel.app/','https://mwlvdq-3000.csb.app','http://8ff524ec-5dfb-4374-9125-a53385e1cc63-00-14kx31mg03i0t.spock.replit.dev','http://transcendence-bynd-asb2ihs6--3000--6f234770.local-credentialless.webcontainer.io', 'http://transcendence-bynd--3000--6f234770.local-corp.webcontainer.io','https://api.intra.42.fr']
+CSRF_TRUSTED_ORIGINS = ['http://localhost','https://localhost','http://localhost:8000','https://localhost:8443','https://localhost:443','https://psychic-journey-9q4rjvxwvwjf7579-8080.app.github.dev','https://psychic-journey-9q4rjvxwvwjf7579-8000.app.github.dev','https://psychic-journey-9q4rjvxwvwjf7579-443.app.github.dev','http://127.0.0.1','http://127.0.0.1:5500','https://pong42.vercel.app','http://pong42.vercel.app','http://pong42.azurewebsites.net','http://localhost:8000','http://localhost:3000','http://localhost:5500','http://localhost','https://transcendence-beige.vercel.app','https://api.intra.42.fr']
 
-CORS_ALLOWED_ORIGINS = ['http://localhost','https://localhost','http://localhost:8000','https://localhost:8443','https://localhost:443','https://psychic-journey-9q4rjvxwvwjf7579-8080.app.github.dev','https://psychic-journey-9q4rjvxwvwjf7579-8000.app.github.dev','https://psychic-journey-9q4rjvxwvwjf7579-443.app.github.dev','http://127.0.0.1','http://127.0.0.1:5500','https://pong42.vercel.app','http://pong42.vercel.app','http://localhost:8000','http://pong42.azurewebsites.net','http://localhost:3000','http://localhost:5500','http://localhost','https://transcendence-beige.vercel.app','https://y494mt-3000.csb.app','https://mwlvdq-3000.csb.app','http://8ff524ec-5dfb-4374-9125-a53385e1cc63-00-14kx31mg03i0t.spock.replit.dev','http://transcendence-bynd-asb2ihs6--3000--6f234770.local-credentialless.webcontainer.io', 'http://transcendence-bynd--3000--6f234770.local-corp.webcontainer.io','https://api.intra.42.fr']
+CORS_ALLOWED_ORIGINS = ['http://localhost','https://localhost','http://localhost:8000','https://localhost:8443','https://localhost:443','https://psychic-journey-9q4rjvxwvwjf7579-8080.app.github.dev','https://psychic-journey-9q4rjvxwvwjf7579-8000.app.github.dev','https://psychic-journey-9q4rjvxwvwjf7579-443.app.github.dev','http://127.0.0.1','http://127.0.0.1:5500','https://pong42.vercel.app','http://pong42.vercel.app','http://localhost:8000','http://pong42.azurewebsites.net','http://localhost:3000','http://localhost:5500','http://localhost','https://transcendence-beige.vercel.app','https://api.intra.42.fr']
 
 
 STATIC_URL = 'static/'
