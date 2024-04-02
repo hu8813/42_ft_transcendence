@@ -1,0 +1,15 @@
+apiVersion: 1
+
+providers:
+  - name: 'default'
+    orgId: 1
+    folder: ''
+    type: file
+    disableDeletion: false
+    editable: true
+    allowUiUpdates: true
+    options:
+      path: /usr/share/grafana/dashboards
+
+folderId: 0
+overwrite: false

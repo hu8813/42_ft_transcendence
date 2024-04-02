@@ -1,0 +1,20 @@
+groups:
+  - name: Pong!
+    rules:
+      - alert: HighCPUUsage
+        expr: avg(irate(node_cpu_seconds_total{mode="idle"}[1m]) * 100) < 20
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: "High CPU usage detected"
+          description: "CPU usage is above 80% for more than 5 minutes."
+
+      - alert: HighMemoryUsage
+        expr: (node_memory_MemTotal - node_memory_MemFree - node_memory_Buffers - node_memory_Cached) / node_memory_MemTotal * 100 > 90
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High Memory usage detected"
+          description: "Memory usage is above 90% for the last 5 minutes."

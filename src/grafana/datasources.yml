@@ -1,0 +1,28 @@
+apiVersion: 1
+
+datasources:
+  - name: Prometheus
+    type: prometheus
+    access: proxy
+    url: http://${GF_IP}:9090
+    isDefault: true
+
+  - name: PostgreSQL
+    type: postgres
+    access: proxy
+    url: ${GF_IP}:${DB_PORT}
+    user: ${DB_USER}
+    secureJsonData:
+      password: ${DB_PASSWORD}
+    jsonData:
+      database: ${DB_NAME}
+      sslmode: disable
+    isDefault: false
+
+  - name: Alertmanager
+    type: alertmanager
+    access: proxy
+    url: ${GF_IP}:9093
+    jsonData:
+      implementation: prometheus
+      handleGrafanaManagedAlerts: false

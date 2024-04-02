@@ -1,0 +1,1541 @@
+{
+	"annotations": {
+	  "list": [
+		{
+		  "builtIn": 1,
+		  "datasource": {
+			"type": "grafana",
+			"uid": "-- Grafana --"
+		  },
+		  "enable": true,
+		  "hide": true,
+		  "iconColor": "rgba(0, 211, 255, 1)",
+		  "name": "Annotations & Alerts",
+		  "type": "dashboard"
+		}
+	  ]
+	},
+	"editable": true,
+	"fiscalYearStartMonth": 0,
+	"graphTooltip": 0,
+	"id": 2,
+	"links": [],
+	"liveNow": true,
+	"panels": [
+	  {
+		"collapsed": false,
+		"gridPos": {
+		  "h": 1,
+		  "w": 24,
+		  "x": 0,
+		  "y": 0
+		},
+		"id": 8,
+		"panels": [],
+		"title": "Quick informations",
+		"type": "row"
+	  },
+	  {
+		"datasource": {
+		  "type": "prometheus",
+		  "uid": "PBFA97CFB590B2093"
+		},
+		"fieldConfig": {
+		  "defaults": {
+			"color": {
+			  "mode": "thresholds"
+			},
+			"decimals": 1,
+			"mappings": [],
+			"max": 100,
+			"min": 0,
+			"thresholds": {
+			  "mode": "absolute",
+			  "steps": [
+				{
+				  "color": "green",
+				  "value": null
+				},
+				{
+				  "color": "#EAB839",
+				  "value": 75
+				},
+				{
+				  "color": "red",
+				  "value": 90
+				}
+			  ]
+			},
+			"unit": "percent"
+		  },
+		  "overrides": []
+		},
+		"gridPos": {
+		  "h": 6,
+		  "w": 5,
+		  "x": 0,
+		  "y": 1
+		},
+		"id": 1,
+		"options": {
+		  "minVizHeight": 75,
+		  "minVizWidth": 75,
+		  "orientation": "auto",
+		  "reduceOptions": {
+			"calcs": [
+			  "lastNotNull"
+			],
+			"fields": "",
+			"values": false
+		  },
+		  "showThresholdLabels": false,
+		  "showThresholdMarkers": true,
+		  "sizing": "auto"
+		},
+		"pluginVersion": "10.2.3",
+		"targets": [
+		  {
+			"datasource": {
+			  "type": "prometheus",
+			  "uid": "PBFA97CFB590B2093"
+			},
+			"editorMode": "code",
+			"expr": "(sum by(instance) (irate(node_cpu_seconds_total{instance=\"$node\",job=\"$job\", mode!=\"idle\"}[$__rate_interval])) / on(instance) group_left sum by (instance)((irate(node_cpu_seconds_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])))) * 100",
+			"instant": false,
+			"legendFormat": "__auto",
+			"range": true,
+			"refId": "A"
+		  }
+		],
+		"title": "CPU Load",
+		"type": "gauge"
+	  },
+	  {
+		"datasource": {
+		  "type": "prometheus",
+		  "uid": "PBFA97CFB590B2093"
+		},
+		"fieldConfig": {
+		  "defaults": {
+			"color": {
+			  "mode": "thresholds"
+			},
+			"decimals": 1,
+			"mappings": [],
+			"max": 100,
+			"min": 0,
+			"thresholds": {
+			  "mode": "absolute",
+			  "steps": [
+				{
+				  "color": "green",
+				  "value": null
+				},
+				{
+				  "color": "#EAB839",
+				  "value": 75
+				},
+				{
+				  "color": "red",
+				  "value": 90
+				}
+			  ]
+			},
+			"unit": "percent"
+		  },
+		  "overrides": []
+		},
+		"gridPos": {
+		  "h": 6,
+		  "w": 5,
+		  "x": 5,
+		  "y": 1
+		},
+		"id": 6,
+		"options": {
+		  "minVizHeight": 75,
+		  "minVizWidth": 75,
+		  "orientation": "auto",
+		  "reduceOptions": {
+			"calcs": [
+			  "lastNotNull"
+			],
+			"fields": "",
+			"values": false
+		  },
+		  "showThresholdLabels": false,
+		  "showThresholdMarkers": true,
+		  "sizing": "auto"
+		},
+		"pluginVersion": "10.2.3",
+		"targets": [
+		  {
+			"datasource": {
+			  "type": "prometheus",
+			  "uid": "PBFA97CFB590B2093"
+			},
+			"editorMode": "code",
+			"expr": "avg_over_time(node_load5{instance=\"$node\",job=\"$job\"}[$__rate_interval]) * 100 / on(instance) group_left sum by (instance)(irate(node_cpu_seconds_total{instance=\"$node\",job=\"$job\"}[$__rate_interval]))",
+			"instant": false,
+			"legendFormat": "__auto",
+			"range": true,
+			"refId": "A"
+		  }
+		],
+		"title": "System Load (5m avg)",
+		"type": "gauge"
+	  },
+	  {
+		"datasource": {
+		  "type": "prometheus",
+		  "uid": "PBFA97CFB590B2093"
+		},
+		"fieldConfig": {
+		  "defaults": {
+			"color": {
+			  "mode": "thresholds"
+			},
+			"decimals": 1,
+			"mappings": [],
+			"max": 100,
+			"min": 0,
+			"thresholds": {
+			  "mode": "absolute",
+			  "steps": [
+				{
+				  "color": "green",
+				  "value": null
+				},
+				{
+				  "color": "#EAB839",
+				  "value": 75
+				},
+				{
+				  "color": "red",
+				  "value": 90
+				}
+			  ]
+			},
+			"unit": "percent"
+		  },
+		  "overrides": []
+		},
+		"gridPos": {
+		  "h": 6,
+		  "w": 5,
+		  "x": 10,
+		  "y": 1
+		},
+		"id": 2,
+		"options": {
+		  "minVizHeight": 75,
+		  "minVizWidth": 75,
+		  "orientation": "auto",
+		  "reduceOptions": {
+			"calcs": [
+			  "lastNotNull"
+			],
+			"fields": "",
+			"values": false
+		  },
+		  "showThresholdLabels": false,
+		  "showThresholdMarkers": true,
+		  "sizing": "auto"
+		},
+		"pluginVersion": "10.2.3",
+		"targets": [
+		  {
+			"datasource": {
+			  "type": "prometheus",
+			  "uid": "PBFA97CFB590B2093"
+			},
+			"editorMode": "code",
+			"exemplar": false,
+			"expr": "100 - ((avg_over_time(node_memory_MemAvailable_bytes{instance=\"$node\",job=\"$job\"}[$__rate_interval]) * 100) / avg_over_time(node_memory_MemTotal_bytes{instance=\"$node\",job=\"$job\"}[$__rate_interval]))",
+			"hide": false,
+			"instant": false,
+			"legendFormat": "__auto",
+			"range": true,
+			"refId": "B"
+		  }
+		],
+		"title": "RAM Usage",
+		"type": "gauge"
+	  },
+	  {
+		"datasource": {
+		  "type": "prometheus",
+		  "uid": "PBFA97CFB590B2093"
+		},
+		"fieldConfig": {
+		  "defaults": {
+			"color": {
+			  "mode": "thresholds"
+			},
+			"mappings": [],
+			"thresholds": {
+			  "mode": "absolute",
+			  "steps": [
+				{
+				  "color": "text",
+				  "value": null
+				}
+			  ]
+			},
+			"unit": "short"
+		  },
+		  "overrides": []
+		},
+		"gridPos": {
+		  "h": 3,
+		  "w": 3,
+		  "x": 15,
+		  "y": 1
+		},
+		"id": 3,
+		"options": {
+		  "colorMode": "value",
+		  "graphMode": "none",
+		  "justifyMode": "auto",
+		  "orientation": "horizontal",
+		  "reduceOptions": {
+			"calcs": [
+			  "lastNotNull"
+			],
+			"fields": "",
+			"values": false
+		  },
+		  "textMode": "auto",
+		  "wideLayout": true
+		},
+		"pluginVersion": "10.2.3",
+		"targets": [
+		  {
+			"datasource": {
+			  "type": "prometheus",
+			  "uid": "PBFA97CFB590B2093"
+			},
+			"editorMode": "code",
+			"expr": "count(count(node_cpu_seconds_total{instance=\"$node\",job=\"$job\"}) by (cpu))",
+			"instant": false,
+			"legendFormat": "__auto",
+			"range": true,
+			"refId": "A"
+		  }
+		],
+		"title": "CPU Cores",
+		"type": "stat"
+	  },
+	  {
+		"datasource": {
+		  "type": "prometheus",
+		  "uid": "PBFA97CFB590B2093"
+		},
+		"fieldConfig": {
+		  "defaults": {
+			"color": {
+			  "mode": "thresholds"
+			},
+			"decimals": 1,
+			"mappings": [],
+			"thresholds": {
+			  "mode": "absolute",
+			  "steps": [
+				{
+				  "color": "text",
+				  "value": null
+				}
+			  ]
+			},
+			"unit": "s"
+		  },
+		  "overrides": []
+		},
+		"gridPos": {
+		  "h": 3,
+		  "w": 6,
+		  "x": 18,
+		  "y": 1
+		},
+		"id": 4,
+		"options": {
+		  "colorMode": "none",
+		  "graphMode": "none",
+		  "justifyMode": "auto",
+		  "orientation": "horizontal",
+		  "reduceOptions": {
+			"calcs": [
+			  "lastNotNull"
+			],
+			"fields": "",
+			"values": false
+		  },
+		  "textMode": "auto",
+		  "wideLayout": true
+		},
+		"pluginVersion": "10.2.3",
+		"targets": [
+		  {
+			"datasource": {
+			  "type": "prometheus",
+			  "uid": "PBFA97CFB590B2093"
+			},
+			"editorMode": "code",
+			"expr": "node_time_seconds{instance=\"$node\",job=\"$job\"} - node_boot_time_seconds{instance=\"$node\",job=\"$job\"}",
+			"instant": false,
+			"legendFormat": "__auto",
+			"range": true,
+			"refId": "A"
+		  }
+		],
+		"title": "Uptime",
+		"type": "stat"
+	  },
+	  {
+		"datasource": {
+		  "type": "prometheus",
+		  "uid": "PBFA97CFB590B2093"
+		},
+		"fieldConfig": {
+		  "defaults": {
+			"color": {
+			  "mode": "thresholds"
+			},
+			"decimals": 0,
+			"mappings": [],
+			"thresholds": {
+			  "mode": "absolute",
+			  "steps": [
+				{
+				  "color": "text",
+				  "value": null
+				}
+			  ]
+			},
+			"unit": "bytes"
+		  },
+		  "overrides": []
+		},
+		"gridPos": {
+		  "h": 3,
+		  "w": 5,
+		  "x": 15,
+		  "y": 4
+		},
+		"id": 5,
+		"options": {
+		  "colorMode": "none",
+		  "graphMode": "none",
+		  "justifyMode": "auto",
+		  "orientation": "horizontal",
+		  "reduceOptions": {
+			"calcs": [
+			  "lastNotNull"
+			],
+			"fields": "",
+			"values": false
+		  },
+		  "textMode": "auto",
+		  "wideLayout": true
+		},
+		"pluginVersion": "10.2.3",
+		"targets": [
+		  {
+			"datasource": {
+			  "type": "prometheus",
+			  "uid": "PBFA97CFB590B2093"
+			},
+			"editorMode": "code",
+			"expr": "node_memory_MemTotal_bytes{instance=\"$node\",job=\"$job\"}",
+			"instant": false,
+			"legendFormat": "__auto",
+			"range": true,
+			"refId": "A"
+		  }
+		],
+		"title": "RAM Total",
+		"type": "stat"
+	  },
+	  {
+		"datasource": {
+		  "type": "prometheus",
+		  "uid": "PBFA97CFB590B2093"
+		},
+		"fieldConfig": {
+		  "defaults": {
+			"color": {
+			  "mode": "thresholds"
+			},
+			"decimals": 0,
+			"mappings": [],
+			"thresholds": {
+			  "mode": "absolute",
+			  "steps": [
+				{
+				  "color": "text",
+				  "value": null
+				}
+			  ]
+			},
+			"unit": "bytes"
+		  },
+		  "overrides": []
+		},
+		"gridPos": {
+		  "h": 3,
+		  "w": 4,
+		  "x": 20,
+		  "y": 4
+		},
+		"id": 7,
+		"options": {
+		  "colorMode": "none",
+		  "graphMode": "none",
+		  "justifyMode": "auto",
+		  "orientation": "horizontal",
+		  "reduceOptions": {
+			"calcs": [
+			  "lastNotNull"
+			],
+			"fields": "",
+			"values": false
+		  },
+		  "textMode": "auto",
+		  "wideLayout": true
+		},
+		"pluginVersion": "10.2.3",
+		"targets": [
+		  {
+			"datasource": {
+			  "type": "prometheus",
+			  "uid": "PBFA97CFB590B2093"
+			},
+			"editorMode": "code",
+			"expr": "node_memory_SwapTotal_bytes{instance=\"$node\",job=\"$job\"}",
+			"instant": false,
+			"legendFormat": "__auto",
+			"range": true,
+			"refId": "A"
+		  }
+		],
+		"title": "SWAP Total",
+		"type": "stat"
+	  },
+	  {
+		"collapsed": false,
+		"gridPos": {
+		  "h": 1,
+		  "w": 24,
+		  "x": 0,
+		  "y": 7
+		},
+		"id": 9,
+		"panels": [],
+		"title": "Basic informations",
+		"type": "row"
+	  },
+	  {
+		"datasource": {
+		  "type": "prometheus",
+		  "uid": "PBFA97CFB590B2093"
+		},
+		"fieldConfig": {
+		  "defaults": {
+			"color": {
+			  "mode": "palette-classic"
+			},
+			"custom": {
+			  "axisBorderShow": false,
+			  "axisCenteredZero": false,
+			  "axisColorMode": "text",
+			  "axisLabel": "",
+			  "axisPlacement": "auto",
+			  "barAlignment": 0,
+			  "drawStyle": "line",
+			  "fillOpacity": 30,
+			  "gradientMode": "none",
+			  "hideFrom": {
+				"legend": false,
+				"tooltip": false,
+				"viz": false
+			  },
+			  "insertNulls": false,
+			  "lineInterpolation": "smooth",
+			  "lineWidth": 1,
+			  "pointSize": 5,
+			  "scaleDistribution": {
+				"type": "linear"
+			  },
+			  "showPoints": "never",
+			  "spanNulls": false,
+			  "stacking": {
+				"group": "A",
+				"mode": "percent"
+			  },
+			  "thresholdsStyle": {
+				"mode": "off"
+			  }
+			},
+			"fieldMinMax": false,
+			"mappings": [],
+			"min": 0,
+			"thresholds": {
+			  "mode": "absolute",
+			  "steps": [
+				{
+				  "color": "green",
+				  "value": null
+				},
+				{
+				  "color": "red",
+				  "value": 80
+				}
+			  ]
+			},
+			"unit": "percent"
+		  },
+		  "overrides": [
+			{
+			  "matcher": {
+				"id": "byName",
+				"options": "I/O load"
+			  },
+			  "properties": [
+				{
+				  "id": "color",
+				  "value": {
+					"fixedColor": "red",
+					"mode": "fixed"
+				  }
+				}
+			  ]
+			},
+			{
+			  "matcher": {
+				"id": "byName",
+				"options": "Idle"
+			  },
+			  "properties": [
+				{
+				  "id": "color",
+				  "value": {
+					"fixedColor": "green",
+					"mode": "fixed"
+				  }
+				}
+			  ]
+			},
+			{
+			  "matcher": {
+				"id": "byName",
+				"options": "System load"
+			  },
+			  "properties": [
+				{
+				  "id": "color",
+				  "value": {
+					"fixedColor": "yellow",
+					"mode": "fixed"
+				  }
+				}
+			  ]
+			},
+			{
+			  "matcher": {
+				"id": "byName",
+				"options": "User load"
+			  },
+			  "properties": [
+				{
+				  "id": "color",
+				  "value": {
+					"fixedColor": "blue",
+					"mode": "fixed"
+				  }
+				}
+			  ]
+			},
+			{
+			  "matcher": {
+				"id": "byName",
+				"options": "Other load"
+			  },
+			  "properties": [
+				{
+				  "id": "color",
+				  "value": {
+					"fixedColor": "purple",
+					"mode": "fixed"
+				  }
+				}
+			  ]
+			},
+			{
+			  "matcher": {
+				"id": "byName",
+				"options": "IRQ load"
+			  },
+			  "properties": [
+				{
+				  "id": "color",
+				  "value": {
+					"fixedColor": "orange",
+					"mode": "fixed"
+				  }
+				}
+			  ]
+			}
+		  ]
+		},
+		"gridPos": {
+		  "h": 7,
+		  "w": 12,
+		  "x": 0,
+		  "y": 8
+		},
+		"id": 10,
+		"options": {
+		  "legend": {
+			"calcs": [],
+			"displayMode": "list",
+			"placement": "bottom",
+			"showLegend": true
+		  },
+		  "tooltip": {
+			"mode": "multi",
+			"sort": "desc"
+		  }
+		},
+		"targets": [
+		  {
+			"datasource": {
+			  "type": "prometheus",
+			  "uid": "PBFA97CFB590B2093"
+			},
+			"editorMode": "code",
+			"expr": "sum by(instance) (irate(node_cpu_seconds_total{instance=\"$node\",job=\"$job\", mode=\"system\"}[$__rate_interval])) / on(instance) group_left sum by (instance)((irate(node_cpu_seconds_total{instance=\"$node\",job=\"$job\"}[$__rate_interval]))) * 100",
+			"instant": false,
+			"legendFormat": "System load",
+			"range": true,
+			"refId": "A"
+		  },
+		  {
+			"datasource": {
+			  "type": "prometheus",
+			  "uid": "PBFA97CFB590B2093"
+			},
+			"editorMode": "code",
+			"expr": "sum by(instance) (irate(node_cpu_seconds_total{instance=\"$node\",job=\"$job\", mode=\"user\"}[$__rate_interval])) / on(instance) group_left sum by (instance)((irate(node_cpu_seconds_total{instance=\"$node\",job=\"$job\"}[$__rate_interval]))) * 100",
+			"hide": false,
+			"instant": false,
+			"legendFormat": "User load",
+			"range": true,
+			"refId": "B"
+		  },
+		  {
+			"datasource": {
+			  "type": "prometheus",
+			  "uid": "PBFA97CFB590B2093"
+			},
+			"editorMode": "code",
+			"expr": "sum by(instance) (irate(node_cpu_seconds_total{instance=\"$node\",job=\"$job\", mode=\"iowait\"}[$__rate_interval])) / on(instance) group_left sum by (instance)((irate(node_cpu_seconds_total{instance=\"$node\",job=\"$job\"}[$__rate_interval]))) * 100",
+			"hide": false,
+			"instant": false,
+			"legendFormat": "I/O load",
+			"range": true,
+			"refId": "C"
+		  },
+		  {
+			"datasource": {
+			  "type": "prometheus",
+			  "uid": "PBFA97CFB590B2093"
+			},
+			"editorMode": "code",
+			"expr": "sum by(instance) (irate(node_cpu_seconds_total{instance=\"$node\",job=\"$job\", mode=~\".*irq\"}[$__rate_interval])) / on(instance) group_left sum by (instance)((irate(node_cpu_seconds_total{instance=\"$node\",job=\"$job\"}[$__rate_interval]))) * 100",
+			"hide": false,
+			"instant": false,
+			"legendFormat": "IRQ load",
+			"range": true,
+			"refId": "D"
+		  },
+		  {
+			"datasource": {
+			  "type": "prometheus",
+			  "uid": "PBFA97CFB590B2093"
+			},
+			"editorMode": "code",
+			"expr": "sum by(instance) (irate(node_cpu_seconds_total{instance=\"$node\",job=\"$job\", mode!='idle',mode!='user',mode!='system',mode!='iowait',mode!='irq',mode!='softirq'}[$__rate_interval])) / on(instance) group_left sum by (instance)((irate(node_cpu_seconds_total{instance=\"$node\",job=\"$job\"}[$__rate_interval]))) * 100",
+			"hide": false,
+			"instant": false,
+			"legendFormat": "Other load",
+			"range": true,
+			"refId": "E"
+		  },
+		  {
+			"datasource": {
+			  "type": "prometheus",
+			  "uid": "PBFA97CFB590B2093"
+			},
+			"editorMode": "code",
+			"expr": "sum by(instance) (irate(node_cpu_seconds_total{instance=\"$node\",job=\"$job\", mode=\"idle\"}[$__rate_interval])) / on(instance) group_left sum by (instance)((irate(node_cpu_seconds_total{instance=\"$node\",job=\"$job\"}[$__rate_interval]))) * 100",
+			"hide": false,
+			"instant": false,
+			"legendFormat": "Idle",
+			"range": true,
+			"refId": "F"
+		  }
+		],
+		"title": "CPU Basic",
+		"type": "timeseries"
+	  },
+	  {
+		"datasource": {
+		  "type": "prometheus",
+		  "uid": "PBFA97CFB590B2093"
+		},
+		"fieldConfig": {
+		  "defaults": {
+			"color": {
+			  "mode": "palette-classic"
+			},
+			"custom": {
+			  "axisBorderShow": false,
+			  "axisCenteredZero": false,
+			  "axisColorMode": "text",
+			  "axisLabel": "",
+			  "axisPlacement": "auto",
+			  "barAlignment": 0,
+			  "drawStyle": "line",
+			  "fillOpacity": 30,
+			  "gradientMode": "none",
+			  "hideFrom": {
+				"legend": false,
+				"tooltip": false,
+				"viz": false
+			  },
+			  "insertNulls": false,
+			  "lineInterpolation": "smooth",
+			  "lineWidth": 1,
+			  "pointSize": 5,
+			  "scaleDistribution": {
+				"type": "linear"
+			  },
+			  "showPoints": "never",
+			  "spanNulls": false,
+			  "stacking": {
+				"group": "A",
+				"mode": "normal"
+			  },
+			  "thresholdsStyle": {
+				"mode": "off"
+			  }
+			},
+			"fieldMinMax": false,
+			"mappings": [],
+			"min": 0,
+			"thresholds": {
+			  "mode": "absolute",
+			  "steps": [
+				{
+				  "color": "green",
+				  "value": null
+				},
+				{
+				  "color": "red",
+				  "value": 80
+				}
+			  ]
+			},
+			"unit": "bytes"
+		  },
+		  "overrides": [
+			{
+			  "matcher": {
+				"id": "byName",
+				"options": "I/O load"
+			  },
+			  "properties": [
+				{
+				  "id": "color",
+				  "value": {
+					"fixedColor": "red",
+					"mode": "fixed"
+				  }
+				}
+			  ]
+			},
+			{
+			  "matcher": {
+				"id": "byName",
+				"options": "Idle"
+			  },
+			  "properties": [
+				{
+				  "id": "color",
+				  "value": {
+					"fixedColor": "green",
+					"mode": "fixed"
+				  }
+				}
+			  ]
+			},
+			{
+			  "matcher": {
+				"id": "byName",
+				"options": "System load"
+			  },
+			  "properties": [
+				{
+				  "id": "color",
+				  "value": {
+					"fixedColor": "yellow",
+					"mode": "fixed"
+				  }
+				}
+			  ]
+			},
+			{
+			  "matcher": {
+				"id": "byName",
+				"options": "User load"
+			  },
+			  "properties": [
+				{
+				  "id": "color",
+				  "value": {
+					"fixedColor": "blue",
+					"mode": "fixed"
+				  }
+				}
+			  ]
+			},
+			{
+			  "matcher": {
+				"id": "byName",
+				"options": "Other load"
+			  },
+			  "properties": [
+				{
+				  "id": "color",
+				  "value": {
+					"fixedColor": "purple",
+					"mode": "fixed"
+				  }
+				}
+			  ]
+			},
+			{
+			  "matcher": {
+				"id": "byName",
+				"options": "IRQ load"
+			  },
+			  "properties": [
+				{
+				  "id": "color",
+				  "value": {
+					"fixedColor": "orange",
+					"mode": "fixed"
+				  }
+				}
+			  ]
+			},
+			{
+			  "matcher": {
+				"id": "byName",
+				"options": "RAM Total"
+			  },
+			  "properties": [
+				{
+				  "id": "color",
+				  "value": {
+					"fixedColor": "text",
+					"mode": "fixed"
+				  }
+				},
+				{
+				  "id": "custom.stacking",
+				  "value": {
+					"group": "false",
+					"mode": "normal"
+				  }
+				},
+				{
+				  "id": "custom.fillOpacity",
+				  "value": 0
+				}
+			  ]
+			}
+		  ]
+		},
+		"gridPos": {
+		  "h": 7,
+		  "w": 12,
+		  "x": 12,
+		  "y": 8
+		},
+		"id": 11,
+		"options": {
+		  "legend": {
+			"calcs": [],
+			"displayMode": "list",
+			"placement": "bottom",
+			"showLegend": true
+		  },
+		  "tooltip": {
+			"mode": "multi",
+			"sort": "none"
+		  }
+		},
+		"targets": [
+		  {
+			"datasource": {
+			  "type": "prometheus",
+			  "uid": "PBFA97CFB590B2093"
+			},
+			"editorMode": "code",
+			"expr": "node_memory_MemTotal_bytes{instance=\"$node\",job=\"$job\"}",
+			"hide": false,
+			"instant": false,
+			"legendFormat": "RAM Total",
+			"range": true,
+			"refId": "A"
+		  },
+		  {
+			"datasource": {
+			  "type": "prometheus",
+			  "uid": "PBFA97CFB590B2093"
+			},
+			"editorMode": "code",
+			"expr": "node_memory_MemTotal_bytes{instance=\"$node\",job=\"$job\"} - node_memory_MemFree_bytes{instance=\"$node\",job=\"$job\"} - (node_memory_Cached_bytes{instance=\"$node\",job=\"$job\"} + node_memory_Buffers_bytes{instance=\"$node\",job=\"$job\"} + node_memory_SReclaimable_bytes{instance=\"$node\",job=\"$job\"})",
+			"hide": false,
+			"instant": false,
+			"legendFormat": "RAM Used",
+			"range": true,
+			"refId": "B"
+		  },
+		  {
+			"datasource": {
+			  "type": "prometheus",
+			  "uid": "PBFA97CFB590B2093"
+			},
+			"editorMode": "code",
+			"expr": "node_memory_Cached_bytes{instance=\"$node\",job=\"$job\"} + node_memory_Buffers_bytes{instance=\"$node\",job=\"$job\"} + node_memory_SReclaimable_bytes{instance=\"$node\",job=\"$job\"}",
+			"hide": false,
+			"instant": false,
+			"legendFormat": "RAM Cache + Buffer",
+			"range": true,
+			"refId": "C"
+		  },
+		  {
+			"datasource": {
+			  "type": "prometheus",
+			  "uid": "PBFA97CFB590B2093"
+			},
+			"editorMode": "code",
+			"expr": "(node_memory_SwapTotal_bytes{instance=\"$node\",job=\"$job\"} - node_memory_SwapFree_bytes{instance=\"$node\",job=\"$job\"})",
+			"hide": false,
+			"instant": false,
+			"legendFormat": "SWAP Used",
+			"range": true,
+			"refId": "E"
+		  }
+		],
+		"title": "RAM Basic",
+		"type": "timeseries"
+	  },
+	  {
+		"collapsed": false,
+		"gridPos": {
+		  "h": 1,
+		  "w": 24,
+		  "x": 0,
+		  "y": 15
+		},
+		"id": 12,
+		"panels": [],
+		"title": "Database",
+		"type": "row"
+	  },
+	  {
+		"datasource": {
+		  "type": "grafana-postgresql-datasource",
+		  "uid": "PCC52D03280B7034C"
+		},
+		"description": "",
+		"fieldConfig": {
+		  "defaults": {
+			"color": {
+			  "mode": "thresholds"
+			},
+			"mappings": [],
+			"thresholds": {
+			  "mode": "absolute",
+			  "steps": [
+				{
+				  "color": "text",
+				  "value": null
+				},
+				{
+				  "color": "red",
+				  "value": 80
+				}
+			  ]
+			}
+		  },
+		  "overrides": []
+		},
+		"gridPos": {
+		  "h": 3,
+		  "w": 6,
+		  "x": 0,
+		  "y": 16
+		},
+		"id": 13,
+		"options": {
+		  "colorMode": "value",
+		  "graphMode": "area",
+		  "justifyMode": "auto",
+		  "orientation": "auto",
+		  "reduceOptions": {
+			"calcs": [
+			  "lastNotNull"
+			],
+			"fields": "",
+			"values": false
+		  },
+		  "textMode": "auto",
+		  "wideLayout": true
+		},
+		"pluginVersion": "10.2.3",
+		"targets": [
+		  {
+			"datasource": {
+			  "type": "grafana-postgresql-datasource",
+			  "uid": "PCC52D03280B7034C"
+			},
+			"editorMode": "code",
+			"format": "table",
+			"rawQuery": true,
+			"rawSql": "SELECT COUNT(id) FROM transcendence_backend_player",
+			"refId": "A",
+			"sql": {
+			  "columns": [
+				{
+				  "name": "COUNT",
+				  "parameters": [
+					{
+					  "name": "id",
+					  "type": "functionParameter"
+					}
+				  ],
+				  "type": "function"
+				}
+			  ],
+			  "groupBy": [
+				{
+				  "property": {
+					"type": "string"
+				  },
+				  "type": "groupBy"
+				}
+			  ],
+			  "limit": 50
+			},
+			"table": "transcendence_backend_player"
+		  }
+		],
+		"title": "User count",
+		"type": "stat"
+	  },
+	  {
+		"datasource": {
+		  "type": "grafana-postgresql-datasource",
+		  "uid": "PCC52D03280B7034C"
+		},
+		"description": "",
+		"fieldConfig": {
+		  "defaults": {
+			"color": {
+			  "mode": "thresholds"
+			},
+			"mappings": [],
+			"thresholds": {
+			  "mode": "absolute",
+			  "steps": [
+				{
+				  "color": "text",
+				  "value": null
+				},
+				{
+				  "color": "red",
+				  "value": 80
+				}
+			  ]
+			}
+		  },
+		  "overrides": []
+		},
+		"gridPos": {
+		  "h": 3,
+		  "w": 6,
+		  "x": 6,
+		  "y": 16
+		},
+		"id": 19,
+		"options": {
+		  "colorMode": "value",
+		  "graphMode": "area",
+		  "justifyMode": "auto",
+		  "orientation": "auto",
+		  "reduceOptions": {
+			"calcs": [
+			  "lastNotNull"
+			],
+			"fields": "",
+			"values": false
+		  },
+		  "textMode": "auto",
+		  "wideLayout": true
+		},
+		"pluginVersion": "10.2.3",
+		"targets": [
+		  {
+			"datasource": {
+			  "type": "grafana-postgresql-datasource",
+			  "uid": "PCC52D03280B7034C"
+			},
+			"editorMode": "code",
+			"format": "table",
+			"rawQuery": true,
+			"rawSql": "SELECT COUNT(id) FROM transcendence_backend_game",
+			"refId": "A",
+			"sql": {
+			  "columns": [
+				{
+				  "name": "COUNT",
+				  "parameters": [
+					{
+					  "name": "id",
+					  "type": "functionParameter"
+					}
+				  ],
+				  "type": "function"
+				}
+			  ],
+			  "groupBy": [
+				{
+				  "property": {
+					"type": "string"
+				  },
+				  "type": "groupBy"
+				}
+			  ],
+			  "limit": 50
+			},
+			"table": "transcendence_backend_game"
+		  }
+		],
+		"title": "Game count",
+		"type": "stat"
+	  },
+	  {
+		"datasource": {
+		  "type": "grafana-postgresql-datasource",
+		  "uid": "PCC52D03280B7034C"
+		},
+		"description": "",
+		"fieldConfig": {
+		  "defaults": {
+			"color": {
+			  "mode": "thresholds"
+			},
+			"mappings": [],
+			"thresholds": {
+			  "mode": "absolute",
+			  "steps": [
+				{
+				  "color": "text",
+				  "value": null
+				},
+				{
+				  "color": "red",
+				  "value": 80
+				}
+			  ]
+			}
+		  },
+		  "overrides": []
+		},
+		"gridPos": {
+		  "h": 3,
+		  "w": 6,
+		  "x": 12,
+		  "y": 16
+		},
+		"id": 22,
+		"options": {
+		  "colorMode": "value",
+		  "graphMode": "area",
+		  "justifyMode": "auto",
+		  "orientation": "auto",
+		  "reduceOptions": {
+			"calcs": [
+			  "lastNotNull"
+			],
+			"fields": "",
+			"values": false
+		  },
+		  "textMode": "auto",
+		  "wideLayout": true
+		},
+		"pluginVersion": "10.2.3",
+		"targets": [
+		  {
+			"datasource": {
+			  "type": "grafana-postgresql-datasource",
+			  "uid": "PCC52D03280B7034C"
+			},
+			"editorMode": "code",
+			"format": "table",
+			"rawQuery": true,
+			"rawSql": "SELECT COUNT(id) FROM transcendence_backend_tournament ",
+			"refId": "A",
+			"sql": {
+			  "columns": [
+				{
+				  "name": "COUNT",
+				  "parameters": [
+					{
+					  "name": "id",
+					  "type": "functionParameter"
+					}
+				  ],
+				  "type": "function"
+				}
+			  ],
+			  "groupBy": [
+				{
+				  "property": {
+					"type": "string"
+				  },
+				  "type": "groupBy"
+				}
+			  ],
+			  "limit": 50
+			},
+			"table": "transcendence_backend_game"
+		  }
+		],
+		"title": "Tournament count",
+		"type": "stat"
+	  },
+	  {
+		"datasource": {
+		  "type": "grafana-postgresql-datasource",
+		  "uid": "PCC52D03280B7034C"
+		},
+		"description": "",
+		"fieldConfig": {
+		  "defaults": {
+			"color": {
+			  "mode": "thresholds"
+			},
+			"mappings": [],
+			"thresholds": {
+			  "mode": "absolute",
+			  "steps": [
+				{
+				  "color": "text",
+				  "value": null
+				},
+				{
+				  "color": "red",
+				  "value": 80
+				}
+			  ]
+			}
+		  },
+		  "overrides": []
+		},
+		"gridPos": {
+		  "h": 3,
+		  "w": 6,
+		  "x": 18,
+		  "y": 16
+		},
+		"id": 20,
+		"options": {
+		  "colorMode": "value",
+		  "graphMode": "area",
+		  "justifyMode": "auto",
+		  "orientation": "auto",
+		  "reduceOptions": {
+			"calcs": [
+			  "lastNotNull"
+			],
+			"fields": "",
+			"values": false
+		  },
+		  "textMode": "auto",
+		  "wideLayout": true
+		},
+		"pluginVersion": "10.2.3",
+		"targets": [
+		  {
+			"datasource": {
+			  "type": "grafana-postgresql-datasource",
+			  "uid": "PCC52D03280B7034C"
+			},
+			"editorMode": "code",
+			"format": "table",
+			"rawQuery": true,
+			"rawSql": "SELECT COUNT(*) FROM transcendence_backend_game WHERE state = 'running';",
+			"refId": "A",
+			"sql": {
+			  "columns": [
+				{
+				  "name": "COUNT",
+				  "parameters": [
+					{
+					  "name": "id",
+					  "type": "functionParameter"
+					}
+				  ],
+				  "type": "function"
+				}
+			  ],
+			  "groupBy": [
+				{
+				  "property": {
+					"type": "string"
+				  },
+				  "type": "groupBy"
+				}
+			  ],
+			  "limit": 50
+			},
+			"table": "transcendence_backend_game"
+		  }
+		],
+		"title": "Game running",
+		"type": "stat"
+	  }
+	],
+	"refresh": "15s",
+	"schemaVersion": 39,
+	"tags": [],
+	"templating": {
+	  "list": [
+		{
+		  "current": {
+			"selected": false,
+			"text": "default",
+			"value": "default"
+		  },
+		  "hide": 0,
+		  "includeAll": false,
+		  "label": "datasource",
+		  "multi": false,
+		  "name": "DS_PROMETHEUS",
+		  "options": [],
+		  "query": "prometheus",
+		  "queryValue": "",
+		  "refresh": 1,
+		  "regex": "",
+		  "skipUrlSync": false,
+		  "type": "datasource"
+		},
+		{
+		  "current": {
+			"selected": false,
+			"text": "node",
+			"value": "node"
+		  },
+		  "datasource": {
+			"type": "prometheus",
+			"uid": "PBFA97CFB590B2093"
+		  },
+		  "definition": "label_values(node_uname_info,job)",
+		  "hide": 0,
+		  "includeAll": false,
+		  "label": "Job",
+		  "multi": false,
+		  "name": "job",
+		  "options": [],
+		  "query": {
+			"qryType": 1,
+			"query": "label_values(node_uname_info,job)",
+			"refId": "PrometheusVariableQueryEditor-VariableQuery"
+		  },
+		  "refresh": 1,
+		  "regex": "",
+		  "skipUrlSync": false,
+		  "sort": 1,
+		  "type": "query"
+		},
+		{
+		  "current": {
+			"selected": false,
+			"text": "10.13.3.1:9100",
+			"value": "10.13.3.1:9100"
+		  },
+		  "datasource": {
+			"type": "prometheus",
+			"uid": "PBFA97CFB590B2093"
+		  },
+		  "definition": "label_values(node_uname_info{job=\"$job\"},instance)",
+		  "hide": 0,
+		  "includeAll": false,
+		  "label": "Host",
+		  "multi": false,
+		  "name": "node",
+		  "options": [],
+		  "query": {
+			"qryType": 1,
+			"query": "label_values(node_uname_info{job=\"$job\"},instance)",
+			"refId": "PrometheusVariableQueryEditor-VariableQuery"
+		  },
+		  "refresh": 1,
+		  "regex": "",
+		  "skipUrlSync": false,
+		  "sort": 1,
+		  "type": "query"
+		},
+		{
+		  "current": {
+			"selected": false,
+			"text": "[a-z]+|nvme[0-9]+n[0-9]+|mmcblk[0-9]+",
+			"value": "[a-z]+|nvme[0-9]+n[0-9]+|mmcblk[0-9]+"
+		  },
+		  "hide": 2,
+		  "includeAll": false,
+		  "multi": false,
+		  "name": "diskdevices",
+		  "options": [
+			{
+			  "selected": true,
+			  "text": "[a-z]+|nvme[0-9]+n[0-9]+|mmcblk[0-9]+",
+			  "value": "[a-z]+|nvme[0-9]+n[0-9]+|mmcblk[0-9]+"
+			}
+		  ],
+		  "query": "[a-z]+|nvme[0-9]+n[0-9]+|mmcblk[0-9]+",
+		  "skipUrlSync": false,
+		  "type": "custom"
+		}
+	  ]
+	},
+	"time": {
+	  "from": "now-30m",
+	  "to": "now"
+	},
+	"timepicker": {
+	  "refresh_intervals": [
+		"15s"
+	  ]
+	},
+	"timezone": "browser",
+	"title": "Pong",
+	"uid": "fa05bf7b-f9a1-4383-9a98-7545a21a73e5",
+	"version": 3,
+	"weekStart": ""
+}
