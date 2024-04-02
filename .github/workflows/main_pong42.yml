@@ -28,7 +28,7 @@ jobs:
       - name: Zip artifact for deployment
         run: |
           cd backend
-          run: pip install -r requirements.txt
+          pip install -r requirements.txt
           zip -r ../release.zip ./*
           cd ..
 
