@@ -2,7 +2,9 @@ up:
 	@if [ ! -f ".env" ] || [ ! -f "backend/.env" ]; then \
 		./src/check_env.sh; \
 	fi
-	@mkdir -p src/volumes/grafana src/volumes/prometheus 	
+	@export VOLUME_PATH=$HOME/volumes 	
+	@mkdir -p ${HOME}/volumes/grafana
+	@mkdir -p ${HOME}/volumes/prometheus
 	@open https://localhost:8443/ || true
 	@open https://localhost:3000/ || true
 	@open http://localhost:9090/ || true
