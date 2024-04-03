@@ -1,0 +1,92 @@
+
+.wrapperaboutus { 
+	max-width: 1000px; 
+	width: 80%; 
+	position: relative;
+} 
+
+.wrapperaboutus .carouselaboutus { 
+	display: grid; 
+	grid-auto-flow: column; 
+	grid-auto-columns: calc((100% / 4) - 12px); 
+	gap: 16px; 
+	overflow-x: auto; 
+	scroll-snap-type: x mandatory; 
+	scroll-behavior: smooth; 
+	scrollbar-width: 0;
+} 
+
+.carouselaboutus :where(.card, .img) { 
+	display: flex; 
+	align-items: center; 
+	justify-content: center; 
+} 
+
+.carouselaboutus .card { 
+	height: 340px; 
+	list-style: none; 
+	background: #333; 
+	border-radius: 8px; 
+	display: flex; 
+	cursor: pointer; 
+	width: 100%; 
+	padding-bottom: 15px; 
+	align-items: center; 
+	justify-content: center; 
+	flex-direction: column;
+  border-color: whitesmoke;
+  border-style: solid;
+} 
+
+.card .img { 
+	background: rgb(26, 26, 109); 
+	width: 145px; 
+	height: 145px; 
+	border-radius: 50%; 
+}
+
+.card .img img {
+	width: 90%; 
+	height: 90%; 
+	object-fit: cover; 
+	border-radius: 50%; 
+	border: 4px solid whitesmoke; 
+} 
+
+.card  :hover{
+	width: 90%; 
+	height: 90%; 
+	object-fit: cover; 
+	border-radius: 30%; 
+	border: 4px solid rgb(151, 14, 14); 
+  background-color: #333;
+  background: linear-gradient(
+    45deg,
+    #071cd8, #f5578b, #2f00ff, #00ff37,
+      #ec0808, #2600ff, #ad47a8, #2f00ff
+} 
+
+
+.card span {
+  width: auto;
+  height: auto;
+	color: whitesmoke;
+	font-size: 16px;
+  text-align: center;
+  padding-top: 20px;
+}
+
+
+@media screen and (max-width: 900px) { 
+	.wrapperaboutus .carouselaboutus { 
+		grid-auto-columns: calc((100% / 4) - 9px); 
+
+	} 
+} 
+
+@media screen and (max-width: 600px) { 
+	.wrapperaboutus .carouselaboutus { 
+		grid-auto-columns: 100%; 
+
+	} 
+}
