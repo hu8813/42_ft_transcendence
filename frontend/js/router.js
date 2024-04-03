@@ -148,10 +148,19 @@ const handleLocation = async () => {
       openChat();
       break;
     case "#pongehab":
-      
+      showPongEhabPage();
       break;
     case "#ponggame":
-      
+      showPongGamePage();
+      break;
+    case "#playersremote2":
+      showPlayersRemote2();
+        break;
+    case "#playerai1":
+      showPlayerAi1Page();
+      break;
+    case "#player3d1":
+      showPlayer3d1Page();
       break;
     case "#aboutus":
       showAboutUsPage();
