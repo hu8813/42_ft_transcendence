@@ -128,10 +128,13 @@ function showPongEhab() {
 
     function showNewGameButton() {
         const button = document.getElementById('newGameButton');
-        button.style.display = 'block'; // Button anzeigen
+        if (button)
+        {
+          button.style.display = 'block'; // Button anzeigen
         button.addEventListener('click', function() {
             location.reload(); // Die Seite neu laden für ein neues Spiel
         });
+      }
     }
     
 
@@ -145,6 +148,7 @@ function showPongEhab() {
     
             // Button anzeigen
             showNewGameButton();
+          
         }
     }
     
@@ -216,6 +220,7 @@ function checkGameOver() {
 
         // Zeige den "New Game" Button
         showNewGameButton();
+      
     }
 }
 
@@ -268,10 +273,13 @@ requestAnimationFrame(gameLoop);
     setInterval(gameLoop, 1000 / 60);
     function showNewGameButton() {
         const button = document.getElementById('newGameButton');
+        if (button)
+        {
         button.style.display = 'block'; // Button anzeigen
         button.addEventListener('click', function() {
             location.reload(); // Die Seite neu laden für ein neues Spiel
         });
+      }
     }
     
 }

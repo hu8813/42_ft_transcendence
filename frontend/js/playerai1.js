@@ -64,7 +64,7 @@ function showPlayerAi1Page(){
         if (player1.score === 7 || player2.score === 7) {
             gameOver = true;
             winner = player1.score === 7 ? 'Player 1' : 'Player 2';
-            alert(`${winner} wins!`); // Einfaches Gewinner-Popup
+            //alert(`${winner} wins!`); // Einfaches Gewinner-Popup
             return;
         }
 
