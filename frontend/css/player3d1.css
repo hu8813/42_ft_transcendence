@@ -1,16 +1,16 @@
 .container {
     display: flex;
+    flex-direction: column; /* Stack children vertically */
     justify-content: center;
     align-items: center;
     height: 100vh;
     margin: 0;
-    
 }
 
 /* Styled game canvas */
 #gameCanvas {
-    width: 850px;
-    height: 380px;
+    width: 950px; /* Increased width */
+    height: 480px; /* Increased height */
     border: 5px solid #333; /* Dark border */
     border-radius: 10px; /* Rounded corners */
     background-color: #1a1a1a; /* Dark gray background */
