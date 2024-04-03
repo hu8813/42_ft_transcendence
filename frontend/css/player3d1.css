@@ -1,22 +1,56 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    
+}
+
+/* Styled game canvas */
 #gameCanvas {
-    background-color: black;
     width: 640px;
     height: 360px;
-    margin: auto;
-    align: center;
+    border: 5px solid #333; /* Dark border */
+    border-radius: 10px; /* Rounded corners */
+    background-color: #1a1a1a; /* Dark gray background */
 }
+
+/* Styled scoreboard */
 #scoreboard {
     text-align: center;
-    font-family: Segoe UI, Helvetica, Ubuntu, sans-serif;
-    color: white;
+    font-family: 'Segoe UI', 'Helvetica', 'Ubuntu', sans-serif;
+    color: #fff; /* White text color */
+    margin-top: 20px; /* Spacing above the scoreboard */
 }
+
+/* Styled scores */
 #scores {
-    font-size:600%; 
-    padding:0; 
-    margin:0;
-    color: white;
+    font-size: 4em; /* Larger font size */
+    padding: 10px; /* Increased padding */
+    margin: 0;
+    color: #ffc107; /* Yellow text color */
 }
+
+/* Styled title */
 #title {
-    background-color: white;
-    color: black;
+    background-color: #ffc107; /* Yellow background */
+    color: #333; /* Dark text color */
+    padding: 10px; /* Padding around the title */
+    font-size: 1.5em; /* Larger font size */
+    margin-bottom: 20px; /* Spacing below the title */
+    border-radius: 5px; /* Rounded corners */
+}
+
+/* Instructions */
+#instructions {
+    text-align: center;
+    color: #fff; /* White text color */
+    font-family: 'Segoe UI', 'Helvetica', 'Ubuntu', sans-serif;
+    margin-top: 20px; /* Spacing above the instructions */
+}
+
+/* Unique styling for instructions */
+#instructions h3 {
+    font-size: 1em; /* Font size for instructions */
 }

@@ -40,7 +40,7 @@ var difficulty = 0.2;
 function setup()
 {
 	// update the board to reflect the max score for match win
-	document.getElementById("winnerBoard").innerHTML = "First to " + maxScore + " wins!";
+	document.getElementById("winnerBoard").innerHTML = " &nbsp; Who gets " + maxScore + " points first wins!";
 	
 	// now reset player and opponent scores
 	score1 = 0;
