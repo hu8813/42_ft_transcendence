@@ -56,3 +56,8 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return self.user.username
+
+class Player(models.Model):
+    name = models.CharField(max_length=100)
+    position_x = models.IntegerField(default=0)
+    position_y = models.IntegerField(default=0)

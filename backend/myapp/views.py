@@ -19,6 +19,8 @@ import json
 from .forms import UserRegistrationForm
 from .models import Tournament, User  # Change import here
 from .serializers import TournamentSerializer
+from .models import Player
+
 
 token_obtain_pair_view = TokenObtainPairView.as_view()
 token_refresh_view = TokenRefreshView.as_view()
@@ -467,3 +469,27 @@ def login_view(request):
     else:
         return render(request, 'login.html')  # Render the login form template
 
+@csrf_exempt
+def update_player_position(request):
+    if request.method == 'POST':
+        # Retrieve player data from request
+        player_id = request.POST.get('player_id')
+        position_x = request.POST.get('position_x')
+        position_y = request.POST.get('position_y')
+
+        # Update player position in the database
+        try:
+            player = Player.objects.get(id=player_id)
+            player.position_x = position_x
+            player.position_y = position_y
+            player.save()
+            return JsonResponse({'success': True})
+        except Player.DoesNotExist:
+            return JsonResponse({'success': False, 'error': 'Player not found'})
+
+@csrf_exempt
+def get_game_state(request):
+    # Retrieve game state from the database
+    players = Player.objects.all()
+    game_state = [{'id': player.id, 'name': player.name, 'position_x': player.position_x, 'position_y': player.position_y} for player in players]
+    return JsonResponse({'game_state': game_state})

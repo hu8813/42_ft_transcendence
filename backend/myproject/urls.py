@@ -47,5 +47,8 @@ urlpatterns = [
     path('update-nickname/', views.update_nickname, name='update_nickname'),
     path('get-games/', views.update_nickname, name='get_games'),
     path('api/userinfo/', views.proxy_userinfo, name='proxy_userinfo'),
+    path('update-player/', views.update_player_position, name='update_player_position'),
+    path('game-state/', views.get_game_state, name='get_game_state'),
+  
     #path("http://localhost:8001/socket.io/", socketio_views.SocketIOView.as_view(), name="socketio"),
 ]
