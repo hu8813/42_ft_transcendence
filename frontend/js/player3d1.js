@@ -19,7 +19,7 @@ var fieldWidth = 400, fieldHeight = 200;
 
 // paddle variables
 var paddleWidth, paddleHeight, paddleDepth, paddleQuality;
-var paddle1DirY = 0, paddle2DirY = 0, paddleSpeed = 4;
+var paddle1DirY = 0, paddle2DirY = 0, paddleSpeed = 5;
 
 // ball variables
 var ball, paddle1, paddle2;
@@ -31,7 +31,7 @@ var score1 = 0, score2 = 0;
 var maxScore = 7;
 
 // set opponent reflexes (0 - easiest, 1 - hardest)
-var difficulty = 0.9;
+var difficulty = 0.8;
 
 // ------------------------------------- //
 // ------- GAME FUNCTIONS -------------- //
@@ -124,7 +124,7 @@ var pillarMaterial =
 // create the ground's material
 var groundMaterial =
     new THREE.MeshLambertMaterial({
-        color: 0x228B22 // Forest green color
+        color: 0x8B4513 // Forest green color
     });
 
 
@@ -138,7 +138,7 @@ var groundMaterial =
             planeQuality),
 
         planeMaterial);
-
+	scene.background = new THREE.Color(0x333333);
     scene.add(plane);
     plane.receiveShadow = true;
 
@@ -237,51 +237,7 @@ var groundMaterial =
     paddle1.position.z = paddleDepth;
     paddle2.position.z = paddleDepth;
 
-    // we iterate 10x (5x each side) to create pillars to show off shadows
-    // this is for the pillars on the left
-    for (var i = 0; i < 5; i++) {
-        var backdrop = new THREE.Mesh(
-
-            new THREE.BoxGeometry(
-                30,
-                30,
-                300,
-                1,
-                1,
-                1),
-
-            pillarMaterial);
-
-        backdrop.position.x = -50 + i * 100;
-        backdrop.position.y = 230;
-        backdrop.position.z = -30;
-        backdrop.castShadow = true;
-        backdrop.receiveShadow = true;
-        scene.add(backdrop);
-    }
-    // we iterate 10x (5x each side) to create pillars to show off shadows
-    // this is for the pillars on the right
-    for (var i = 0; i < 5; i++) {
-        var backdrop = new THREE.Mesh(
-
-            new THREE.BoxGeometry(
-                30,
-                30,
-                300,
-                1,
-                1,
-                1),
-
-            pillarMaterial);
-
-        backdrop.position.x = -50 + i * 100;
-        backdrop.position.y = -230;
-        backdrop.position.z = -30;
-        backdrop.castShadow = true;
-        backdrop.receiveShadow = true;
-        scene.add(backdrop);
-    }
-
+    
     // finally we finish by adding a ground plane
     // to show off pretty shadows
     var ground = new THREE.Mesh(
