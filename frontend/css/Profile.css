@@ -9,7 +9,9 @@
 
 .profile-container {
   max-width: 800px;
-  margin: 10px auto;
+  margin: 20px auto;
+  margin-top: 30px ;
+  padding-top: 5% ;
   padding: 10pem;
   background: #333842;
   border-radius: 10px;

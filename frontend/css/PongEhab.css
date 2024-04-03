@@ -1,0 +1,25 @@
+
+#pongEhabGameCanvas {
+    background-color: #111;
+}
+
+.pongEhab-hidden {
+    display: none;
+}
+
+#pongEhabGameOverModal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+button {
+    padding: 10px 20px;
+    margin-top: 20px;
+    cursor: pointer;
+}
