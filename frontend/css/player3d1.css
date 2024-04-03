@@ -1,0 +1,22 @@
+#gameCanvas {
+    background-color: black;
+    width: 640px;
+    height: 360px;
+    margin: auto;
+    align: center;
+}
+#scoreboard {
+    text-align: center;
+    font-family: Segoe UI, Helvetica, Ubuntu, sans-serif;
+    color: white;
+}
+#scores {
+    font-size:600%; 
+    padding:0; 
+    margin:0;
+    color: white;
+}
+#title {
+    background-color: white;
+    color: black;
+}
