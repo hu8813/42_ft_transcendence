@@ -1,3 +1,7 @@
+.align-checkbox {
+    display: flex;
+    align-items: center;
+}
 
 .register-container {
     max-width: 350px;

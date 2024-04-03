@@ -118,11 +118,11 @@
 @media (max-width: 768px) {
   .profile-container {
     width: 90%;
-    margin-top: 10px;
+    margin-top: 5px;
   }
 
   .profile-title {
-    font-size: 1.5rem;
+    font-size: 1rem;
   }
 
   .profile-subtitle {
