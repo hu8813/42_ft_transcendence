@@ -1,25 +1,19 @@
 
-#pongEhabGameCanvas {
-    background-color: #111;
+/* Passt die Canvas-Größe dynamisch an und zentriert sie */
+#canvasehab {
+    background-color: #427b36; /* Dunkler Hintergrund für das Canvas */
+    margin-top: 4%;
+    margin-left: 10%;
+    margin-right: 10%;
+    max-width: 80vw; /* Maximale Breite auf 80% des Viewport Width */
+    min-width: 75vw;
+    max-height: 80vh; /* Maximale Höhe auf 80% des Viewport Height */
+    min-height: 35vw;
+    width: auto; /* Auto-Breite für die Skalierung */
+    height: auto; /* Auto-Höhe für die Skalierung */
+    box-shadow: 0 0 15px rgba(0,0,0,0.5); /* Fügt einen leichten Schatten hinzu für bessere Sichtbarkeit */
 }
 
-.pongEhab-hidden {
-    display: none;
-}
-
-#pongEhabGameOverModal {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: white;
-    padding: 20px;
-    border-radius: 10px;
-    text-align: center;
-}
-
-button {
-    padding: 10px 20px;
-    margin-top: 20px;
-    cursor: pointer;
+#newGameButton {
+    margin-top: 20px; /* Fügt etwas Abstand zwischen dem Canvas und dem Button hinzu */
 }

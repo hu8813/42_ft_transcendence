@@ -148,7 +148,7 @@ const handleLocation = async () => {
       openChat();
       break;
     case "#pongehab":
-      showPongEhabPage();
+      showPongEhab();
       break;
     case "#ponggame":
       showPongGamePage();

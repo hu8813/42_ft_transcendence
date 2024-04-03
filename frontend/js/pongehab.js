@@ -1,170 +1,275 @@
-function showPongEhabPage(){
-console.log("pong ehab page");
-const canvas = document.getElementById('pongEhabGameCanvas'); // Aktualisierte ID
-const ctx = canvas.getContext('2d');
-canvas.width = 800;
-canvas.height = 400;
+function showPongEhab() {
+    const canvas = document.getElementById('canvasehab');
+    const ctx = canvas.getContext('2d');
 
-let gameOver = false;
-let winner = '';
+    const netWidth = 4;
+    const netHeight = canvas.height;
 
-let ball = {
-    x: canvas.width / 2,
-    y: canvas.height / 2,
-    radius: 10,
-    velocityX: 5,
-    velocityY: 5,
-    speed: 7,
-    color: "#FFF"
-};
+    const paddleWidth = 10;
+    const paddleHeight = 80; // Reduzierte Schlägerhöhe
 
-let player1 = {
-    x: 0,
-    y: (canvas.height - 100) / 2,
-    width: 10,
-    height: 100,
-    score: 0,
-    color: "#FFF"
-};
+    let upArrowPressed = false;
+    let downArrowPressed = false;
+    let wPressed = false;
+    let sPressed = false;
 
-let player2 = {
-    x: canvas.width - 10,
-    y: (canvas.height - 100) / 2,
-    width: 10,
-    height: 100,
-    score: 0,
-    color: "#FFF"
-};
+    const net = {
+      x: canvas.width / 2 - netWidth / 2,
+      y: 0,
+      width: netWidth,
+      height: netHeight,
+      color: "#FFF"
+    };
 
-document.addEventListener('keydown', function(event) {
-    switch(event.key) {
-        case 'w': player1.y -= 20; break;
-        case 's': player1.y += 20; break;
-        case 'ArrowUp': player2.y -= 20; break;
-        case 'ArrowDown': player2.y += 20; break;
+    const user = {
+      x: 10,
+      y: canvas.height / 2 - paddleHeight / 2,
+      width: paddleWidth,
+      height: paddleHeight,
+      color: '#FFF',
+      score: 0
+    };
+
+    const ai = {
+      x: canvas.width - (paddleWidth + 10),
+      y: canvas.height / 2 - paddleHeight / 2,
+      width: paddleWidth,
+      height: paddleHeight,
+      color: '#FFF',
+      score: 0
+    };
+
+    const ball = {
+      x: canvas.width / 2,
+      y: canvas.height / 2,
+      radius: 7,
+      speed: 7,
+      velocityX: 5,
+      velocityY: 5,
+      color: '#ffffff'
+    };
+
+    function drawNet() {
+      ctx.fillStyle = net.color;
+      ctx.fillRect(net.x, net.y, net.width, net.height);
     }
-});
 
-function drawBall() {
-    ctx.fillStyle = ball.color;
-    ctx.beginPath();
-    ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI*2, false);
-    ctx.closePath();
-    ctx.fill();
+    function drawScore(x, y, score) {
+      ctx.fillStyle = '#fff';
+      ctx.font = '35px sans-serif';
+      ctx.fillText(score, x, y);
+    }
+
+    function drawPaddle(x, y, width, height, color) {
+      ctx.fillStyle = color;
+      ctx.fillRect(x, y, width, height);
+    }
+
+    function drawBall(x, y, radius, color) {
+      ctx.fillStyle = color;
+      ctx.beginPath();
+      ctx.arc(x, y, radius, 0, Math.PI * 2, true);
+      ctx.closePath();
+      ctx.fill();
+    }
+
+    window.addEventListener('keydown', keyDownHandler);
+    window.addEventListener('keyup', keyUpHandler);
+
+    function keyDownHandler(event) {
+      switch (event.keyCode) {
+        case 87: // W
+          wPressed = true;
+          break;
+        case 83: // S
+          sPressed = true;
+          break;
+        case 38: // Pfeil nach oben
+          upArrowPressed = true;
+          break;
+        case 40: // Pfeil nach unten
+          downArrowPressed = true;
+          break;
+      }
+    }
+
+    function keyUpHandler(event) {
+      switch (event.keyCode) {
+        case 87: // W
+          wPressed = false;
+          break;
+        case 83: // S
+          sPressed = false;
+          break;
+        case 38: // Pfeil nach oben
+          upArrowPressed = false;
+          break;
+        case 40: // Pfeil nach unten
+          downArrowPressed = false;
+          break;
+      }
+    }
+
+    function collisionDetect(player, ball) {
+      player.top = player.y;
+      player.right = player.x + player.width;
+      player.bottom = player.y + player.height;
+      player.left = player.x;
+
+      ball.top = ball.y - ball.radius;
+      ball.right = ball.x + ball.radius;
+      ball.bottom = ball.y + ball.radius;
+      ball.left = ball.x - ball.radius;
+
+      return ball.left < player.right && ball.top < player.bottom && ball.right > player.left && ball.bottom > player.top;
+    }
+
+    function showNewGameButton() {
+        const button = document.getElementById('newGameButton');
+        button.style.display = 'block'; // Button anzeigen
+        button.addEventListener('click', function() {
+            location.reload(); // Die Seite neu laden für ein neues Spiel
+        });
+    }
+    
+
+    function checkGameOver() {
+        if (user.score === 7 || ai.score === 7) {
+            gameOver = true;
+            let winner = user.score === 7 ? "Spieler 1 gewinnt!" : "Spieler 2 gewinnt!";
+            ctx.fillStyle = 'white';
+            ctx.font = '48px Arial';
+            ctx.fillText(winner, canvas.width / 4, canvas.height / 2);
+    
+            // Button anzeigen
+            showNewGameButton();
+        }
+    }
+    
+
+    let gameOver = false; // Globale Variable, um den Spielstatus zu verfolgen
+
+// Update-Funktion, um Dinge zu aktualisieren
+function update() {
+    if (!gameOver) {
+        // Bewegung der Spieler
+        if (wPressed && user.y > 0) {
+            user.y -= 8;
+        } else if (sPressed && (user.y < canvas.height - user.height)) {
+            user.y += 8;
+        }
+
+        if (upArrowPressed && ai.y > 0) {
+            ai.y -= 8;
+        } else if (downArrowPressed && (ai.y < canvas.height - ai.height)) {
+            ai.y += 8;
+        }
+
+        // Bewegung des Balls
+        ball.x += ball.velocityX;
+        ball.y += ball.velocityY;
+
+        // Überprüfung, ob der Ball die oberen oder unteren Wände trifft
+        if (ball.y + ball.radius >= canvas.height || ball.y - ball.radius <= 0) {
+            ball.velocityY = -ball.velocityY;
+        }
+
+        // Punktzahl und Reset, wenn der Ball die linke oder rechte Wand trifft
+        if (ball.x + ball.radius >= canvas.width) {
+            user.score += 1;
+            reset();
+        } else if (ball.x - ball.radius <= 0) {
+            ai.score += 1;
+            reset();
+        }
+
+        // Kollisionsdetektion mit den Schlägern
+        let player = (ball.x < canvas.width / 2) ? user : ai;
+        if (collisionDetect(player, ball)) {
+            // Ballrichtung ändern
+            let angle = 0;
+            if (ball.y < (player.y + player.height / 2)) {
+                angle = -1 * Math.PI / 4;
+            } else if (ball.y > (player.y + player.height / 2)) {
+                angle = Math.PI / 4;
+            }
+            ball.velocityX = (player === user ? 1 : -1) * ball.speed * Math.cos(angle);
+            ball.velocityY = ball.speed * Math.sin(angle);
+
+            ball.speed += 0.1; // Erhöhe die Geschwindigkeit des Balls, um das Spiel herausfordernder zu machen
+        }
+
+        // Überprüfe, ob das Spiel vorbei ist
+        checkGameOver();
+    }
 }
 
-function drawPlayer(player) {
-    ctx.fillStyle = player.color;
-    ctx.fillRect(player.x, player.y, player.width, player.height);
+function checkGameOver() {
+    if (user.score === 7 || ai.score === 7) {
+        gameOver = true;
+        ctx.fillStyle = '#FFF';
+        ctx.font = '48px Arial';
+        let winner = user.score === 7 ? "Spieler 1 gewinnt!" : "Spieler 2 gewinnt!";
+        ctx.fillText(winner, (canvas.width / 4), (canvas.height / 2));
+
+        // Zeige den "New Game" Button
+        showNewGameButton();
+    }
 }
 
-function resetBall() {
+function showNewGameButton() {
+    const button = document.getElementById('newGameButton');
+    button.style.display = 'block'; // Button anzeigen
+}
+
+function reset() {
     ball.x = canvas.width / 2;
     ball.y = canvas.height / 2;
     ball.velocityX = -ball.velocityX;
     ball.speed = 7;
 }
 
-function collisionDetection(ball, player) {
-    if (ball.x - ball.radius < 0 || ball.x + ball.radius > canvas.width) {
-        if (ball.y > player.y && ball.y < player.y + player.height) {
-            ball.velocityX = -ball.velocityX;
-        } else {
-            if (ball.x - ball.radius < 0) player2.score++;
-            else player1.score++;
-            
-            if (player1.score === 7 || player2.score === 7) {
-                gameOver = true;
-                winner = player1.score === 7 ? 'Player 1' : 'Player 2';
-                generateConfetti();
-            }
+// Stelle sicher, dass du den "New Game" Button im HTML hast
+// <button id="newGameButton" style="display:none;">New Game</button>
+// und füge dem Button im JavaScript EventListener hinzu, wie im vorherigen Schritt beschrieben
+document.getElementById('newGameButton').addEventListener('click', function() {
+    location.reload(); // Die Seite neu laden für ein neues Spiel
+});
 
-            resetBall();
-        }
-    }
-}
-
-function update() {
-    if (!gameOver) {
-        ball.x += ball.velocityX;
-        ball.y += ball.velocityY;
-
-        if (ball.y - ball.radius < 0 || ball.y + ball.radius > canvas.height) {
-            ball.velocityY = -ball.velocityY;
-        }
-
-        collisionDetection(ball, player1);
-        collisionDetection(ball, player2);
-    }
-}
-
-function render() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    drawBall();
-    drawPlayer(player1);
-    drawPlayer(player2);
-}
-
-/* function gameLoop() {
-    update();
-    render();
-    if (!gameOver) requestAnimationFrame(gameLoop);
-} */
-
+// Diese Funktion wird am Anfang einmal aufgerufen, um das Spiel zu starten
 function gameLoop() {
     if (!gameOver) {
         update();
-        render();
-        requestAnimationFrame(gameLoop);
-    } else {
-        showGameOverModal();
+        render(); // Stelle sicher, dass du eine Funktion hast, die alles neu zeichnet
     }
-}
-function showGameOverModal() {
-    const gameOverModal = document.getElementById('pongEhabGameOverModal');
-    gameOverModal.classList.remove('pongEhab-hidden');
-    const winnerText = document.getElementById('pongEhabWinnerText');
-    winnerText.textContent = winner;
+    requestAnimationFrame(gameLoop);
 }
 
-gameLoop();
+requestAnimationFrame(gameLoop);
 
-// Konfetti-Effekt
-function generateConfetti() {
-    const confettiCount = 100;
-    const confetti = [];
-    for (let i = 0; i < confettiCount; i++) {
-        confetti.push({
-            x: Math.random() * canvas.width,
-            y: Math.random() * canvas.height,
-            width: 5,
-            height: 10,
-            color: `rgb(${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)})`,
-            speed: 1 + Math.random() * 3,
+
+    function render() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      drawNet();
+      drawScore(canvas.width / 4, canvas.height / 6, user.score);
+      drawScore(3 * canvas.width / 4, canvas.height / 6, ai.score);
+      drawPaddle(user.x, user.y, user.width, user.height, user.color);
+      drawPaddle(ai.x, ai.y, ai.width, ai.height, ai.color);
+      drawBall(ball.x, ball.y, ball.radius, ball.color);
+    }
+
+    function gameLoop() {
+      update();
+      render();
+    }
+
+    setInterval(gameLoop, 1000 / 60);
+    function showNewGameButton() {
+        const button = document.getElementById('newGameButton');
+        button.style.display = 'block'; // Button anzeigen
+        button.addEventListener('click', function() {
+            location.reload(); // Die Seite neu laden für ein neues Spiel
         });
     }
-
-    function drawConfetti() {
-        confetti.forEach(particle => {
-            ctx.fillStyle = particle.color;
-            ctx.fillRect(particle.x, particle.y, particle.width, particle.height);
-            particle.y += particle.speed;
-            if (particle.y > canvas.height) {
-                particle.y = 0;
-                particle.x = Math.random() * canvas.width;
-            }
-        });
-    }
-
-    function updateConfetti() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        drawConfetti();
-        if (gameOver) {
-            requestAnimationFrame(updateConfetti);
-        //window.location.href ="/#play!" ;
-        }
-    }
-
-    updateConfetti();
+    
 }
-};
