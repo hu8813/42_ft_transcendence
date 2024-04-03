@@ -145,12 +145,12 @@ USE_I18N = True
 
 USE_TZ = True
 
-#CORS_ORIGIN_ALLOW_ALL = True
 
 CSRF_TRUSTED_ORIGINS = ['http://localhost','https://localhost','http://localhost:8000','https://localhost:8443','https://localhost:443','https://psychic-journey-9q4rjvxwvwjf7579-8080.app.github.dev','https://psychic-journey-9q4rjvxwvwjf7579-8000.app.github.dev','https://psychic-journey-9q4rjvxwvwjf7579-443.app.github.dev','http://127.0.0.1','http://127.0.0.1:5500','https://pong42.vercel.app','http://pong42.vercel.app','http://pong42.azurewebsites.net','http://localhost:8000','http://localhost:3000','http://localhost:5500','http://localhost','https://transcendence-beige.vercel.app','https://api.intra.42.fr']
 
 CORS_ALLOWED_ORIGINS = ['http://localhost','https://localhost','http://localhost:8000','https://localhost:8443','https://localhost:443','https://psychic-journey-9q4rjvxwvwjf7579-8080.app.github.dev','https://psychic-journey-9q4rjvxwvwjf7579-8000.app.github.dev','https://psychic-journey-9q4rjvxwvwjf7579-443.app.github.dev','http://127.0.0.1','http://127.0.0.1:5500','https://pong42.vercel.app','http://pong42.vercel.app','http://localhost:8000','http://pong42.azurewebsites.net','http://localhost:3000','http://localhost:5500','http://localhost','https://transcendence-beige.vercel.app','https://api.intra.42.fr']
 
+CORS_ORIGIN_ALLOW_ALL = True
 
 STATIC_URL = 'static/'
 

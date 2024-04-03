@@ -19,7 +19,7 @@ import json
 from .forms import UserRegistrationForm
 from .models import Tournament, User  # Change import here
 from .serializers import TournamentSerializer
-from .models import Player
+from .models import Player, WaitingPlayer
 
 
 token_obtain_pair_view = TokenObtainPairView.as_view()
@@ -487,9 +487,24 @@ def update_player_position(request):
         except Player.DoesNotExist:
             return JsonResponse({'success': False, 'error': 'Player not found'})
 
+    # Handle other HTTP methods gracefully
+    return JsonResponse({'success': False, 'error': 'Invalid HTTP method'})
+
 @csrf_exempt
 def get_game_state(request):
     # Retrieve game state from the database
     players = Player.objects.all()
     game_state = [{'id': player.id, 'name': player.name, 'position_x': player.position_x, 'position_y': player.position_y} for player in players]
     return JsonResponse({'game_state': game_state})
+
+@csrf_exempt
+def check_player_waiting(request, user_login):
+    # Check if there's a waiting player with the same user login
+    waiting_players = WaitingPlayer.objects.filter(user_login=user_login)
+    
+    if waiting_players.exists():
+        # Another player is waiting
+        return JsonResponse({'waiting': True})
+    else:
+        # No player is waiting
+        return JsonResponse({'waiting': False})

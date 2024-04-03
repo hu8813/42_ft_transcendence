@@ -1,19 +1,4 @@
-"""
-URL configuration for myproject project.
 
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/5.0/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
 from django.contrib import admin
 from django.urls import path
 from myapp import views
@@ -49,6 +34,7 @@ urlpatterns = [
     path('api/userinfo/', views.proxy_userinfo, name='proxy_userinfo'),
     path('update-player/', views.update_player_position, name='update_player_position'),
     path('game-state/', views.get_game_state, name='get_game_state'),
+    path('check-player-waiting/<str:user_login>/', views.check_player_waiting, name='check_player_waiting'),
   
     #path("http://localhost:8001/socket.io/", socketio_views.SocketIOView.as_view(), name="socketio"),
 ]
