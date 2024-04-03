@@ -1,3 +1,2 @@
-function showAboutUsPage() {
-    console.log("hgaallo");
-};
+function showAboutUsPage(){
+}
