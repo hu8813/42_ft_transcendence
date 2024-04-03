@@ -500,7 +500,8 @@ def get_game_state(request):
 @csrf_exempt
 def check_player_waiting(request, user_login):
     # Check if there's a waiting player with the same user login
-    waiting_players = WaitingPlayer.objects.filter(user_login=user_login)
+    waiting_player = WaitingPlayer.objects.filter(user__username=user_login).first()
+
     
     if waiting_players.exists():
         # Another player is waiting
