@@ -497,14 +497,29 @@ def get_game_state(request):
     game_state = [{'id': player.id, 'name': player.name, 'position_x': player.position_x, 'position_y': player.position_y} for player in players]
     return JsonResponse({'game_state': game_state})
 
+waiting_queue = []
+
 @csrf_exempt
 def check_player_waiting(request, user_login):
-    # Check if there's a waiting player with the same user login
-    waiting_player = WaitingPlayer.objects.filter(user__username=user_login).first()
+    global waiting_queue
 
-    if waiting_player is not None:
-        # Another player is waiting
-        return JsonResponse({'waiting': True})
+    # Check if there are any players waiting in the queue
+    if waiting_queue:
+        # If there are waiting players, match them with the current user
+        matched_user = waiting_queue.pop(0)  # Get the first player from the queue
+        # Perform matching logic here, for example, you can return both usernames
+        return JsonResponse({'waiting': True, 'matched_user': matched_user, 'current_user': user_login})
     else:
-        # No player is waiting
+        # If there are no waiting players, add the current user to the waiting queue
+        waiting_queue.append(user_login)  # Add the current user to the waiting queue
         return JsonResponse({'waiting': False})
+
+
+# Additional view to remove user from waiting queue if they cancel waiting
+@csrf_exempt
+def cancel_waiting(request, user_login):
+    global waiting_queue
+
+    # Remove the user from the waiting queue if they cancel waiting
+    waiting_queue = [player for player in waiting_queue if player != user_login]
+    return JsonResponse({'message': f'User {user_login} removed from waiting queue'})
