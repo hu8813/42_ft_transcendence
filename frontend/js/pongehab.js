@@ -6,7 +6,7 @@ function showPongEhab() {
     const netHeight = canvas.height;
 
     const paddleWidth = 10;
-    const paddleHeight = 80; // Reduzierte Schlägerhöhe
+    const paddleHeight = 50; // Reduzierte Schlägerhöhe
 
     let upArrowPressed = false;
     let downArrowPressed = false;
@@ -77,6 +77,7 @@ function showPongEhab() {
     window.addEventListener('keyup', keyUpHandler);
 
     function keyDownHandler(event) {
+      event.preventDefault();
       switch (event.keyCode) {
         case 87: // W
           wPressed = true;
@@ -85,6 +86,7 @@ function showPongEhab() {
           sPressed = true;
           break;
         case 38: // Pfeil nach oben
+          
           upArrowPressed = true;
           break;
         case 40: // Pfeil nach unten
