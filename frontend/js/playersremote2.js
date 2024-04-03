@@ -283,6 +283,7 @@ function showPlayersRemote2() {
             function gameLoop() {
                 if (!gameOver) {
                     updateGameFromServer();
+                    update();
                     render(); // Stelle sicher, dass du eine Funktion hast, die alles neu zeichnet
                 }
                 requestAnimationFrame(gameLoop);
