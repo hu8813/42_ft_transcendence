@@ -502,8 +502,7 @@ def check_player_waiting(request, user_login):
     # Check if there's a waiting player with the same user login
     waiting_player = WaitingPlayer.objects.filter(user__username=user_login).first()
 
-    
-    if waiting_players.exists():
+    if waiting_player is not None:
         # Another player is waiting
         return JsonResponse({'waiting': True})
     else:
