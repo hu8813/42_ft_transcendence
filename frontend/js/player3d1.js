@@ -64,7 +64,7 @@ function createScene() {
         NEAR = 0.1,
         FAR = 10000;
 
-    var c = document.getElementById("gameCanvas");
+    var c = document.getElementById("gameCanvas3d");
 
     // create a WebGL renderer, camera
     // and a scene
@@ -346,7 +346,7 @@ function ballPhysics()
 		// CPU scores
 		score2++;
 		// update scoreboard HTML
-		document.getElementById("scores").innerHTML = score1 + "-" + score2;
+		document.getElementById("scores3d").innerHTML = score1 + "-" + score2;
 		// reset ball to center
 		resetBall(2);
 		matchScoreCheck();	
@@ -358,7 +358,7 @@ function ballPhysics()
 		// Player scores
 		score1++;
 		// update scoreboard HTML
-		document.getElementById("scores").innerHTML = score1 + "-" + score2;
+		document.getElementById("scores3d").innerHTML = score1 + "-" + score2;
 		// reset ball to center
 		resetBall(1);
 		matchScoreCheck();	
@@ -581,7 +581,7 @@ function matchScoreCheck()
 		// stop the ball
 		ballSpeed = 0;
 		// write to the banner
-		document.getElementById("scores").innerHTML = "Player wins!";		
+		document.getElementById("scores3d").innerHTML = "Player wins!";		
 		document.getElementById("winnerBoard").innerHTML = "Refresh to play again";
 		// make paddle bounce up and down
 		bounceTime++;
@@ -596,7 +596,7 @@ function matchScoreCheck()
 		// stop the ball
 		ballSpeed = 0;
 		// write to the banner
-		document.getElementById("scores").innerHTML = "CPU wins!";
+		document.getElementById("scores3d").innerHTML = "CPU wins!";
 		document.getElementById("winnerBoard").innerHTML = "Refresh to play again";
 		// make paddle bounce up and down
 		bounceTime++;
