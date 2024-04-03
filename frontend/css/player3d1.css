@@ -1,4 +1,4 @@
-.container3d {
+.container {
     display: flex;
     flex-direction: column; /* Stack children vertically */
     justify-content: center;
@@ -8,7 +8,7 @@
 }
 
 /* Styled game canvas */
-#gameCanvas3d {
+#gameCanvas {
     width: 950px; /* Increased width */
     height: 480px; /* Increased height */
     border: 5px solid #333; /* Dark border */
@@ -17,7 +17,7 @@
 }
 
 /* Styled scoreboard */
-#scoreboard3d {
+#scoreboard {
     text-align: center;
     font-family: 'Segoe UI', 'Helvetica', 'Ubuntu', sans-serif;
     color: #fff; /* White text color */
@@ -25,7 +25,7 @@
 }
 
 /* Styled scores */
-#scores3d {
+#scores {
     font-size: 4em; /* Larger font size */
     padding: 10px; /* Increased padding */
     margin: 0;
@@ -33,7 +33,7 @@
 }
 
 /* Styled title */
-#title3d {
+#title {
     background-color: #ffc107; /* Yellow background */
     color: #333; /* Dark text color */
     padding: 10px; /* Padding around the title */
@@ -43,7 +43,7 @@
 }
 
 /* Instructions */
-#instructions3d {
+#instructions {
     text-align: center;
     color: #fff; /* White text color */
     font-family: 'Segoe UI', 'Helvetica', 'Ubuntu', sans-serif;
@@ -51,6 +51,6 @@
 }
 
 /* Unique styling for instructions */
-#instructions3d h3 {
+#instructions h3 {
     font-size: 1em; /* Font size for instructions */
 }
