@@ -9,8 +9,8 @@
 
 /* Styled game canvas */
 #gameCanvas {
-    width: 640px;
-    height: 360px;
+    width: 850px;
+    height: 380px;
     border: 5px solid #333; /* Dark border */
     border-radius: 10px; /* Rounded corners */
     background-color: #1a1a1a; /* Dark gray background */
