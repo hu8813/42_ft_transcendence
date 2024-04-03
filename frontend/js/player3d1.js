@@ -124,7 +124,7 @@ var pillarMaterial =
 // create the ground's material
 var groundMaterial =
     new THREE.MeshLambertMaterial({
-        color: 0x8B4513 // Forest green color
+        color: 0x333333 // Forest green color
     });
 
 
