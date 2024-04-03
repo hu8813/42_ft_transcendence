@@ -417,14 +417,31 @@ def get_csrf_token(request):
     # Return the CSRF token in a JSON response
     return JsonResponse({'csrfToken': csrf_token})
 
+
 @csrf_exempt
 def register(request):
     if request.method == 'POST':
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
-            user = form.save(commit=False)
-            user.set_password(form.cleaned_data['password'])  # Hash password
+            username = form.cleaned_data['username']
+            email = form.cleaned_data['email']
+            password = form.cleaned_data['password']
+            
+            # Check if username or email already exists
+            if User.objects.filter(username=username).exists():
+                return HttpResponse("Error occurred: Already exists.", status=400)
+            
+            if User.objects.filter(email=email).exists():
+                return HttpResponse("Error occurred: Already exists.", status=400)
+            
+            # Create user object
+            user = User.objects.create_user(username=username, email=email, password=password)
             user.save()
+            
+            # Set initial score to 0
+            profile = UserProfile.objects.create(user=user, score=0, nickname=username)
+            profile.save()
+            
             return redirect('login')
         else:
             # Return form errors if the form is invalid
@@ -434,7 +451,7 @@ def register(request):
         form = UserRegistrationForm()  # Move form initialization here
         return render(request, 'registration/register.html', {'form': form})  # Render the registration form template
 
-
+            
 @csrf_exempt
 def login_view(request):
     # Handle login form submission and authentication logic here
