@@ -115,6 +115,7 @@ const handleLocation = async () => {
   if (questionMarkIndex !== -1) {
     path = path.slice(0, questionMarkIndex);
   }
+  console.log("path:" + path);
   const route = routes[path] || routes[404];
   const html = await fetch(route).then((data) => data.text());
   document.getElementById("app").innerHTML = html;
