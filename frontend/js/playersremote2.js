@@ -12,7 +12,7 @@ function showPlayersRemote2() {
 
             if (userLogin) {
                 // Send user login to server to check if another player is waiting
-                fetch(`${backendURL}/check-player-waiting/${userLogin}`)
+                fetch(`${backendURL}/check-player-waiting/${userLogin}/`)
                     .then(response => response.json())
                     .then(data => {
                         if (data.waiting) {
