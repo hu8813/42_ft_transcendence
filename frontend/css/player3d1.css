@@ -3,7 +3,7 @@
     flex-direction: column; /* Stack children vertically */
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    height: 90vh;
     margin: 0;
 }
 
@@ -36,9 +36,9 @@
 #title3d {
     background-color: #ffc107; /* Yellow background */
     color: #333; /* Dark text color */
-    padding: 10px; /* Padding around the title */
+    padding: 5px; /* Padding around the title */
     font-size: 1.5em; /* Larger font size */
-    margin-bottom: 20px; /* Spacing below the title */
+    margin-bottom: 10px; /* Spacing below the title */
     border-radius: 5px; /* Rounded corners */
 }
 
@@ -47,7 +47,7 @@
     text-align: center;
     color: #fff; /* White text color */
     font-family: 'Segoe UI', 'Helvetica', 'Ubuntu', sans-serif;
-    margin-top: 20px; /* Spacing above the instructions */
+    margin-top: 10px; /* Spacing above the instructions */
 }
 
 /* Unique styling for instructions */

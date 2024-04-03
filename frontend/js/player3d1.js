@@ -19,11 +19,11 @@ var fieldWidth = 400, fieldHeight = 200;
 
 // paddle variables
 var paddleWidth, paddleHeight, paddleDepth, paddleQuality;
-var paddle1DirY = 0, paddle2DirY = 0, paddleSpeed = 3;
+var paddle1DirY = 0, paddle2DirY = 0, paddleSpeed = 4;
 
 // ball variables
 var ball, paddle1, paddle2;
-var ballDirX = 1, ballDirY = 1, ballSpeed = 2;
+var ballDirX = 1, ballDirY = 1, ballSpeed = 3;
 
 // game-related variables
 var score1 = 0, score2 = 0;
@@ -31,7 +31,7 @@ var score1 = 0, score2 = 0;
 var maxScore = 7;
 
 // set opponent reflexes (0 - easiest, 1 - hardest)
-var difficulty = 0.2;
+var difficulty = 0.9;
 
 // ------------------------------------- //
 // ------- GAME FUNCTIONS -------------- //
@@ -95,37 +95,38 @@ function createScene() {
     var planeWidth = fieldWidth,
         planeHeight = fieldHeight,
         planeQuality = 10;
+// create the paddle1's material
+var paddle1Material =
+    new THREE.MeshLambertMaterial({
+        color: 0x0A0A0A // Dark gray color
+    });
+// create the paddle2's material
+var paddle2Material =
+    new THREE.MeshLambertMaterial({
+        color: 0x550055 // Dark purple color
+    });
 
-    // create the paddle1's material
-    var paddle1Material =
-        new THREE.MeshLambertMaterial({
-            color: 0x1B32C0
-        });
-    // create the paddle2's material
-    var paddle2Material =
-        new THREE.MeshLambertMaterial({
-            color: 0xFF4045
-        });
-    // create the plane's material	
-    var planeMaterial =
-        new THREE.MeshLambertMaterial({
-            color: 0x4BD121
-        });
-    // create the table's material
-    var tableMaterial =
-        new THREE.MeshLambertMaterial({
-            color: 0x111111
-        });
-    // create the pillar's material
-    var pillarMaterial =
-        new THREE.MeshLambertMaterial({
-            color: 0x534d0d
-        });
-    // create the ground's material
-    var groundMaterial =
-        new THREE.MeshLambertMaterial({
-            color: 0x888888
-        });
+// create the plane's material	
+var planeMaterial =
+    new THREE.MeshLambertMaterial({
+        color: 0x6495ED // Cornflower blue color
+    });
+// create the table's material
+var tableMaterial =
+    new THREE.MeshLambertMaterial({
+        color: 0x8B4513 // Saddle brown color
+    });
+// create the pillar's material
+var pillarMaterial =
+    new THREE.MeshLambertMaterial({
+        color: 0x8B4513 // Saddle brown color (same as table for consistency)
+    });
+// create the ground's material
+var groundMaterial =
+    new THREE.MeshLambertMaterial({
+        color: 0x228B22 // Forest green color
+    });
+
 
     // create the playing surface plane
     var plane = new THREE.Mesh(
