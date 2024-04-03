@@ -40,7 +40,7 @@ var difficulty = 0.8;
 function setup()
 {
 	// update the board to reflect the max score for match win
-	document.getElementById("winnerBoard").innerHTML = " &nbsp; Who gets " + maxScore + " points first wins!";
+	document.getElementById("winnerBoard").innerHTML = " &nbsp; Reach " + maxScore + " points to win!";
 	
 	// now reset player and opponent scores
 	score1 = 0;
@@ -386,7 +386,7 @@ function opponentPaddleMovement()
 function playerPaddleMovement()
 {
 	// move left
-	if (Key.isDown(Key.A))		
+	if (Key.isDown(Key.LEFT_ARROW))		
 	{
 		// if paddle is not touching the side of table
 		// we move
@@ -403,7 +403,7 @@ function playerPaddleMovement()
 		}
 	}	
 	// move right
-	else if (Key.isDown(Key.D))
+	else if (Key.isDown(Key.RIGHT_ARROW))
 	{
 		// if paddle is not touching the side of table
 		// we move
@@ -563,17 +563,14 @@ function matchScoreCheck()
 		paddle2.scale.y = 2 + Math.abs(Math.sin(bounceTime * 0.05)) * 10;
 	}
 }
-
 window.addEventListener('keyup', function(event) { Key.onKeyup(event); }, false);
 window.addEventListener('keydown', function(event) { Key.onKeydown(event); }, false);
 
 var Key = {
   _pressed: {},
 
-  A: 65,
-  W: 87,
-  D: 68,
-  S: 83,
+  LEFT_ARROW: 37,
+  RIGHT_ARROW: 39,
   SPACE: 32,
   
   isDown: function(keyCode) {
@@ -588,7 +585,6 @@ var Key = {
     delete this._pressed[event.keyCode];
   }
 };
-
     setup();
 
     };
