@@ -1,22 +1,22 @@
 function showGameModes() {
     const cardsData = [
         {
-            text: "Training",
+            text: "Training (3D)",
             imgPlaceholder: '../src/cpu.jpeg',
             href: "#player3d1",
         },
         {
-            text: "Single Player",
+            text: "Single Player (against CPU)",
             imgPlaceholder: '../src/playagainst.jpeg',
             href: "#playerai1",
         },
         {
-            text: "Multiplayer",
+            text: "Multiplayer (locally)",
             imgPlaceholder: './src/multiplayer.jpeg',
             href: "#pongehab",
         },
         {
-            text: "Tournament",
+            text: "Tournament (remote)",
             imgPlaceholder: './src/tournament.jpeg',
             href: "#playersremote2",
         },
@@ -53,7 +53,7 @@ function showGameModes() {
     });
     
     const title = document.createElement("h1");
-    title.textContent = "GAME MODES";
+    title.textContent = "Select Game Mode";
     title.style.textAlign = "center";
     title.style.fontSize = "50px";
     title.style.paddingTop = "50px";
