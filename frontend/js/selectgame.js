@@ -3,18 +3,22 @@ function showGameModes() {
         {
             text: "Training",
             imgPlaceholder: 'https://via.placeholder.com/150',
+            href: "#player3d1",
         },
         {
             text: "Single Player",
             imgPlaceholder: 'https://via.placeholder.com/150',
+            href: "#playerai1",
         },
         {
             text: "Multiplayer",
             imgPlaceholder: 'https://via.placeholder.com/150',
+            href: "#pongehab",
         },
         {
             text: "Tournament",
             imgPlaceholder: 'https://via.placeholder.com/150',
+            href: "#playersremote2",
         },
     ];
 
@@ -24,23 +28,29 @@ function showGameModes() {
     cardsData.forEach(data => {
         const card = document.createElement('div');
         card.classList.add('card', 'bn');
-
+    
+        const link = document.createElement('a'); // Create <a> element
+        link.href = data.href; // Set href attribute
+        link.classList.add('link'); // Add a class for styling (optional)
+    
         const textDiv = document.createElement('div');
         textDiv.classList.add('text');
         textDiv.textContent = data.text;
-        card.appendChild(textDiv);
-
+        link.appendChild(textDiv); // Append textDiv to the link element
+    
         const imgDiv = document.createElement('div');
         imgDiv.classList.add('img', 'bn');
         const img = document.createElement('img');
         img.src = data.imgPlaceholder;
         img.alt = 'Image Placeholder';
         imgDiv.appendChild(img);
-        card.appendChild(imgDiv);
-
+        link.appendChild(imgDiv); // Append imgDiv to the link element
+    
+        card.appendChild(link); // Append the link element to the card
+    
         cardsContainer.appendChild(card);
     });
-
+    
     const title = document.createElement("h1");
     title.textContent = "GAME MODES";
     title.style.textAlign = "center";
