@@ -29,7 +29,7 @@ function showPlayerAi1Page(){
         moveDown: false
     };
 
-    let player2 = {
+    let CPU = {
         x: canvas.width - 10,
         y: (canvas.height - 100) / 2,
         width: 10,
@@ -60,14 +60,15 @@ function showPlayerAi1Page(){
         }
     });
 
-    const resetBall = () => {
-        if (player1.score === 7 || player2.score === 7) {
-            gameOver = true;
-            winner = player1.score === 7 ? 'Player 1' : 'Player 2';
-            //alert(`${winner} wins!`); // Einfaches Gewinner-Popup
-            return;
-        }
+    function showNGameButton() {
+        const button = document.getElementById('newGameButton');
+        button.style.display = 'block'; // Button anzeigen
+        button.addEventListener('click', function() {
+            location.reload(); // Die Seite neu laden für ein neues Spiel
+        });
+    }
 
+    const resetBall = () => {
         ball.x = canvas.width / 2;
         ball.y = canvas.height / 2;
         ball.velocityX = -ball.velocityX;
@@ -88,7 +89,22 @@ function showPlayerAi1Page(){
         return b.right > p.left && b.bottom > p.top && b.left < p.right && b.top < p.bottom;
     };
 
+    function showGameOver() {
+        ctx.fillStyle = 'white';
+        ctx.font = '48px Arial';
+        ctx.fillText(winner, canvas.width / 4, canvas.height / 2);
+    
+        showNGameButton(); // Zeigt den "Neues Spiel" Button an
+    }
+
     const update = () => {
+        if (player1.score === 7 || CPU.score === 7) {
+            gameOver = true;
+            winner = player1.score === 7 ? "Player 1 wins!" : "CPU wins!";
+            showGameOver(); // Eine Funktion, um den Gewinner anzuzeigen und den "Neues Spiel" Button einzublenden
+            return; // Stoppt die Update-Funktion, um weitere Bewegungen zu verhindern
+        } 
+
         if(player1.moveUp && player1.y > 0) {
             player1.y -= 8;
         }
@@ -97,7 +113,7 @@ function showPlayerAi1Page(){
         }
 
         // Einfache KI für Player 2
-        player2.y += ((ball.y - (player2.y + player2.height / 2))) * 0.1;
+        CPU.y += ((ball.y - (CPU.y + CPU.height / 2))) * 0.1;
 
         ball.x += ball.velocityX;
         ball.y += ball.velocityY;
@@ -107,14 +123,14 @@ function showPlayerAi1Page(){
         }
 
         if(ball.x - ball.radius < 0) {
-            player2.score++;
+            CPU.score++;
             resetBall();
         } else if(ball.x + ball.radius > canvas.width) {
             player1.score++;
             resetBall();
         }
 
-        if(collision(ball, player1) || collision(ball, player2)) {
+        if(collision(ball, player1) || collision(ball, CPU)) {
             ball.velocityX = -ball.velocityX;
         }
     };
@@ -136,12 +152,12 @@ function showPlayerAi1Page(){
         ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
         drawRect(0, 0, canvas.width, canvas.height, '#000'); // Background
         drawRect(player1.x, player1.y, player1.width, player1.height, player1.color); // Player 1
-        drawRect(player2.x, player2.y, player2.width, player2.height, player2.color); // Player 2
+        drawRect(CPU.x, CPU.y, CPU.width, CPU.height, CPU.color); // Player 2
         drawCircle(ball.x, ball.y, ball.radius, ball.color); // Ball
         ctx.font = '35px Arial';
         ctx.fillStyle = '#FFF';
         ctx.fillText(player1.score, 100, 50);
-        ctx.fillText(player2.score, canvas.width - 100, 50);
+        ctx.fillText(CPU.score, canvas.width - 100, 50);
     };
 
     const gameLoop = () => {
@@ -162,16 +178,10 @@ function showPlayerAi1Page(){
         // Hinzufügen von EventListener zu "Neu starten"-Button...
     } */
     function showGameOverModal() {
-        const modal = document.getElementById('playerAiModal'); // Aktualisierte ID
-        modal.classList.remove('hidden');
-        const winnerText = document.getElementById('playerAiWinner'); // Aktualisierte ID
-        winnerText.textContent = `${winner} wins!`;
-    
-        const restartButton = document.getElementById('playerAiRestart'); // "Neu starten"-Button
-        restartButton.onclick = function() {
-            modal.classList.add('hidden'); // Verstecke das Modal
-            resetGame(); // Rufe die Funktion zum Zurücksetzen des Spiels auf
-        };
+        const modal = document.getElementById('playerAiModal');
+        modal.style.display = 'block'; // Zeigt das Modal an
+        const winnerText = document.getElementById('playerAiWinner');
+        winnerText.textContent = `${winner} Congratulations!`;
     }
     
     function resetGame() {
@@ -183,10 +193,10 @@ function showPlayerAi1Page(){
         ball.speed = 7;
     
         player1.y = (canvas.height - 100) / 2; // Zurücksetzen der Position
-        player2.y = (canvas.height - 100) / 2; // Zurücksetzen der Position
+        CPU.y = (canvas.height - 100) / 2; // Zurücksetzen der Position
     
         player1.score = 0; // Zurücksetzen der Punktzahl
-        player2.score = 0; // Zurücksetzen der Punktzahl
+        CPU.score = 0; // Zurücksetzen der Punktzahl
     
         gameOver = false; // Spielende zurücksetzen
         winner = ''; // Gewinner zurücksetzen
