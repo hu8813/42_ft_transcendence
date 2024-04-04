@@ -24,7 +24,7 @@ async function displayLeaderboard() {
     leaderboardData.forEach(async (member, index) => {
       const row = document.createElement('tr');
       row.innerHTML = `
-        <td>${index + 1}</td>
+        <td>${index + 1}  &nbsp; ${index < 3 ? `<i class="bi bi-trophy-fill" style="color: ${index === 0 ? 'gold' : (index === 1 ? '#A7A7AD ' : '#A77044')}"></i>` : ''}</td>
         <td>
           <div class="c-media">
             <div class="c-avatar c-media__img" style="background-color: ${getRandomColor()}">
