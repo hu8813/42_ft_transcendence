@@ -617,9 +617,22 @@ function matchScoreCheck()
 		paddle2.scale.y = 2 + Math.abs(Math.sin(bounceTime * 0.05)) * 10;
 	}
 }
-window.addEventListener('keyup', function(event) { Key.onKeyup(event); }, false);
-window.addEventListener('keydown', function(event) { Key.onKeydown(event); }, false);
+window.addEventListener('keydown', function(event) {
+    if (event.key === 'ArrowLeft') {
+        Key.onKeydown(Key.LEFT_ARROW);
+    } else if (event.key === 'ArrowRight') {
+        Key.onKeydown(Key.RIGHT_ARROW);
+    }
+});
 
+// Event listener for keyup event
+window.addEventListener('keyup', function(event) {
+    if (event.key === 'ArrowLeft') {
+        Key.onKeyup(Key.LEFT_ARROW);
+    } else if (event.key === 'ArrowRight') {
+        Key.onKeyup(Key.RIGHT_ARROW);
+    }
+});
 
     setup();
 
