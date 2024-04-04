@@ -1,29 +1,21 @@
 
 .wrapperaboutus { 
-	max-width: 1000px; 
-	width: 80%; 
-	position: relative;
+	max-width: 1400px; 
+	width: 100%; 
+	margin: auto auto;
+	padding-top: 100px;
 } 
 
 .wrapperaboutus .carouselaboutus { 
 	display: grid; 
 	grid-auto-flow: column; 
-	grid-auto-columns: calc((100% / 4) - 12px); 
-	gap: 16px; 
-	overflow-x: auto; 
-	scroll-snap-type: x mandatory; 
-	scroll-behavior: smooth; 
-	scrollbar-width: 0;
-} 
-
-.carouselaboutus :where(.card, .img) { 
-	display: flex; 
-	align-items: center; 
-	justify-content: center; 
+	grid-auto-columns: calc((100% / 4) - 12px);
+	gap:20px;
+	padding-left: 0px;
 } 
 
 .carouselaboutus .card { 
-	height: 340px; 
+	height: 500px; 
 	list-style: none; 
 	background: #333; 
 	border-radius: 8px; 
@@ -34,47 +26,63 @@
 	align-items: center; 
 	justify-content: center; 
 	flex-direction: column;
-  border-color: whitesmoke;
-  border-style: solid;
+  	border-color: whitesmoke;
+  	border-style: double;
 } 
 
 .card .img { 
-	background: rgb(26, 26, 109); 
-	width: 145px; 
-	height: 145px; 
-	border-radius: 50%; 
+	width: 200px; 
+	height: 200px;
+	display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .card .img img {
-	width: 90%; 
-	height: 90%; 
+	width: 100%; 
+	height: 100%; 
 	object-fit: cover; 
 	border-radius: 50%; 
-	border: 4px solid whitesmoke; 
+	border: 6px double whitesmoke; 
 } 
 
-.card  :hover{
-	width: 90%; 
-	height: 90%; 
+.card .img :hover{
+	width: 150%; 
+	height: 150%; 
 	object-fit: cover; 
-	border-radius: 50%; 
-	border: 4px solid rgb(151, 14, 14); 
-  background-color: #333;
-  background: linear-gradient(
+	border-radius: 100%; 
+  	background-color: #333;
+	border-color: black;
+  	background: linear-gradient(
     45deg,
     #071cd8, #f5578b, #2f00ff, #00ff37,
-      #ec0808, #2600ff, #ad47a8, #2f00ff
+      #ec0808, #2600ff, #ad47a8, #2f00ff)
 } 
 
-
-.card span {
-  width: auto;
-  height: auto;
-	color: whitesmoke;
-	font-size: 16px;
-  text-align: center;
-  padding-top: 20px;
-}
+.card {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+  }
+  
+  .name {
+	margin-top: 10px; /* Adjust as needed */
+	text-align: center;
+  }
+  
+  .icon-container {
+	margin-top: 10px; /* Adjust as needed */
+	display: flex;
+	gap: 10px; /* Adjust as needed */
+  }
+  
+  .icon {
+	font-size: 24px;
+	color: black;
+  }
+  
 
 
 @media screen and (max-width: 900px) { 
