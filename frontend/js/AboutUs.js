@@ -102,5 +102,5 @@ function showAboutUsPage() {
 
     title.style.textAlign = "center";
     title.style.fontSize = "50px";
-
+    title.classList.add('animated-title');
 }
