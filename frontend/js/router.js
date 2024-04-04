@@ -165,6 +165,9 @@ const handleLocation = async () => {
     case "#aboutus":
       showAboutUsPage();
       break;
+    case '#play!':
+      showGameModes();
+      break;
     default:
       break;
   }
