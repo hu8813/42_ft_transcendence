@@ -30,7 +30,7 @@ function showPongEhab() {
       score: 0
     };
 
-    const ai = {
+    const player2 = {
       x: canvas.width - (paddleWidth + 10),
       y: canvas.height / 2 - paddleHeight / 2,
       width: paddleWidth,
@@ -139,7 +139,7 @@ function showPongEhab() {
     
 
     function checkGameOver() {
-        if (user.score === 7 || ai.score === 7) {
+        if (user.score === 7 || player2.score === 7) {
             gameOver = true;
             let winner = user.score === 7 ? "Spieler 1 gewinnt!" : "Spieler 2 gewinnt!";
             ctx.fillStyle = 'white';
@@ -165,10 +165,10 @@ function update() {
             user.y += 8;
         }
 
-        if (upArrowPressed && ai.y > 0) {
-            ai.y -= 8;
-        } else if (downArrowPressed && (ai.y < canvas.height - ai.height)) {
-            ai.y += 8;
+        if (upArrowPressed && player2.y > 0) {
+          player2.y -= 8;
+        } else if (downArrowPressed && (player2.y < canvas.height - player2.height)) {
+          player2.y += 8;
         }
 
         // Bewegung des Balls
@@ -185,12 +185,12 @@ function update() {
             user.score += 1;
             reset();
         } else if (ball.x - ball.radius <= 0) {
-            ai.score += 1;
+          player2.score += 1;
             reset();
         }
 
         // Kollisionsdetektion mit den Schlägern
-        let player = (ball.x < canvas.width / 2) ? user : ai;
+        let player = (ball.x < canvas.width / 2) ? user : player2;
         if (collisionDetect(player, ball)) {
             // Ballrichtung ändern
             let angle = 0;
@@ -211,7 +211,7 @@ function update() {
 }
 
 function checkGameOver() {
-    if (user.score === 7 || ai.score === 7) {
+    if (user.score === 7 || player2.score === 7) {
         gameOver = true;
         ctx.fillStyle = '#FFF';
         ctx.font = '48px Arial';
@@ -259,9 +259,9 @@ requestAnimationFrame(gameLoop);
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       drawNet();
       drawScore(canvas.width / 4, canvas.height / 6, user.score);
-      drawScore(3 * canvas.width / 4, canvas.height / 6, ai.score);
+      drawScore(3 * canvas.width / 4, canvas.height / 6, player2.score);
       drawPaddle(user.x, user.y, user.width, user.height, user.color);
-      drawPaddle(ai.x, ai.y, ai.width, ai.height, ai.color);
+      drawPaddle(player2.x, player2.y, player2.width, player2.height, player2.color);
       drawBall(ball.x, ball.y, ball.radius, ball.color);
     }
 
