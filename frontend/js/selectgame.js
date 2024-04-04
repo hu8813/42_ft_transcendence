@@ -2,22 +2,22 @@ function showGameModes() {
     const cardsData = [
         {
             text: "Training",
-            imgPlaceholder: 'https://via.placeholder.com/150',
+            imgPlaceholder: '../src/cpu.jpeg',
             href: "#player3d1",
         },
         {
             text: "Single Player",
-            imgPlaceholder: 'https://via.placeholder.com/150',
+            imgPlaceholder: '../src/playagainst.jpeg',
             href: "#playerai1",
         },
         {
             text: "Multiplayer",
-            imgPlaceholder: 'https://via.placeholder.com/150',
+            imgPlaceholder: './src/multiplayer.jpeg',
             href: "#pongehab",
         },
         {
             text: "Tournament",
-            imgPlaceholder: 'https://via.placeholder.com/150',
+            imgPlaceholder: './src/tournament.jpeg',
             href: "#playersremote2",
         },
     ];
@@ -32,7 +32,8 @@ function showGameModes() {
         const link = document.createElement('a'); // Create <a> element
         link.href = data.href; // Set href attribute
         link.classList.add('link'); // Add a class for styling (optional)
-    
+        link.classList.add('bn'); // Add the custom class for styling
+        
         const textDiv = document.createElement('div');
         textDiv.classList.add('text');
         textDiv.textContent = data.text;
