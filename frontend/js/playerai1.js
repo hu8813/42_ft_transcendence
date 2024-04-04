@@ -12,8 +12,8 @@ function showPlayerAi1Page(){
         x: canvas.width / 2,
         y: canvas.height / 2,
         radius: 10,
-        velocityX: 5,
-        velocityY: 5,
+        velocityX: 9,
+        velocityY: 9,
         speed: 7,
         color: "#FFF"
     };
@@ -100,7 +100,7 @@ function showPlayerAi1Page(){
     const update = () => {
         if (player1.score === 7 || CPU.score === 7) {
             gameOver = true;
-            winner = player1.score === 7 ? "Player 1 wins!" : "CPU wins!";
+            winner = player1.score === 7 ? "Player 1 " : "CPU ";
             showGameOver(); // Eine Funktion, um den Gewinner anzuzeigen und den "Neues Spiel" Button einzublenden
             return; // Stoppt die Update-Funktion, um weitere Bewegungen zu verhindern
         } 
@@ -170,18 +170,11 @@ function showPlayerAi1Page(){
         }
     };
 
-    /* function showGameOverModal() {
-        const modal = document.getElementById('playerAiModal'); // Aktualisierte ID
-        modal.classList.remove('hidden');
-        const winnerText = document.getElementById('playerAiWinner'); // Aktualisierte ID
-        winnerText.textContent = `${winner} wins!`;
-        // Hinzufügen von EventListener zu "Neu starten"-Button...
-    } */
     function showGameOverModal() {
         const modal = document.getElementById('playerAiModal');
         modal.style.display = 'block'; // Zeigt das Modal an
         const winnerText = document.getElementById('playerAiWinner');
-        winnerText.textContent = `${winner} Congratulations!`;
+        winnerText.textContent = `${winner} wins!`;
     }
     
     function resetGame() {
