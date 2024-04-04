@@ -12,7 +12,7 @@ function showPlayerAi1Page(){
         x: canvas.width / 2,
         y: canvas.height / 2,
         radius: 10,
-        velocityX: 9,
+        velocityX: 7,
         velocityY: 9,
         speed: 7,
         color: "#FFF"
