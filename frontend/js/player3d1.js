@@ -26,6 +26,66 @@ var difficulty = 0.8;
 
 
 
+var Key = {
+    _pressed: {},
+  
+    LEFT_ARROW: 37,
+    RIGHT_ARROW: 39,
+    
+    isDown: function(keyCode) {
+      return this._pressed[keyCode];
+    },
+    
+    onKeydown: function(keyCode) {
+      this._pressed[keyCode] = true;
+    },
+    
+    onKeyup: function(keyCode) {
+      delete this._pressed[keyCode];
+    }
+  };
+
+// Move Left Button
+document.getElementById('moveLeftButton').addEventListener('touchstart', function() {
+    Key.onKeydown(Key.LEFT_ARROW);
+});
+
+document.getElementById('moveLeftButton').addEventListener('mousedown', function() {
+    Key.onKeydown(Key.LEFT_ARROW);
+});
+
+document.getElementById('moveLeftButton').addEventListener('touchend', function() {
+    Key.onKeyup(Key.LEFT_ARROW);
+});
+
+document.getElementById('moveLeftButton').addEventListener('mouseup', function() {
+    Key.onKeyup(Key.LEFT_ARROW);
+});
+
+document.getElementById('moveLeftButton').addEventListener('click', function() {
+    Key.onKeyup(Key.LEFT_ARROW);
+});
+
+// Move Right Button
+document.getElementById('moveRightButton').addEventListener('touchstart', function() {
+    Key.onKeydown(Key.RIGHT_ARROW);
+});
+
+document.getElementById('moveRightButton').addEventListener('mousedown', function() {
+    Key.onKeydown(Key.RIGHT_ARROW);
+});
+
+document.getElementById('moveRightButton').addEventListener('touchend', function() {
+    Key.onKeyup(Key.RIGHT_ARROW);
+});
+
+document.getElementById('moveRightButton').addEventListener('mouseup', function() {
+    Key.onKeyup(Key.RIGHT_ARROW);
+});
+
+document.getElementById('moveRightButton').addEventListener('click', function() {
+    Key.onKeyup(Key.RIGHT_ARROW);
+});
 
 
 function setup()
@@ -560,25 +620,7 @@ function matchScoreCheck()
 window.addEventListener('keyup', function(event) { Key.onKeyup(event); }, false);
 window.addEventListener('keydown', function(event) { Key.onKeydown(event); }, false);
 
-var Key = {
-  _pressed: {},
 
-  LEFT_ARROW: 37,
-  RIGHT_ARROW: 39,
-  SPACE: 32,
-  
-  isDown: function(keyCode) {
-    return this._pressed[keyCode];
-  },
-  
-  onKeydown: function(event) {
-    this._pressed[event.keyCode] = true;
-  },
-  
-  onKeyup: function(event) {
-    delete this._pressed[event.keyCode];
-  }
-};
     setup();
 
     };
