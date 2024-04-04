@@ -6,9 +6,11 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 #from socketio import views as socketio_views
 
+handler404 = 'myapp.views.custom_404'
 
 
 urlpatterns = [
+    path('', views.home, name='home'),
     path('admin/', admin.site.urls),
     path('login/', views.login_view, name='login'),
     path('ping/', views.login_view, name='ping'),

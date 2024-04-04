@@ -2,7 +2,7 @@
 
 {% block content %}
 <div id="login-form">
-    <h1>{% trans 'Log in' %}</h1>
+    <h1>Log in</h1>
     {% if form.errors %}
         <p class="errornote">{{ form.errors }}</p>
     {% endif %}
@@ -11,16 +11,16 @@
         {{ form.non_field_errors }}
         <div class="fieldWrapper">
             {{ form.username.errors }}
-            <label for="id_username">{% trans 'Username:' %}</label>
+            <label for="id_username">Username:</label>
             {{ form.username }}
         </div>
         <div class="fieldWrapper">
             {{ form.password.errors }}
-            <label for="id_password">{% trans 'Password:' %}</label>
+            <label for="id_password">Password:</label>
             {{ form.password }}
         </div>
         <div class="submit-row">
-            <input type="submit" value="{% trans 'Log in' %}" />
+            <input type="submit" value="Log in" />
             {% if redirect_field_value %}
                 <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
             {% endif %}

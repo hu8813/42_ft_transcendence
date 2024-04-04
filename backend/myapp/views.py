@@ -500,6 +500,14 @@ def get_game_state(request):
 waiting_queue = []
 
 @csrf_exempt
+def home(request):
+    return render(request, 'home.html')
+
+@csrf_exempt
+def custom_404(request, exception):
+    return render(request, '404.html', status=404)
+
+@csrf_exempt
 def check_player_waiting(request, user_login):
     global waiting_queue
 
