@@ -2,6 +2,29 @@
   "home": {
     "welcome": "Pong Oyununa Hoş Geldiniz!"
   },
+  "imprints": {
+      "imprintTitle": "İmza",
+      "imprintline1": "Bu web sitesi eğitim amaçları için oluşturulmuş bir proje olan \"Transcendence\" adlı bir projedir.",
+      "contactinfo": "İletişim Bilgileri",
+      "contactinfo1": "Bu proje ile ilgili herhangi bir sorunuz veya endişeniz varsa, bize e-posta yoluyla ulaşabilirsiniz: ",
+      "disclaimer": "Reddiye",
+      "disclaimer1": "Bu proje yalnızca kodlama öğrenme ve eğitim amaçları içindir. Herhangi bir ticari kullanım veya üretim dağıtımı için değildir."
+  },
+  "privacy": {
+      "privpol": "Gizlilik Politikası",
+      "privpolline1": "Gizliliğiniz bizim için önemlidir. Transcendence'in politikası, web sitemizde sizden toplayabileceğimiz herhangi bir bilgiyle ilgili gizliliğinizi saygıyla karşılamaktır.",
+      "infocollect": "Topladığımız Bilgiler",
+      "infocollectline1": "Sadece bize sağladığınız kişisel bilgileri topluyoruz. Bu şunları içerebilir:",
+      "infocollectuser": "• Kullanıcı adı",
+      "infocollectemail": "• E-posta adresi",
+      "infocollectphoto": "• Profil fotoğrafı",
+      "deleting": "Profilinizi Silme",
+      "deletingline1": "Profilinizi silmek istiyorsanız, lütfen sağlanan \"Profili Sil\" düğmesine tıklayın. Tıkladıktan sonra, profil bilgileriniz kalıcı olarak sistemimizden kaldırılacaktır.",
+      "deployinfo": "Dağıtım Bilgileri",
+      "deployinfoline1": "Lütfen Transcendence'in bir okul projesi olduğunu ve üretim için amaçlanmadığını unutmayın. Sadece eğitim amaçlarıyla dağıtılmıştır.",
+      "contactus": "Bize Ulaşın",
+      "contactusline1": "Bu Gizlilik Politikası ile ilgili herhangi bir sorunuz varsa, lütfen bize e-posta ile ulaşın: "
+  },
   "auth": {
     "email": "E-posta",
     "logouttitle": "Çıkış Yap",

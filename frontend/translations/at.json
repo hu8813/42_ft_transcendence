@@ -2,6 +2,29 @@
   "home": {
     "welcome": "Willkommen beim Pong-Spiel!"
   },
+  "imprints": {
+    "imprintTitle": "Impressum",
+    "imprintline1": "Diese Website ist ein Projekt namens \"Transcendence\", das zu Bildungszwecken erstellt wurde.",
+    "contactinfo": "Kontaktinformationen",
+    "contactinfo1": "Wenn Sie Fragen oder Bedenken bezüglich dieses Projekts haben, können Sie uns per E-Mail unter ",
+    "disclaimer": "Haftungsausschluss",
+    "disclaimer1": "Dieses Projekt dient ausschließlich dem Erlernen von Programmierung und Bildungszwecken. Es ist nicht für kommerzielle Nutzung oder Produktionsbereitstellung vorgesehen."
+},
+  "privacy": {
+    "privpol": "Datenschutzrichtlinie",
+    "privpolline1": "Ihre Privatsphäre ist uns wichtig. Es ist die Politik von Transcendence, Ihre Privatsphäre in Bezug auf alle Informationen zu respektieren, die wir von Ihnen über unsere Website erfassen können.",
+    "infocollect": "Informationen, die wir sammeln",
+    "infocollectline1": "Wir sammeln nur die persönlichen Informationen, die Sie uns zur Verfügung stellen. Dies kann Folgendes umfassen:",
+    "infocollectuser": "• Benutzername",
+    "infocollectemail": "• E-Mail-Adresse",
+    "infocollectphoto": "• Profilfoto",
+    "deleting": "Löschen Ihres Profils",
+    "deletingline1": "Wenn Sie Ihr Profil löschen möchten, klicken Sie bitte auf die Schaltfläche \"Profil löschen\", die bereitgestellt wird. Nach dem Klicken werden Ihre Profilinformationen dauerhaft aus unserem System entfernt.",
+    "deployinfo": "Bereitstellungsinformationen",
+    "deployinfoline1": "Bitte beachten Sie, dass Transcendence ein Schulprojekt ist und nicht für die Produktion gedacht ist. Es wird ausschließlich zu Bildungszwecken bereitgestellt.",
+    "contactus": "Kontaktieren Sie uns",
+    "contactusline1": "Wenn Sie Fragen zu dieser Datenschutzrichtlinie haben, kontaktieren Sie uns bitte per E-Mail unter "
+},
   "auth": {
     "email": "E-Mail",
     "logouttitle": "Abmelden",
