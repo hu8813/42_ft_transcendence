@@ -10,6 +10,14 @@ function openChat() {
     const sendBtn = document.getElementById('send-btn');
 
 
+    const iframe = document.createElement("iframe");
+    iframe.src = "https://pong42.azurewebsites.net/chat/"; // Replace with your URL
+    iframe.width = "100%";
+    iframe.height = "100%"; // Adjust height as needed
+
+    // Append iframe to msger-chat
+    msgerChat.appendChild(iframe);
+
     const WebSocketInstance = {
         newChatMessage: function (message) {
             console.log("Sending message to WebSocket:", message);

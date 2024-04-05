@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Messages</title>
+    <!-- load static -->
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <!-- link to h=css file -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+<body>
+    <div class="parent">
+        <div class="child-2">
+            <center><h2>Chats</h2></center><hr>
+            <div class="chat-body-parent">
+                <div class="chat-body" id="tasks">
+                    <div class="message">
+                      <!-- received messages and displayed here -->
+                        {% for i in messages %}
+                            {% if i.sender != user %}
+                                <div class="receive">
+                                    <p style="color: #000;"> {{i.message}}<strong>-{{i.sender}}</strong></p>
+                                </div>
+                            {% else %}
+                                <div class="send">
+                                    <p style="color: #000;">{{i.message}}</p>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    <!-- end receive messages -->
+                    
+                
+                    </div>
+
+                    <div class="form">
+                        <form action="" id="message" method="POST">
+                            {% csrf_token %}
+                            <textarea id="msg" cols="30" name="message" rows="10" placeholder="Enter your message" required></textarea>
+                            <button class="submit" type="submit">Send</button>
+                        </form>    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="{% static 'mainn.js' %}"></script>
+</html>

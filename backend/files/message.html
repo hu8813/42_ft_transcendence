@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Messages</title>
+    <!-- load static -->
+
+    <!-- link to h=css file -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+<body>
+    <div class="parent">
+        <div class="child-2">
+            <center><h2>Chats</h2></center><hr>
+            <div class="chat-body-parent">
+                <div class="chat-body" id="tasks">
+                    <div class="message">
+                      <!-- received messages and displayed here -->
+                          <div class="receive">
+                              <p style="color: #000;"> <strong></strong></p>
+                          </div>
+                    <!-- end receive messages -->
+                    
+                    <!-- messages sent from user are displayed here -->
+                          <div class="send">
+                              <p style="color: #000;"></p>
+                          </div>
+                     <!-- end sent messages  -->
+                    </div>
+
+                    <div class="form">
+                        <form action="" id="message" method="POST">
+                            <textarea id="msg" cols="30" rows="10" placeholder="Enter your message" required></textarea>
+                            <button class="submit" type="submit">Send</button>
+                        </form>    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
