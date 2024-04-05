@@ -20,7 +20,6 @@ from .forms import UserRegistrationForm
 from .models import Tournament, User  # Change import here
 from .serializers import TournamentSerializer
 from .models import Player, WaitingPlayer
-from .models import Room, Message
 
 
 token_obtain_pair_view = TokenObtainPairView.as_view()

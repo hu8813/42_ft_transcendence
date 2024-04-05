@@ -11,8 +11,6 @@ handler404 = 'myapp.views.custom_404'
 
 urlpatterns = [
     path('', views.home, name='home'),
-    path('<str:room_name>/<str:username>/', views.MessageView, name='room'),
-    path('chat/', views.ChatPage, name='chat'),
     path('admin/', admin.site.urls),
     path('login/', views.login_view, name='login'),
     path('ping/', views.login_view, name='ping'),
