@@ -1,5 +1,5 @@
 function showPong3() {
-    const canvas = document.getElementById('canvasehab');
+    const canvas = document.getElementById('canvasp3');
     const ctx = canvas.getContext('2d');
     canvas.width = 800;
     canvas.height = 600;
