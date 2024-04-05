@@ -27,28 +27,33 @@ function showGameModes() {
 
     cardsData.forEach(data => {
         const card = document.createElement('div');
-        card.classList.add('card', 'bn');
-    
-        const link = document.createElement('a'); // Create <a> element
-        link.href = data.href; // Set href attribute
-        link.classList.add('link'); // Add a class for styling (optional)
-        link.classList.add('bn'); // Add the custom class for styling
-        
+        card.classList.add('bn');
+        card.style.padding = "50px";
+        const link = document.createElement('a');
+        link.href = data.href; 
+        link.classList.add('link');
+        link.style.textDecoration = "none";         
         const textDiv = document.createElement('div');
         textDiv.classList.add('text');
         textDiv.textContent = data.text;
-        link.appendChild(textDiv); // Append textDiv to the link element
+        textDiv.style.textAlign = "center";
+        textDiv.style.color = "white";
+        textDiv.style.paddingBottom = "10px";
+        link.appendChild(textDiv); 
     
         const imgDiv = document.createElement('div');
-        imgDiv.classList.add('img', 'bn');
+        imgDiv.style.display = "flex";
+        imgDiv.style.justifyContent = "center";
         const img = document.createElement('img');
         img.src = data.imgPlaceholder;
         img.alt = 'Image Placeholder';
+        img.style.width = "150px";
+        img.style.height = "150px";
+        link.appendChild(imgDiv); 
         imgDiv.appendChild(img);
-        link.appendChild(imgDiv); // Append imgDiv to the link element
     
-        card.appendChild(link); // Append the link element to the card
-    
+        card.appendChild(link); 
+        card.style.borderStyle = "solid";
         cardsContainer.appendChild(card);
     });
     
