@@ -11,7 +11,7 @@ function openChat() {
 
 
     const iframe = document.createElement("iframe");
-    iframe.src = "https://pong42.vercel.app/chat/"; // Replace with your URL
+    iframe.src = "https://pong42.azurewebsites.net/chat/"; // Replace with your URL
     iframe.width = "100%";
     iframe.height = "100%"; // Adjust height as needed
 
