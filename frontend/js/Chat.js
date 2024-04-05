@@ -16,7 +16,7 @@ function openChat() {
     iframe.height = "100%"; // Adjust height as needed
 
     // Append iframe to msger-chat
-    msgerChat.appendChild(iframe);
+    //msgerChat.appendChild(iframe);
 
     const WebSocketInstance = {
         newChatMessage: function (message) {

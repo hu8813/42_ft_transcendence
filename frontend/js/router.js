@@ -22,8 +22,11 @@ const routes = {
 };
 
 let translationsCache = {}; 
-let currentLanguage = 'en'; 
+let currentLanguage = '';
 
+if (!currentLanguage) {
+    currentLanguage = 'en';
+}
 const currentURL = window.location.href;
 let backendURL = "";
 const privateIPRegex = /^(10\.|192\.168\.|172\.(1[6-9]|2[0-9]|3[0-1])\.)/;
