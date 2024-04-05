@@ -14,5 +14,5 @@ $(document).on('submit', '#message', function(e){
 $(document).ready(function(){
     setInterval(function(){
         $( ".message" ).load(window.location.href + " .message" );
-    }, 10000)
+    }, 1000)
 })
