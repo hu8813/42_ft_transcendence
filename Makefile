@@ -1,7 +1,4 @@
-up:
-	@if [ ! -f ".env" ] || [ ! -f "backend/.env" ]; then \
-		./src/check_env.sh; \
-	fi
+up: check_env
 	@export VOLUME_PATH=$HOME/volumes 	
 	@mkdir -p $HOME/volumes/grafana
 	@mkdir -p $HOME/volumes/prometheus
@@ -10,6 +7,19 @@ up:
 #	@open http://localhost:9090/ || true
 #	@echo "Open: https://localhost:8443/"
 	docker compose up
+
+
+check_env:
+	@if [ ! -f ".env" ]; then \
+		if [ -f "sample.env" ]; then \
+			cp sample.env .env; \
+			echo "Copied sample.env to .env"; \
+		else \
+			echo "sample.env not found, please create it"; \
+		fi; \
+		./src/check_env.sh; \
+	fi
+
 
 down:
 	docker compose down
