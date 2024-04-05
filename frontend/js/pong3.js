@@ -9,11 +9,10 @@ function showPong3() {
     let upArrowPressed = false;
     let downArrowPressed = false;
 
-    const netWidth = 4;
-    const netHeight = canvas.height;
-
+    // Schläger und Ball Setup
     const paddleWidth = 10;
-    const paddleHeight = 50;
+    const paddleHeight = 50;  // Angleichen der Größe des dritten Schlägers
+    const ballRadius = 7;
 
     const user = {
         x: 10,
@@ -25,7 +24,7 @@ function showPong3() {
     };
 
     const player2 = {
-        x: canvas.width - (paddleWidth + 10),
+        x: canvas.width - paddleWidth - 10,  // Spieler 2 (Rechts)
         y: canvas.height / 2 - paddleHeight / 2,
         width: paddleWidth,
         height: paddleHeight,
@@ -35,9 +34,9 @@ function showPong3() {
 
     // Dritter Spieler am unteren Rand
     const player3 = {
-        x: canvas.width / 2 - 50 / 2,
+        x: canvas.width / 2 - paddleWidth / 2,  // Spieler 3 (Unten)
         y: canvas.height - paddleHeight - 10,
-        width: 100,
+        width: paddleWidth,  // Anpassung der Breite des dritten Schlägers
         height: paddleHeight,
         color: '#FFF',
     };
@@ -45,7 +44,7 @@ function showPong3() {
     const ball = {
         x: canvas.width / 2,
         y: canvas.height / 2,
-        radius: 7,
+        radius: ballRadius,
         speed: 7,
         velocityX: 5,
         velocityY: 5,
