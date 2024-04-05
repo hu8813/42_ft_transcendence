@@ -11,15 +11,41 @@ function showGameModes() {
             href: "#playerai1",
         },
         {
-            text: "Multiplayer (locally)",
-            imgPlaceholder: './src/multiplayer.jpeg',
+            text: "Multiplayer 2 Players (local)",
+            imgPlaceholder: './src/tournament.jpeg',
             href: "#pongehab",
         },
         {
-            text: "Tournament (remote)",
-            imgPlaceholder: './src/tournament.jpeg',
-            href: "#playersremote2",
+            text: "Multiplayer 3 Players (local)",
+            imgPlaceholder: './src/multiplayer.jpeg',
+            href: "#pong3",
         },
+        {
+            text: "Multiplayer 4 Players (local)",
+            imgPlaceholder: './src/multiplayer.jpeg',
+            href: "#pong4",
+        },
+        {
+            text: "Tic Tac toe",
+            imgPlaceholder: './src/multiplayer.jpeg',
+            href: "#xoxo",
+        },
+        {
+            text: "Tic Tac toe",
+            imgPlaceholder: './src/multiplayer.jpeg',
+            href: "#xoxo",
+        },
+        {
+            text: "Tic Tac toe",
+            imgPlaceholder: './src/multiplayer.jpeg',
+            href: "#xoxo",
+        },
+        {
+            text: "Tic Tac toe",
+            imgPlaceholder: './src/multiplayer.jpeg',
+            href: "#xoxo",
+        },
+        
     ];
 
     const container = document.querySelector('.gameModes');
@@ -28,7 +54,7 @@ function showGameModes() {
     cardsData.forEach(data => {
         const card = document.createElement('div');
         card.classList.add('bn');
-        card.style.padding = "50px";
+        card.style.padding = "5px";
         const link = document.createElement('a');
         link.href = data.href; 
         link.classList.add('link');
@@ -67,7 +93,7 @@ function showGameModes() {
     title.classList.add('animated-title');
     
     cardsContainer.style.display = "grid";
-    cardsContainer.style.gridTemplateColumns = "repeat(2, 2fr)";
+    cardsContainer.style.gridTemplateColumns = "repeat(3, 2fr)";
     cardsContainer.style.gap = "20px";
     cardsContainer.style.padding = "0px 10px";
 }

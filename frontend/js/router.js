@@ -19,6 +19,7 @@ const routes = {
   "#playerai1": "/views/playerai1.html",
   "#playersremote2": "/views/playersremote2.html",
   "#aboutus": "/views/aboutus.html",
+  "#pong3": "/views/pong3.html",
 };
 
 let translationsCache = {}; 
@@ -170,6 +171,9 @@ const handleLocation = async () => {
       break;
     case '#play!':
       showGameModes();
+      break;
+    case '#pong3':
+      showPong3();
       break;
     default:
       break;
