@@ -166,7 +166,8 @@ const handleLocation = async () => {
     case "#player3d1":
       showPlayer3d1Page();
       break;
-    case "#aboutus":
+    
+      case "#aboutus":
       showAboutUsPage();
       break;
     case '#play!':
