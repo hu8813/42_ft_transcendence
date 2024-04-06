@@ -27,11 +27,11 @@ down:
 clean:
 	@docker compose down --volumes
 	@echo "Stopping and removing specific containers..."
-	@docker stop tmp-nginx tmp-backend postgres > /dev/null 2>&1 || true
-	@docker rm tmp-nginx tmp-backend postgres > /dev/null 2>&1 || true
-	@docker image rm tmp-nginx tmp-backend postgres > /dev/null 2>&1 || true
+	@docker stop pong42-nginx pong42-backend postgres > /dev/null 2>&1 || true
+	@docker rm pong42-nginx pong42-backend postgres > /dev/null 2>&1 || true
+	@docker image rm pong42-nginx pong42-backend postgres > /dev/null 2>&1 || true
 	@echo "Removing volumes associated with the containers..."
-	@VOLUMES=$$(docker volume ls -q | grep -E 'tmp-(nginx|backend|postgres)'); \
+	@VOLUMES=$$(docker volume ls -q | grep -E 'pong42-(nginx|backend|postgres)'); \
 	if [ -n "$$VOLUMES" ]; then \
 		docker volume rm $$VOLUMES > /dev/null 2>&1; \
 	else \
