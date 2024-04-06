@@ -60,6 +60,8 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+    'channels.middleware.AuthMiddlewareStack',
+    'channels.middleware.URLRouter',
 ]
 
 ROOT_URLCONF = 'myproject.urls'
@@ -84,11 +86,8 @@ WSGI_APPLICATION = 'myproject.wsgi.application'
 ASGI_APPLICATION = 'myproject.routing.application'
 
 CHANNEL_LAYERS = {
-    'default': {
-        'BACKEND': 'channels_redis.core.RedisChannelLayer',
-        'CONFIG': {
-            "hosts": [('127.0.0.1', 6378)],
-        },
+     'default': {
+        'BACKEND': 'channels.layers.InMemoryChannelLayer', # You can also use other backends like Redis
     },
 }
 

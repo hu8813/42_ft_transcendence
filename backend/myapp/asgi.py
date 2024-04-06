@@ -22,7 +22,6 @@ application = get_asgi_application()
 
 application = ProtocolTypeRouter({
   "http": get_asgi_application(),
-  # Hier kannst du für Channels bestimmte Routen hinzufügen
   "websocket": AuthMiddlewareStack(
         URLRouter(
             myapp.routing.websocket_urlpatterns

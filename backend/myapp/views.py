@@ -26,6 +26,10 @@ token_obtain_pair_view = TokenObtainPairView.as_view()
 token_refresh_view = TokenRefreshView.as_view()
 
 @csrf_exempt
+def chat(request):
+    return render(request, 'chatpage.html')
+
+@csrf_exempt
 def signin42b(request):
     # Retrieve the redirect URI and client ID from environment variables
     redirect_uri = os.getenv('VANILLA_REDIRECT_URI')
