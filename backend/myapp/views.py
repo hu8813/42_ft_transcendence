@@ -50,6 +50,30 @@ def chat(request):
     return render(request, 'chatpage.html')
 
 @csrf_exempt
+def get_profile_info(request):
+    # Get the username from the request parameters
+    username = request.GET.get('username')
+    
+    # Check if username parameter is provided
+    if not username:
+        return JsonResponse({'error': 'Username parameter is missing'}, status=400)
+    
+    # Query the database for a user with the given username
+    try:
+        user = User.objects.get(username=username)
+        user_info = {
+            'nickname': user.profile.nickname,
+            'login': user.username,
+            'score': user.profile.score,
+            # Add other non-sensitive user profile fields as needed
+        }
+        return JsonResponse({'user': user_info})
+    except User.DoesNotExist:
+        return JsonResponse({'error': 'User not found'}, status=404)
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)
+
+@csrf_exempt
 def signin42b(request):
     # Retrieve the redirect URI and client ID from environment variables
     redirect_uri = os.getenv('VANILLA_REDIRECT_URI')

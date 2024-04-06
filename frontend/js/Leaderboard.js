@@ -10,17 +10,19 @@ async function fetchLeaderboardData() {
   }
 }
 
+function openProfile(username) {
+  window.open(`#viewprofile?u=${username}`, '_blank');
+}
+
 async function displayLeaderboard() {
   const leaderboardBody = document.getElementById('leaderboard-body');
 
-  
   if (!leaderboardData || leaderboardData.length === 0) {
-    
     await fetchLeaderboardData();
   }
 
   if (leaderboardData && leaderboardData.length > 0) {
-    leaderboardBody.innerHTML = ''; 
+    leaderboardBody.innerHTML = '';
     leaderboardData.forEach(async (member, index) => {
       const row = document.createElement('tr');
       row.innerHTML = `
@@ -31,19 +33,29 @@ async function displayLeaderboard() {
               ${member.image_link ? `<img style="width: 55px; height: 55px; max-width: 55px; max-height: 55px;" src="${member.image_link}" alt="${member.username}" />` : `<div class="default-profile-pic"></div>`}
             </div>
             <div class="c-media__content">
-              <div class="c-media__title"><button class="button bn" title="View Profile"><span class="bi bi-person"></span></button> ${member.username}</div>
+              <div class="c-media__title"><button class="button bn view-profile-btn" data-username="${member.username}" title="View Profile"><span class="bi bi-person"></span></button> ${member.username}</div>
             </div>
           </div>
         </td>
         <td>${member.score || 0}</td>
-        <td>${await calculateDaysSinceJoining(member.date_joined)}</td> <!-- Await the result of calculateDaysSinceJoining -->
+        <td>${await calculateDaysSinceJoining(member.date_joined)}</td>
       `;
       leaderboardBody.appendChild(row);
+    });
+
+    // Add event listeners to view profile buttons
+    const viewProfileButtons = document.querySelectorAll('.view-profile-btn');
+    viewProfileButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        const username = button.getAttribute('data-username');
+        openProfile(username);
+      });
     });
   } else {
     leaderboardBody.innerHTML = '<tr><td colspan="7">No data available</td></tr>';
   }
 }
+
 
 
 function getRandomColor() {
@@ -58,7 +70,7 @@ async function calculateDaysSinceJoining(dateString) {
   const daysDifference = Math.floor(timeDifference / (1000 * 3600 * 24));
 
   
-  const percentage = (daysDifference / 50) * 100; 
+  const percentage = ((daysDifference + 1) / 50) * 100; 
 
   
   const days_since = await translateKey('leaderboard.days');

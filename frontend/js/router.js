@@ -20,6 +20,7 @@ const routes = {
   "#playersremote2": "/views/playersremote2.html",
   "#aboutus": "/views/aboutus.html",
   "#pong3": "/views/pong3.html",
+  "#viewprofile": "/views/viewprofile.html",
 };
 
 let translationsCache = {}; 
@@ -154,7 +155,17 @@ const handleLocation = async () => {
   switch(path) {
     case "#profile":
       if (localStorage.getItem("isLoggedIn") === "true") {
-          fetchAndDisplayProfile();
+        fetchAndDisplayProfile();
+      }
+      break;
+    case "#viewprofile":
+      const params = new URLSearchParams(window.location.search);
+      const username = params.get('u');
+      
+      if(username) {
+        await fetchAndDisplayViewProfile(username);
+      } else {
+        // Handle scenario where no username is provided
       }
       break;
     case "#leaderboard":
@@ -200,6 +211,7 @@ const handleLocation = async () => {
       break;
   }
 };
+
 
 handleLocation();
 
