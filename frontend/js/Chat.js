@@ -222,7 +222,7 @@ function sendMessageFromInput() {
             const profileButton = document.createElement('button');
             profileButton.textContent = 'Show Profile';
             profileButton.addEventListener('click', () => {
-                window.open(`viewprofile?u=${selectedUser}`, '_blank');
+                window.open(`#viewprofile?u=${selectedUser}`, '_blank');
             });
             profileButton.classList.add('msger-send-btn'); // Add the CSS class to style it like the other buttons
 
