@@ -72,18 +72,26 @@ function openChat() {
         sendMessage(newMessage);
     }
 
+
+    function formatDate(date) {
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        const hours = String(date.getHours()).padStart(2, '0');
+        const minutes = String(date.getMinutes()).padStart(2, '0');
+        
+        return `${day}-${month} ${hours}:${minutes}`;
+    }
+    
     function fetchMessages() {
         fetch(apiUrl)
             .then(response => response.json())
             .then(messages => {
                 msgerChat.innerHTML = ''; // Clear chat window before adding messages
                 messages.forEach(message => {
-                    // Check if the created_at field is a valid date string
+                    // Parse the created_at field manually
                     const createdAt = message.created_at ? new Date(message.created_at) : null;
-                    const formattedCreatedAt = createdAt instanceof Date && !isNaN(createdAt) ?
-                        createdAt.toLocaleTimeString('de-AT', { timeZone: 'Europe/Vienna', hour12: false, hour: '2-digit', minute: '2-digit' }) :
-                        '';
-                    
+                    const formattedCreatedAt = createdAt ? formatDate(createdAt) : '';
+    
                     // Format the created_at field of each message
                     const formattedMessage = {
                         ...message,
@@ -98,9 +106,9 @@ function openChat() {
     
     
 
-    // Fetch messages initially and every 10 seconds
+    // Fetch messages initially and every X seconds
     fetchMessages();
-    fetchMessagesInterval = setInterval(fetchMessages, 1000);
+    fetchMessagesInterval = setInterval(fetchMessages, 3000);
 
     window.addEventListener('unload', () => {
         clearInterval(fetchMessagesInterval); // Clear the interval when the page is unloaded

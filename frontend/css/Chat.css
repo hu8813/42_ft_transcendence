@@ -34,8 +34,8 @@
   flex-grow: 1;
   overflow-y: auto;
   padding: 20px; /* Adjusted padding */
-  width: 500px; 
-  margin-top: 15%; /* Add some margin at the top */
+  width: 600px; 
+  margin-top: 10%; /* Add some margin at the top */
   margin-bottom: 20px; /* Add some margin at the bottom */
   height: calc(100% - 40px); /* Adjusted height */
 }
