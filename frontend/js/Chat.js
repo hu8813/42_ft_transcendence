@@ -9,21 +9,20 @@ function openChat() {
     const messageInput = document.getElementById('message-input');
     const sendBtn = document.getElementById('send-btn');
 
+    const socket = new WebSocket("ws://pong42.azurewebsites.net/chat/"); // Replace with your WebSocket URL
 
-    const iframe = document.createElement("iframe");
-    iframe.src = "https://pong42.azurewebsites.net/chat/"; // Replace with your URL
-    iframe.width = "100%";
-    iframe.height = "100%"; // Adjust height as needed
-
-    // Append iframe to msger-chat
-    //msgerChat.appendChild(iframe);
-
-    const WebSocketInstance = {
-        newChatMessage: function (message) {
-            console.log("Sending message to WebSocket:", message);
-            addMessage(message);
-        }
+    socket.onopen = function(event) {
+        console.log("WebSocket connection established.");
     };
+
+    socket.onmessage = function(event) {
+        const receivedMessage = JSON.parse(event.data);
+        addMessage(receivedMessage);
+    };
+
+    function sendMessage(message) {
+        socket.send(JSON.stringify(message));
+    }
 
     function formatDate(date) {
         const h = "0" + date.getHours();
@@ -49,7 +48,7 @@ function openChat() {
     sendBtn.addEventListener('click', function () {
         const inputText = messageInput.value.trim();
         if (!inputText) return;
-    
+
         const newMessage = {
             name: PERSON_NAME,
             img: PERSON_IMG,
@@ -57,26 +56,12 @@ function openChat() {
             text: inputText,
             time: formatDate(new Date()),
         };
-    
-        
-        const messageElement = document.createElement('div');
-        messageElement.classList.add('msg', 'right-msg'); 
-        const msgInfoName = document.createElement('div');
-        msgInfoName.classList.add('msg-info-name');
-        msgInfoName.textContent = `${newMessage.time} ${newMessage.name}: ${newMessage.text}`;
-        messageElement.appendChild(msgInfoName);
-    
-        
-        msgerChat.parentElement.insertBefore(messageElement, msgerChat.nextSibling);
-        
 
-        
+        sendMessage(newMessage);
+
         messageInput.value = '';
-    
-        
         scrollToBottom();
     });
-    
 
     messageInput.addEventListener('keypress', function (e) {
         if (e.key === "Enter") {
@@ -86,33 +71,16 @@ function openChat() {
     });
 
     onlineUsers.forEach(user => {
-        
         const userElement = document.createElement('li');
-    
-        
         const button = document.createElement('button');
         button.classList.add('button', 'bn');
         button.title = 'View Profile';
-    
-        
         const spanIcon = document.createElement('span');
         spanIcon.classList.add('bi', 'bi-person');
-    
-        
         button.appendChild(spanIcon);
-    
-        
         userElement.appendChild(button);
-    
-        
         const userNameNode = document.createTextNode(user);
-    
-        
         userElement.appendChild(userNameNode);
-    
-        
         onlineUsersElement.appendChild(userElement);
     });
-    
-    
-};
+}
