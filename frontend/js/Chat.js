@@ -96,6 +96,7 @@ function openChat() {
     }
     
     
+    
 
     // Fetch messages initially and every 10 seconds
     fetchMessages();
