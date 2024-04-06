@@ -2,6 +2,7 @@
 import os
 
 from pathlib import Path
+from channels.auth import AuthMiddlewareStack
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -60,8 +61,6 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'corsheaders.middleware.CorsMiddleware',
-    'channels.middleware.AuthMiddlewareStack',
-    'channels.middleware.URLRouter',
 ]
 
 ROOT_URLCONF = 'myproject.urls'
@@ -161,7 +160,7 @@ CORS_ALLOWED_ORIGINS = ['http://localhost','https://localhost','http://localhost
 
 CORS_ORIGIN_ALLOW_ALL = True
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / "staticfiles"
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),

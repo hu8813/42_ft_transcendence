@@ -13,7 +13,6 @@ handler404 = 'myapp.views.custom_404'
 
 urlpatterns = [
     path('', views.home, name='home'),
-    re_path(r'ws/chat/$', consumers.ChatConsumer.as_asgi()),
     path('admin/', admin.site.urls),
     path('login/', views.login_view, name='login'),
     path('ping/', views.login_view, name='ping'),
