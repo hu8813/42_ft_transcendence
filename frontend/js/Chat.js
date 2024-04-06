@@ -81,7 +81,7 @@ function openChat() {
 
     // Fetch messages initially and every 10 seconds
     fetchMessages();
-    setInterval(fetchMessages, 10000);
+    setInterval(fetchMessages, 5000);
 
     onlineUsers.forEach(user => {
         const userElement = document.createElement('li');
