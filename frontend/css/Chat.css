@@ -29,16 +29,18 @@
   background: #333842;
   overflow: auto;
 }
-
 .msger-chat {
   flex-grow: 1;
   overflow-y: auto;
   padding: 20px; /* Adjusted padding */
-  width: 600px; 
   margin-top: 10%; /* Add some margin at the top */
   margin-bottom: 20px; /* Add some margin at the bottom */
   height: calc(100% - 40px); /* Adjusted height */
+  min-width: 300px; /* Minimum width for smaller screens */
+  width: 100%; /* Default width for smaller screens */
 }
+
+
 
 
 .msg {
@@ -164,6 +166,8 @@
 
   .msger-chat {
     height: 300px; 
+    width: 70%; /* Adjust width as needed for larger screens */
+    min-width: 400px; /* Minimum width for larger screens */
   }
 
   .msger-users {
