@@ -65,38 +65,45 @@ function openChat() {
     }
 
     sendBtn.addEventListener('click', function () {
+        console.log("Send button clicked");
         sendMessageFromInput();
     });
-
+    
     messageInput.addEventListener('keypress', function (e) {
+        console.log("Keypress event triggered");
         if (e.key === "Enter") {
             e.preventDefault();
             sendMessageFromInput();
         }
     });
-
+    
     messageInput.addEventListener('keydown', function (e) {
+        console.log("Keydown event triggered");
         if (e.key === "Enter") {
             e.preventDefault();
             sendMessageFromInput();
         }
     });
+    
 
     function sendMessageFromInput() {
         const inputText = messageInput.value.trim();
         if (!inputText) return;
-
+    
         const recipientName = recipientSelect.value;
-        if (!recipientName) return; // Ensure a recipient is selected
-
+    
+        // If recipient is empty, set it to an appropriate value for public message
+        const recipient = recipientName ? recipientName : '#CHANNEL';
+    
         const newMessage = {
             name: PERSON_NAME,
-            recipient: recipientName,
+            recipient: recipient,
             text: inputText,
         };
-
+    
         sendMessage(newMessage);
     }
+    
     
     function fetchMessages() {
         fetch(apiUrl)
