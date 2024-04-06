@@ -9,7 +9,7 @@ function openChat() {
     const messageInput = document.getElementById('message-input');
     const sendBtn = document.getElementById('send-btn');
 
-    const socket = new WebSocket("ws://pong42.azurewebsites.net/chat/"); // Replace with your WebSocket URL
+    const socket = new WebSocket("wss://pong42.azurewebsites.net/chat/"); // Replace with your WebSocket URL
 
     socket.onopen = function(event) {
         console.log("WebSocket connection established.");
