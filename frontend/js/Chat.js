@@ -53,11 +53,22 @@ function openChat() {
     }
 
     function formatDate(date) {
-        const month = String(date.getMonth() + 1).padStart(2, '0');
         const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, '0');
         const hours = String(date.getHours()).padStart(2, '0');
         const minutes = String(date.getMinutes()).padStart(2, '0');
-        return `${day}-${month} ${hours}:${minutes}`;
+        return `${month}-${day} ${hours}:${minutes}`;
+    }
+    
+
+    function formatDateFromUTC(utcTimestamp) {
+        const date = new Date(utcTimestamp);
+        const localDate = new Date(date.getTime() + (date.getTimezoneOffset() * 60000)); // Convert to local timezone
+        const month = String(localDate.getMonth() + 1).padStart(2, '0');
+        const day = String(localDate.getDate()).padStart(2, '0');
+        const hours = String(localDate.getHours()).padStart(2, '0');
+        const minutes = String(localDate.getMinutes()).padStart(2, '0');
+        return `${month}-${day} ${hours}:${minutes}`;
     }
 
     function scrollToBottom() {
@@ -67,17 +78,13 @@ function openChat() {
     function addMessage(message) {
         const messageElement = document.createElement('div');
         messageElement.classList.add('msg');
-    
         if (message.name === PERSON_NAME) {
             messageElement.classList.add('right-msg');
         } else {
             messageElement.classList.add('left-msg');
         }
-    
         const senderName = message.name || 'Anonymous';
-        const createdAt = message.created_at ? message.created_at : '';
-        const formattedCreatedAt = formatDate(new Date(createdAt));
-    
+        const formattedCreatedAt = formatDateFromUTC(message.created_at);
         messageElement.innerHTML = `
             <div class="msg-info">
                 <span class="msg-info-name">${senderName}</span>
@@ -85,7 +92,6 @@ function openChat() {
             </div>
             <div class="msg-bubble">${message.text}</div>
         `;
-    
         msgerChat.appendChild(messageElement);
         scrollToBottom();
     }
@@ -176,23 +182,23 @@ function sendMessageFromInput() {
 
     
     function fetchMessages() {
-        fetch(apiUrl)
-            .then(response => response.json())
-            .then(messages => {
-                msgerChat.innerHTML = '';
-                messages.forEach(message => {
-                    // Check if the recipient matches the current user or if it's empty (indicating a message to all users)
-                    if (message.recipient === PERSON_NAME || message.recipient === '' || message.recipient === '#CHANNEL') {
-                        const createdAt = message.created_at ? new Date(message.created_at) : null;
-                        const formattedCreatedAt = createdAt ? formatDate(createdAt) : '';
-                        const formattedMessage = { ...message, created_at: formattedCreatedAt };
-                        addMessage(formattedMessage);
-                    }
-                });
-            })
-            .catch(error => console.error('Error fetching messages:', error));
-    }
-    
+    fetch(apiUrl)
+        .then(response => response.json())
+        .then(messages => {
+            msgerChat.innerHTML = '';
+            messages.forEach(message => {
+                // Check if the recipient matches the current user or if it's empty (indicating a message to all users)
+                if (message.recipient === PERSON_NAME || message.recipient === '' || message.recipient === '#CHANNEL') {
+                    const createdAt = message.created_at ? new Date(message.created_at * 1000) : null; // Multiply by 1000 to convert seconds to milliseconds
+                    const formattedCreatedAt = createdAt ? formatDate(createdAt) : '';
+                    const formattedMessage = { ...message, created_at: formattedCreatedAt };
+                    addMessage(formattedMessage);
+                }
+            });
+        })
+        .catch(error => console.error('Error fetching messages:', error));
+}
+
     fetchMessages();
     fetchMessagesInterval = setInterval(fetchMessages, 3000);
 

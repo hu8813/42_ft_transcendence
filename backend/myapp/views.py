@@ -22,6 +22,7 @@ from .serializers import TournamentSerializer
 from .models import Player, WaitingPlayer
 from .models import Message
 from .models import UserProfile
+from django.utils import timezone
 
 
 token_obtain_pair_view = TokenObtainPairView.as_view()
@@ -37,11 +38,22 @@ def get_all_users(request):
 def messages(request):
     if request.method == 'GET':
         messages = list(Message.objects.all().values())
+        # Convert timestamps to UTC before sending
+        for message in messages:
+            message['created_at'] = timezone.localtime(message['created_at']).timestamp()
         return JsonResponse(messages, safe=False)
     elif request.method == 'POST':
         data = json.loads(request.body)
         message = Message.objects.create(name=data['name'], text=data['text'], recipient=data.get('recipient', ''))
-        return JsonResponse({'id': message.id, 'name': message.name, 'text': message.text, 'recipient': message.recipient})
+        # Convert timestamp to UTC before sending
+        message_data = {
+            'id': message.id,
+            'name': message.name,
+            'text': message.text,
+            'recipient': message.recipient,
+            'created_at': timezone.localtime(message.created_at).timestamp()
+        }
+        return JsonResponse(message_data)
     else:
         return JsonResponse({'error': 'Method not allowed'}, status=405)
 
