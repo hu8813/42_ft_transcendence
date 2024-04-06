@@ -36,7 +36,7 @@ def messages(request):
     elif request.method == 'POST':
         data = json.loads(request.body)
         message = Message.objects.create(name=data['name'], text=data['text'])
-        return JsonResponse({'id': message.id, 'name': message.name, 'text': message.text})
+        return JsonResponse({'id': message.id, 'name': message.sender, 'text': message.text})
     else:
         return JsonResponse({'error': 'Method not allowed'}, status=405)
 
