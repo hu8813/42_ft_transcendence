@@ -158,16 +158,38 @@ const handleLocation = async () => {
         fetchAndDisplayProfile();
       }
       break;
-    case "#viewprofile":
-      const params = new URLSearchParams(window.location.search);
-      const username = params.get('u');
-      
-      if(username) {
-        await fetchAndDisplayViewProfile(username);
-      } else {
-        // Handle scenario where no username is provided
-      }
-      break;
+    
+      case "#viewprofile":
+        const hashParamsString = window.location.hash.substring(1);
+        console.log("hashParamsString:", hashParamsString);
+    
+        // Extracting the parameters from the string
+        const paramsIndex = hashParamsString.indexOf('?');
+        if (paramsIndex !== -1) {
+            const paramsString = hashParamsString.substring(paramsIndex + 1);
+            const hashParams = new URLSearchParams(paramsString);
+    
+            console.log("hashParams:");
+            hashParams.forEach((value, key) => {
+                console.log(key, value);
+            });
+    
+            const username = hashParams.get('u');
+            console.log("username:", username);
+    
+            if (username) {
+                await fetchAndDisplayViewProfile(username);
+            } else {
+                // Handle scenario where no username is provided
+            }
+        } else {
+            console.error("No parameters found in the URL.");
+            // Handle scenario where no parameters are present
+        }
+        break;
+    
+
+    
     case "#leaderboard":
       if (localStorage.getItem("isLoggedIn") === "true") {
         if (!leaderboardData || leaderboardData.length === 0) {

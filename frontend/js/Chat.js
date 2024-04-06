@@ -61,7 +61,7 @@ function openChat() {
     }
 
     function scrollToBottom() {
-        msgerChat.scrollTop = msgerChat.scrollHeight;
+        //msgerChat.scrollTop = msgerChat.scrollHeight;
     }
 
     function addMessage(message) {
