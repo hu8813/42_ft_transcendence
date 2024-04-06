@@ -17,13 +17,27 @@ import requests
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 import json
 from .forms import UserRegistrationForm
-from .models import Tournament, User  # Change import here
+from .models import Tournament, User
 from .serializers import TournamentSerializer
 from .models import Player, WaitingPlayer
+from .models import Message
 
 
 token_obtain_pair_view = TokenObtainPairView.as_view()
 token_refresh_view = TokenRefreshView.as_view()
+
+
+@csrf_exempt
+def messages(request):
+    if request.method == 'GET':
+        messages = list(Message.objects.all().values())
+        return JsonResponse(messages, safe=False)
+    elif request.method == 'POST':
+        data = json.loads(request.body)
+        message = Message.objects.create(name=data['name'], text=data['text'])
+        return JsonResponse({'id': message.id, 'name': message.name, 'text': message.text})
+    else:
+        return JsonResponse({'error': 'Method not allowed'}, status=405)
 
 @csrf_exempt
 def chat(request):

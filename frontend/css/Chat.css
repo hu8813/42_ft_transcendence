@@ -33,9 +33,18 @@
 .msger-chat {
   flex-grow: 1;
   overflow-y: auto;
-  padding: 40px;
-  width: 300px;
+  padding: 20px; /* Adjusted padding */
+  width: 500px; 
+  margin-top: auto; /* Push chat to the bottom */
+  margin-bottom: 20px; /* Add some margin at the bottom */
 }
+
+.msg {
+  display: flex;
+  flex-direction: column; /* Adjusted flex direction */
+  margin-bottom: 10px;
+}
+
 
 .msger-inputarea {
   background: rgba(255, 255, 255, 0.1);
@@ -71,12 +80,7 @@
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
 }
 
-.msg {
-  display: flex;
-  
-  align-items: flex-end;
-  margin-bottom: 10px;
-}
+
 
 .right-msg .msg-bubble {
   margin-left: auto;
@@ -102,9 +106,7 @@
 .msg-info-name {
   font-weight: bold;
   margin-right: 10px;
-  
 }
-
 
 .msger-users {
   width: 250px; 

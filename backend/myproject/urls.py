@@ -30,6 +30,7 @@ urlpatterns = [
     path('api/signin42/', views.signin42, name='signin42'),
     path('api/signin42b/', views.signin42b, name='signin42b'),
     path('api/signin42c/', views.signin42c, name='signin42c'),
+    path('api/messages', views.messages, name='messages'),
     path('upload-avatar/', views.upload_avatar, name='upload_avatar'),
     path('get-email/', views.upload_avatar, name='get_email'),
     path('get-nickname/', views.get_nickname, name='get_nickname'),

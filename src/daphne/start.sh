@@ -21,6 +21,7 @@ ALTER TABLE auth_user ADD COLUMN IF NOT EXISTS authorization_code VARCHAR(255) U
 done
 
 echo "Starting backend!"
-python3 manage.py makemigrations --noinput >> /dev/null
+python3 manage.py makemigrations >> /dev/null
 python3 manage.py migrate >> /dev/null
+#daphne -p 8001 myproject.asgi:application
 python3 manage.py runserver 0.0.0.0:8000

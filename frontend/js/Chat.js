@@ -1,28 +1,14 @@
 function openChat() {
-    const PERSON_IMG = "https://image.flaticon.com/icons/svg/145/145867.svg";
-    const PERSON_NAME = "user42";
+    let PERSON_NAME = localStorage.getItem('userLogin') || "user42"; // Retrieve sender info from localStorage or default to "user42"
     const onlineUsers = ["eelasam", "ddyankov", "vstockma", "huaydin"];
-    const messages = [];
+    if (!backendURL)
+        backendURL = 'http://localhost:8000'; // Change this to your backend URL
+    const apiUrl = `${backendURL}/api/messages`;
 
     const onlineUsersElement = document.getElementById('online-users');
     const msgerChat = document.getElementById('msger-chat');
     const messageInput = document.getElementById('message-input');
     const sendBtn = document.getElementById('send-btn');
-
-    const socket = new WebSocket("wss://pong42.azurewebsites.net/chat/"); // Replace with your WebSocket URL
-
-    socket.onopen = function(event) {
-        console.log("WebSocket connection established.");
-    };
-
-    socket.onmessage = function(event) {
-        const receivedMessage = JSON.parse(event.data);
-        addMessage(receivedMessage);
-    };
-
-    function sendMessage(message) {
-        socket.send(JSON.stringify(message));
-    }
 
     function formatDate(date) {
         const h = "0" + date.getHours();
@@ -36,39 +22,66 @@ function openChat() {
 
     function addMessage(message) {
         const messageElement = document.createElement('div');
-        messageElement.classList.add('msg', `${message.side}-msg`);
-        const msgInfoName = document.createElement('div');
-        msgInfoName.classList.add('msg-info-name');
-        msgInfoName.textContent = `${message.time} ${message.name}: ${message.text}`;
-        messageElement.appendChild(msgInfoName);
+        messageElement.classList.add('msg');
+        const senderName = message.name || 'Anonymous'; // Set sender name to 'Anonymous' if undefined
+        messageElement.textContent = `${message.time} ${senderName}: ${message.text}`;
         msgerChat.appendChild(messageElement);
         scrollToBottom();
     }
+    
+
+    function sendMessage(message) {
+        fetch(apiUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(message),
+        })
+            .then(response => response.json())
+            .then(data => {
+                addMessage(data);
+                messageInput.value = '';
+            })
+            .catch(error => console.error('Error sending message:', error));
+    }
 
     sendBtn.addEventListener('click', function () {
+        sendMessageFromInput();
+    });
+
+    messageInput.addEventListener('keypress', function (e) {
+        if (e.key === "Enter") {
+            e.preventDefault();
+            sendMessageFromInput();
+        }
+    });
+
+    function sendMessageFromInput() {
         const inputText = messageInput.value.trim();
         if (!inputText) return;
 
         const newMessage = {
             name: PERSON_NAME,
-            img: PERSON_IMG,
-            side: "right",
             text: inputText,
-            time: formatDate(new Date()),
         };
 
         sendMessage(newMessage);
+    }
 
-        messageInput.value = '';
-        scrollToBottom();
-    });
+    function fetchMessages() {
+        fetch(apiUrl)
+            .then(response => response.json())
+            .then(messages => {
+                msgerChat.innerHTML = ''; // Clear chat window before adding messages
+                messages.forEach(message => addMessage(message));
+            })
+            .catch(error => console.error('Error fetching messages:', error));
+    }
 
-    messageInput.addEventListener('keypress', function (e) {
-        if (e.key === "Enter") {
-            e.preventDefault(); 
-            sendBtn.click();
-        }
-    });
+    // Fetch messages initially and every 10 seconds
+    fetchMessages();
+    setInterval(fetchMessages, 10000);
 
     onlineUsers.forEach(user => {
         const userElement = document.createElement('li');
