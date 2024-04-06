@@ -69,23 +69,36 @@ function openChat() {
     function addMessage(message) {
         const messageElement = document.createElement('div');
         messageElement.classList.add('msg');
-        if (message.name === PERSON_NAME) {
+    
+        // Check if the message sender is the current user
+        const isCurrentUser = message.name === PERSON_NAME;
+    
+        if (isCurrentUser) {
             messageElement.classList.add('right-msg');
         } else {
             messageElement.classList.add('left-msg');
         }
+    
+        // Align the sender's name and message to the right if it's sent by the current user
+        const alignRight = isCurrentUser ? 'right' : 'left';
+    
         const senderName = message.name || 'Anonymous';
         const formattedCreatedAt = message.created_at;
         messageElement.innerHTML = `
-            <div class="msg-info">
+            <div class="msg-info" style="text-align: ${alignRight};">
                 <span class="msg-info-name">${senderName}</span>
                 <span class="msg-info-time">${formattedCreatedAt}</span>
             </div>
-            <div class="msg-bubble">${message.text}</div>
+            <div class="msg-bubble" style="text-align: ${alignRight};">${message.text}</div>
         `;
-        msgerChat.appendChild(messageElement);
+        
+        // Prepend the new message element to the top of the chat container
+        msgerChat.insertBefore(messageElement, msgerChat.firstChild);
+    
         scrollToBottom();
     }
+    
+    
     
     function sendMessage(message) {
         messageInput.value = '';
