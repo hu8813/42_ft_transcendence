@@ -34,6 +34,7 @@ def get_all_users(request):
     all_users = User.objects.values_list('username', flat=True)
     return JsonResponse(list(all_users), safe=False)
 
+
 @csrf_exempt
 def messages(request):
     if request.method == 'GET':
@@ -56,7 +57,7 @@ def messages(request):
         return JsonResponse(message_data)
     else:
         return JsonResponse({'error': 'Method not allowed'}, status=405)
-
+        
 @csrf_exempt
 def chat(request):
     return render(request, 'chatpage.html')
