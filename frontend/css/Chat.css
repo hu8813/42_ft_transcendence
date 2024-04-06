@@ -35,9 +35,11 @@
   overflow-y: auto;
   padding: 20px; /* Adjusted padding */
   width: 500px; 
-  margin-top: auto; /* Push chat to the bottom */
+  margin-top: 10px; /* Add some margin at the top */
   margin-bottom: 20px; /* Add some margin at the bottom */
+  height: calc(100% - 40px); /* Adjusted height */
 }
+
 
 .msg {
   display: flex;

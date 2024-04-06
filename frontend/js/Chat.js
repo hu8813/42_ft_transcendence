@@ -1,3 +1,5 @@
+let fetchMessagesInterval;
+
 function openChat() {
     let PERSON_NAME = localStorage.getItem('userLogin') || "user42"; // Retrieve sender info from localStorage or default to "user42"
     const onlineUsers = ["eelasam", "ddyankov", "vstockma", "huaydin"];
@@ -90,7 +92,11 @@ function openChat() {
 
     // Fetch messages initially and every 10 seconds
     fetchMessages();
-    setInterval(fetchMessages, 1000);
+    fetchMessagesInterval = setInterval(fetchMessages, 1000);
+
+    window.addEventListener('unload', () => {
+        clearInterval(fetchMessagesInterval); // Clear the interval when the page is unloaded
+    });
 
     onlineUsers.forEach(user => {
         const userElement = document.createElement('li');
