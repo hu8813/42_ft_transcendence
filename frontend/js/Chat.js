@@ -29,9 +29,7 @@ function openChat() {
         msgerChat.appendChild(messageElement);
         scrollToBottom();
     }
-    
-    
-    
+        
 
     function sendMessage(message) {
         fetch(apiUrl, {
@@ -84,7 +82,7 @@ function openChat() {
 
     // Fetch messages initially and every 10 seconds
     fetchMessages();
-    setInterval(fetchMessages, 5000);
+    setInterval(fetchMessages, 1000);
 
     onlineUsers.forEach(user => {
         const userElement = document.createElement('li');
