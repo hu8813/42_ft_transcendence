@@ -7,7 +7,17 @@ function openChat() {
     const sendBtn = document.getElementById('send-btn');
     const recipientSelect = document.getElementById('recipient-select');
     const recipientActions = document.getElementById('recipient-actions');
+    const notification = document.getElementById('notification'); // Notification area
+    const NOTIFICATION_DURATION = 2000;
 
+     function showNotification(message, isSuccess) {
+        notification.textContent = message;
+        notification.style.color = isSuccess ? 'green' : 'red';
+        setTimeout(() => {
+            notification.textContent = '';
+        }, NOTIFICATION_DURATION);
+    }
+     
     function fetchAllUsers() {
         fetch(`${getBackendURL()}/api/get_all_users`)
             .then(response => response.json())
@@ -79,6 +89,7 @@ function openChat() {
     }
     
     function sendMessage(message) {
+        messageInput.value = '';
         fetch(apiUrl, {
             method: 'POST',
             headers: {
@@ -89,7 +100,7 @@ function openChat() {
             .then(response => response.json())
             .then(data => {
                 addMessage(data);
-                messageInput.value = '';
+                
             })
             .catch(error => console.error('Error sending message:', error));
     }
@@ -100,7 +111,7 @@ function openChat() {
     });
     
     messageInput.addEventListener('keypress', function (e) {
-        console.log("Keypress event triggered");
+        
         if (e.key === "Enter") {
             e.preventDefault();
             sendMessageFromInput();
@@ -108,32 +119,57 @@ function openChat() {
     });
     
     messageInput.addEventListener('keydown', function (e) {
-        console.log("Keydown event triggered");
+        
         if (e.key === "Enter") {
             e.preventDefault();
             sendMessageFromInput();
         }
     });
     
+    let lastMessageSentTime = 0;
+const MESSAGE_SEND_INTERVAL = 5000; // 5 seconds
+const MAX_MESSAGE_LENGTH = 200; // Maximum allowed characters
 
-    function sendMessageFromInput() {
-        const inputText = messageInput.value.trim();
-        if (!inputText) return;
-    
-        const recipientName = recipientSelect.value;
-    
-        // If recipient is empty, set it to an appropriate value for public message
-        const recipient = recipientName ? recipientName : '#CHANNEL';
-    
-        const newMessage = {
-            name: PERSON_NAME,
-            recipient: recipient,
-            text: inputText,
-        };
-    
-        sendMessage(newMessage);
+function sendMessageFromInput() {
+    const inputText = messageInput.value.trim();
+    if (!inputText) return;
+
+    // Check if the input exceeds the maximum character limit
+    if (inputText.length > MAX_MESSAGE_LENGTH) {
+        showNotification(`Message exceeds the maximum character limit of ${MAX_MESSAGE_LENGTH}.`, false);
+        return;
     }
-    
+
+    const currentTime = new Date().getTime();
+    if (currentTime - lastMessageSentTime < MESSAGE_SEND_INTERVAL) {
+        showNotification("Please wait before sending another message.", false);
+        return;
+    }
+
+    const recipientName = recipientSelect.value;
+
+    // If recipient is empty, set it to an appropriate value for public message
+    const recipient = recipientName ? recipientName : '#CHANNEL';
+
+    const newMessage = {
+        name: PERSON_NAME,
+        recipient: recipient,
+        text: inputText,
+    };
+
+    sendMessage(newMessage);
+    lastMessageSentTime = currentTime;
+
+    // Disable send button for the entire duration of the message send interval
+    sendBtn.disabled = true;
+    setTimeout(() => {
+        sendBtn.disabled = false;
+    }, MESSAGE_SEND_INTERVAL);
+
+    showNotification("Message sent successfully.", true); // Notify the user
+}
+
+
     
     function fetchMessages() {
         fetch(apiUrl)
