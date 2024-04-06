@@ -1,14 +1,44 @@
 function openChat() {
     let PERSON_NAME = localStorage.getItem('userLogin') || "user42";
-    const onlineUsers = ["eelasam", "ddyankov", "vstockma", "huaydin"];
     const apiUrl = `${getBackendURL()}/api/messages`;
-
-    const onlineUsersElement = document.getElementById('online-users');
+    const onlineUsersElement = document.getElementById('recipient-select');
     const msgerChat = document.getElementById('msger-chat');
     const messageInput = document.getElementById('message-input');
     const sendBtn = document.getElementById('send-btn');
     const recipientSelect = document.getElementById('recipient-select');
     const recipientActions = document.getElementById('recipient-actions');
+
+    function fetchAllUsers() {
+        fetch(`${getBackendURL()}/api/get_all_users`)
+            .then(response => response.json())
+            .then(users => {
+                // Clear existing options
+                recipientSelect.innerHTML = '';
+                // Add default options
+                const defaultOptions = [
+                    { value: "", text: "Select recipient" },
+                    { value: "", text: "--------" },
+                    { value: "#CHANNEL", text: "#CHANNEL" },
+                    { value: "", text: "--------" }
+                ];
+                defaultOptions.forEach(option => {
+                    const defaultOption = document.createElement('option');
+                    defaultOption.value = option.value;
+                    defaultOption.textContent = option.text;
+                    recipientSelect.appendChild(defaultOption);
+                });
+                // Populate options with all users
+                users.forEach(user => {
+                    const option = document.createElement('option');
+                    option.value = user;
+                    option.textContent = user;
+                    recipientSelect.appendChild(option);
+                });
+            })
+            .catch(error => console.error('Error fetching users:', error));
+    }
+
+    fetchAllUsers();
 
     function formatDate(date) {
         const month = String(date.getMonth() + 1).padStart(2, '0');
@@ -111,7 +141,8 @@ function openChat() {
             .then(messages => {
                 msgerChat.innerHTML = '';
                 messages.forEach(message => {
-                    if (recipientSelect.value === '' || message.recipient === recipientSelect.value) {
+                    // Check if the recipient matches the current user or if it's empty (indicating a message to all users)
+                    if (message.recipient === PERSON_NAME || message.recipient === '' || message.recipient === '#CHANNEL') {
                         const createdAt = message.created_at ? new Date(message.created_at) : null;
                         const formattedCreatedAt = createdAt ? formatDate(createdAt) : '';
                         const formattedMessage = { ...message, created_at: formattedCreatedAt };
@@ -129,12 +160,12 @@ function openChat() {
         clearInterval(fetchMessagesInterval);
     });
 
-    onlineUsers.forEach(user => {
-        const option = document.createElement('option');
-        option.value = user;
-        option.textContent = user;
-        recipientSelect.appendChild(option);
-    });
+    // onlineUsers.forEach(user => {
+    //     const option = document.createElement('option');
+    //     option.value = user;
+    //     option.textContent = user;
+    //     recipientSelect.appendChild(option);
+    // });
 
     recipientSelect.addEventListener('change', () => {
         const selectedUser = recipientSelect.value;

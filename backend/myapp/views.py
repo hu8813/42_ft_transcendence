@@ -27,6 +27,11 @@ from .models import UserProfile
 token_obtain_pair_view = TokenObtainPairView.as_view()
 token_refresh_view = TokenRefreshView.as_view()
 
+@csrf_exempt
+def get_all_users(request):
+    # Assuming you have a User model with a field 'username'
+    all_users = User.objects.values_list('username', flat=True)
+    return JsonResponse(list(all_users), safe=False)
 
 @csrf_exempt
 def messages(request):
@@ -35,8 +40,8 @@ def messages(request):
         return JsonResponse(messages, safe=False)
     elif request.method == 'POST':
         data = json.loads(request.body)
-        message = Message.objects.create(name=data['name'], text=data['text'])
-        return JsonResponse({'id': message.id, 'name': message.name, 'text': message.text})
+        message = Message.objects.create(name=data['name'], text=data['text'], recipient=data.get('recipient', ''))
+        return JsonResponse({'id': message.id, 'name': message.name, 'text': message.text, 'recipient': message.recipient})
     else:
         return JsonResponse({'error': 'Method not allowed'}, status=405)
 
