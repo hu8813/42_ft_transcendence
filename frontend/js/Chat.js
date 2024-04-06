@@ -75,6 +75,13 @@ function openChat() {
         }
     });
 
+    messageInput.addEventListener('keydown', function (e) {
+        if (e.key === "Enter") {
+            e.preventDefault();
+            sendMessageFromInput();
+        }
+    });
+
     function sendMessageFromInput() {
         const inputText = messageInput.value.trim();
         if (!inputText) return;
