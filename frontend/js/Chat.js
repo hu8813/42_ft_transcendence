@@ -24,10 +24,13 @@ function openChat() {
         const messageElement = document.createElement('div');
         messageElement.classList.add('msg');
         const senderName = message.name || 'Anonymous'; // Set sender name to 'Anonymous' if undefined
-        messageElement.textContent = `${message.time} ${senderName}: ${message.text}`;
+        const createdAt = message.created_at ? new Date(message.created_at).toLocaleTimeString() : ''; // Format creation time if available
+        messageElement.textContent = `${createdAt} ${senderName}: ${message.text}`;
         msgerChat.appendChild(messageElement);
         scrollToBottom();
     }
+    
+    
     
 
     function sendMessage(message) {
