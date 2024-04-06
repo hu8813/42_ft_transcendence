@@ -11,7 +11,7 @@ async function fetchLeaderboardData() {
 }
 
 function openProfile(username) {
-  window.open(`#viewprofile?u=${username}`, '_blank');
+  window.location.href = `#viewprofile?u=${username}`;
 }
 
 async function displayLeaderboard() {
@@ -41,13 +41,12 @@ async function displayLeaderboard() {
         <td>${await calculateDaysSinceJoining(member.date_joined)}</td>
       `;
       leaderboardBody.appendChild(row);
-    });
-
-    // Add event listeners to view profile buttons
-    const viewProfileButtons = document.querySelectorAll('.view-profile-btn');
-    viewProfileButtons.forEach(button => {
-      button.addEventListener('click', () => {
-        const username = button.getAttribute('data-username');
+      
+      // Add event listener to view profile button
+      const viewProfileButton = row.querySelector('.view-profile-btn');
+      viewProfileButton.addEventListener('click', (event) => {
+        event.preventDefault(); // Prevent default link behavior
+        const username = event.currentTarget.getAttribute('data-username');
         openProfile(username);
       });
     });
@@ -55,6 +54,7 @@ async function displayLeaderboard() {
     leaderboardBody.innerHTML = '<tr><td colspan="7">No data available</td></tr>';
   }
 }
+
 
 
 

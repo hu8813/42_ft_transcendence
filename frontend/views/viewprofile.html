@@ -1,34 +1,25 @@
 <div class="profile-container">
-    <h1 class="profile-title">
+  <h1 class="profile-title">
       <br/><span id="profile-title">Pong Master</span><br/> <span id="nicknameadr2"></span>  <div class="avatar-preview">
-        <img class="profile-pic" src="" width="200px" height="200px" alt="Profile Picture" style="display: block; margin: 0 auto; max-width: 100%; height: 200px; border-radius: 10px;">
-    
+          <img class="profile-pic" src="" width="200px" height="200px" alt="Profile Picture" style="display: block; margin: 0 auto; max-width: 100%; height: 200px; border-radius: 10px;">
       </div>
-    </h1>
-  
-    <!-- Hide or disable change photo button for view profile -->
-    <button id="changePhoto" class="profile-button" style="display: none;">Change Photo</button>
-    <!-- Input for uploading photo is not required in view profile -->
-    <!-- <input type="file" id="uploadPhoto" class="profile-input" style="display: none;" onchange="uploadPhoto(event)"> -->
-  
-    <div class="profile-info-section">
+  </h1>
+
+  <!-- No change photo button needed for view profile -->
+
+  <div class="profile-info-section">
       <h2 class="info-header"><span id="nickname">Nickname</span>: <span id="nicknameadr">Loading...</span></h2>
-      <!-- Hide or disable change nickname button for view profile -->
-      <button id="changeNick" class="profile-button" style="display: none;"><span id="changeNickname">Change Nickname</span></button>
-    </div>
-  
-    <div class="email-info-section">
-      <h2 class="info-header"><span id="email">E-mail</span>: <span id="emailadr">Loading...</span></h2>
-    </div>
-  
-    <div class="score-info-section">
-      <h2 class="info-header"><span id="score">Score</span>: <span id="scoreadr"></span></h2>
-    </div>
-    <br/>
-    
-    <!-- Hide or disable delete profile button for view profile -->
-    <div style="text-align: center; display: none;">
-      <button id="deleteProfile" class="bn" style="width: calc(100% - 20px);">Delete Profile</button>
-    </div>
+      <!-- No change nickname button needed for view profile -->
   </div>
+
+  <div class="email-info-section" style="display: none;">
+      <h2 class="info-header"><span id="email">E-mail</span>: <span id="emailadr">Loading...</span></h2>
+  </div>
+
+  <div class="score-info-section">
+      <h2 class="info-header"><span id="score">Score</span>: <span id="scoreadr"></span></h2>
+  </div>
+  <br/>
   
+  <!-- No delete profile button needed for view profile -->
+</div>
