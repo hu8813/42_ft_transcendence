@@ -1,5 +1,7 @@
 function showPong3() {
     const canvas = document.getElementById('canvasp3');
+    if (canvas)
+    {
     const ctx = canvas.getContext('2d');
     canvas.width = 800;
     canvas.height = 600;
@@ -278,5 +280,5 @@ function showPong3() {
 
     gameLoop();
 }
-
-showPong3();
+}
+//showPong3();
