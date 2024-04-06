@@ -62,9 +62,9 @@ def get_profile_info(request):
     try:
         user = User.objects.get(username=username)
         user_info = {
-            'nickname': user.profile.nickname,
+            'nickname': user.nickname,
             'login': user.username,
-            'score': user.profile.score,
+            'score': user.score,
             # Add other non-sensitive user profile fields as needed
         }
         return JsonResponse({'user': user_info})

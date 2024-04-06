@@ -21,7 +21,7 @@ async function displayLeaderboard() {
     await fetchLeaderboardData();
   }
 
-  if (leaderboardData && leaderboardData.length > 0) {
+  if (leaderboardBody && leaderboardData && leaderboardData.length > 0) {
     leaderboardBody.innerHTML = '';
     leaderboardData.forEach(async (member, index) => {
       const row = document.createElement('tr');

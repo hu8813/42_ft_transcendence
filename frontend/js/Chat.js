@@ -48,7 +48,9 @@ function openChat() {
             .catch(error => console.error('Error fetching users:', error));
     }
 
-    fetchAllUsers();
+    if (recipientSelect) {
+        fetchAllUsers(); // Modify recipientSelect's innerHTML only if it exists
+    }
 
     function formatDate(date) {
         const month = String(date.getMonth() + 1).padStart(2, '0');
@@ -105,10 +107,12 @@ function openChat() {
             .catch(error => console.error('Error sending message:', error));
     }
 
-    sendBtn.addEventListener('click', function () {
-        console.log("Send button clicked");
-        sendMessageFromInput();
-    });
+    if (sendBtn) {
+        sendBtn.addEventListener('click', function () {
+            console.log("Send button clicked");
+            sendMessageFromInput();
+        });
+    }
     
     messageInput.addEventListener('keypress', function (e) {
         
