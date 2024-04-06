@@ -24,7 +24,7 @@ function openChat() {
         const messageElement = document.createElement('div');
         messageElement.classList.add('msg');
         const senderName = message.name || 'Anonymous'; // Set sender name to 'Anonymous' if undefined
-        const createdAt = message.created_at ? new Date(message.created_at).toLocaleTimeString('de-AT', { timeZone: 'Europe/Vienna', hour12: false }) : ''; // Format creation time in Vienna timezone and 24-hour format
+        const createdAt = message.created_at ? new Date(message.created_at).toLocaleTimeString('de-AT', { timeZone: 'Europe/Vienna', hour12: false, hour: '2-digit', minute: '2-digit' }) : ''; // Format creation time in Vienna timezone and 24-hour format
         messageElement.textContent = `${createdAt} ${senderName}: ${message.text}`;
         msgerChat.appendChild(messageElement);
         scrollToBottom();
@@ -75,10 +75,18 @@ function openChat() {
             .then(response => response.json())
             .then(messages => {
                 msgerChat.innerHTML = ''; // Clear chat window before adding messages
-                messages.forEach(message => addMessage(message));
+                messages.forEach(message => {
+                    // Format the created_at field of each message
+                    const formattedMessage = {
+                        ...message,
+                        created_at: message.created_at ? new Date(message.created_at).toLocaleTimeString('de-AT', { timeZone: 'Europe/Vienna', hour12: false, hour: '2-digit', minute: '2-digit' }) : ''
+                    };
+                    addMessage(formattedMessage);
+                });
             })
             .catch(error => console.error('Error fetching messages:', error));
     }
+    
 
     // Fetch messages initially and every 10 seconds
     fetchMessages();
