@@ -3,6 +3,8 @@ from django.contrib import admin
 from django.urls import path
 from myapp import views
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from django.urls import re_path
+from . import consumers
 
 #from socketio import views as socketio_views
 
@@ -28,6 +30,7 @@ urlpatterns = [
     path('api/signin42/', views.signin42, name='signin42'),
     path('api/signin42b/', views.signin42b, name='signin42b'),
     path('api/signin42c/', views.signin42c, name='signin42c'),
+    path('api/messages', views.messages, name='messages'),
     path('upload-avatar/', views.upload_avatar, name='upload_avatar'),
     path('get-email/', views.upload_avatar, name='get_email'),
     path('get-nickname/', views.get_nickname, name='get_nickname'),

@@ -2,6 +2,7 @@
 import os
 
 from pathlib import Path
+from channels.auth import AuthMiddlewareStack
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -82,13 +83,12 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'myproject.wsgi.application'
 ASGI_APPLICATION = 'myproject.routing.application'
+INTERACTIVE = False
+
 
 CHANNEL_LAYERS = {
-    'default': {
-        'BACKEND': 'channels_redis.core.RedisChannelLayer',
-        'CONFIG': {
-            "hosts": [('127.0.0.1', 6378)],
-        },
+     'default': {
+        'BACKEND': 'channels.layers.InMemoryChannelLayer', # You can also use other backends like Redis
     },
 }
 
@@ -162,7 +162,7 @@ CORS_ALLOWED_ORIGINS = ['http://localhost','https://localhost','http://localhost
 
 CORS_ORIGIN_ALLOW_ALL = True
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / "staticfiles"
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
