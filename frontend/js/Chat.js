@@ -78,16 +78,23 @@ function openChat() {
             .then(messages => {
                 msgerChat.innerHTML = ''; // Clear chat window before adding messages
                 messages.forEach(message => {
+                    // Check if the created_at field is a valid date string
+                    const createdAt = message.created_at ? new Date(message.created_at) : null;
+                    const formattedCreatedAt = createdAt instanceof Date && !isNaN(createdAt) ?
+                        createdAt.toLocaleTimeString('de-AT', { timeZone: 'Europe/Vienna', hour12: false, hour: '2-digit', minute: '2-digit' }) :
+                        '';
+                    
                     // Format the created_at field of each message
                     const formattedMessage = {
                         ...message,
-                        created_at: message.created_at ? new Date(message.created_at).toLocaleTimeString('de-AT', { timeZone: 'Europe/Vienna', hour12: false, hour: '2-digit', minute: '2-digit' }) : ''
+                        created_at: formattedCreatedAt
                     };
                     addMessage(formattedMessage);
                 });
             })
             .catch(error => console.error('Error fetching messages:', error));
     }
+    
     
 
     // Fetch messages initially and every 10 seconds
