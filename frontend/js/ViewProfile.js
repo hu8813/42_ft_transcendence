@@ -9,7 +9,7 @@ async function fetchAndDisplayViewProfile(username) {
       // Display profile data
       document.querySelector('.profile-pic').src = profileData.image_link || '../src/emptyavatar.jpeg';
       document.getElementById('nicknameadr').textContent = profileData.nickname || 'Not available';
-      document.getElementById('nicknameadr2').textContent = profileData.nickname || 'Not available';
+      document.getElementById('nicknameadr2').textContent = profileData.login || 'Not available';
       document.getElementById('scoreadr').textContent = profileData.score || 'Not available';
 
       // Hide or disable edit/delete functionality for view profile

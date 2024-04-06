@@ -65,6 +65,8 @@ def get_profile_info(request):
             'nickname': user.nickname,
             'login': user.username,
             'score': user.score,
+            'image_link': user.image_link,
+
             # Add other non-sensitive user profile fields as needed
         }
         return JsonResponse({'user': user_info})
