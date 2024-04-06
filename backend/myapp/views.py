@@ -21,6 +21,7 @@ from .models import Tournament, User
 from .serializers import TournamentSerializer
 from .models import Player, WaitingPlayer
 from .models import Message
+from .models import UserProfile
 
 
 token_obtain_pair_view = TokenObtainPairView.as_view()

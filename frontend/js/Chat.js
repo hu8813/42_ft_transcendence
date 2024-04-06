@@ -24,7 +24,8 @@ function openChat() {
         const messageElement = document.createElement('div');
         messageElement.classList.add('msg');
         const senderName = message.name || 'Anonymous'; // Set sender name to 'Anonymous' if undefined
-        messageElement.textContent = `${message.time} ${senderName}: ${message.text}`;
+        const createdAt = message.created_at ? new Date(message.created_at).toLocaleTimeString('de-AT', { timeZone: 'Europe/Vienna', hour12: false }) : ''; // Format creation time in Vienna timezone and 24-hour format
+        messageElement.textContent = `${createdAt} ${senderName}: ${message.text}`;
         msgerChat.appendChild(messageElement);
         scrollToBottom();
     }
@@ -81,7 +82,7 @@ function openChat() {
 
     // Fetch messages initially and every 10 seconds
     fetchMessages();
-    setInterval(fetchMessages, 5000);
+    setInterval(fetchMessages, 1000);
 
     onlineUsers.forEach(user => {
         const userElement = document.createElement('li');

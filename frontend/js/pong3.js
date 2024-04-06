@@ -281,4 +281,3 @@ function showPong3() {
     gameLoop();
 }
 }
-//showPong3();
