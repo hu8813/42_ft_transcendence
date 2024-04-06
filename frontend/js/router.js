@@ -160,34 +160,31 @@ const handleLocation = async () => {
       break;
     
       case "#viewprofile":
-        const hashParamsString = window.location.hash.substring(1);
-        console.log("hashParamsString:", hashParamsString);
-    
-        // Extracting the parameters from the string
-        const paramsIndex = hashParamsString.indexOf('?');
-        if (paramsIndex !== -1) {
-            const paramsString = hashParamsString.substring(paramsIndex + 1);
-            const hashParams = new URLSearchParams(paramsString);
-    
-            console.log("hashParams:");
-            hashParams.forEach((value, key) => {
-                console.log(key, value);
-            });
-    
+    const hashParamsString = window.location.hash.substring(1);
+
+    // Extracting the parameters from the string
+    const paramsIndex = hashParamsString.indexOf('?');
+    if (paramsIndex !== -1) {
+        const paramsString = hashParamsString.substring(paramsIndex + 1);
+        const hashParams = new URLSearchParams(paramsString);
+
+        if (hashParams && hashParams.has('u')) {
             const username = hashParams.get('u');
-            console.log("username:", username);
-    
             if (username) {
                 await fetchAndDisplayViewProfile(username);
             } else {
                 // Handle scenario where no username is provided
             }
         } else {
-            console.error("No parameters found in the URL.");
-            // Handle scenario where no parameters are present
+            console.error("No 'u' parameter found in the URL.");
+            // Handle scenario where 'u' parameter is not present
         }
-        break;
-    
+    } else {
+        console.error("No parameters found in the URL.");
+        // Handle scenario where no parameters are present
+    }
+    break;
+
 
     
     case "#leaderboard":

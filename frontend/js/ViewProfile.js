@@ -7,7 +7,6 @@ async function fetchAndDisplayViewProfile(username) {
         }
 
         const profileData = await response.json();
-        console.log('Profile data:', profileData);
 
         // Accessing nested data under 'user'
         const user = profileData.user || {}; // Default to an empty object if user data is missing

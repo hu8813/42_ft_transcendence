@@ -2,7 +2,8 @@ let leaderboardData = null;
 
 async function fetchLeaderboardData() {
   try {
-    const response = await fetch(`${getBackendURL()}/leaderboard/`);     const data = await response.json();
+    const response = await fetch(`${getBackendURL()}/leaderboard/`);
+    const data = await response.json();
     leaderboardData = data;
   } catch (error) {
     console.error('Error fetching leaderboard data:', error);
@@ -10,11 +11,12 @@ async function fetchLeaderboardData() {
   }
 }
 
-function openProfile(username) {
-  window.location.href = `#viewprofile?u=${username}`;
-}
-
 async function displayLeaderboard() {
+
+  function openProfile(username) {
+    window.location.href = `#viewprofile?u=${username}`;
+  }
+
   const leaderboardBody = document.getElementById('leaderboard-body');
 
   if (!leaderboardData || leaderboardData.length === 0) {
@@ -30,10 +32,12 @@ async function displayLeaderboard() {
         <td>
           <div class="c-media">
             <div class="c-avatar c-media__img" style="background-color: ${getRandomColor()}">
-              ${member.image_link ? `<img style="width: 55px; height: 55px; max-width: 55px; max-height: 55px;" src="${member.image_link}" alt="${member.username}" />` : `<div class="default-profile-pic"></div>`}
+              ${member.image_link ? `<img style="width: 55px; height: 55px; max-width: 55px; max-height: 55px;" src="${member.image_link}" alt="${member.username}" data-username="${member.username}" />` : `<div class="default-profile-pic" data-username="${member.username}"></div>`}
             </div>
             <div class="c-media__content">
-              <div class="c-media__title"><button class="button bn view-profile-btn" data-username="${member.username}" title="View Profile"><span class="bi bi-person"></span></button> ${member.username}</div>
+              <div class="c-media__title">
+                <button class="button bn view-profile-btn" data-username="${member.username}" title="View Profile"><span class="bi bi-person"></span></button> ${member.username}
+              </div>
             </div>
           </div>
         </td>
@@ -49,12 +53,29 @@ async function displayLeaderboard() {
         const username = event.currentTarget.getAttribute('data-username');
         openProfile(username);
       });
+
+      // Add event listener to profile image
+      const profileImage = row.querySelector('.c-avatar img');
+      if (profileImage) {
+        profileImage.addEventListener('click', (event) => {
+          const username = event.currentTarget.getAttribute('data-username');
+          openProfile(username);
+        });
+      }
+
+      // Add event listener to username
+      const usernameElement = row.querySelector('.c-media__title');
+      if (usernameElement) {
+        usernameElement.addEventListener('click', (event) => {
+          const username = event.currentTarget.querySelector('.view-profile-btn').getAttribute('data-username');
+          openProfile(username);
+        });
+      }
     });
   } else {
     leaderboardBody.innerHTML = '<tr><td colspan="7">No data available</td></tr>';
   }
 }
-
 
 
 
