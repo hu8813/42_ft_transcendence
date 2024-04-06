@@ -1,10 +1,12 @@
 async function fetchAndDisplayViewProfile(username) {
   try {
-      const response = await fetch(`${getBackendURL()}/api/profiles/${username}`);
+      const response = await fetch(`${getBackendURL()}/api/profiles/?username=${username}`);
       if (!response.ok) {
           throw new Error('Profile not found');
       }
-      const profileData = await response.json();
+      console.log('Response:', response);
+        const profileData = await response.json();
+        console.log('Profile data:', profileData);
 
       // Display profile data
       document.querySelector('.profile-pic').src = profileData.image_link || '../src/emptyavatar.jpeg';
