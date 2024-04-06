@@ -57,19 +57,10 @@ function openChat() {
         const month = String(date.getMonth() + 1).padStart(2, '0');
         const hours = String(date.getHours()).padStart(2, '0');
         const minutes = String(date.getMinutes()).padStart(2, '0');
-        return `${month}-${day} ${hours}:${minutes}`;
+        return `${day}/${month} ${hours}:${minutes}`;
     }
     
 
-    function formatDateFromUTC(utcTimestamp) {
-        const date = new Date(utcTimestamp);
-        const localDate = new Date(date.getTime() + (date.getTimezoneOffset() * 60000)); // Convert to local timezone
-        const month = String(localDate.getMonth() + 1).padStart(2, '0');
-        const day = String(localDate.getDate()).padStart(2, '0');
-        const hours = String(localDate.getHours()).padStart(2, '0');
-        const minutes = String(localDate.getMinutes()).padStart(2, '0');
-        return `${month}-${day} ${hours}:${minutes}`;
-    }
 
     function scrollToBottom() {
         //msgerChat.scrollTop = msgerChat.scrollHeight;
@@ -84,7 +75,7 @@ function openChat() {
             messageElement.classList.add('left-msg');
         }
         const senderName = message.name || 'Anonymous';
-        const formattedCreatedAt = formatDateFromUTC(message.created_at);
+        const formattedCreatedAt = message.created_at;
         messageElement.innerHTML = `
             <div class="msg-info">
                 <span class="msg-info-name">${senderName}</span>
