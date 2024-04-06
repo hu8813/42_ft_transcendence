@@ -13,7 +13,7 @@ function handleLogin() {
           const formData = new FormData(loginForm);
       
           try {
-              const response = await fetch(`${backendURL}/login/`, {
+              const response = await fetch(`${getBackendURL()}/login/`, {
                   method: "POST",
                   body: formData,
               });

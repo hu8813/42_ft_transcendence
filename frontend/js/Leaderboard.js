@@ -2,7 +2,7 @@ let leaderboardData = null;
 
 async function fetchLeaderboardData() {
   try {
-    const response = await fetch(`${backendURL}/leaderboard/`);     const data = await response.json();
+    const response = await fetch(`${getBackendURL()}/leaderboard/`);     const data = await response.json();
     leaderboardData = data;
   } catch (error) {
     console.error('Error fetching leaderboard data:', error);

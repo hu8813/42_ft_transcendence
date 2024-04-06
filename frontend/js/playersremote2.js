@@ -1,6 +1,5 @@
 function showPlayersRemote2() {
-    const backendURL = 'http://localhost:8000'; // Replace this with your actual backend URL
-
+    
     const loadCanvas = new Promise((resolve, reject) => {
 
         const canvas = document.getElementById('canvasremote2');
@@ -12,7 +11,7 @@ function showPlayersRemote2() {
 
             if (userLogin) {
                 // Send user login to server to check if another player is waiting
-                fetch(`${backendURL}/check-player-waiting/${userLogin}/`)
+                fetch(`${getBackendURL()}/check-player-waiting/${userLogin}/`)
                     .then(response => response.json())
                     .then(data => {
                         if (data.waiting) {
@@ -58,7 +57,7 @@ function showPlayersRemote2() {
             }
 
             function sendPlayerInput(input) {
-                fetch(`${backendURL}/update-player/`, {
+                fetch(`${getBackendURL()}/update-player/`, {
                     method: 'POST',
                     body: JSON.stringify({ input }),
                     headers: {
@@ -76,7 +75,7 @@ function showPlayersRemote2() {
             }
 
             function updateGameFromServer() {
-                fetch(`${backendURL}/game-state/`)
+                fetch(`${getBackendURL()}/game-state/`)
                     .then(response => {
                         if (!response.ok) {
                             throw new Error('Failed to fetch game state');

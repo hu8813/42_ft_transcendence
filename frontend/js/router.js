@@ -28,21 +28,41 @@ let currentLanguage = '';
 if (!currentLanguage) {
     currentLanguage = 'en';
 }
-const currentURL = window.location.href;
-let backendURL = "";
-const privateIPRegex = /^(10\.|192\.168\.|172\.(1[6-9]|2[0-9]|3[0-1])\.)/;
-if (currentURL.includes("localhost") || currentURL.includes("127.0.0.1")) {
-    backendURL = "http://localhost:8000";
-    backendSigninURL = "http://localhost:8000/api/signin42c/";
-} else if (privateIPRegex.test(currentURL)) {
-    backendURL = "http://localhost:8000";
-    backendSigninURL = "http://localhost:8000/api/signin42c/"; 
-} else {
-    backendURL = "https://pong42.azurewebsites.net";
-    backendSigninURL = "https://pong42.azurewebsites.net/api/signin42b/";
+
+function getBackendURL() {
+  const currentURL = window.location.href;
+  const privateIPRegex = /^(10\.|192\.168\.|172\.(1[6-9]|2[0-9]|3[0-1])\.)/;
+  let backendURL = "";
+  
+  if (currentURL.includes("localhost") || currentURL.includes("127.0.0.1") || privateIPRegex.test(currentURL)) {
+      backendURL = "http://localhost:8000";
+  } else {
+      backendURL = "https://pong42.azurewebsites.net";
+  }
+  
+  return backendURL;
 }
 
-console.log("Backend URL:", backendURL);
+function getBackendSigninURL() {
+  const currentURL = window.location.href;
+  const privateIPRegex = /^(10\.|192\.168\.|172\.(1[6-9]|2[0-9]|3[0-1])\.)/;
+  let backendSigninURL = "";
+  
+  if (currentURL.includes("localhost") || currentURL.includes("127.0.0.1") || privateIPRegex.test(currentURL)) {
+      backendSigninURL = "http://localhost:8000/api/signin42c/";
+  } else {
+      backendSigninURL = "https://pong42.azurewebsites.net/api/signin42b/";
+  }
+  
+  return backendSigninURL;
+}
+
+// Usage example:
+const apiUrl = `${getBackendURL()}/api/messages`;
+const signinUrl = `${getBackendURL()}/api/signin42c/`;
+
+
+console.log("Backend URL:", getBackendURL());
 
 updateNavigation();
 

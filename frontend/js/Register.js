@@ -21,7 +21,7 @@ function handleRegister(event) {
     formData.append("password", password);
     formData.append("confirm_password", password);
 
-    fetch("https://pong42.azurewebsites.net/register/", {
+    fetch(`${getBackendURL()}/register/`, {
         method: "POST",
         body: formData,
     })

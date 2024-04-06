@@ -3,9 +3,7 @@ let fetchMessagesInterval;
 function openChat() {
     let PERSON_NAME = localStorage.getItem('userLogin') || "user42"; // Retrieve sender info from localStorage or default to "user42"
     const onlineUsers = ["eelasam", "ddyankov", "vstockma", "huaydin"];
-    if (!backendURL)
-        backendURL = 'http://localhost:8000'; // Change this to your backend URL
-    const apiUrl = `${backendURL}/api/messages`;
+    const apiUrl = `${getBackendURL()}/api/messages`;
 
     const onlineUsersElement = document.getElementById('online-users');
     const msgerChat = document.getElementById('msger-chat');
@@ -25,12 +23,30 @@ function openChat() {
     function addMessage(message) {
         const messageElement = document.createElement('div');
         messageElement.classList.add('msg');
-        const senderName = message.name || 'Anonymous'; // Set sender name to 'Anonymous' if undefined
-        const createdAt = message.created_at ? new Date(message.created_at).toLocaleTimeString('de-AT', { timeZone: 'Europe/Vienna', hour12: false, hour: '2-digit', minute: '2-digit' }) : ''; // Format creation time in Vienna timezone and 24-hour format
-        messageElement.textContent = `${createdAt} ${senderName}: ${message.text}`;
+    
+        // Check if the message is sent by the current user
+        if (message.name === PERSON_NAME) {
+            messageElement.classList.add('right-msg'); // Add class for messages sent by the current user
+        } else {
+            messageElement.classList.add('left-msg'); // Add class for messages sent by other users
+        }
+    
+        const senderName = message.name || 'Anonymous';
+        const createdAt = message.created_at ? message.created_at : ''; // Keep the original creation time
+        const formattedCreatedAt = formatDate(new Date(createdAt));
+    
+        messageElement.innerHTML = `
+            <div class="msg-info">
+                <span class="msg-info-name">${senderName}</span>
+                <span class="msg-info-time">${formattedCreatedAt}</span>
+            </div>
+            <div class="msg-bubble">${message.text}</div>
+        `;
+    
         msgerChat.appendChild(messageElement);
         scrollToBottom();
     }
+    
     
 
     function sendMessage(message) {
