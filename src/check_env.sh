@@ -2,7 +2,7 @@
 
 env_file=".env"
 
-touch "$env_file" backend/.env
+#touch "$env_file" backend/.env
 
 read_var_from_env_file() {
     local var_name=$1
@@ -59,9 +59,6 @@ prompt_for_variable CLIENT_SECRET "Enter OAuth Client Secret: "
 prompt_for_variable REDIRECT_URI "Enter OAuth Redirect URI: "
 
 set_default_variable BACKEND_URL "http://localhost:8000"
-set_default_variable DEBUG "1"
-hostname=$(hostname)
-set_default_variable DJANGO_ALLOWED_HOSTS "$hostname localhost backend 127.0.0.1 [::1]"
 set_default_variable POSTGRES_PORT "5432"
 
 pgpassword_value=$(read_var_from_env_file PGPASSWORD)
