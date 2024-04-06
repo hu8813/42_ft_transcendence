@@ -18,7 +18,7 @@ function openChat() {
                 const defaultOptions = [
                     { value: "", text: "Select recipient" },
                     { value: "", text: "--------" },
-                    { value: "#CHANNEL", text: "#CHANNEL" },
+                    { value: "", text: "#CHANNEL" },
                     { value: "", text: "--------" }
                 ];
                 defaultOptions.forEach(option => {
