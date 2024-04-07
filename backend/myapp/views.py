@@ -563,7 +563,7 @@ waiting_queue = []
 
 @csrf_exempt
 def home(request):
-    return render(request, 'home.html')
+    return render(request, 'frontend/index.html')
 
 @csrf_exempt
 def custom_404(request, exception):
