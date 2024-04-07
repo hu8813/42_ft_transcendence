@@ -271,7 +271,7 @@ def proxy_viewb(request):
         user.save()
 
         # Return a redirect response to the frontend with the code included in the URL
-        return redirect(f'https://pong42.azurewebsites.net/return.html?code={code}')
+        return redirect(f'http://pong42.vercel.app/return.html?code={code}')
     except requests.RequestException as e:
         return JsonResponse({'error': str(e)}, status=500)
 
