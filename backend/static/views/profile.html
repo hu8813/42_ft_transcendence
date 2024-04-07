@@ -6,7 +6,7 @@
   </h1>
 
   <form id="changePhotoForm" method="post" enctype="multipart/form-data" style="display: none;">
-    {% csrf_token %}
+    
     <input type="file" id="uploadPhoto" class="profile-input" onchange="uploadPhoto(event)">
     <button type="submit" id="submitPhoto" class="profile-button">Upload</button>
   </form>
@@ -28,7 +28,7 @@
   <br/>
   <div style="text-align: center;">
     <form id="deleteProfileForm" method="post">
-      {% csrf_token %}
+      
       <button type="submit" id="deleteProfile" class="bn" style="width: calc(100% - 20px);">Delete Profile</button>
     </form>
   </div>

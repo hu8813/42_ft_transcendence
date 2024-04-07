@@ -2,7 +2,7 @@
     <div class="register-container text-center">
         <h2>Register</h2>
         <form id="register-form" method="post" action="{% url 'register' %}">
-            {% csrf_token %}
+            
             <div class="mb-3">
                 <label for="email" class="form-label">Email Address</label>
                 <input type="email" class="form-control" id="email" name="email" placeholder="Enter email address" required>
