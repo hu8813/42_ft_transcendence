@@ -162,6 +162,49 @@ function showPong3() {
       }
     }
 
+    
+    //------------------------
+    
+    // Funktion zum Pausieren des Spiels
+ /*    function pauseGame() {
+        isGamePaused = true;
+        document.getElementById('newGButton').style.display = 'block';
+    }
+    
+    // Funktion zum Fortsetzen des Spiels
+    function resumeGame() {
+        isGamePaused = false;
+        document.getElementById('newGButton').style.display = 'none';
+        // Optional: Reset des Spiels oder spezifische Logik zum Fortsetzen
+    }
+    
+    
+    document.querySelectorAll('.navbar-item').forEach(item => {
+        item.addEventListener('click', function() {
+            pauseGame();
+        });
+    });
+    
+    document.getElementById('newGButton').addEventListener('click', function() {
+        resumeGame();
+    });
+    
+    const button = document.getElementById('newGButton');
+    if (button) {
+        button.style.display = 'block';
+    } else {
+        console.log('Button nicht gefunden');
+    }
+    
+    document.addEventListener('visibilitychange', function() {
+        if (document.visibilityState === 'hidden') {
+            pauseGame(); // Pausiere das Spiel, wenn der Tab nicht sichtbar ist
+        } else {
+            resumeGame(); // Setze das Spiel fort, wenn der Tab wieder sichtbar wird
+        }
+    });*/
+    //--- -------------------
+
     function showGameOverModal(loser) {
         ctx.fillStyle = "white";
         ctx.font = "48px Arial";
@@ -177,7 +220,7 @@ function showPong3() {
         document.removeEventListener('keyup', keyUpHandler);
         canvas.removeEventListener('mousemove', mouseMoveHandler);
     }
-    
+
     function update() {
         if (gameOver) return;
     
@@ -287,7 +330,7 @@ function showPong3() {
     }
 
     function gameLoop() {
-        if (!isGamePaused) {
+        if (!isGamePaused && !gameOver) {
             update();
             draw();
         }
