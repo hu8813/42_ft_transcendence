@@ -11,6 +11,8 @@ function showPong3() {
     let upArrowPressed = false;
     let downArrowPressed = false;
     let gameOver = false;
+    let isGamePaused = false;
+
     
 
 
@@ -59,6 +61,18 @@ function showPong3() {
     document.addEventListener('keydown', keyDownHandler);
     document.addEventListener('keyup', keyUpHandler);
     canvas.addEventListener('mousemove', mouseMoveHandler);
+
+    document.addEventListener("visibilitychange", function() {
+        if (document.visibilityState === 'hidden') {
+            // Pausiere das Spiel
+            isGamePaused = true;
+            // Optional: Zeige eine Meldung an oder handle das UI entsprechend
+        } else {
+            // Setze das Spiel fort
+            isGamePaused = false;
+            // Optional: Entferne die Pausen-Meldung oder aktualisiere das UI entsprechend
+        }
+    });
 
     function keyDownHandler(event) {
         switch(event.keyCode) {
@@ -273,9 +287,11 @@ function showPong3() {
     }
 
     function gameLoop() {
-        update();
-        draw();
-        requestAnimationFrame(gameLoop);
+        if (!isGamePaused) {
+            update();
+            draw();
+        }
+        requestAnimationFrame(gameLoop);;
     }
 
     gameLoop();
