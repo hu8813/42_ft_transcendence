@@ -13,8 +13,8 @@ RUN apt -y install grafana
 RUN rm -rf /var/lib/apt/lists/*
 
 RUN openssl req -newkey rsa:4096 -x509 -sha256 -days 365 -nodes \
-	-out /etc/ssl/transcendence.42.fr.pem \
-	-keyout /etc/ssl/transcendence.42.fr.key \
+	-out /etc/ssl/localhost.pem \
+	-keyout /etc/ssl/localhost.key \
 	-subj "/C=AT/ST=W/L=W/O=42/OU=42/CN=localhost"
 
 RUN mkdir -p /usr/share/grafana/conf/provisioning/datasources/

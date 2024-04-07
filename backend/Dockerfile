@@ -1,6 +1,6 @@
 FROM python:3.12.1-slim-bullseye
 
-RUN apt-get update && apt-get install -y dumb-init
+RUN apt-get update && apt-get install -y dumb-init openssl
 
 RUN apt-get install -y netcat postgresql-client
 
@@ -9,6 +9,13 @@ WORKDIR /usr/src/app
 ENV PYTHONDONTWRITEBYTECODE 1
 
 ENV PYTHONUNBUFFERED 1
+
+
+RUN openssl req -newkey rsa:4096 -x509 -sha256 -days 365 -nodes \
+	-out /etc/ssl/localhost.pem \
+	-keyout /etc/ssl/localhost.key \
+	-subj "/C=AT/ST=W/L=W/O=42/OU=42/CN=localhost"
+
 
 RUN pip install --upgrade pip
 
