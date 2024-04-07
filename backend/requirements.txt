@@ -10,3 +10,4 @@ channels_redis
 python-socketio
 aiohttp
 uvicorn
+whitenoise
