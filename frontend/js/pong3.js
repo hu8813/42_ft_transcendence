@@ -162,7 +162,35 @@ function showPong3() {
       }
     }
 
-    function showGameOverModal(loser) {
+    
+    const startMessage = document.getElementById('startMessage');
+
+  showStartMessageWithCountdown(5);
+
+    function showStartMessageWithCountdown(seconds) {
+    if(seconds > 0) {
+        // Zeichne die Nachricht auf dem Canvas
+        ctx.fillStyle = "rgba(0, 0, 0, 0.7)"; // Transluzenter schwarzer Hintergrund
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        ctx.fillStyle = "#FFF"; // Weiße Schriftfarbe
+        ctx.font = "30px Arial";
+        ctx.textAlign = "center";
+        ctx.fillText("Game starts in", canvas.width / 2, canvas.height / 2 - 30);
+        ctx.font = "bold 50px Arial";
+        ctx.fillText(seconds, canvas.width / 2, canvas.height / 2 + 30);
+
+        // Warte eine Sekunde und zeichne dann das nächste Update
+        setTimeout(function() {
+        showStartMessageWithCountdown(seconds - 1);
+        }, 1000);
+    } else {
+        // Starte das Spiel, wenn der Countdown vorbei ist
+        gameLoop();
+    }
+    }
+
+    function showGameOverModall(loser) {
         ctx.fillStyle = "white";
         ctx.font = "48px Arial";
         ctx.fillText(`${loser} lost!`, canvas.width / 4, canvas.height / 2);
@@ -172,6 +200,25 @@ function showPong3() {
         if (newGButton2)
             document.getElementById('newGButton').style.display = 'block';
         newGButton();
+    }
+
+    function showGameOver() {
+
+        // Dimme den Hintergrund
+        ctx.fillStyle = "rgba(0, 0, 0, 0.7)";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        ctx.fillStyle = "white";
+        ctx.font = "48px Arial";
+        ctx.textAlign = "center";
+        ctx.fillText(gameOverMessage, canvas.width / 2, canvas.height / 2 - 100); // gameOverMessage sollte die Verlierer-Nachricht sein
+    
+    }
+    
+    function showGameOverModal(loser) {
+        gameOverMessage = `${loser} lost!`;
+        showGameOverModall(loser);
+        gameOver = true;
     }
 
     function disableControls() {
@@ -273,6 +320,10 @@ function showPong3() {
         drawPaddle(player3.x, player3.y, player3.width, player3.height, player3.color);
         drawBall(ball.x, ball.y, ball.radius, ball.color);
         drawScore();
+        if (gameOver) {
+            showGameOver(); // Diese Funktion wird später definiert
+        }
+
     }
 
     function drawPaddle(x, y, width, height, color) {
@@ -296,6 +347,6 @@ function showPong3() {
         requestAnimationFrame(gameLoop);;
     }
 
-    gameLoop();
+    //gameLoop();
 }
 }
