@@ -144,8 +144,8 @@ function showGameModes() {
     document.head.appendChild(buttonStyle);
     backButton.classList.add('custom-back-button');
     backButton.style.margin = '10px 10px';
-    backButton.textContent = 'Back';
     backButton.style.display = 'none';
+    backButton.innerHTML = '<i class="bi bi-arrow-left"></i> Back'; // Adding Bootstrap back icon
     backButton.addEventListener('click', () => {
         cardsContainer.innerHTML = '';
         initialVisibleData.forEach(data => createCard(data, cardsContainer));
@@ -176,10 +176,10 @@ function showGameModes() {
     cardsContainer.style.padding = "0px 10px";
 }
 
-// Font Awesome CDN for the back arrow icon
-const fontAwesomeLink = document.createElement('link');
-fontAwesomeLink.rel = 'stylesheet';
-fontAwesomeLink.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css';
-document.head.appendChild(fontAwesomeLink);
+// Bootstrap Icons CDN for the back arrow icon
+const bootstrapIconsLink = document.createElement('link');
+bootstrapIconsLink.rel = 'stylesheet';
+bootstrapIconsLink.href = 'https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css';
+document.head.appendChild(bootstrapIconsLink);
 
 showGameModes();
