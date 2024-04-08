@@ -2,13 +2,13 @@ function showGameModes() {
     const initialVisibleData = [
         {
             text: "Pong42",
-            imgPlaceholder: './src/pong42.jpeg',
+            imgPlaceholder: './src/pong42.png',
             href: "#pong42",
             associatedCards: ["#player3d1", "#playerai1", "#pongMultiplayer"] // IDs of associated cards
         },
         {
             text: "Tic Tac Toe",
-            imgPlaceholder: './src/tictactoe.jpeg',
+            imgPlaceholder: './src/tictactoe.png',
             href: "#tictactoe",
             associatedCards: ["#xoxo1", "#xoxo2", "#xoxo3", "#xoxo4"] // IDs of associated cards
         }
@@ -107,6 +107,7 @@ function showGameModes() {
                 event.preventDefault();
                 isDeeperLevel = true;
                 backButton.style.display = 'inline-block';
+                backButton.classList.add('bn');
             }
             cardsContainer.innerHTML = '';
             if (data.associatedCards) {
