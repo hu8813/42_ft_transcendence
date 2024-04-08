@@ -1,6 +1,6 @@
 /* Passt die Canvas-Größe dynamisch an und zentriert sie */
-#canvasp3 {
-    background-color: #9c4c2d; /* Dunkler Hintergrund für das Canvas */
+#canvasp4 {
+    background-color: #ddc853; /* Dunkler Hintergrund für das Canvas */
     margin-top: 7%;
     margin-bottom: 5%;
     margin-left: 10%;
@@ -16,7 +16,7 @@
 
 
 
-#newGButton {
+#nGButton {
     position: absolute;
     top: 50%;
     left: 50%;

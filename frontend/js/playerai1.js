@@ -62,7 +62,8 @@ function showPlayerAi1Page(){
 
     function showNGameButton() {
         const button = document.getElementById('newGameButton');
-        button.style.display = 'block'; // Button anzeigen
+        if (button)
+            button.style.display = 'block'; // Button anzeigen
         button.addEventListener('click', function() {
             location.reload(); // Die Seite neu laden für ein neues Spiel
         });

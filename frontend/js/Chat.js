@@ -1,14 +1,20 @@
+let fetchMessagesInterval;
+
 function openChat() {
     let PERSON_NAME = localStorage.getItem('userLogin') || "user42";
     const apiUrl = `${getBackendURL()}/api/messages`;
     const onlineUsersElement = document.getElementById('recipient-select');
     const msgerChat = document.getElementById('msger-chat');
     const messageInput = document.getElementById('message-input');
-    const sendBtn = document.getElementById('send-btn');
+    let sendBtn = document.getElementById('msgSend');
     const recipientSelect = document.getElementById('recipient-select');
     const recipientActions = document.getElementById('recipient-actions');
     const notification = document.getElementById('notification'); // Notification area
     const NOTIFICATION_DURATION = 2000;
+
+    window.addEventListener('unload', () => {
+        clearInterval(fetchMessagesInterval);
+    });
 
     translateKey('chat.msgPlaceholder').then(msgPlaceholderTranslation => {
         messageInput.placeholder = msgPlaceholderTranslation;
@@ -130,14 +136,14 @@ function openChat() {
             })
             .catch(error => console.error('Error sending message:', error));
     }
-
-    if (sendBtn) {
+    if (!sendBtn)
+        sendBtn = document.getElementById('msgSend');
+    if (sendBtn){
         sendBtn.addEventListener('click', function () {
             console.log("Send button clicked");
             sendMessageFromInput();
         });
     }
-    
     messageInput.addEventListener('keypress', function (e) {
         
         if (e.key === "Enter") {
@@ -155,8 +161,8 @@ function openChat() {
     });
     
     let lastMessageSentTime = 0;
-const MESSAGE_SEND_INTERVAL = 5000; // 5 seconds
-const MAX_MESSAGE_LENGTH = 200; // Maximum allowed characters
+    const MESSAGE_SEND_INTERVAL = 5000; // 5 seconds
+    const MAX_MESSAGE_LENGTH = 200; // Maximum allowed characters
 
 function sendMessageFromInput() {
     const inputText = messageInput.value.trim();
@@ -188,48 +194,54 @@ function sendMessageFromInput() {
     sendMessage(newMessage);
     lastMessageSentTime = currentTime;
 
-    // Disable send button for the entire duration of the message send interval
+    // Disable the send button temporarily after sending a message
     sendBtn.disabled = true;
+    sendBtn.style.visibility = 'hidden'; // Set visibility to 'hidden'
     setTimeout(() => {
         sendBtn.disabled = false;
+        sendBtn.style.visibility = 'visible'; // Set visibility back to 'visible'
     }, MESSAGE_SEND_INTERVAL);
 
-    showNotification("Message sent successfully.", true); // Notify the user
+    showNotification("Message sent successfully.", true);
 }
+
 
 
     
-    function fetchMessages() {
-    fetch(apiUrl)
-        .then(response => response.json())
-        .then(messages => {
-            msgerChat.innerHTML = '';
-            messages.forEach(message => {
-                // Check if the recipient matches the current user or if it's empty (indicating a message to all users)
-                if (message.recipient === PERSON_NAME || message.recipient === '' || message.recipient === '#CHANNEL') {
-                    const createdAt = message.created_at ? new Date(message.created_at * 1000) : null; // Multiply by 1000 to convert seconds to milliseconds
-                    const formattedCreatedAt = createdAt ? formatDate(createdAt) : '';
-                    const formattedMessage = { ...message, created_at: formattedCreatedAt };
-                    addMessage(formattedMessage);
-                }
-            });
-        })
-        .catch(error => console.error('Error fetching messages:', error));
+function fetchMessages() {
+    const path = window.location.hash || '#'; // Get the current hash value
+
+    // Check if the path is '#chat'
+    if (path === '#chat') {
+        console.log("path is chat  " + path);
+        fetch(apiUrl)
+            .then(response => response.json())
+            .then(messages => {
+                msgerChat.innerHTML = '';
+                messages.forEach(message => {
+                    // Check if the recipient matches the current user or if it's empty (indicating a message to all users)
+                    if (message.recipient === PERSON_NAME || message.recipient === '' || message.recipient === '#CHANNEL') {
+                        const createdAt = message.created_at ? new Date(message.created_at * 1000) : null; // Multiply by 1000 to convert seconds to milliseconds
+                        const formattedCreatedAt = createdAt ? formatDate(createdAt) : '';
+                        const formattedMessage = { ...message, created_at: formattedCreatedAt };
+                        addMessage(formattedMessage);
+                    }
+                });
+            })
+            .catch(error => console.error('Error fetching messages:', error));
+    }
 }
 
-    fetchMessages();
+
+    //fetchMessages();
     fetchMessagesInterval = setInterval(fetchMessages, 3000);
 
     window.addEventListener('unload', () => {
         clearInterval(fetchMessagesInterval);
+        console.log("clear interval2");
     });
 
-    // onlineUsers.forEach(user => {
-    //     const option = document.createElement('option');
-    //     option.value = user;
-    //     option.textContent = user;
-    //     recipientSelect.appendChild(option);
-    // });
+   
 
     recipientSelect.addEventListener('change', () => {
         const selectedUser = recipientSelect.value;
@@ -248,7 +260,7 @@ function sendMessageFromInput() {
             profileButton.addEventListener('click', () => {
                 window.open(`#viewprofile?u=${selectedUser}`, '_blank');
             });
-            profileButton.classList.add('msger-send-btn'); // Add the CSS class to style it like the other buttons
+            profileButton.classList.add('msger-msgSend'); // Add the CSS class to style it like the other buttons
 
 
             const blockButton = document.createElement('button');

@@ -20,15 +20,33 @@ const routes = {
   "#playersremote2": "/views/playersremote2.html",
   "#aboutus": "/views/aboutus.html",
   "#pong3": "/views/pong3.html",
+  "#pong4": "/views/pong4.html",
   "#viewprofile": "/views/viewprofile.html",
 };
 
 let translationsCache = {}; 
 let currentLanguage = localStorage.getItem('language');
 if (!currentLanguage) {
+  const userLanguage = navigator.language;
+  if (userLanguage.startsWith('en')) {
     currentLanguage = 'en';
-    localStorage.setItem('language', currentLanguage);
+  } else if (userLanguage.startsWith('de')) {
+    currentLanguage = 'de';
+  } else if (userLanguage.startsWith('tr')) {
+    currentLanguage = 'tr';
+  } else if (userLanguage.startsWith('bg')) {
+    currentLanguage = 'bg';
+  } else if (userLanguage.startsWith('fr')) {
+    currentLanguage = 'fr';
+  } else if (userLanguage.startsWith('ar-EG')) {
+    currentLanguage = 'ar-EG';
+  } else {
+    currentLanguage = 'en';
+  }
+  localStorage.setItem('language', currentLanguage);
 }
+
+
 
 function getBackendURL() {
   const currentURL = window.location.href;
@@ -225,6 +243,9 @@ const handleLocation = async () => {
     case '#pong3':
       showPong3();
       break;
+    case '#pong4':
+      showPong4();
+      break;
     case '#contact':
       showImprint();
       break;
@@ -333,6 +354,10 @@ navMenu.appendChild(li);
 
 }
 
+const languageSelect = document.getElementById('languageSelect');
+    if (languageSelect) {
+      languageSelect.value = currentLanguage;
+    }
 
 window.addEventListener('load', () => {
   if (localStorage.getItem('isLoggedIn') === null) {
