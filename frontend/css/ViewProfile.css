@@ -1,0 +1,64 @@
+.viewprofile-container {
+    max-width: 800px;
+    margin: 20px auto;
+    margin-top: 30px;
+    padding-top: 5%;
+    padding: 10px;
+    background: #333842;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+}
+
+.viewprofile-title {
+    text-align: center;
+    font-weight: bold;
+    color: #21d4fd;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    margin-top: 0;
+    font-size: 2rem;
+    text-shadow: 0 0 10px #21d4fd;
+}
+
+.view-info-section {
+    text-align: center;
+    padding: 10px;
+    margin: 10px 0;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.view-info-header {
+    margin-top: 1;
+}
+
+.viewprofile-button {
+    display: block;
+    width: calc(100% - 20px);
+    margin: 10px auto;
+    padding: 12px 10px;
+    border-radius: 5px;
+    border: none;
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    font-size: 1rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background-image: linear-gradient(45deg, #21d4fd 0%, #b721ff 100%);
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 1px;
+    cursor: pointer;
+}
+
+.viewprofile-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+}
+
+.viewprofile-button:active {
+    transform: translateY(2px);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+}

@@ -13,6 +13,8 @@ async function fetchLeaderboardData() {
 
 async function displayLeaderboard() {
 
+  
+  translate(currentLanguage);
   function openProfile(username) {
     window.location.href = `#viewprofile?u=${username}`;
   }
@@ -125,5 +127,8 @@ function generateProgressBar(days) {
   progressBar = progressBar.padEnd(maxLength, '.');
 
   return progressBar;
+
+  
 }
+
 
