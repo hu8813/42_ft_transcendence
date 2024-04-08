@@ -176,7 +176,7 @@ function showPong3() {
         ctx.fillStyle = "#FFF"; // Weiße Schriftfarbe
         ctx.font = "30px Arial";
         ctx.textAlign = "center";
-        ctx.fillText("Game starts in", canvas.width / 2, canvas.height / 2 - 30);
+        ctx.fillText("Whoever gets 7 goals loses", canvas.width / 2, canvas.height / 2 - 30);
         ctx.font = "bold 50px Arial";
         ctx.fillText(seconds, canvas.width / 2, canvas.height / 2 + 30);
 
