@@ -1,26 +1,26 @@
 <div class="container">
-    <div class="register-container text-center">
-        <h2>Register</h2>
-        <form id="register-form" onsubmit="handleRegister(event)">
+    <div class="register-container text-center" style="max-width: 350px; margin: 0 auto;">
+        <h2><span id="registerHere">Register</span></h2>
+        <form id="register-form">
             <div class="mb-3">
-                <label for="email" class="form-label">Email Address</label>
-                <input type="email" class="form-control" id="email" placeholder="Enter email address" required>
+                <label for="email" class="form-label" id="email">Email Address</label>
+                <input type="email" class="form-control" id="enterEmail" placeholder="Enter email address" required style="max-width: 250px;">
             </div>
             <div class="mb-3">
-                <label for="username" class="form-label">Username</label>
-                <input type="text" class="form-control" id="username" placeholder="Enter username" required>
+                <label for="username" class="form-label" id="username">Username</label>
+                <input type="text" class="form-control" id="enterUsername" placeholder="Enter username" required style="max-width: 250px;">
             </div>
             <div class="mb-3">
-                <label for="password" class="form-label">Password</label>
-                <input type="password" class="form-control" id="password" placeholder="Enter password" required>
+                <label for="password" class="form-label" id="password">Password</label>
+                <input type="password" class="form-control" id="enterPassword" placeholder="Enter password" required style="max-width: 250px;">
             </div>
             <div class="mb-3">
-                <label for="confirm-password" class="form-label">Confirm Password</label>
-                <input type="password" class="form-control" id="confirm-password" placeholder="Confirm password" required>
-                <div class="invalid-feedback" id="password-mismatch-feedback">Passwords do not match</div>
+                <label for="confirm-password" class="form-label" id="confirmPassword">Confirm Password</label>
+                <input type="password" class="form-control" id="confirmPasswordP" placeholder="Confirm password" required style="max-width: 250px;">
+                <div class="invalid-feedback" id="password-mismatch-feedback"></div>
             </div>
             <br/>
-            <button type="submit" class="btn btn-primary">Register</button>
+            <button type="submit" class="btn btn-primary" style="width: 100%; max-width: 250px;" id="register">Register</button>
             <div class="register-status" id="register-status"></div>
         </form>
     </div>

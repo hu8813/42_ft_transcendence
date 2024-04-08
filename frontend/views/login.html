@@ -1,19 +1,16 @@
 <div class="login-form" style="margin-top: 3rem" id="container">
-  <div class="wrapper">
+  <div class="wrapper" style="max-width: 350px; margin: 0 auto;">
     <div class="loader"></div>
     <br/><br/><br/>
-    <button onclick="window.location.href = getBackendSigninURL()" id="signin-btn" class="rounded mb-4 bn" style="width: auto; min-width: 270px; margin: 0 auto; text-align: center;">
-      <span class="bn mr-2">&#128100;</span>
-      Sign In with 42
+    <button onclick="window.location.href = getBackendSigninURL()" id="signin-btn" class="rounded mb-4 bn" style="width: auto; min-width: 50%; max-width: 250px; margin: 0 auto; text-align: center; display: flex; align-items: center; justify-content: center;">
+      <span class="bn mr-2" style="font-size: 1.3em;">&#128100;</span>
+      <span id="signInWith42" style="font-size: 1em;">Sign In with 42</span>
     </button>
-    
-    
-    
     <br/><br/>
     <div class="or-separator mb-4">
-      <span class="or-text">or</span>
+      <span class="or-text" id="or">or</span>
     </div><br/>
-    <div class="text-center mt-4 name">Standard Login</div>
+    <div class="text-center mt-4 name" id="signIn" style="font-size: 1em;">Standard Login</div>
     <form id="login-form2" class="p-3 mt-3" onsubmit="return false;">
       <div class="form-field d-flex align-items-center">
         <span class="far fa-user"></span>
@@ -23,6 +20,7 @@
           id="userName"
           placeholder="Username"
           value="user42"
+          style="width: 70%; max-width: 200px;"
         />
       </div>
       <div class="form-field d-flex align-items-center">
@@ -33,18 +31,18 @@
           id="pwd"
           placeholder="Password"
           value="Pass@42"
+          style="width: 70%; max-width: 200px;"
         />
       </div>
-      <button id="login-btn" class="bn btn mt-3" onclick="handleLogin();">
+      <button id="login" class="bn btn mt-3" style="width: 70%; max-width: 200px;" onclick="handleLogin();">
         Login
       </button>
     </form>
     <br/><hr /><br/><br/>
     <div class="text-center fs-6">
-      <a href="/#register" onclick="route()" class="bn w-1600">Register here</a><br/>
+      <a href="/#register" onclick="route()" class="bn w-1600" id="registerHere">Register here</a><br/>
     </div>
     <br/><br/>
     <div id="login-status" class="text-center mt-3"></div>
   </div>
 </div>
-  

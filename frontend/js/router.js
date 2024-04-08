@@ -240,6 +240,9 @@ const handleLocation = async () => {
     case '#play!':
       showGameModes();
       break;
+    case '#register':
+      handleRegister();
+      break;
     case '#pong3':
       showPong3();
       break;

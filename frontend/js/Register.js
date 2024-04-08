@@ -1,59 +1,64 @@
-function handleRegister(event) {
-    event.preventDefault();
+function handleRegister() {
+    // Get translated placeholder values
+    Promise.all([
+        translateKey('auth.email'),
+        translateKey('auth.username'),
+        translateKey('auth.password'),
+        translateKey('auth.confirmPassword'),
+        translateKey('auth.passwordMismatch'), // Translation for password mismatch error message
+    ]).then(([emailPlaceholderTranslation, usernamePlaceholderTranslation, passwordPlaceholderTranslation, confirmPasswordPlaceholderTranslation, passwordMismatchTranslation]) => {
+        // Set translated placeholder values to respective fields
+        document.getElementById("enterEmail").setAttribute('placeholder', emailPlaceholderTranslation);
+        document.getElementById("enterUsername").setAttribute('placeholder', usernamePlaceholderTranslation);
+        document.getElementById("enterPassword").setAttribute('placeholder', passwordPlaceholderTranslation);
+        document.getElementById("confirmPasswordP").setAttribute('placeholder', confirmPasswordPlaceholderTranslation);
 
-    const email = document.getElementById("email").value;
-    const username = document.getElementById("username").value;
-    const password = document.getElementById("password").value;
-    const confirmPassword = document.getElementById("confirm-password").value;
+        // Update label's for attribute dynamically
+        document.getElementById("email").setAttribute('for', 'enterEmail');
+        document.getElementById("username").setAttribute('for', 'enterUsername');
+        document.getElementById("password").setAttribute('for', 'enterPassword');
+        document.getElementById("confirmPassword").setAttribute('for', 'confirmPasswordP');
 
-    // Check if passwords match
-    if (password !== confirmPassword) {
-        document.getElementById("password-mismatch-feedback").style.display = "block";
-        return;
-    } else {
-        document.getElementById("password-mismatch-feedback").style.display = "none";
-    }
+        // Add event listener to handle form submission
+        document.getElementById("register-form").addEventListener("submit", function(event) {
+            event.preventDefault(); // Prevent default form submission
 
-    // Perform registration process
-    const formData = new FormData();
-    formData.append("email", email);
-    formData.append("username", username);
-    formData.append("password", password);
-    formData.append("confirm_password", password);
+            // Get form field values
+            const email = document.getElementById("enterEmail").value;
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("enterPassword").value;
+            const confirmPassword = document.getElementById("confirmPassword").value;
 
-    fetch(`${getBackendURL()}/register/`, {
-        method: "POST",
-        body: formData,
-    })
-    .then(response => response.text())
-    .then(data => {
-        if (data.includes("Error occurred")) {
-            const errorMessage = data.substring(data.indexOf(":") + 1).trim();
-            if (errorMessage.includes("already exists")) {
-                document.getElementById("register-status").textContent = "Username already exists. Please choose a different one.";
+            // Check if passwords match
+            if (password !== confirmPassword) {
+                document.getElementById("password-mismatch-feedback").style.display = "block";
+                document.getElementById("password-mismatch-feedback").textContent = passwordMismatchTranslation;
+                return;
             } else {
-                document.getElementById("register-status").textContent = errorMessage;
+                document.getElementById("password-mismatch-feedback").style.display = "none";
             }
-        } else {
-            document.getElementById("register-status").textContent = data.trim();
-            localStorage.setItem("isLoggedIn", true);
-            document.getElementById("username").value = "";
-            document.getElementById("password").value = "";
-            document.getElementById("confirm-password").value = "";
-            document.getElementById("password-mismatch-feedback").style.display = "none";
-            document.querySelector(".register-container").innerHTML = `
-                <div class="register-success text-center">
-                    <h3>Registration Successful!</h3>
-                    <p>Redirecting to login page...</p>
-                </div>
-            `;
-            setTimeout(() => {
-                window.location.href = "/login";
-            }, 2000);
-        }
-    })
-    .catch(error => {
-        console.error("Error registering:", error);
-        document.getElementById("register-status").textContent = "Error registering";
+
+            // Perform registration process
+            const formData = new FormData();
+            formData.append("email", email);
+            formData.append("username", username);
+            formData.append("password", password);
+            formData.append("confirm_password", password);
+
+            fetch(`${getBackendURL()}/register/`, {
+                method: "POST",
+                body: formData,
+            })
+            .then(response => response.text())
+            .then(data => {
+                // Handle response
+            })
+            .catch(error => {
+                console.error("Error registering:", error);
+                document.getElementById("register-status").textContent = "Error registering";
+            });
+        });
+    }).catch(error => {
+        console.error("Error fetching translations:", error);
     });
 }

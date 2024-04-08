@@ -27,7 +27,7 @@
     "contactusline1": "If you have any questions about this Privacy Policy, please contact us via email at "
   },
   "auth": {
-    "email": "Email",
+    "email": "Email address",
     "logouttitle": "Logout",
     "username": "Username",
     "nickname":"Nickname",
@@ -38,6 +38,7 @@
     "profile-title": "Pong Master",
     "enterEmail": "Enter your email",
     "password": "Password",
+    "enterUsername": "Enter your username",
     "enterPassword": "Enter your password",
     "rememberMe": "Remember me",
     "login": "Login",
