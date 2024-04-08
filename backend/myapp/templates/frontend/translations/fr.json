@@ -1,0 +1,85 @@
+{
+  "home": {
+  "welcome": "Bienvenue dans le jeu de Pong!"
+  },
+  "imprints": {
+      "imprintTitle": "Mentions légales",
+      "imprintline1": "Ce site Web est un projet appelé \"Transcendence\" créé à des fins éducatives.",
+      "contactinfo": "Coordonnées",
+      "contactinfo1": "Si vous avez des questions ou des préoccupations concernant ce projet, vous pouvez nous contacter par e-mail à ",
+      "disclaimer": "Clause de non-responsabilité",
+      "disclaimer1": "Ce projet est uniquement destiné à l'apprentissage de la programmation et à des fins éducatives. Il n'est pas destiné à un usage commercial ou à un déploiement en production."
+  },
+  "privacy": {
+      "privpol": "Politique de confidentialité",
+      "privpolline1": "Votre vie privée nous tient à cœur. Il est politique de Transcendence de respecter votre vie privée concernant les informations que nous pouvons collecter auprès de vous sur notre site Web.",
+      "infocollect": "Informations que nous collectons",
+      "infocollectline1": "Nous collectons uniquement les informations personnelles que vous nous fournissez. Cela peut inclure:",
+      "infocollectuser": "• Nom d'utilisateur",
+      "infocollectemail": "• Adresse e-mail",
+      "infocollectphoto": "• Photo de profil",
+      "deleting": "Suppression de votre profil",
+      "deletingline1": "Si vous souhaitez supprimer votre profil, veuillez cliquer sur le bouton \"Supprimer le profil\" fourni. En cliquant, vos informations de profil seront définitivement supprimées de notre système.",
+      "deployinfo": "Informations de déploiement",
+      "deployinfoline1": "Veuillez noter que Transcendence est un projet scolaire et n'est pas destiné à la production. Il est déployé uniquement à des fins éducatives.",
+      "contactus": "Contactez-nous",
+      "contactusline1": "Si vous avez des questions sur cette politique de confidentialité, veuillez nous contacter par e-mail à "
+  },
+  "auth": {
+  "email": "E-mail",
+  "logouttitle": "Déconnexion",
+  "username": "Nom d'utilisateur",
+  "nickname":"Surnom",
+  "score":"Score",
+  "changePhoto": "Changer de Photo",
+  "deleteProfile": "Supprimer le Profil",
+  "profile-title": "Maître du Pong",
+  "enterEmail": "Entrez votre e-mail",
+  "password": "Mot de passe",
+  "enterPassword": "Entrez votre mot de passe",
+  "rememberMe": "Se souvenir de moi",
+  "logintitle": "Connexion",
+  "forgotPassword": "Mot de passe oublié?",
+  "notRegistered": "Pas encore enregistré?",
+  "registerHere": "Inscrivez-vous ici",
+  "register": "S'inscrire",
+  "signInWith42": "Connexion via 42Sign-in",
+  "signIn": "Connexion standard:",
+  "passwordMismatch": "Mot de passe vide/incorrect",
+  "confirmPassword": "Confirmez le mot de passe",
+  "termsAndConditions": "Termes et conditions",
+  "acceptTerms": "J'accepte les termes et conditions",
+  "profiletitle": "Profil"
+  },
+  "game": {
+  "title": "Jouer!",
+  "controls": "Joueur de gauche: W/S - Joueur de droite: HAUT/BAS"
+  },
+  "leaderboard": {
+  "title": "Classement",
+  "rank": "Classement",
+  "player": "Joueur",
+  "kudos": "Points",
+  "membersince":"Membre depuis",
+  "days":"jour(s)",
+  "viewprofile":"Voir le profil",
+  "invitetoplay":"Inviter à jouer",
+  "addasfriend":"Ajouter en tant qu'ami",
+  "tournamentResultsTitle": "Résultats récents des tournois"
+  },
+  "chat": {
+  "title": "Discussion",
+  "users": "Utilisateurs en ligne"
+  },
+  "common": {
+  "home": "Accueil",
+  "switchLanguage": "Changer de langue",
+  "or": "ou"
+  },
+  "footer": {
+  "privacyPolicy": "Politique de confidentialité",
+  "impressum": "Imprint",
+  "madeWith": "Fabriqué avec",
+  "at42Vienna": "à 42Vienna"
+  }
+  }

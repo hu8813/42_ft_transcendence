@@ -1,0 +1,35 @@
+<div class="profile-container">
+  <h1 class="profile-title">
+    <br/><span id="profile-title">Pong Master</span><br/> <span id="nicknameadr2"></span>  <div class="avatar-preview">
+      <img class="profile-pic" src="" width="200px" height="200px" alt="Profile Picture" style="display: block; margin: 0 auto; max-width: 100%; height: 200px; border-radius: 10px;">
+    </div>
+  </h1>
+
+  <form id="changePhotoForm" method="post" enctype="multipart/form-data" style="display: none;">
+    
+    <input type="file" id="uploadPhoto" class="profile-input" onchange="uploadPhoto(event)">
+    <button type="submit" id="submitPhoto" class="profile-button">Upload</button>
+  </form>
+  <button id="changePhoto" class="profile-button" onclick="document.getElementById('uploadPhoto').click()">Change Photo</button>
+  
+  <div class="profile-info-section">
+    <h2 class="info-header"><span id="nickname">Nickname</span>: <span id="nicknameadr">Loading...</span></h2>
+    <button id="changeNick" class="profile-button"><span id="changeNickname">Change Nickname</span></button>
+  </div>
+
+  <div class="email-info-section">
+    <h2 class="info-header"><span id="email">E-mail</span>: <span id="emailadr">Loading...</span></h2>
+  </div>
+
+  <div class="score-info-section">
+    <h2 class="info-header"><span id="score">Score</span>: <span id="scoreadr"></span></h2>
+  </div>
+
+  <br/>
+  <div style="text-align: center;">
+    <form id="deleteProfileForm" method="post">
+      
+      <button type="submit" id="deleteProfile" class="bn" style="width: calc(100% - 20px);">Delete Profile</button>
+    </form>
+  </div>
+</div>

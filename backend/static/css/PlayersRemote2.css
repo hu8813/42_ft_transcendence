@@ -1,0 +1,21 @@
+
+/* Passt die Canvas-Größe dynamisch an und zentriert sie */
+#canvasremote2 {
+    background-color: #333333; /* Dunkler Hintergrund für das Canvas */
+    margin-top: 1%;
+    margin-bottom: 1%;
+    margin-left: 10%;
+    margin-right: 10%;
+    max-width: 70vw; /* Maximale Breite auf 80% des Viewport Width */
+    min-width: 70vw;
+    max-height: 70vh; /* Maximale Höhe auf 80% des Viewport Height */
+    min-height: 15vw;
+    width: auto; /* Auto-Breite für die Skalierung */
+    height: auto; /* Auto-Höhe für die Skalierung */
+    box-shadow: 0 0 15px rgba(0,0,0,0.5); /* Fügt einen leichten Schatten hinzu für bessere Sichtbarkeit */
+}
+
+
+#newGameButtonremote2 {
+    margin-top: 20px; /* Fügt etwas Abstand zwischen dem Canvas und dem Button hinzu */
+}

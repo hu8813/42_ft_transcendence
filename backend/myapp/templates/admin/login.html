@@ -7,7 +7,7 @@
         <p class="errornote">{{ form.errors }}</p>
     {% endif %}
     <form method="post" action="{% url 'admin:login' %}">
-        {% csrf_token %}
+        
         {{ form.non_field_errors }}
         <div class="fieldWrapper">
             {{ form.username.errors }}

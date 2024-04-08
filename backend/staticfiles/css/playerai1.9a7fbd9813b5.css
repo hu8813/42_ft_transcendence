@@ -1,0 +1,62 @@
+/* Zentriert den Canvas im Fenster */
+#playerAiCanvas {
+    display: block;
+    margin: 10%;
+    background-color: #2d17aa; /* Schwarzer Hintergrund */
+}
+
+/* Modal-Style für das Spielende */
+#playerAiModal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #222;
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    display: none; /* Das Modal ist zunächst versteckt */
+    z-index: 2; /* Stellt sicher, dass das Modal über anderen Elementen liegt */
+}
+
+/* Stil für die Gewinner-Nachricht */
+#playerAiWinner {
+    font-size: 24px;
+    margin: 0 0 20px 0;
+}
+
+/* Stil für den "Neues Spiel" Button */
+#newGameButton {
+    padding: 10px 20px;
+    font-size: 18px;
+    color: #FFF;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    outline: none;
+    margin-left: 30%;
+    margin-right: 30%;
+    margin-top: 35px;
+}
+
+#newGameButton:hover {
+    background-color: #0056b3;
+}
+
+/* Fügt einen schönen Effekt für das Gewinnen hinzu */
+#playerAiModal.show {
+    animation: modalEntry 0.5s ease-out forwards;
+}
+
+@keyframes modalEntry {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -60%);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
+}

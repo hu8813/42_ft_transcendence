@@ -5,6 +5,8 @@ from myapp import views
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from django.urls import re_path
 from . import consumers
+from django.conf import settings
+from django.conf.urls.static import static
 
 #from socketio import views as socketio_views
 
@@ -42,6 +44,5 @@ urlpatterns = [
     path('update-player/', views.update_player_position, name='update_player_position'),
     path('game-state/', views.get_game_state, name='get_game_state'),
     path('check-player-waiting/<str:user_login>/', views.check_player_waiting, name='check_player_waiting'),
-  
     #path("http://localhost:8001/socket.io/", socketio_views.SocketIOView.as_view(), name="socketio"),
-]
+]  + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

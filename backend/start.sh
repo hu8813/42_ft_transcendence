@@ -21,6 +21,8 @@ ALTER TABLE auth_user ADD COLUMN IF NOT EXISTS authorization_code VARCHAR(255) U
 done
 
 echo "Starting backend!"
+python manage.py collectstatic --noinput
+
 python3 manage.py makemigrations --noinput >> /dev/null
 python3 manage.py migrate >> /dev/null
 python3 manage.py runserver 0.0.0.0:8000

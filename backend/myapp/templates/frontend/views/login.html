@@ -1,0 +1,48 @@
+<div class="login-form" style="margin-top: 3rem" id="container">
+  <div class="wrapper">
+    <div class="loader"></div>
+    <br/><br/><br/>
+    <button onclick="window.location.href = '{% url 'get_backend_signin_url' %}'" id="signin-btn" class="rounded mb-4 bn" style="width: auto; min-width: 270px; margin: 0 auto; text-align: center;">
+      <span class="bn mr-2">&#128100;</span>
+      Sign In with 42
+    </button>
+    
+    <br/><br/>
+    <div class="or-separator mb-4">
+      <span class="or-text">or</span>
+    </div><br/>
+    <div class="text-center mt-4 name">Standard Login</div>
+    <form id="login-form2" class="p-3 mt-3" onsubmit="handleLoginFormSubmit(event);">
+      
+      <div class="form-field d-flex align-items-center">
+        <span class="far fa-user"></span>
+        <input
+          type="text"
+          name="username"
+          id="userName"
+          placeholder="Username"
+          value="user42"
+        />
+      </div>
+      <div class="form-field d-flex align-items-center">
+        <span class="fas fa-key"></span>
+        <input
+          type="password"
+          name="password"
+          id="pwd"
+          placeholder="Password"
+          value="Pass@42"
+        />
+      </div>
+      <button id="login-btn" class="bn btn mt-3">
+        Login
+      </button>
+    </form>
+    <br/><hr /><br/><br/>
+    <div class="text-center fs-6">
+      <a href="/#register" onclick="route()" class="bn w-1600">Register here</a><br/>
+    </div>
+    <br/><br/>
+    <div id="login-status" class="text-center mt-3"></div>
+  </div>
+</div>
