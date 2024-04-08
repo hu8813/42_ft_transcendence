@@ -197,6 +197,9 @@ const handleLocation = async () => {
     case "#chat":
       openChat();
       break;
+    case "#home" || "#":
+        translate(currentLanguage);
+        break;
     case "#pongehab":
       showPongEhab();
       break;
@@ -229,6 +232,7 @@ const handleLocation = async () => {
       showPrivacyPolicy();
       break;
         default:
+          translate(currentLanguage);
       break;
   }
 };
@@ -277,6 +281,7 @@ function translate(lang) {
 if (!currentLanguagetmp) {
   currentLanguagetmp = lang || 'en';
     localStorage.setItem('language', currentLanguagetmp);
+    currentLanguage = currentLanguagetmp;
 }
 
   fetch(`translations/${lang}.json`)
