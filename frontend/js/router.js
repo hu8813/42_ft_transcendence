@@ -20,6 +20,7 @@ const routes = {
   "#playersremote2": "/views/playersremote2.html",
   "#aboutus": "/views/aboutus.html",
   "#pong3": "/views/pong3.html",
+  "#pong4": "/views/pong4.html",
   "#viewprofile": "/views/viewprofile.html",
 };
 
@@ -239,6 +240,9 @@ const handleLocation = async () => {
       break;
     case '#pong3':
       showPong3();
+      break;
+    case '#pong4':
+      showPong4();
       break;
     case '#contact':
       showImprint();

@@ -38,7 +38,6 @@ function showPong3() {
         score: 0
     };
 
-    // Dritter Spieler am unteren Rand
     const player3 = {
         x: canvas.width / 2 - paddleWidth / 2,
         y: canvas.height - 20,
