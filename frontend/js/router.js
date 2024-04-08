@@ -26,8 +26,23 @@ const routes = {
 let translationsCache = {}; 
 let currentLanguage = localStorage.getItem('language');
 if (!currentLanguage) {
+  const userLanguage = navigator.language;
+  if (userLanguage.startsWith('en')) {
     currentLanguage = 'en';
-    localStorage.setItem('language', currentLanguage);
+  } else if (userLanguage.startsWith('de')) {
+    currentLanguage = 'de';
+  } else if (userLanguage.startsWith('tr')) {
+    currentLanguage = 'tr';
+  } else if (userLanguage.startsWith('bg')) {
+    currentLanguage = 'bg';
+  } else if (userLanguage.startsWith('fr')) {
+    currentLanguage = 'fr';
+  } else if (userLanguage.startsWith('ar-EG')) {
+    currentLanguage = 'ar-EG';
+  } else {
+    currentLanguage = 'en';
+  }
+  localStorage.setItem('language', currentLanguage);
 }
 
 function getBackendURL() {
