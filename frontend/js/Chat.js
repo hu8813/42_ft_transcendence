@@ -1,10 +1,12 @@
+let fetchMessagesInterval;
+
 function openChat() {
     let PERSON_NAME = localStorage.getItem('userLogin') || "user42";
     const apiUrl = `${getBackendURL()}/api/messages`;
     const onlineUsersElement = document.getElementById('recipient-select');
     const msgerChat = document.getElementById('msger-chat');
     const messageInput = document.getElementById('message-input');
-    const sendBtn = document.getElementById('send-btn');
+    let sendBtn = document.getElementById('msgSend');
     const recipientSelect = document.getElementById('recipient-select');
     const recipientActions = document.getElementById('recipient-actions');
     const notification = document.getElementById('notification'); // Notification area
@@ -130,14 +132,14 @@ function openChat() {
             })
             .catch(error => console.error('Error sending message:', error));
     }
-
-    if (sendBtn) {
+    if (!sendBtn)
+        sendBtn = document.getElementById('msgSend');
+    if (sendBtn){
         sendBtn.addEventListener('click', function () {
             console.log("Send button clicked");
             sendMessageFromInput();
         });
     }
-    
     messageInput.addEventListener('keypress', function (e) {
         
         if (e.key === "Enter") {
@@ -155,8 +157,8 @@ function openChat() {
     });
     
     let lastMessageSentTime = 0;
-const MESSAGE_SEND_INTERVAL = 5000; // 5 seconds
-const MAX_MESSAGE_LENGTH = 200; // Maximum allowed characters
+    const MESSAGE_SEND_INTERVAL = 5000; // 5 seconds
+    const MAX_MESSAGE_LENGTH = 200; // Maximum allowed characters
 
 function sendMessageFromInput() {
     const inputText = messageInput.value.trim();
@@ -188,14 +190,17 @@ function sendMessageFromInput() {
     sendMessage(newMessage);
     lastMessageSentTime = currentTime;
 
-    // Disable send button for the entire duration of the message send interval
+    // Disable the send button temporarily after sending a message
     sendBtn.disabled = true;
+    sendBtn.style.visibility = 'hidden'; // Set visibility to 'hidden'
     setTimeout(() => {
         sendBtn.disabled = false;
+        sendBtn.style.visibility = 'visible'; // Set visibility back to 'visible'
     }, MESSAGE_SEND_INTERVAL);
 
-    showNotification("Message sent successfully.", true); // Notify the user
+    showNotification("Message sent successfully.", true);
 }
+
 
 
     
@@ -248,7 +253,7 @@ function sendMessageFromInput() {
             profileButton.addEventListener('click', () => {
                 window.open(`#viewprofile?u=${selectedUser}`, '_blank');
             });
-            profileButton.classList.add('msger-send-btn'); // Add the CSS class to style it like the other buttons
+            profileButton.classList.add('msger-msgSend'); // Add the CSS class to style it like the other buttons
 
 
             const blockButton = document.createElement('button');

@@ -75,7 +75,7 @@ async function displayLeaderboard() {
       }
     });
   } else {
-    leaderboardBody.innerHTML = '<tr><td colspan="7">No data available</td></tr>';
+    leaderboardBody.innerHTML = '<tr><td colspan="7"><span id="">No data available</span></td></tr>';
   }
 }
 
