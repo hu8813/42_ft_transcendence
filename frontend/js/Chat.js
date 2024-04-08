@@ -10,6 +10,10 @@ function openChat() {
     const notification = document.getElementById('notification'); // Notification area
     const NOTIFICATION_DURATION = 2000;
 
+    translateKey('chat.msgPlaceholder').then(msgPlaceholderTranslation => {
+        messageInput.placeholder = msgPlaceholderTranslation;
+    });
+
      function showNotification(message, isSuccess) {
         notification.textContent = message;
         notification.style.color = isSuccess ? 'green' : 'red';
@@ -19,16 +23,22 @@ function openChat() {
     }
      
     function fetchAllUsers() {
-        fetch(`${getBackendURL()}/api/get_all_users`)
+        // Fetch translations for placeholder and channel label
+        Promise.all([
+            translateKey('chat.selectRecipient'),
+            translateKey('chat.channel')
+        ])
+        .then(([selectRecipientTranslation, channelTranslation]) => {
+            fetch(`${getBackendURL()}/api/get_all_users`)
             .then(response => response.json())
             .then(users => {
                 // Clear existing options
                 recipientSelect.innerHTML = '';
                 // Add default options
                 const defaultOptions = [
-                    { value: "", text: "Select recipient" },
+                    { value: "", id:"selectRecipient",text: selectRecipientTranslation },
                     { value: "", text: "--------" },
-                    { value: "", text: "#CHANNEL" },
+                    { value: "", id:"channel", text: channelTranslation },
                     { value: "", text: "--------" }
                 ];
                 defaultOptions.forEach(option => {
@@ -46,7 +56,11 @@ function openChat() {
                 });
             })
             .catch(error => console.error('Error fetching users:', error));
+        })
+        .catch(error => console.error('Error fetching translations:', error));
+        translate(currentLanguage);
     }
+    
 
     if (recipientSelect) {
         fetchAllUsers(); // Modify recipientSelect's innerHTML only if it exists
@@ -150,7 +164,7 @@ function sendMessageFromInput() {
 
     // Check if the input exceeds the maximum character limit
     if (inputText.length > MAX_MESSAGE_LENGTH) {
-        showNotification(`Message exceeds the maximum character limit of ${MAX_MESSAGE_LENGTH}.`, false);
+        showNotification(`Message exceeds the maximum character limit ${MAX_MESSAGE_LENGTH}.`, false);
         return;
     }
 
