@@ -100,6 +100,12 @@
   margin-left: 10px; 
 }
 
+
+.nav-item {
+  font-size: 0.6em !important; 
+  color: #fff;
+}
+
 .bn {
   padding: 0.9em 1.6em;
   border: none;
@@ -131,8 +137,8 @@
   background: linear-gradient(
     45deg,
     #07d888, #e40851, #2f00ff, #00ff37,
-      #ec0808, #2600ff, #0bd157, #2f00ff
-);
+    #ec0808, #2600ff, #0bd157, #2f00ff
+  );
   position: absolute;
   top: -2px;
   left: -2px;
@@ -147,35 +153,29 @@
   opacity: 0;
 }
 
+.bn:hover::before,
+.bn:focus::before { /* Add focus pseudo-class to handle keyboard navigation */
+  opacity: 1;
+}
+
 @keyframes glowing345 {
   0% {
     background-position: 0 0;
   }
-
   50% {
     background-position: 400% 0;
   }
-
   100% {
     background-position: 0 0;
   }
 }
 
-.bn:hover::before {
-  opacity: 1;
-}
-
-.bn:active:after {
+.bn::after {
   background: transparent;
-  
 }
 
-.bn:active {
+.bn:active,
+.bn.active { /* Add active state to keep the glow after click */
   color: #000;
   font-weight: bold;
-}
-
-.nav-item {
-  font-size: 0.6em !important; 
-  color: #fff;
 }
