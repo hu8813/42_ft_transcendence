@@ -85,6 +85,9 @@ function showGameModes() {
     
     const title = document.createElement("h1");
     title.textContent = "Select Game Mode";
+    translateKey('game.selectGame').then(selectGameTranslation => {
+        title.innerHTML = `<span id="selectGame">${selectGameTranslation}</span>`;
+    });
     title.style.textAlign = "center";
     title.style.fontSize = "50px";
     title.style.paddingTop = "50px";

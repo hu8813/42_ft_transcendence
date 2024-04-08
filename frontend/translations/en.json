@@ -1,6 +1,7 @@
 {
   "home": {
-    "welcome": "Welcome to the Pong Game!"
+    "welcome": "Welcome to the Pong Game!",
+    "ourTeam":  "Our Team"
   },
   "imprints": {
     "imprintTitle": "Imprint",
@@ -55,7 +56,8 @@
   },
   "game": {
     "play!title": "Play!",
-    "controls": "Left Player: W/S - Right Player: UP/DOWN"
+    "controls": "Left Player: W/S - Right Player: UP/DOWN",
+    "selectGame": "Select Game Mode"
   },
   "leaderboard": {
     "leaderboardtitle": "Leaderboard",
@@ -82,6 +84,7 @@
     "privacyPolicy": "Privacy Policy",
     "impressum": "Imprint", 
     "madeWith": "Made with",
-    "at42Vienna": "at 42Vienna"
+    "at42Vienna": "at 42Vienna",
+    "aboutUs": "About Us"
   }
 }

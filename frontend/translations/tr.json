@@ -1,6 +1,7 @@
 {
   "home": {
-    "welcome": "Pong Oyununa Hoş Geldiniz!"
+    "welcome": "Pong Oyununa Hoş Geldiniz!",
+    "ourTeam":  "Ekibimiz"
   },
   "imprints": {
       "imprintTitle": "İmza",
@@ -53,7 +54,8 @@
   },
   "game": {
     "play!title": "Oyna!",
-    "controls": "Sol Oyuncu: W/S - Sağ Oyuncu: YUKARI/AŞAĞI"
+    "controls": "Sol Oyuncu: W/S - Sağ Oyuncu: YUKARI/AŞAĞI",
+    "selectGame": "Oyun Sec"
   },
   "leaderboard": {
     "leaderboardtitle": "Sıralama Tablosu",
@@ -72,7 +74,7 @@
     "users": "Çevrimiçi Kullanıcılar"
   },
   "common": {
-    "home": "Ana Sayfa",
+    "hometitle": "Ana Sayfa",
     "switchLanguage": "Dil Değiştir",
     "or": "veya"
   },
@@ -80,6 +82,8 @@
     "privacyPolicy": "Gizlilik Politikası",
     "impressum": "Yasal Uyarı",
     "madeWith": "42Vienna'da",
-    "at42Vienna": "ile yapıldı"
+    "at42Vienna": "ile yapıldı",
+    "aboutUs": "Hakkimizda"
+
   }
 }

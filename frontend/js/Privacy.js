@@ -1,0 +1,4 @@
+function showPrivacyPolicy()
+{
+    translate(currentLanguage);
+}

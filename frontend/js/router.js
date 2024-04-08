@@ -24,10 +24,10 @@ const routes = {
 };
 
 let translationsCache = {}; 
-let currentLanguage = '';
-
+let currentLanguage = localStorage.getItem('language');
 if (!currentLanguage) {
     currentLanguage = 'en';
+    localStorage.setItem('language', currentLanguage);
 }
 
 function getBackendURL() {
@@ -67,11 +67,7 @@ console.log("Backend URL:", getBackendURL());
 
 updateNavigation();
 
-function changeLanguage(languageCode) {
-  currentLanguage = languageCode; 
-  translationsCache = {}; 
-  translate(currentLanguage); 
-}
+
 
 async function fetchAndCacheTranslations(language) {
   try {
@@ -89,12 +85,12 @@ async function initialize() {
   await fetchAndCacheTranslations(currentLanguage);
 }
 
-
 async function changeLanguage(languageCode) {
-  currentLanguage = languageCode; 
-  translationsCache = {}; 
-  await fetchAndCacheTranslations(currentLanguage);
-  translate(currentLanguage); 
+  currentLanguage = languageCode;
+  localStorage.setItem('language', languageCode);
+  translationsCache = {};
+  await fetchAndCacheTranslations(languageCode);
+  translate(languageCode);
 }
 
 
@@ -226,7 +222,13 @@ const handleLocation = async () => {
     case '#pong3':
       showPong3();
       break;
-    default:
+    case '#contact':
+      showImprint();
+      break;
+    case '#privacy-policy':
+      showPrivacyPolicy();
+      break;
+        default:
       break;
   }
 };
@@ -271,11 +273,9 @@ window.onpopstate = () => {
 
 
 function translate(lang) {
-
   fetch(`translations/${lang}.json`)
     .then(response => response.json())
     .then(translations => {
-
       Object.keys(translations).forEach(category => {
         Object.keys(translations[category]).forEach(key => {
           const element = document.getElementById(key);
