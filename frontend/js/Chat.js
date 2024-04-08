@@ -12,6 +12,10 @@ function openChat() {
     const notification = document.getElementById('notification'); // Notification area
     const NOTIFICATION_DURATION = 2000;
 
+    window.addEventListener('unload', () => {
+        clearInterval(fetchMessagesInterval);
+    });
+
     translateKey('chat.msgPlaceholder').then(msgPlaceholderTranslation => {
         messageInput.placeholder = msgPlaceholderTranslation;
     });
@@ -204,37 +208,40 @@ function sendMessageFromInput() {
 
 
     
-    function fetchMessages() {
-    fetch(apiUrl)
-        .then(response => response.json())
-        .then(messages => {
-            msgerChat.innerHTML = '';
-            messages.forEach(message => {
-                // Check if the recipient matches the current user or if it's empty (indicating a message to all users)
-                if (message.recipient === PERSON_NAME || message.recipient === '' || message.recipient === '#CHANNEL') {
-                    const createdAt = message.created_at ? new Date(message.created_at * 1000) : null; // Multiply by 1000 to convert seconds to milliseconds
-                    const formattedCreatedAt = createdAt ? formatDate(createdAt) : '';
-                    const formattedMessage = { ...message, created_at: formattedCreatedAt };
-                    addMessage(formattedMessage);
-                }
-            });
-        })
-        .catch(error => console.error('Error fetching messages:', error));
+function fetchMessages() {
+    const path = window.location.hash || '#'; // Get the current hash value
+
+    // Check if the path is '#chat'
+    if (path === '#chat') {
+        console.log("path is chat  " + path);
+        fetch(apiUrl)
+            .then(response => response.json())
+            .then(messages => {
+                msgerChat.innerHTML = '';
+                messages.forEach(message => {
+                    // Check if the recipient matches the current user or if it's empty (indicating a message to all users)
+                    if (message.recipient === PERSON_NAME || message.recipient === '' || message.recipient === '#CHANNEL') {
+                        const createdAt = message.created_at ? new Date(message.created_at * 1000) : null; // Multiply by 1000 to convert seconds to milliseconds
+                        const formattedCreatedAt = createdAt ? formatDate(createdAt) : '';
+                        const formattedMessage = { ...message, created_at: formattedCreatedAt };
+                        addMessage(formattedMessage);
+                    }
+                });
+            })
+            .catch(error => console.error('Error fetching messages:', error));
+    }
 }
 
-    fetchMessages();
+
+    //fetchMessages();
     fetchMessagesInterval = setInterval(fetchMessages, 3000);
 
     window.addEventListener('unload', () => {
         clearInterval(fetchMessagesInterval);
+        console.log("clear interval2");
     });
 
-    // onlineUsers.forEach(user => {
-    //     const option = document.createElement('option');
-    //     option.value = user;
-    //     option.textContent = user;
-    //     recipientSelect.appendChild(option);
-    // });
+   
 
     recipientSelect.addEventListener('change', () => {
         const selectedUser = recipientSelect.value;
