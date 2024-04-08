@@ -26,3 +26,6 @@ python manage.py collectstatic --noinput
 python3 manage.py makemigrations --noinput >> /dev/null
 python3 manage.py migrate >> /dev/null
 python3 manage.py runserver 0.0.0.0:8000
+#python3 manage.py runserver 0.0.0.0:8000 --cert /etc/ssl/localhost.pem --key /etc/ssl/localhost.key
+#python3 start_servers.py 0.0.0.0:8000 --cert /etc/ssl/localhost.pem --key /etc/ssl/localhost.key
+
