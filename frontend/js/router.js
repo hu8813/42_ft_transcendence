@@ -273,6 +273,12 @@ window.onpopstate = () => {
 
 
 function translate(lang) {
+  let currentLanguagetmp = localStorage.getItem('language');
+if (!currentLanguagetmp) {
+  currentLanguagetmp = lang || 'en';
+    localStorage.setItem('language', currentLanguagetmp);
+}
+
   fetch(`translations/${lang}.json`)
     .then(response => response.json())
     .then(translations => {
