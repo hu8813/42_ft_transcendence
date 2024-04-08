@@ -38,8 +38,8 @@ if (!currentLanguage) {
     currentLanguage = 'bg';
   } else if (userLanguage.startsWith('fr')) {
     currentLanguage = 'fr';
-  } else if (userLanguage.startsWith('ar-EG')) {
-    currentLanguage = 'ar-EG';
+  } else if (userLanguage.startsWith('ar')) {
+    currentLanguage = 'eg';
   } else {
     currentLanguage = 'en';
   }
