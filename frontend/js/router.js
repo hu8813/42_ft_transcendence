@@ -30,8 +30,8 @@ if (!currentLanguage) {
   const userLanguage = navigator.language;
   if (userLanguage.startsWith('en')) {
     currentLanguage = 'en';
-  } else if (userLanguage.startsWith('de')) {
-    currentLanguage = 'de';
+  } else if (userLanguage.startsWith('de') || userLanguage.startsWith('at') || userLanguage.startsWith('ch')) {
+    currentLanguage = 'at';
   } else if (userLanguage.startsWith('tr')) {
     currentLanguage = 'tr';
   } else if (userLanguage.startsWith('bg')) {
