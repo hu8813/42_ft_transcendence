@@ -65,13 +65,9 @@ footer {
     text-align: center;
 }
 
-footer a, .tw-link {
+footer a {
     color: aliceblue;
     text-decoration: none;
-}
-
-.tw-link{
-    font-weight: 600;
 }
 
 .nav-toggle {
