@@ -347,6 +347,5 @@ function showPong3() {
         requestAnimationFrame(gameLoop);;
     }
 
-    //gameLoop();
 }
 }
