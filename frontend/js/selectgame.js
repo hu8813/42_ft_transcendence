@@ -175,11 +175,3 @@ function showGameModes() {
     cardsContainer.style.gap = "20px";
     cardsContainer.style.padding = "0px 10px";
 }
-
-// Bootstrap Icons CDN for the back arrow icon
-const bootstrapIconsLink = document.createElement('link');
-bootstrapIconsLink.rel = 'stylesheet';
-bootstrapIconsLink.href = 'https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css';
-document.head.appendChild(bootstrapIconsLink);
-
-showGameModes();
