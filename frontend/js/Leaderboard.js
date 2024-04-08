@@ -38,7 +38,7 @@ async function displayLeaderboard() {
             </div>
             <div class="c-media__content">
               <div class="c-media__title">
-                <button class="button bn view-profile-btn" data-username="${member.username}" title="View Profile"><span class="bi bi-person"></span></button> ${member.username}
+                <button class="button bn view-profile-btn" data-username="${member.username}" style="background-color:#333333;" title="View Profile"><span class="bi bi-person"></span></button> ${member.username}
               </div>
             </div>
           </div>
