@@ -46,6 +46,8 @@ if (!currentLanguage) {
   localStorage.setItem('language', currentLanguage);
 }
 
+
+
 function getBackendURL() {
   const currentURL = window.location.href;
   const privateIPRegex = /^(10\.|192\.168\.|172\.(1[6-9]|2[0-9]|3[0-1])\.)/;
@@ -352,6 +354,10 @@ navMenu.appendChild(li);
 
 }
 
+const languageSelect = document.getElementById('languageSelect');
+    if (languageSelect) {
+      languageSelect.value = currentLanguage;
+    }
 
 window.addEventListener('load', () => {
   if (localStorage.getItem('isLoggedIn') === null) {
