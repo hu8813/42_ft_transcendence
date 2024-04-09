@@ -84,7 +84,7 @@ function displayCachedMessages() {
 
     cachedMessages.forEach(message => {
         // Check if the recipient matches the current user or if it's empty (indicating a message to all users)
-        if (message.recipient === PERSON_NAME || message.recipient === '' || message.recipient === '#CHANNEL') {
+        if (message.recipient === PERSON_NAME || message.recipient === '' || message.recipient.startsWith('#')) {
             const createdAt = message.created_at ? new Date(message.created_at * 1000) : null; // Multiply by 1000 to convert seconds to milliseconds
             const formattedCreatedAt = createdAt ? formatDate(createdAt) : '';
             const formattedMessage = { ...message, created_at: formattedCreatedAt };
