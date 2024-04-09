@@ -26,17 +26,12 @@ body {
     flex-direction: column;
 }
 
-main {
-    flex-grow: 1;
-}
-
 .app {
     min-height: 95vh;
     background-color: #333;
     color: antiquewhite;
     background-blend-mode: multiply;
     background-size: cover;
-    
     place-items: center;
 }
 

@@ -23,6 +23,5 @@ function showHome() {
     const rightPaddle = document.createElement("div");
     rightPaddle.classList.add("paddle-right");
     pongTable.appendChild(rightPaddle);
-
     welcomePage.appendChild(pongTable);
 };
