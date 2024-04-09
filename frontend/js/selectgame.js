@@ -21,19 +21,19 @@ function showGameModes() {
             href: "#player3d1",
         },
         {
-            text: "Single Player (against CPU)",
-            imgPlaceholder: '../src/playagainst.jpeg',
+            text: "Single Player (CPU)",
+            imgPlaceholder: '../src/tournament.jpeg',
             href: "#playerai1",
         },
         {
-            text: "Multiplayer",
+            text: "Multiplayer (local)",
             imgPlaceholder: './src/multiplayer.jpeg',
             href: "#pongMultiplayer",
             associatedCards: ["#pongehab", "#pong3", "#pong4"] // IDs of associated cards
         },
         {
             text: "Multiplayer 2 Players (local)",
-            imgPlaceholder: './src/tournament.jpeg',
+            imgPlaceholder: './src/playagainst.jpeg',
             href: "#pongehab",
         },
         {
@@ -103,7 +103,7 @@ function showGameModes() {
         card.style.borderStyle = "solid";
         parent.appendChild(card);
         card.addEventListener('click', (event) => {
-            if (data.text === "Pong42" || data.text === "Tic Tac Toe" || data.text === "Multiplayer") {
+            if (data.text === "Pong42" || data.text === "Tic Tac Toe" || data.text === "Multiplayer (local)") {
                 event.preventDefault();
                 isDeeperLevel = true;
                 backButton.style.display = 'inline-block';
