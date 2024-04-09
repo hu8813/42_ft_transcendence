@@ -215,9 +215,10 @@ const handleLocation = async () => {
     case "#chat":
       openChat();
       break;
-    case "#home" || "#":
-        translate(currentLanguage);
-        break;
+    case "#":
+    case "#home":
+      showHome();
+      break;
     case "#pongehab":
       showPongEhab();
       break;

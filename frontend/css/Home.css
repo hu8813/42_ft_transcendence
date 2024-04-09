@@ -1,154 +1,75 @@
-
-
-
-
-
-@media (max-width: 767px) {
-  body {
-    font-size: 14px;
-  }
-
-  h1 {
-    font-size: 2em;
-  }
-
-  
-}
-
-
-
-.home-container {
+.welcome-page {
   display: flex;
   flex-direction: column;
+  height: 88vh;
   align-items: center;
-  justify-content: center;
-  height: 100vh; 
+  position: relative;
+  /*border-style: solid;*/
+  border-color: green;
+  width: 100%;
+  padding-top: 50px;
 }
 
-h1 {
-  font-size: 2em;
-  color: #887f7f; 
-}
-
-
-
-body {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  margin: 0;
-  background-color: #101010;
-  color: #fff;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    "Helvetica Neue", Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-.App {
-  flex: 1;
+.welcome-message {
   text-align: center;
+  font-size: 5dvh;
+  margin-top: 50px;
 }
 
-
-
-
-.footer-container {
-  margin-top: auto;
-  padding: 20px;
-  background-color: #212529;
-  color: #fff;
-  text-align: center;
-}
-
-
-@media (max-width: 767px) {
-  .App-logo {
-    height: 30vmin;
-  }
-
-  .App-header {
-    min-height: 80vh;
-  }
-
-  .App {
-    font-size: 14px;
-    flex: 1;
-  }
-}
-
-.game-container {
-  display: flex;
-  flex-direction: column; 
-  align-items: center;
-  margin-top: 20px;
+.ping-pong-ball {
+  position: absolute;
+  width: 2vw;
+  height: 2vw;
+  background-color: white;
+  border-radius: 50%;
+  animation: bounce 0.6s infinite alternate;
 }
 
 @keyframes bounce {
   from {
-    transform: translate(-50%, -50%) translateY(0);
+    transform: translateY(7vh);
   }
   to {
-    transform: translate(-50%, -50%) translateY(-250px);
+    transform: translateY(-45vh);
   }
 }
 
-.loader {
+.pong-table {
+  width: 600px;
+  height: 400px;
+  background: #222;
+  border: 5px solid #fff;
+  border-style: dotted;
+  position: relative;
+  margin-top: 5%;
+}
+
+.paddle-left {
+  width: 15px;
+  height: 70px;
+  background: #fff;
   position: absolute;
-  height: 40px;
-  width: 6px;
-  color: #FFF;
-  animation: paddles 0.75s ease-out infinite;
-  left: 50%; 
+  left: 10px;
+  top: calc(50% - 35px);
+  animation: movePaddleLeft 2s infinite;
 }
 
-.loader:before {
-  content: "";
+.paddle-right {
+  width: 15px;
+  height: 70px;
+  background: #fff;
   position: absolute;
-  margin: 0 auto;
-  left: 0;
-  right: 0;
-  top: 15px;
-  width: 12px;
-  height: 12px;
-  background-color: greenyellow;
-  border-radius: 50%;
-  animation: ballbounce 0.6s ease-out infinite;
+  right: 10px;
+  top: calc(50% - 35px);
+  animation: movePaddleRight 2s infinite;
 }
 
-@keyframes paddles {
-  0% {
-    box-shadow: -25px -10px, 25px 10px
-  }
-
-  50% {
-    box-shadow: -25px 8px, 25px -10px
-  }
-
-  100% {
-    box-shadow: -25px -10px, 25px 10px
-  }
+@keyframes movePaddleLeft {
+  0%, 100% { top: calc(100% - 70px); }
+  50% { top: 0; } 
 }
 
-@keyframes ballbounce {
-  0% {
-    transform: translateX(-20px) scale(1, 1.2)
-  }
-
-  25% {
-    transform: scale(1.2, 1)
-  }
-
-  50% {
-    transform: translateX(15px) scale(1, 1.2)
-  }
-
-  75% {
-    transform: scale(1.2, 1)
-  }
-
-  100% {
-    transform: translateX(-20px)
-  }
+@keyframes movePaddleRight {
+  0%, 100% { top: 0; } 
+  50% { top: calc(100% - 70px); } 
 }
-      
