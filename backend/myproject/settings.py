@@ -6,11 +6,6 @@ from channels.auth import AuthMiddlewareStack
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-if 'localhost' in backend_url:
-    SECURE_SSL_REDIRECT = True
-    SESSION_COOKIE_SECURE = True
-    CSRF_COOKIE_SECURE = True
-
 
 SECRET_KEY = os.getenv('SECRET_KEY')
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
@@ -19,6 +14,12 @@ CLIENT_SECRET = os.environ.get("CLIENT_SECRET")
 REDIRECT_URI = os.environ.get("REDIRECT_URI")
 
 DEBUG = os.environ.get('DEBUG', '') in ['1', 'true']
+
+if DEBUG:
+    SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+
 
 
 ALLOWED_HOSTS = [
