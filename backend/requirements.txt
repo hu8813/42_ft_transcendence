@@ -11,3 +11,4 @@ python-socketio
 aiohttp
 uvicorn
 whitenoise
+django-extensions

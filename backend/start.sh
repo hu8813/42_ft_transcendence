@@ -1,6 +1,7 @@
 #!/bin/bash
 
 
+# Wait for Postgres to be ready
 while true; do
     if nc -z -w 2 $POSTGRES_HOST $POSTGRES_PORT; then
         echo "Postgres is up!"
@@ -20,12 +21,6 @@ ALTER TABLE auth_user ADD COLUMN IF NOT EXISTS authorization_code VARCHAR(255) U
     fi
 done
 
-echo "Starting backend!"
-#python manage.py collectstatic --noinput
-
-python3 manage.py makemigrations --noinput >> /dev/null
-python3 manage.py migrate >> /dev/null
-python3 manage.py runserver 0.0.0.0:8000
-#python3 manage.py runserver 0.0.0.0:8000 --cert /etc/ssl/localhost.pem --key /etc/ssl/localhost.key
-#python3 start_servers.py 0.0.0.0:8000 --cert /etc/ssl/localhost.pem --key /etc/ssl/localhost.key
-
+# Start Gunicorn with SSL certificate and key
+echo "Starting backend with Gunicorn!"
+gunicorn myproject.wsgi:application --bind 0.0.0.0:8000 --certfile "/etc/ssl/certs/localhost.crt" --keyfile "/etc/ssl/certs/localhost.key" --timeout 300

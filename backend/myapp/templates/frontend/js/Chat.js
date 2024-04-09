@@ -1,6 +1,6 @@
 function openChat() {
     let PERSON_NAME = localStorage.getItem('userLogin') || "user42";
-    const apiUrl = `${getBackendURL()}/api/messages`;
+    const apiUrl = `${getBackendURL()}/messages`;
     const onlineUsersElement = document.getElementById('recipient-select');
     const msgerChat = document.getElementById('msger-chat');
     const messageInput = document.getElementById('message-input');
@@ -19,7 +19,7 @@ function openChat() {
     }
      
     function fetchAllUsers() {
-        fetch(`${getBackendURL()}/api/get_all_users`)
+        fetch(`${getBackendURL()}/get_all_users`)
             .then(response => response.json())
             .then(users => {
                 // Clear existing options

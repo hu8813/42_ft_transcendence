@@ -54,7 +54,7 @@ function getBackendURL() {
   let backendURL = "";
   
   if (currentURL.includes("localhost") || currentURL.includes("127.0.0.1") || privateIPRegex.test(currentURL)) {
-      backendURL = "http://localhost:8000";
+      backendURL = "https://localhost:8443/api";
   } else {
       backendURL = "https://pong42.azurewebsites.net";
   }
@@ -68,7 +68,7 @@ function getBackendSigninURL() {
   let backendSigninURL = "";
   
   if (currentURL.includes("localhost") || currentURL.includes("127.0.0.1") || privateIPRegex.test(currentURL)) {
-      backendSigninURL = "http://localhost:8000/api/signin42c/";
+      backendSigninURL = "https://localhost:8443/api/signin42c/";
   } else {
       backendSigninURL = "https://pong42.azurewebsites.net/api/signin42b/";
   }
@@ -77,8 +77,8 @@ function getBackendSigninURL() {
 }
 
 // Usage example:
-const apiUrl = `${getBackendURL()}/api/messages`;
-const signinUrl = `${getBackendURL()}/api/signin42c/`;
+const apiUrl = `${getBackendURL()}/messages`;
+const signinUrl = `${getBackendURL()}/signin42c/`;
 
 
 console.log("Backend URL:", getBackendURL());

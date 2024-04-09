@@ -7,6 +7,10 @@ from channels.auth import AuthMiddlewareStack
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
+SECURE_SSL_REDIRECT = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+
 
 SECRET_KEY = os.getenv('SECRET_KEY')
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
@@ -19,6 +23,7 @@ DEBUG = os.environ.get('DEBUG', '') in ['1', 'true']
 
 ALLOWED_HOSTS = [
     'localhost',
+    '192.168.32.1',
     'pong42.azurewebsites.net',
     '127.0.0.1',
     'pong42.vercel.app',
@@ -31,7 +36,7 @@ ALLOWED_HOSTS = [
     'localhost:8080',
     'api.intra.42.fr',
     'transcendence-beige.vercel.app',
-    'psychic-journey-9q4rjvxwvwjf7579-443.app.github.dev/',
+    'backend',
 ]
 
 
@@ -159,18 +164,57 @@ USE_I18N = True
 
 USE_TZ = True
 
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost',
+    'https://localhost',
+    'http://localhost:8443',
+    'https://localhost:8443',
+    'https://localhost:443',
+    'http://127.0.0.1',
+    'https://127.0.0.1:8000',
+    'https://127.0.0.1',
+    'http://127.0.0.1:5500',
+    'https://pong42.vercel.app',
+    'http://pong42.vercel.app',
+    'http://pong42.azurewebsites.net',
+    'https://pong42.azurewebsites.net',
+    'http://localhost:3000',
+    'http://localhost:5500',
+    'https://transcendence-beige.vercel.app',
+    'https://api.intra.42.fr',
+    'https://192.168.32.1'
+]
 
-CSRF_TRUSTED_ORIGINS = ['http://localhost','https://localhost','http://localhost:8000','https://localhost:8443','https://localhost:443','https://psychic-journey-9q4rjvxwvwjf7579-8080.app.github.dev','https://psychic-journey-9q4rjvxwvwjf7579-8000.app.github.dev','https://psychic-journey-9q4rjvxwvwjf7579-443.app.github.dev','http://127.0.0.1','http://127.0.0.1:5500','https://pong42.vercel.app','http://pong42.vercel.app','http://pong42.azurewebsites.net','https://pong42.azurewebsites.net','http://localhost:8000','http://localhost:3000','http://localhost:5500','http://localhost','https://transcendence-beige.vercel.app','https://api.intra.42.fr']
-
-CORS_ALLOWED_ORIGINS = ['http://localhost','https://localhost','http://localhost:8000','https://localhost:8443','https://localhost:443','https://psychic-journey-9q4rjvxwvwjf7579-8080.app.github.dev','https://psychic-journey-9q4rjvxwvwjf7579-8000.app.github.dev','https://psychic-journey-9q4rjvxwvwjf7579-443.app.github.dev','http://127.0.0.1','http://127.0.0.1:5500','https://pong42.vercel.app','http://pong42.vercel.app','http://localhost:8000','http://pong42.azurewebsites.net','https://pong42.azurewebsites.net','http://localhost:3000','http://localhost:5500','http://localhost','https://transcendence-beige.vercel.app','https://api.intra.42.fr']
+CORS_ALLOWED_ORIGINS = [
+    'https://192.168.32.1',
+    'http://localhost',
+    'https://localhost',
+    'http://localhost:8443',
+    'https://localhost:8443',
+    'https://localhost:443',
+    'http://127.0.0.1',
+    'https://127.0.0.1:8000',
+    'https://127.0.0.1',
+    'http://127.0.0.1:5500',
+    'https://pong42.vercel.app',
+    'http://pong42.vercel.app',
+    'http://pong42.azurewebsites.net',
+    'https://pong42.azurewebsites.net',
+    'http://localhost:3000',
+    'http://localhost:5500',
+    'https://transcendence-beige.vercel.app',
+    'https://api.intra.42.fr'
+]
 
 CORS_ORIGIN_ALLOW_ALL = True
 
-STATIC_URL = '/static/'
-STATIC_ROOT = BASE_DIR / "staticfiles"
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
-]
+
+#STATIC_URL = '/static/'
+
+#STATIC_ROOT = BASE_DIR / "staticfiles"
+#STATICFILES_DIRS = [
+#    os.path.join(BASE_DIR, 'static'),
+#]
 #STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

@@ -11,9 +11,9 @@
 let backendURL = "";
 const privateIPRegex = /^(10\.|192\.168\.|172\.(1[6-9]|2[0-9]|3[0-1])\.)/;
 if (currentURL.includes("localhost") || currentURL.includes("127.0.0.1")) {
-    backendURL = "http://localhost:8000";
+    backendURL = "https://localhost:8443/api";
 } else if (privateIPRegex.test(currentURL)) {
-    backendURL = "http://localhost:8000"; 
+    backendURL = "https://localhost:8443/api"; 
 } else {
     backendURL = "https://pong42.azurewebsites.net"; 
 }
@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", async function() {
 
   if (code) {
     try {
-      const response = await fetch(`${backendURL}/api/userinfo/?code=${code}`);
+      const response = await fetch(`${backendURL}/userinfo/?code=${code}`);
       if (!response.ok) {
         throw new Error('Failed to fetch user data');
       }

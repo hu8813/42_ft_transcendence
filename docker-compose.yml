@@ -7,6 +7,7 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./backend:/usr/src/app/
+      - ./certs:/etc/ssl/certs
     ports:
       - '8000:8000'
     env_file:
@@ -30,10 +31,11 @@ services:
       context: ./src/nginx
       dockerfile: Dockerfile
     ports:
-      - "8080:80"
+#      - "8080:80"
       - "8443:443"
     volumes:
       - ./frontend:/etc/frontend
+      - ./certs:/etc/nginx/ssl
     depends_on:
       - backend
 
@@ -65,6 +67,7 @@ services:
     restart: unless-stopped
 
 volumes:
+  cert-volumes:
   database-postgres:
   prometheus:
     name: prometheus

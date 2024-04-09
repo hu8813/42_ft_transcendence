@@ -20,7 +20,7 @@ function fetchUsersAndTranslations(recipientSelect) {
     return Promise.all([
         translateKey('chat.selectRecipient'),
         translateKey('chat.channel'),
-        fetch(`${getBackendURL()}/api/get_all_users`).then(response => response.json())
+        fetch(`${getBackendURL()}/get_all_users`).then(response => response.json())
     ]);
 }
 
@@ -64,7 +64,7 @@ function fetchAndDisplayUsers(recipientSelect) {
 
 function openChat() {
     let PERSON_NAME = localStorage.getItem('userLogin') || "user42";
-    const apiUrl = `${getBackendURL()}/api/messages`;
+    const apiUrl = `${getBackendURL()}/messages`;
     const onlineUsersElement = document.getElementById('recipient-select');
     const msgerChat = document.getElementById('msger-chat'); // Define msgerChat here
     const messageInput = document.getElementById('message-input');

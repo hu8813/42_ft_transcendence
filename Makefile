@@ -1,4 +1,4 @@
-up: check_env
+up: check_env check_certs
 	$(eval VOLUME_PATH := $(HOME)/volumes)
 	mkdir -p $(HOME)/volumes/grafana
 	mkdir -p $(HOME)/volumes/prometheus
@@ -8,6 +8,14 @@ up: check_env
 #	@echo "Open: https://localhost:8443/"
 	docker compose up
 
+
+check_certs:
+	@if [ ! -f "certs/localhost.crt" ] || [ ! -f "certs/localhost.key" ]; then \
+		echo "Generating self-signed certificates..."; \
+		mkdir -p certs; \
+		openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout certs/localhost.key -out certs/localhost.crt -subj "/C=AT/ST=W/L=Vienna/O=Pong42/OU=IT Department/CN=localhost"; \
+		echo "Certificates generated."; \
+	fi
 
 check_env:
 	@if [ ! -f ".env" ]; then \
@@ -40,7 +48,7 @@ clean:
 	@echo "Clean-up done."
 
 
-re: down
+re: down check_env check_certs
 	docker compose up --build
 
 .PHONY: re clean up down

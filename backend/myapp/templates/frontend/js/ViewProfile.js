@@ -1,7 +1,7 @@
 async function fetchAndDisplayViewProfile(username) {
     console.log(username);
     try {
-        const response = await fetch(`${getBackendURL()}/api/profiles/?username=${username}`);
+        const response = await fetch(`${getBackendURL()}/profiles/?username=${username}`);
         if (!response.ok) {
             throw new Error('Profile not found');
         }
