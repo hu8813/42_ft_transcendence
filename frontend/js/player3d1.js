@@ -3,6 +3,9 @@ function showPlayer3d1Page(){
     var score1 = 0;
     var score2 = 0;    
 
+const scores3dElement = document.getElementById("scores3d");
+const winnerBoardElement = document.getElementById("winnerBoard");
+
 var renderer, scene, camera, pointLight, spotLight;
 
 
@@ -90,8 +93,8 @@ document.getElementById('moveRightButton').addEventListener('click', function() 
 
 function setup()
 {
-	
-	document.getElementById("winnerBoard").innerHTML = " &nbsp; Reach " + maxScore + " points to win!";
+	if (winnerBoardElement)
+        winnerBoardElement.innerHTML = " &nbsp; Reach " + maxScore + " points to win!";
 	
 	
 	score1 = 0;
@@ -354,7 +357,7 @@ function ballPhysics()
 		
 		score2++;
 		
-		var scoresElement = document.getElementById("scores3d");
+		
     if (scoresElement) {
         scoresElement.innerHTML = score1 + "-" + score2;
     }
@@ -369,7 +372,8 @@ function ballPhysics()
 		
 		score1++;
 		
-		document.getElementById("scores3d").innerHTML = score1 + "-" + score2;
+        if (scores3dElement)
+		    scores3dElement.innerHTML = score1 + "-" + score2;
 		
 		resetBall(1);
 		matchScoreCheck();	
@@ -576,8 +580,10 @@ function matchScoreCheck()
 		
 		ballSpeed = 0;
 		
-		document.getElementById("scores3d").innerHTML = "Player wins!";		
-		document.getElementById("winnerBoard").innerHTML = "Refresh to play again";
+        if (scores3dElement)
+		    scores3dElement.innerHTML = "Player wins!";		
+		if (winnerBoardElement)
+            winnerBoardElement.innerHTML = "Refresh to play again";
 		
 		bounceTime++;
 		paddle1.position.z = Math.sin(bounceTime * 0.1) * 10;
@@ -590,9 +596,10 @@ function matchScoreCheck()
 	{
 		
 		ballSpeed = 0;
-		
-		document.getElementById("scores3d").innerHTML = "CPU wins!";
-		document.getElementById("winnerBoard").innerHTML = "Refresh to play again";
+		if (scores3dElement)
+		    scores3dElement.innerHTML = "CPU wins!";
+		if (winnerBoardElement)
+            winnerBoardElement.innerHTML = "Refresh to play again";
 		
 		bounceTime++;
 		paddle2.position.z = Math.sin(bounceTime * 0.1) * 10;

@@ -4,6 +4,8 @@ function fetchMessages() {
     const path = window.location.hash || '#'; // Get the current hash value
 
     // Check if the path is '#chat'
+    const apiUrl = `${getBackendURL()}/messages`;
+
     if (path === '#chat') {
         console.log("path is chat  " + path);
         fetch(apiUrl)
