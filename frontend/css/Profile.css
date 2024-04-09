@@ -1,11 +1,9 @@
 .profile-container {
   background: #333842;
-  border-radius: 10px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(5px);
   border-color: yellow;
   border-style: solid;
   display: flex;
+  width: 100%;
   justify-content: center;
 }
 
@@ -13,14 +11,12 @@
   text-align: center;
   border-style: double;
   border-color: red;
-  padding: 0 150px;
 }
 
 .achievment {
   text-align: center;
   border-style: double;
   border-color: red;
-  padding: 0 150px;
 }
 
 .profile {
