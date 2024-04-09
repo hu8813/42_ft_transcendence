@@ -12,17 +12,21 @@
 
 .welcome-message {
   text-align: center;
-  font-size: 5dvh;
+  font-size: 5vh;
   margin-top: 50px;
-  animation: example 8s infinite, fadeIn 1s ease-out;
+  animation: rainbow 8s infinite, fadeIn 1s ease-out;
+  text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5); /* Add text shadow */
+  -webkit-text-stroke: 1px black; /* Add text stroke for 3D effect */
 }
 
-@keyframes example {
-  0%   {color:red; }
-  25%  {color:yellow; }
-  50%  {color:blue; }
-  75%  {color:green; }
-  100% {color:red; }
+@keyframes rainbow {
+  0%      { color: #ff0000; } /* Red */
+  16.67%  { color: #ff7f00; } /* Orange */
+  33.33%  { color: #ffff00; } /* Yellow */
+  50%     { color: #00ff00; } /* Green */
+  66.67%  { color: #0000ff; } /* Blue */
+  83.33%  { color: #4b0082; } /* Indigo */
+  100%    { color: #8a2be2; } /* Violet */
 }
 
 .ping-pong-ball {

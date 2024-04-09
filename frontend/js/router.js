@@ -24,29 +24,6 @@ const routes = {
   "#viewprofile": "/views/viewprofile.html",
 };
 
-let translationsCache = {}; 
-let currentLanguage = localStorage.getItem('language');
-if (!currentLanguage) {
-  const userLanguage = navigator.language;
-  if (userLanguage.startsWith('en')) {
-    currentLanguage = 'en';
-  } else if (userLanguage.startsWith('de') || userLanguage.startsWith('at') || userLanguage.startsWith('ch')) {
-    currentLanguage = 'at';
-  } else if (userLanguage.startsWith('tr')) {
-    currentLanguage = 'tr';
-  } else if (userLanguage.startsWith('bg')) {
-    currentLanguage = 'bg';
-  } else if (userLanguage.startsWith('fr')) {
-    currentLanguage = 'fr';
-  } else if (userLanguage.startsWith('ar')) {
-    currentLanguage = 'eg';
-  } else {
-    currentLanguage = 'en';
-  }
-  localStorage.setItem('language', currentLanguage);
-}
-
-
 
 function getBackendURL() {
   const currentURL = window.location.href;
@@ -75,6 +52,31 @@ function getBackendSigninURL() {
   
   return backendSigninURL;
 }
+
+let translationsCache = {}; 
+let currentLanguage = localStorage.getItem('language');
+if (!currentLanguage) {
+  const userLanguage = navigator.language;
+  if (userLanguage.startsWith('en')) {
+    currentLanguage = 'en';
+  } else if (userLanguage.startsWith('de') || userLanguage.startsWith('at') || userLanguage.startsWith('ch')) {
+    currentLanguage = 'at';
+  } else if (userLanguage.startsWith('tr')) {
+    currentLanguage = 'tr';
+  } else if (userLanguage.startsWith('bg')) {
+    currentLanguage = 'bg';
+  } else if (userLanguage.startsWith('fr')) {
+    currentLanguage = 'fr';
+  } else if (userLanguage.startsWith('ar')) {
+    currentLanguage = 'eg';
+  } else {
+    currentLanguage = 'en';
+  }
+  localStorage.setItem('language', currentLanguage);
+}
+
+
+
 
 // Usage example:
 const apiUrl = `${getBackendURL()}/messages`;
