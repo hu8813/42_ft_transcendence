@@ -13,14 +13,10 @@ function showPong3() {
     let gameOver = false;
     let isGamePaused = false;
 
-    
-
-
     const paddleWidth = 10;
-
     const paddleHeight = 100; 
 
-    const user = {
+    const player1 = {
         x: 10,
         y: canvas.height / 2 - paddleHeight / 2,
         width: paddleWidth,
@@ -164,7 +160,7 @@ function showPong3() {
     
     const startMessage = document.getElementById('startMessage');
 
-  showStartMessageWithCountdown(5);
+    showStartMessageWithCountdown(5);
 
     function showStartMessageWithCountdown(seconds) {
     if(seconds > 0) {
@@ -189,7 +185,7 @@ function showPong3() {
     }
     }
 
-    function showGameOverModall(loser) {
+    function showGameOverModal2(loser) {
         ctx.fillStyle = "white";
         ctx.font = "48px Arial";
         ctx.fillText(`${loser} lost!`, canvas.width / 4, canvas.height / 2);
@@ -216,7 +212,7 @@ function showPong3() {
     
     function showGameOverModal(loser) {
         gameOverMessage = `${loser} lost!`;
-        showGameOverModall(loser);
+        showGameOverModal2(loser);
         gameOver = true;
     }
 
@@ -230,8 +226,8 @@ function showPong3() {
         if (gameOver) return;
     
         // Bewegungen der vertikalen Schläger
-        if (wPressed && user.y > 0) user.y -= 8;
-        else if (sPressed && user.y < canvas.height - user.height) user.y += 8;
+        if (wPressed && player1.y > 0) player1.y -= 8;
+        else if (sPressed && player1.y < canvas.height - player1.height) player1.y += 8;
         
         if (upArrowPressed && player2.y > 0) player2.y -= 8;
         else if (downArrowPressed && player2.y < canvas.height - player2.height) player2.y += 8;
@@ -247,8 +243,8 @@ function showPong3() {
         
         // Spieler verliert einen Punkt, wenn er ein Tor kassiert
         if (ball.x - ball.radius < 0) {
-            user.score++;
-            if(user.score >= 7) {
+            player1.score++;
+            if(player1.score >= 7) {
                 gameOver = true;
                 showGameOverModal('Player 1');
                 disableControls();
@@ -285,7 +281,7 @@ function showPong3() {
         }
         
         // Kollisionserkennung für die vertikalen Schläger
-        if (collisionDetect(user, ball)) handlePaddleBallCollision(user, ball);
+        if (collisionDetect(player1, ball)) handlePaddleBallCollision(player1, ball);
         if (collisionDetect(player2, ball)) handlePaddleBallCollision(player2, ball);
     }
     
@@ -302,7 +298,7 @@ function showPong3() {
         // Punkte für Spieler 1
         ctx.fillStyle = "white";
         ctx.font = "32px Arial";
-        ctx.fillText(user.score.toString(), 20, 50); // Zeigt nur die Punktzahl an
+        ctx.fillText(player1.score.toString(), 20, 50); // Zeigt nur die Punktzahl an
     
         // Punkte für Spieler 2
         ctx.fillText(player2.score.toString(), canvas.width - 140, 50); // Zeigt nur die Punktzahl an
@@ -313,9 +309,8 @@ function showPong3() {
 
     function draw() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        drawPaddle(user.x, user.y, user.width, user.height, user.color);
+        drawPaddle(player1.x, player1.y, player1.width, player1.height, player1.color);
         drawPaddle(player2.x, player2.y, player2.width, player2.height, player2.color);
-        // Zeichnet den dritten Schläger
         drawPaddle(player3.x, player3.y, player3.width, player3.height, player3.color);
         drawBall(ball.x, ball.y, ball.radius, ball.color);
         drawScore();
