@@ -1,13 +1,11 @@
 .profile-container {
-  width: 100%;
-  height: 100%;
   background: #333842;
   border-radius: 10px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(5px);
   border-color: yellow;
   border-style: solid;
-  padding-top: 50px;
+  margin-top: 90px;
   display: flex;
   justify-content: center;
 }

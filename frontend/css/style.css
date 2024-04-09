@@ -5,20 +5,18 @@
 }
 
 *, *::before, *::after {
+    margin: 0;
+    padding: 0;
     box-sizing: border-box;
 }
 
 html, body {
     font-family: 'Press Start 2P' !important ;
-    margin: 0;
-    padding: 0;
     /* background: #212529 !important; */
      background: yellow !important;
-     box-sizing: border-box;
 }
 
 body {
-    margin: 0;
     background: #222;
     font-family: "Work Sans", sans-serif;
     font-weight: 400;
@@ -29,12 +27,9 @@ body {
 }
 
 .app {
-    min-height: 95vh;
+    height: 100vh;
     background-color: #333;
     color: antiquewhite;
-    background-blend-mode: multiply;
-    background-size: cover;
-    place-items: center;
 }
 
 .logo a {
