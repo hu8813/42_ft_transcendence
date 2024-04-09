@@ -5,36 +5,38 @@
 }
 
 *, *::before, *::after {
+    margin: 0;
+    padding: 0;
     box-sizing: border-box;
 }
 
 html, body {
     font-family: 'Press Start 2P' !important ;
-    margin: 0;
-    padding: 0;
     /* background: #212529 !important; */
      background: yellow !important;
-     box-sizing: border-box;
 }
 
-body {
+body{
     margin: 0;
-    background: #222;
     font-family: "Work Sans", sans-serif;
     font-weight: 400;
-    position: relative;
+    position: absolute;
     display: flex;
     flex-direction: column;
-    overflow: auto;
+    min-height: 100vh;
+    min-width: 100vw;
 }
 
 .app {
-    min-height: 95vh;
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     background-color: #333;
     color: antiquewhite;
-    background-blend-mode: multiply;
-    background-size: cover;
-    place-items: center;
+    border-style: solid;
+    border-color: green;
+    width: 100%;
 }
 
 .logo a {
@@ -49,26 +51,8 @@ header {
     top: 0;
     z-index: 999;
     width: 100%;
-    padding-top: 10px;
-    padding-bottom: 10px;
+    padding: 10px 0;
 
-}
-
-footer {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    color: aliceblue;
-    text-align: center;
-}
-
-footer a, .tw-link {
-    color: aliceblue;
-    text-decoration: none;
-}
-
-.tw-link{
-    font-weight: 600;
 }
 
 .nav-toggle {

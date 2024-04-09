@@ -174,4 +174,5 @@ function showGameModes() {
     cardsContainer.style.gridTemplateColumns = "repeat(2, 2fr)";
     cardsContainer.style.gap = "20px";
     cardsContainer.style.padding = "0px 10px";
+    container.style.paddingTop = "50px";
 }

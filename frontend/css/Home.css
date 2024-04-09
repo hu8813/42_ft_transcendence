@@ -14,6 +14,15 @@
   text-align: center;
   font-size: 5dvh;
   margin-top: 50px;
+  animation: example 8s infinite, fadeIn 1s ease-out;
+}
+
+@keyframes example {
+  0%   {color:red; }
+  25%  {color:yellow; }
+  50%  {color:blue; }
+  75%  {color:green; }
+  100% {color:red; }
 }
 
 .ping-pong-ball {

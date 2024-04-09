@@ -1,25 +1,24 @@
-
-
 .footer-container {
     display: flex;
-    justify-content: space-between;
     align-items: center;
     background-color: #212529;
-    color: #ffffff;
-    padding: 10px 20px;
+    color: white;
     position: fixed;
     bottom: 0;
     width: 100%;
-    text-align: right;
+    padding: 10px 40px;
+    font-size: large;
+    font-family: 'Courier New', Courier, monospace;
   }
   
   .footer-links {
     display: flex;
-    gap: 20px;
+    gap: 60px;
+
   }
   
   .footer-link {
-    color: #d2d2d2;
+    color: white;
     text-decoration: none;
     font-weight: bold;
     transition: color 0.3s ease;
