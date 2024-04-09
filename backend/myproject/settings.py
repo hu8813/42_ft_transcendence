@@ -13,13 +13,10 @@ CLIENT_ID = os.environ.get("CLIENT_ID")
 CLIENT_SECRET = os.environ.get("CLIENT_SECRET")
 REDIRECT_URI = os.environ.get("REDIRECT_URI")
 
-DEBUG = os.environ.get('DEBUG', '') in ['1', 'true']
-
-if DEBUG:
+if os.environ.get('DEBUG', '') in ['1', 'true']:
     SECURE_SSL_REDIRECT = True
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
-
 
 
 ALLOWED_HOSTS = [
@@ -38,6 +35,7 @@ ALLOWED_HOSTS = [
     'api.intra.42.fr',
     'transcendence-beige.vercel.app',
     'backend',
+    'frontend',
 ]
 
 
@@ -115,10 +113,6 @@ DATABASES = {
         'PASSWORD': os.environ.get('PGPASSWORD', 'password'),
         'HOST': os.environ.get('POSTGRES_HOST', 'localhost'),
         'PORT': os.environ.get('POSTGRES_PORT', '5432'),
-    },
-    'chat': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'chat_db.sqlite3',
     }
 }
 
