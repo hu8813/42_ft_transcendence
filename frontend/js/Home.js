@@ -5,6 +5,8 @@ function showHome() {
     const welcomeMessage = document.createElement("div");
     welcomeMessage.classList.add("welcome-message");
     welcomeMessage.textContent = "Welcome to the Pong Game!"
+    
+    if (translateKey('home.welcome').then((value) => {welcomeMessage.textContent = value;}));
     welcomePage.appendChild(welcomeMessage);
 
     // ping-pong table
