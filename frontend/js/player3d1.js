@@ -436,55 +436,39 @@ function opponentPaddleMovement()
 }
 
 
+function playerPaddleMovement() {
+    if (Key.isDown(Key.LEFT_ARROW)) {
+        // Check if paddle is within top boundary
+        if (paddle1.position.y < fieldHeight * 0.45) {
+            paddle1DirY = paddleSpeed * 0.5;
+        } else {
+            paddle1DirY = 0;
+        }
+    } else if (Key.isDown(Key.RIGHT_ARROW)) {
+        // Check if paddle is within bottom boundary
+        if (paddle1.position.y > -fieldHeight * 0.45) {
+            paddle1DirY = -paddleSpeed * 0.5;
+        } else {
+            paddle1DirY = 0;
+        }
+    } else {
+        paddle1DirY = 0;
+    }
+    
+    // Apply movement to paddle
+    paddle1.position.y += paddle1DirY;
 
-function playerPaddleMovement()
-{
-	
-	if (Key.isDown(Key.LEFT_ARROW))		
-	{
-		
-		
-		if (paddle1.position.y < fieldHeight * 0.45)
-		{
-			paddle1DirY = paddleSpeed * 0.5;
-		}
-		
-		
-		else
-		{
-			paddle1DirY = 0;
-			paddle1.scale.z += (10 - paddle1.scale.z) * 0.2;
-		}
-	}	
-	
-	else if (Key.isDown(Key.RIGHT_ARROW))
-	{
-		
-		
-		if (paddle1.position.y > -fieldHeight * 0.45)
-		{
-			paddle1DirY = -paddleSpeed * 0.5;
-		}
-		
-		
-		else
-		{
-			paddle1DirY = 0;
-			paddle1.scale.z += (10 - paddle1.scale.z) * 0.2;
-		}
-	}
-	
-	else
-	{
-		
-		paddle1DirY = 0;
-	}
-	
-	paddle1.scale.y += (1 - paddle1.scale.y) * 0.2;	
-	paddle1.scale.z += (1 - paddle1.scale.z) * 0.2;	
-	paddle1.position.y += paddle1DirY;
+    // Ensure paddle doesn't move beyond boundaries
+    if (paddle1.position.y > fieldHeight * 0.45) {
+        paddle1.position.y = fieldHeight * 0.45;
+    } else if (paddle1.position.y < -fieldHeight * 0.45) {
+        paddle1.position.y = -fieldHeight * 0.45;
+    }
+
+    // Scale paddle
+    paddle1.scale.y += (1 - paddle1.scale.y) * 0.2;
+    paddle1.scale.z += (1 - paddle1.scale.z) * 0.2;
 }
-
 
 function cameraPhysics()
 {
@@ -617,22 +601,42 @@ function matchScoreCheck()
 		paddle2.scale.y = 2 + Math.abs(Math.sin(bounceTime * 0.05)) * 10;
 	}
 }
-window.addEventListener('keydown', function(event) {
-    if (event.key === 'ArrowLeft') {
-        Key.onKeydown(Key.LEFT_ARROW);
-    } else if (event.key === 'ArrowRight') {
-        Key.onKeydown(Key.RIGHT_ARROW);
-    }
-});
+    window.addEventListener('keydown', function(event) {
+        if (event.key === 'ArrowLeft') {
+            Key.onKeydown(Key.LEFT_ARROW);
+        } else if (event.key === 'ArrowRight') {
+            Key.onKeydown(Key.RIGHT_ARROW);
+        }
+    });
 
-// Event listener for keyup event
-window.addEventListener('keyup', function(event) {
-    if (event.key === 'ArrowLeft') {
-        Key.onKeyup(Key.LEFT_ARROW);
-    } else if (event.key === 'ArrowRight') {
-        Key.onKeyup(Key.RIGHT_ARROW);
+    window.addEventListener('keyup', function(event) {
+        if (event.key === 'ArrowLeft') {
+            Key.onKeyup(Key.LEFT_ARROW);
+        } else if (event.key === 'ArrowRight') {
+            Key.onKeyup(Key.RIGHT_ARROW);
+        }
+    });
+
+    window.addEventListener("deviceorientation", handleOrientation, true);
+
+    function handleOrientation(event) {
+        var gamma = event.gamma;
+        var paddleMovement = (gamma / 90) * 5;
+        
+        if (paddleMovement < 0) {
+            Key.onKeydown(Key.LEFT_ARROW);
+            document.getElementById("moveLeftButton").innerHTML = paddleMovement.toFixed(2);
+            Key.onKeyup(Key.RIGHT_ARROW);
+        } else if (paddleMovement > 0) {
+            Key.onKeydown(Key.RIGHT_ARROW);
+            Key.onKeyup(Key.LEFT_ARROW);
+        } else {
+            Key.onKeyup(Key.LEFT_ARROW);
+            Key.onKeyup(Key.RIGHT_ARROW);
+        }
     }
-});
+    
+
 
     setup();
 
