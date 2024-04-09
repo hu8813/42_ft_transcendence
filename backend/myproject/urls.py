@@ -74,4 +74,4 @@ urlpatterns = [
     path('api/update-player/', views.update_player_position, name='update_player_position'),
     path('api/game-state/', views.get_game_state, name='get_game_state'),
     path('api/check-player-waiting/<str:user_login>/', views.check_player_waiting, name='check_player_waiting'),
-]  
+]  + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
