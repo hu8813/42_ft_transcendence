@@ -1,12 +1,10 @@
-
-
 .footer-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
     background-color: #212529;
-    color: #ffffff;
-    padding: 10px 20px;
+    color: red;
+    padding: 10px 0;
     position: fixed;
     bottom: 0;
     width: 100%;
@@ -19,7 +17,7 @@
   }
   
   .footer-link {
-    color: #d2d2d2;
+    color: yellow;
     text-decoration: none;
     font-weight: bold;
     transition: color 0.3s ease;

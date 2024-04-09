@@ -16,18 +16,21 @@ html, body {
      background: yellow !important;
 }
 
-body {
-    background: #222;
+body{
+    margin: 0;
     font-family: "Work Sans", sans-serif;
     font-weight: 400;
     position: relative;
     display: flex;
     flex-direction: column;
-    overflow: auto;
+    min-height: 100vh; 
 }
 
 .app {
-    height: 100vh;
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     background-color: #333;
     color: antiquewhite;
 }
@@ -44,26 +47,8 @@ header {
     top: 0;
     z-index: 999;
     width: 100%;
-    padding-top: 10px;
-    padding-bottom: 10px;
+    padding: 10px 0;
 
-}
-
-footer {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    color: aliceblue;
-    text-align: center;
-}
-
-footer a, .tw-link {
-    color: aliceblue;
-    text-decoration: none;
-}
-
-.tw-link{
-    font-weight: 600;
 }
 
 .nav-toggle {
