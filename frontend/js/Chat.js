@@ -1,10 +1,72 @@
 let fetchMessagesInterval;
 
+function fetchMessages() {
+    const path = window.location.hash || '#'; // Get the current hash value
+
+    // Check if the path is '#chat'
+    if (path === '#chat') {
+        console.log("path is chat  " + path);
+        fetch(apiUrl)
+            .then(response => response.json())
+            .then(messages => {
+                localStorage.setItem('cachedMessages', JSON.stringify(messages)); // Cache messages for future use
+            })
+            .catch(error => console.error('Error fetching messages:', error));
+    }
+}
+
+
+function fetchUsersAndTranslations(recipientSelect) {
+    return Promise.all([
+        translateKey('chat.selectRecipient'),
+        translateKey('chat.channel'),
+        fetch(`${getBackendURL()}/api/get_all_users`).then(response => response.json())
+    ]);
+}
+
+function displayUsers(selectRecipient, users, selectRecipientTranslation, channelTranslation) {
+    // Clear existing options
+    selectRecipient.innerHTML = '';
+
+    // Add default options
+    const defaultOptions = [
+        { value: "", id:"selectRecipient", text: selectRecipientTranslation },
+        { value: "", text: "--------" },
+        { value: "", id:"channel", text: channelTranslation },
+        { value: "", text: "--------" }
+    ];
+    defaultOptions.forEach(option => {
+        const defaultOption = document.createElement('option');
+        defaultOption.value = option.value;
+        defaultOption.textContent = option.text;
+        selectRecipient.appendChild(defaultOption);
+    });
+
+    // Populate options with all users
+    users.forEach(user => {
+        const option = document.createElement('option');
+        option.value = user;
+        option.textContent = user;
+        selectRecipient.appendChild(option);
+    });
+}
+
+function fetchAndDisplayUsers(recipientSelect) {
+    if (recipientSelect) {
+        fetchUsersAndTranslations(recipientSelect)
+        .then(([selectRecipientTranslation, channelTranslation, users]) => {
+            displayUsers(recipientSelect, users, selectRecipientTranslation, channelTranslation);
+        })
+        .catch(error => console.error('Error fetching translations or users:', error));
+        translate(currentLanguage);
+    }
+}
+
 function openChat() {
     let PERSON_NAME = localStorage.getItem('userLogin') || "user42";
     const apiUrl = `${getBackendURL()}/api/messages`;
     const onlineUsersElement = document.getElementById('recipient-select');
-    const msgerChat = document.getElementById('msger-chat');
+    const msgerChat = document.getElementById('msger-chat'); // Define msgerChat here
     const messageInput = document.getElementById('message-input');
     let sendBtn = document.getElementById('msgSend');
     const recipientSelect = document.getElementById('recipient-select');
@@ -12,6 +74,24 @@ function openChat() {
     const notification = document.getElementById('notification'); // Notification area
     const NOTIFICATION_DURATION = 2000;
 
+
+// Function to display cached messages
+function displayCachedMessages() {
+    const cachedMessages = JSON.parse(localStorage.getItem('cachedMessages') || '[]');
+
+    // Clear existing messages
+    msgerChat.innerHTML = '';
+
+    cachedMessages.forEach(message => {
+        // Check if the recipient matches the current user or if it's empty (indicating a message to all users)
+        if (message.recipient === PERSON_NAME || message.recipient === '' || message.recipient === '#CHANNEL') {
+            const createdAt = message.created_at ? new Date(message.created_at * 1000) : null; // Multiply by 1000 to convert seconds to milliseconds
+            const formattedCreatedAt = createdAt ? formatDate(createdAt) : '';
+            const formattedMessage = { ...message, created_at: formattedCreatedAt };
+            addMessage(formattedMessage);
+        }
+    });
+}
     window.addEventListener('unload', () => {
         clearInterval(fetchMessagesInterval);
     });
@@ -28,49 +108,53 @@ function openChat() {
         }, NOTIFICATION_DURATION);
     }
      
-    function fetchAllUsers() {
-        // Fetch translations for placeholder and channel label
-        Promise.all([
-            translateKey('chat.selectRecipient'),
-            translateKey('chat.channel')
-        ])
-        .then(([selectRecipientTranslation, channelTranslation]) => {
-            fetch(`${getBackendURL()}/api/get_all_users`)
-            .then(response => response.json())
-            .then(users => {
-                // Clear existing options
-                recipientSelect.innerHTML = '';
-                // Add default options
-                const defaultOptions = [
-                    { value: "", id:"selectRecipient",text: selectRecipientTranslation },
-                    { value: "", text: "--------" },
-                    { value: "", id:"channel", text: channelTranslation },
-                    { value: "", text: "--------" }
-                ];
-                defaultOptions.forEach(option => {
-                    const defaultOption = document.createElement('option');
-                    defaultOption.value = option.value;
-                    defaultOption.textContent = option.text;
-                    recipientSelect.appendChild(defaultOption);
-                });
-                // Populate options with all users
-                users.forEach(user => {
-                    const option = document.createElement('option');
-                    option.value = user;
-                    option.textContent = user;
-                    recipientSelect.appendChild(option);
-                });
-            })
-            .catch(error => console.error('Error fetching users:', error));
-        })
-        .catch(error => console.error('Error fetching translations:', error));
-        translate(currentLanguage);
-    }
     
+    fetchAndDisplayUsers(recipientSelect);
 
-    if (recipientSelect) {
-        fetchAllUsers(); // Modify recipientSelect's innerHTML only if it exists
-    }
+    fetchMessages(); // Fetch messages to cache them
+
+    displayCachedMessages(); // Display cached messages when chat is opened
+
+    // Interval to fetch new messages periodically
+    fetchMessagesInterval = setInterval(fetchMessages, 3000);
+
+    window.addEventListener('unload', () => {
+        clearInterval(fetchMessagesInterval);
+        console.log("clear interval2");
+    });
+
+    recipientSelect.addEventListener('change', () => {
+        const selectedUser = recipientSelect.value;
+        recipientActions.innerHTML = ''; // Clear previous actions
+
+        if (selectedUser) {
+            const inviteButton = document.createElement('button');
+            inviteButton.textContent = 'Invite to Play';
+            inviteButton.addEventListener('click', () => {
+                // Implement invite logic here
+                console.log(`Inviting ${selectedUser} to play.`);
+            });
+
+            const profileButton = document.createElement('button');
+            profileButton.textContent = 'Show Profile';
+            profileButton.addEventListener('click', () => {
+                window.open(`#viewprofile?u=${selectedUser}`, '_blank');
+            });
+            profileButton.classList.add('msger-msgSend'); // Add the CSS class to style it like the other buttons
+
+
+            const blockButton = document.createElement('button');
+            blockButton.textContent = 'Block private messages';
+            blockButton.addEventListener('click', () => {
+                // Implement block logic here
+                console.log(`Blocking private messages from ${selectedUser}.`);
+            });
+
+            recipientActions.appendChild(inviteButton);
+            recipientActions.appendChild(profileButton);
+            recipientActions.appendChild(blockButton);
+        }
+    });
 
     function formatDate(date) {
         const day = String(date.getDate()).padStart(2, '0');
@@ -276,3 +360,5 @@ function fetchMessages() {
         }
     });
 }
+
+fetchMessages();
