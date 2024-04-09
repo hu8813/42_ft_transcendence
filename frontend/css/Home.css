@@ -14,7 +14,7 @@
   text-align: center;
   font-size: 5dvh;
   margin-top: 50px;
-  animation: example 8s infinite;
+  animation: example 8s infinite, fadeIn 1s ease-out;
 }
 
 @keyframes example {
