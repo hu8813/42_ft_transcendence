@@ -10,10 +10,7 @@ if 'localhost' in backend_url:
     SECURE_SSL_REDIRECT = True
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
-else:
-    SECURE_SSL_REDIRECT = False
-    SESSION_COOKIE_SECURE = False
-    CSRF_COOKIE_SECURE = False
+
 
 SECRET_KEY = os.getenv('SECRET_KEY')
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
