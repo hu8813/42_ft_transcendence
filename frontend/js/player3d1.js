@@ -358,8 +358,8 @@ function ballPhysics()
 		score2++;
 		
 		
-    if (scoresElement) {
-        scoresElement.innerHTML = score1 + "-" + score2;
+    if (scores3dElement) {
+        scores3dElement.innerHTML = score1 + "-" + score2;
     }
 		
 		resetBall(2);
