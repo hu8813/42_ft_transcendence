@@ -216,7 +216,7 @@ const handleLocation = async () => {
       openChat();
       break;
     case "#home" || "#":
-        translate(currentLanguage);
+        showHome();
         break;
     case "#pongehab":
       showPongEhab();
