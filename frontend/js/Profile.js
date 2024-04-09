@@ -1,4 +1,12 @@
 function fetchAndDisplayProfile() {
+    const profile = document.querySelector(".profile");
+    // Category Profile
+    const playerProfile = document.createElement("h2");
+    playerProfile.textContent = "Player Profile";
+    profile.appendChild(playerProfile);
+
+    // Profile title
+    const profileTitle = document.createElement
 
   document.querySelector('.profile-pic').src = localStorage.getItem("userImage") || '../src/emptyavatar.jpeg'; 
   document.getElementById('nicknameadr').textContent = localStorage.getItem("userNickname") || 'Not available';

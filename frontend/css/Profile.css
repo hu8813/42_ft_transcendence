@@ -1,24 +1,36 @@
-
-.profile-body {
-  background-color: #282c34;
-  color: #ffffff;
-  font-family: 'Arial', sans-serif;
-  margin: 0;
-  padding: 0;
-}
-
 .profile-container {
-  max-width: 800px;
-  margin: 20px auto;
-  margin-top: 30px ;
-  padding-top: 5% ;
-  padding: 10pem;
+  width: 100%;
+  height: 100%;
   background: #333842;
   border-radius: 10px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(5px);
+  border-color: yellow;
+  border-style: solid;
+  padding-top: 50px;
+  display: flex;
+  justify-content: center;
 }
 
+.friend {
+  text-align: center;
+  border-style: double;
+  border-color: red;
+  padding: 0 150px;
+}
+
+.achievment {
+  text-align: center;
+  border-style: double;
+  border-color: red;
+  padding: 0 150px;
+}
+
+.profile {
+  border-style: double;
+  border-color: red;
+  text-align: center;
+}
 .profile-title, .profile-subtitle {
   text-align: center;
   font-weight: bold;
