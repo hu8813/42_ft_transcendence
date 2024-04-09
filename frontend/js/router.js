@@ -215,7 +215,7 @@ const handleLocation = async () => {
     case "#chat":
       openChat();
       break;
-    case "#home" || "#":
+    case "#" || "#home":
       showHome();
       break;
     case "#pongehab":
