@@ -4,10 +4,10 @@
   height: 88vh;
   align-items: center;
   position: relative;
-  border-style: solid;
+  /*border-style: solid;*/
   border-color: green;
-  overflow: hidden;
   width: 100%;
+
 }
 
 .welcome-message {
@@ -22,21 +22,20 @@
   height: 2vw;
   background-color: white;
   border-radius: 50%;
-  animation: bounce 1.5s infinite alternate;
+  animation: bounce 0.6s infinite alternate;
 }
 
 @keyframes bounce {
   from {
-    transform: translateX(35vh);
+    transform: translateY(7vh);
   }
   to {
-    transform: translateX(-35vh);
+    transform: translateY(-45vh);
   }
 }
 
 .pong-table {
-  width: 90vw;
-  max-width: 600px;
+  width: 600px;
   height: 400px;
   background: #222;
   border: 5px solid #fff;
