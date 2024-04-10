@@ -1,7 +1,7 @@
 .footer-container {
     display: flex;
     align-items: center;
-    background-color: #212529;
+    background:  rgba(51, 51, 51, 0.8);
     color: white;
     position: fixed;
     bottom: 0;
