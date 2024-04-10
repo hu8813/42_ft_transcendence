@@ -1,12 +1,12 @@
 function showAboutUsPage() {
   const cardsData = [
     {
-      imgSrc: 'src/huaydin.jpg',
-      imgAlt: 'huaydin',
-      firstName: 'Hüseyin',
-      lastName: 'Aydin',
-      githubLink: 'https://github.com/hu8813/',
-      linkedinLink: 'https://www.linkedin.com/in/huaydin/'
+      imgSrc: 'src/ddyankov.jpg',
+      imgAlt: 'ddyankov',
+      firstName: 'Deyan',
+      lastName: 'Dyankov',
+      githubLink: 'https://github.com/ddyankov28',
+      linkedinLink: 'https://www.linkedin.com/in/ddyankov23/'
     },
     {
       imgSrc: 'src/eelasam.jpg',
@@ -17,21 +17,22 @@ function showAboutUsPage() {
       linkedinLink: 'https://www.linkedin.com/in/ehab-elasam/'
     },
     {
+      imgSrc: 'src/huaydin.jpg',
+      imgAlt: 'huaydin',
+      firstName: 'Hüseyin Kaya',
+      lastName: 'Aydin',
+      githubLink: 'https://github.com/hu8813/',
+      linkedinLink: 'https://www.linkedin.com/in/huaydin/'
+    },    
+    {
       imgSrc: 'src/vstockma.jpg',
       imgAlt: 'vstockma',
       firstName: 'Valentin',
       lastName: 'Stockmayer',
       githubLink: 'https://github.com/vstockma',
       linkedinLink: 'https://www.linkedin.com/in/valentin-stockmayer-461b821a4/'
-    },
-    {
-      imgSrc: 'src/ddyankov.jpg',
-      imgAlt: 'ddyankov',
-      firstName: 'Deyan',
-      lastName: 'Dyankov',
-      githubLink: 'https://github.com/ddyankov28',
-      linkedinLink: 'https://www.linkedin.com/in/ddyankov23/'
     }
+
   ];
 
   const fragment = document.createDocumentFragment();
