@@ -56,7 +56,7 @@ function getBackendSigninURL() {
 let translationsCache = {}; 
 let currentLanguage = localStorage.getItem('language');
 if (!currentLanguage) {
-  const userLanguage = navigator.language;
+  const userLanguage = navigator.language.toLowerCase();
   if (userLanguage.startsWith('en')) {
     currentLanguage = 'en';
   } else if (userLanguage.startsWith('de') || userLanguage.startsWith('at') || userLanguage.startsWith('ch')) {
@@ -262,45 +262,51 @@ const handleLocation = async () => {
           translate(currentLanguage);
       break;
   }
+  
 };
 
 
 handleLocation();
 
-
 const navToggle = document.getElementById('nav-toggle');
 const navMenu = document.querySelector('nav');
 
-const toggleNavMenu = () => {
-  if (navMenu.classList.contains('active')) {
-    //navMenu.classList.remove('active'); 
-    
-} else {
-    navMenu.classList.add('active'); 
+const showNavMenu = () => {
+  navMenu.style.display = 'block';
+};
 
-}
+// Function to hide the navigation menu
+const hideNavMenu = () => {
+  navMenu.style.display = 'none';
 };
 
 
-navToggle.addEventListener('click', toggleNavMenu);
 
+// Function to toggle the navigation menu
+const toggleNavMenu = () => {
+  if (navMenu.style.display === 'none' || navMenu.style.display === '') {
+    showNavMenu();
+  } else {
+    hideNavMenu();
+  }
+};
+
+// Event listener for the navigation toggle button
+navToggle.addEventListener('click', toggleNavMenu);
 
 const route = (event) => {
     event = event || window.event;
     event.preventDefault();
-    //navToggle.click();
+    
     window.history.pushState({}, "", event.target.href);
     handleLocation();
 };
 
 
 window.onpopstate = () => {
-
     handleLocation();
-    //navToggle.click();
-    
-
 };
+
 
 
 function translate(lang) {

@@ -2,19 +2,24 @@
 
 :root {
     --background: #212529;
+    
 }
 
-*, *::before, *::after {
+*,
+*::before,
+*::after {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-html, body {
-    font-family: 'Press Start 2P' !important ;
-    /* background: #212529 !important; */
-     background: yellow !important;
-     overflow: auto;
+html,
+body {
+    font-family: 'Press Start 2P' !important;
+    background: rgba(51, 51, 51, 0.8);
+    overflow: auto;
+
+
 }
 
 .app {
@@ -23,10 +28,12 @@ html, body {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #333;
+    background-color: #333 transparent;
+    background-image: none;
+
     color: antiquewhite;
     border-style: solid;
-    border-color: green;
+    border-color: #333333;
     width: 100%;
     position: fixed;
 }
@@ -39,7 +46,10 @@ header {
     z-index: 999;
     width: 100%;
     height: 60px;
+    border-radius: 50px;
+
 }
+
 .logo a {
     text-decoration: none;
     color: #ffffff;
@@ -90,6 +100,7 @@ header {
 .nav-toggle-label span::after {
     top: 7px;
 }
+
 nav {
     position: absolute;
     text-align: left;
@@ -97,16 +108,16 @@ nav {
     left: 0;
     background: var(--background);
     width: 100%;
-    display: none; 
-    transform: scaleY(0); 
+    display: none;
+    transform: scaleY(0);
     transform-origin: top;
     transition: transform 400ms ease-in-out;
     color: #fff;
 }
 
 nav.active {
-    display: block; 
-    transform: scaleY(1); 
+    display: block;
+    transform: scaleY(1);
     color: #fff;
 }
 
@@ -140,19 +151,19 @@ nav a:active {
 }
 
 .nav-toggle:checked~nav {
-    
+
     transform: scale(1, 1);
 }
 
 .nav-toggle:checked~nav a {
     opacity: 1;
-    
+
     transition: opacity 250ms ease-in-out 250ms;
 }
 
 @media screen and (min-width: 800px) {
     .nav-toggle-label {
-        
+
         display: none;
     }
 

@@ -20,16 +20,6 @@ body {
 }
 
 
-.footer-container {
-  margin-top: auto;
-  font-family: Arial, sans-serif !important;
-  padding: 20px;
-  background-color: #212529;
-  color: #000;
-  text-align: center;
-}
-
-
 @media (max-width: 767px) {
   .App-logo {
     height: 30vmin;

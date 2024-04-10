@@ -82,15 +82,18 @@
 
    
     <div>
-      <select id="languageSelect" onchange="changeLanguage(this.value)" style="color: #ffffff;background-color: #333333;">
-        <option value="en">EN</option>
-        <option value="at">DE/AT</option>
-        <option value="tr">TR</option>
-        <option value="bg">BG</option>
-        <option value="eg">EG</option>
-        <option value="fr">FR</option>
+      <select class="selectpicker" id="languageSelect" data-width="fit" onchange="changeLanguage(this.value)" style="color: #ffffff;background-color: #333333;">
+        <option value="en">English</option>
+        <option value="at">Deutsch</option>
+        <option value="tr">Türkçe</option>
+        <option value="bg">Български</option>
+        <option value="eg">العربية</option>
+        <option value="fr">Français</option>
       </select>
+      
+      
     </div>
+    
   </header>
   <script>
     window.addEventListener('beforeunload', function (e) {
@@ -112,15 +115,13 @@
   <footer class="footer-container">
     
     <div class="footer-links">
-      <a onclick="route()" href="/#privacy-policy" class="footer-link" id="privacyPolicy">Privacy Policy</a>
+      <a onclick="route();" href="/#privacy-policy" class="footer-link" id="privacyPolicy">Privacy Policy</a>
       <a onclick="route()" href="/#contact" class="footer-link" id="impressum">Impressum</a>
-      <a onclick="route()" href="/#aboutus" class="footer-link" id="aboutUs">About Us </a>
-    </div>
+       </div>
   
-    <div class="footer-text" style="text-align: right; padding-right: 30px;" id="madeWith">
-      Made with</div><span class="heart-icon" style="font-size: 2em;">&#9829;</span> &nbsp;
-      <div id="at42Vienna">at 42Vienna
-    </div>
+    <div class="footer-text" style="text-align: right; padding-right: 30px;" >
+      <a onclick="route()" href="/#aboutus" class="footer-link" id="aboutUs">About Us </a>
+   
   </footer>
 
   <script src="./js/router.js" defer></script>

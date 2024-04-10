@@ -4,10 +4,11 @@
   height: 88vh;
   align-items: center;
   position: relative;
-  /*border-style: solid;*/
-  border-color: green;
   width: 100%;
   padding-top: 50px;
+  background-image: url('../src/bg.jpg');
+  background-size: cover;
+  background-position: center;
 }
 
 .welcome-message {
@@ -15,8 +16,8 @@
   font-size: 5vh;
   margin-top: 50px;
   animation: rainbow 8s infinite, fadeIn 1s ease-out;
-  text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5); /* Add text shadow */
-  -webkit-text-stroke: 1px black; /* Add text stroke for 3D effect */
+  text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5);
+  -webkit-text-stroke: 1px black;
 }
 
 @keyframes rainbow {
@@ -50,7 +51,7 @@
 .pong-table {
   width: 600px;
   height: 400px;
-  background: #222;
+  background: rgba(34, 34, 34, 0.8); /* 50% transparent black */
   border: 5px solid #fff;
   border-style: dotted;
   position: relative;
