@@ -305,6 +305,7 @@ const route = (event) => {
 
 window.onpopstate = () => {
     handleLocation();
+    showNavMenu();
 };
 
 
@@ -376,6 +377,16 @@ window.addEventListener('load', () => {
     localStorage.setItem('isLoggedIn', 'false');
   }
   updateNavigation();
+});
+
+window.addEventListener('resize', () => {
+  if (window.innerWidth >= 800) {
+    // Ensure that the navigation menu is always shown on larger screens
+    showNavMenu();
+  } else {
+    // Hide the navigation menu on smaller screens
+    hideNavMenu();
+  }
 });
 
 window.route = route;
