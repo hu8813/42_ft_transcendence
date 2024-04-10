@@ -6,9 +6,9 @@
     position: fixed;
     bottom: 0;
     width: 100%;
-    padding: 10px 40px;
-    font-size: large;
-    font-family: 'Courier New', Courier, monospace;
+    height: 50px;
+    padding: 0 30px;
+    font-family:'Courier New', Courier, monospace
   }
   
   .footer-links {

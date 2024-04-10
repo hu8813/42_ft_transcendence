@@ -14,21 +14,12 @@ html, body {
     font-family: 'Press Start 2P' !important ;
     /* background: #212529 !important; */
      background: yellow !important;
-}
-
-body{
-    margin: 0;
-    font-family: "Work Sans", sans-serif;
-    font-weight: 400;
-    position: absolute;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    min-width: 100vw;
+     overflow: auto;
 }
 
 .app {
-    flex: 1;
+    top: 60px;
+    bottom: 50px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -37,12 +28,7 @@ body{
     border-style: solid;
     border-color: green;
     width: 100%;
-    position: relative;
-}
-
-.logo a {
-    text-decoration: none;
-    color: #ffffff;
+    position: fixed;
 }
 
 header {
@@ -52,9 +38,13 @@ header {
     top: 0;
     z-index: 999;
     width: 100%;
-    padding: 10px 0;
-
+    height: 60px;
 }
+.logo a {
+    text-decoration: none;
+    color: #ffffff;
+}
+
 
 .nav-toggle {
     position: absolute !important;
