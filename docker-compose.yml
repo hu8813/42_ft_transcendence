@@ -39,32 +39,32 @@ services:
     depends_on:
       - backend
 
-  prometheus:
-    container_name: prometheus
-    build: ./src/prometheus
-    image: prometheus
-    volumes:
-      - prometheus:/volumes/prometheus
-    ports:
-      - '9090:9090'
-    networks:
-      - transcendence
-    env_file:
-      - .env
-    restart: unless-stopped
-  grafana:
-    container_name: grafana
-    build: ./src/grafana
-    image: grafana
-    ports:
-      - 3000:3000
-    volumes:
-      - grafana:/volumes/grafana
-    networks:
-      - transcendence
-    env_file:
-      - .env
-    restart: unless-stopped
+  # prometheus:
+  #   container_name: prometheus
+  #   build: ./src/prometheus
+  #   image: prometheus
+  #   volumes:
+  #     - prometheus:/volumes/prometheus
+  #   ports:
+  #     - '9090:9090'
+  #   networks:
+  #     - transcendence
+  #   env_file:
+  #     - .env
+  #   restart: unless-stopped
+  # grafana:
+  #   container_name: grafana
+  #   build: ./src/grafana
+  #   image: grafana
+  #   ports:
+  #     - 3000:3000
+  #   volumes:
+  #     - grafana:/volumes/grafana
+  #   networks:
+  #     - transcendence
+  #   env_file:
+  #     - .env
+  #   restart: unless-stopped
 
 volumes:
   cert-volumes:
