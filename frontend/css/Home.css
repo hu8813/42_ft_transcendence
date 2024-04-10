@@ -24,7 +24,6 @@
   animation: zoomInOut 10s infinite alternate; /* Adjust duration and other parameters as needed */
 }
 
-
 .welcome-message {
   text-align: center;
   font-size: 5vh;
@@ -32,17 +31,19 @@
   animation: rainbow 8s infinite, fadeIn 1s ease-out;
   text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5);
   -webkit-text-stroke: 1px black;
+  color: rgba(255, 255, 255, 0.5); /* Adjust the last value (alpha) for transparency */
 }
 
 @keyframes rainbow {
-  0%      { color: #ff0000; } /* Red */
-  16.67%  { color: #ff7f00; } /* Orange */
-  33.33%  { color: #ffff00; } /* Yellow */
-  50%     { color: #00ff00; } /* Green */
-  66.67%  { color: #0000ff; } /* Blue */
-  83.33%  { color: #4b0082; } /* Indigo */
-  100%    { color: #8a2be2; } /* Violet */
+  0%      { color: rgba(255, 0, 0, 0.5); } /* Red */
+  16.67%  { color: rgba(255, 127, 0, 0.5); } /* Orange */
+  33.33%  { color: rgba(255, 255, 0, 0.5); } /* Yellow */
+  50%     { color: rgba(0, 255, 0, 0.5); } /* Green */
+  66.67%  { color: rgba(0, 0, 255, 0.5); } /* Blue */
+  83.33%  { color: rgba(75, 0, 130, 0.5); } /* Indigo */
+  100%    { color: rgba(138, 43, 226, 0.5); } /* Violet */
 }
+
 
 .ping-pong-ball {
   position: absolute;
