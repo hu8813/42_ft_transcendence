@@ -10,6 +10,10 @@
   flex-direction: column;
   height: 90vh; 
   width: 95vh; 
+  background-image: url('../src/chatbg.png');
+  background-size: 40%;
+  background-position: center;
+
 }
 
 .chat-container {
