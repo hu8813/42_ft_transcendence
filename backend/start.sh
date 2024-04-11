@@ -13,11 +13,7 @@ while true; do
 ALTER TABLE auth_user ADD COLUMN IF NOT EXISTS nickname VARCHAR(50);
 ALTER TABLE auth_user ADD COLUMN IF NOT EXISTS image_link VARCHAR(255);
 ALTER TABLE auth_user ADD COLUMN IF NOT EXISTS access_token VARCHAR(255);
-CREATE TABLE IF NOT EXISTS myapp_feedback (
-    id SERIAL PRIMARY KEY,
-    feedback_text TEXT NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+
 ALTER TABLE auth_user ADD COLUMN IF NOT EXISTS authorization_code VARCHAR(255) UNIQUE;
 INSERT INTO auth_user (username, email, password, first_name, last_name, is_superuser, is_staff, is_active, date_joined, score, nickname, image_link)
 VALUES
