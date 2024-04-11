@@ -21,6 +21,8 @@ const routes = {
   "#aboutus": "/views/aboutus.html",
   "#pong3": "/views/pong3.html",
   "#pong4": "/views/pong4.html",
+  "#tic1": "/views/tic1.html",
+  "#tic2": "/views/tic2.html",
   "#viewprofile": "/views/viewprofile.html",
 };
 
@@ -263,6 +265,12 @@ const handleLocation = async () => {
       break;
     case '#pong4':
       showPong4();
+      break;
+    case '#tic1':
+      showTic1();
+      break;
+    case '#tic2':
+      showTic2();
       break;
     case '#contact':
       showImprint();
