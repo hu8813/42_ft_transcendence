@@ -1,5 +1,6 @@
 #!/bin/bash
 
+: "${WEBSOCKET_PORT:=8001}
 
 # Wait for Postgres to be ready
 while true; do
@@ -47,4 +48,5 @@ done
 echo "Starting backend with Gunicorn!"
 python3 manage.py makemigrations >> /dev/null
 python3 manage.py migrate >> /dev/null
-gunicorn myproject.wsgi:application --bind 0.0.0.0:8000 --certfile "/etc/ssl/certs/localhost.crt" --keyfile "/etc/ssl/certs/localhost.key" --timeout 300
+daphne -b 0.0.0.0 -p $WEBSOCKET_PORT myproject.asgi:application &
+gunicorn myproject.wsgi:application --bind 0.0.0.0:8000 --certfile "/etc/ssl/certs/localhost.crt" --keyfile "/etc/ssl/certs/localhost.key" --workers 4 --timeout 300 

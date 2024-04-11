@@ -12,3 +12,4 @@ aiohttp
 uvicorn
 whitenoise
 django-extensions
+daphne
