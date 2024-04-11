@@ -69,16 +69,20 @@ def show_feedbacks(request):
     else:
         return JsonResponse({'error': 'Invalid request method'}, status=400)
 
+
 @csrf_exempt
 def messages(request):
     if request.method == 'GET':
-        messages = list(Message.objects.all().values())
-        for message in messages:
-            message['created_at'] = timezone.localtime(message['created_at']).timestamp()
-        return JsonResponse(messages, safe=False)
+        messages = Message.objects.order_by('-created_at')[:50]  # Retrieve the last 50 messages
+        message_data = serializers.serialize('json', messages)
+        return HttpResponse(message_data, content_type='application/json')
     elif request.method == 'POST':
         data = json.loads(request.body)
-        message = Message.objects.create(name=data['name'], text=data['text'], recipient=data.get('recipient', ''))
+        name = escape(data.get('name', ''))
+        text = escape(data.get('text', ''))
+        recipient = escape(data.get('recipient', ''))
+        
+        message = Message.objects.create(name=name, text=text, recipient=recipient)
         message_data = {
             'id': message.id,
             'name': message.name,
