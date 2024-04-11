@@ -1,13 +1,28 @@
 let leaderboardData = null; 
+let fetchInProgress = false;
 
 async function fetchLeaderboardData() {
+  if (fetchInProgress) {
+      console.log('Fetch request already in progress. Ignoring...');
+      return;
+  }
+
   try {
-    const response = await fetch(`${getBackendURL()}/leaderboard/`);
-    const data = await response.json();
-    leaderboardData = data;
+      fetchInProgress = true;
+
+      const response = await fetch(`${getBackendURL()}/leaderboard/`);
+      const data = await response.json();
+      leaderboardData = data;
+
+      if (leaderboardData !== null) {
+          setTimeout(() => {
+              fetchInProgress = false;
+          }, 5000);
+      }
   } catch (error) {
-    console.error('Error fetching leaderboard data:', error);
-    leaderboardData = null;
+      console.error('Error fetching leaderboard data:', error);
+      leaderboardData = null;
+      fetchInProgress = false; 
   }
 }
 

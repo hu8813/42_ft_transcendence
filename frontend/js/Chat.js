@@ -1,9 +1,11 @@
 let fetchMessagesInterval;
 
+
 function fetchMessages() {
     const path = window.location.hash || '#'; // Get the current hash value
 
     // Check if the path is '#chat'
+    apiUrl = `${getBackendURL()}/messages`;
     
     if (path === '#chat' && apiUrl) {
         fetch(apiUrl)
@@ -278,12 +280,11 @@ function sendMessageFromInput() {
     sendMessage(newMessage);
     lastMessageSentTime = currentTime;
 
-    // Disable the send button temporarily after sending a message
     sendBtn.disabled = true;
-    sendBtn.style.visibility = 'hidden'; // Set visibility to 'hidden'
+    sendBtn.style.visibility = 'hidden';
     setTimeout(() => {
         sendBtn.disabled = false;
-        sendBtn.style.visibility = 'visible'; // Set visibility back to 'visible'
+        sendBtn.style.visibility = 'visible'; 
     }, MESSAGE_SEND_INTERVAL);
 
     showNotification("Message sent successfully.", true);
@@ -293,17 +294,15 @@ function sendMessageFromInput() {
 
     
 function fetchMessages() {
-    const path = window.location.hash || '#'; // Get the current hash value
+    const path = window.location.hash || '#'; 
 
-    // Check if the path is '#chat'
     if (path === '#chat') {
-        console.log("path is chat  " + path);
         fetch(apiUrl)
             .then(response => response.json())
             .then(messages => {
                 msgerChat.innerHTML = '';
                 messages.forEach(message => {
-                    // Check if the recipient matches the current user or if it's empty (indicating a message to all users)
+
                     if (message.recipient === PERSON_NAME || message.recipient === '' || message.recipient === '#CHANNEL') {
                         const createdAt = message.created_at ? new Date(message.created_at * 1000) : null; // Multiply by 1000 to convert seconds to milliseconds
                         const formattedCreatedAt = createdAt ? formatDate(createdAt) : '';
@@ -359,6 +358,7 @@ function fetchMessages() {
             recipientActions.appendChild(blockButton);
         }
     });
+    fetchMessages();
 }
 
-fetchMessages();
+

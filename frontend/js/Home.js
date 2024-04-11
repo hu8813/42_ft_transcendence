@@ -16,6 +16,8 @@ function showHome() {
     
     pongTable.onmouseover = () => {
         welcomeMessage.textContent = "Please login to play!"
+        if (translateKey('home.logintoplay').then((value) => {welcomeMessage.textContent = value;}));
+
         const leftPaddle = document.querySelector(".paddle-left");
         const rightPaddle = document.querySelector(".paddle-right");
         const pongBall = document.querySelector(".ping-pong-ball");

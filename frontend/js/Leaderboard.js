@@ -23,12 +23,11 @@ async function displayLeaderboard() {
 
   function renderPaginationControls() {
     const totalPages = Math.ceil(leaderboardData.length / entriesPerPage);
-    console.log('Total pages:', totalPages);
+
     const paginationContainer = document.getElementById('pagination-container');
-    console.log('Pagination container:', paginationContainer);
     if (paginationContainer) {
         paginationContainer.innerHTML = '';
-        console.log('Pagination container found:', paginationContainer);
+
 
         for (let i = 1; i <= totalPages; i++) {
             const pageButton = document.createElement('button');
@@ -40,7 +39,6 @@ async function displayLeaderboard() {
             paginationContainer.appendChild(pageButton);
         }
     } else {
-        console.log('Pagination container not found.');
     }
 }
 

@@ -1,7 +1,8 @@
 {
   "home": {
     "welcome": "Welcome to the Pong Game!",
-    "ourTeam":  "Our Team"
+    "ourTeam":  "Our Team",
+    "logintoplay": "Please login to play!"
   },
   "imprints": {
     "imprintTitle": "Imprint",
