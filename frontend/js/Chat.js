@@ -158,14 +158,16 @@ function displayCachedMessages() {
         }
     });
 
-    function formatDate(date) {
+    function formatDate(dateString) {
+        console.log("date: "+dateString);
+        const date = new Date(dateString); 
         const day = String(date.getDate()).padStart(2, '0');
         const month = String(date.getMonth() + 1).padStart(2, '0');
         const hours = String(date.getHours()).padStart(2, '0');
         const minutes = String(date.getMinutes()).padStart(2, '0');
+        console.log("date: "+day+"/"+month+" "+hours+":"+minutes);
         return `${day}/${month} ${hours}:${minutes}`;
     }
-    
 
 
     function scrollToBottom() {
@@ -304,7 +306,7 @@ function fetchMessages() {
                 messages.forEach(message => {
 
                     if (message.recipient === PERSON_NAME || message.recipient === '' || message.recipient === '#CHANNEL') {
-                        const createdAt = message.created_at ? new Date(message.created_at * 1000) : null; // Multiply by 1000 to convert seconds to milliseconds
+                        const createdAt = message.created_at ? new Date(message.created_at) : null; // Parse directly as a Date
                         const formattedCreatedAt = createdAt ? formatDate(createdAt) : '';
                         const formattedMessage = { ...message, created_at: formattedCreatedAt };
                         addMessage(formattedMessage);
@@ -314,6 +316,7 @@ function fetchMessages() {
             .catch(error => console.error('Error fetching messages:', error));
     }
 }
+
 
 
     //fetchMessages();
