@@ -10,7 +10,7 @@ function showGameModes() {
             text: "Tic Tac Toe",
             imgPlaceholder: './src/tictactoe.png',
             href: "#tictactoe",
-            associatedCards: ["#xoxo1", "#xoxo2", "#xoxo3", "#xoxo4"] // IDs of associated cards
+            associatedCards: ["#tic1", "#tic2", "#xoxo3", "#xoxo4"] // IDs of associated cards
         }
     ];
 
@@ -49,12 +49,12 @@ function showGameModes() {
         {
             text: "Single Player (CPU)",
             imgPlaceholder: './src/multiplayer.jpeg',
-            href: "#xoxo1",
+            href: "#tic1",
         },
         {
             text: "Multiplayer (local)",
             imgPlaceholder: './src/multiplayer.jpeg',
-            href: "#xoxo2",
+            href: "#tic2",
         },
         {
             text: "Tournament",

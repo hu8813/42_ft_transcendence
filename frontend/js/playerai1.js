@@ -173,7 +173,7 @@ function showPlayerAi1Page(){
 
     function showGameOverModal() {
         const modal = document.getElementById('playerAiModal');
-        modal.style.display = 'block'; // Zeigt das Modal an
+        modal.style.display = 'block';
         const winnerText = document.getElementById('playerAiWinner');
         winnerText.textContent = `${winner} wins!`;
     }
