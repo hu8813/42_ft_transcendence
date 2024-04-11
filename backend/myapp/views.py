@@ -37,6 +37,7 @@ def get_all_users(request):
     return JsonResponse(list(all_users), safe=False)
 
 
+@csrf_exempt
 def submit_feedback(request):
     if request.method == 'POST':
         # Parse the JSON data from the request body
@@ -60,7 +61,7 @@ def submit_feedback(request):
         # Return a JSON response with an error message if the request method is not POST
         return JsonResponse({'error': 'Invalid request method'}, status=400)
 
-
+        
 @csrf_exempt
 def messages(request):
     if request.method == 'GET':
