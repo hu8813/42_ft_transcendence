@@ -632,7 +632,6 @@ function matchScoreCheck()
         
         if (paddleMovement < 0) {
             Key.onKeydown(Key.LEFT_ARROW);
-            document.getElementById("moveLeftButton").innerHTML = paddleMovement.toFixed(2);
             Key.onKeyup(Key.RIGHT_ARROW);
         } else if (paddleMovement > 0) {
             Key.onKeydown(Key.RIGHT_ARROW);
