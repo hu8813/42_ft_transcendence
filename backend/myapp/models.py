@@ -76,3 +76,10 @@ class Message(models.Model):
 
     def __str__(self):
         return f'{self.name}: {self.text}'
+
+class Feedback(models.Model):
+    feedback_text = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.feedback_text

@@ -12,6 +12,11 @@ while true; do
 ALTER TABLE auth_user ADD COLUMN IF NOT EXISTS nickname VARCHAR(50);
 ALTER TABLE auth_user ADD COLUMN IF NOT EXISTS image_link VARCHAR(255);
 ALTER TABLE auth_user ADD COLUMN IF NOT EXISTS access_token VARCHAR(255);
+CREATE TABLE IF NOT EXISTS feedback (
+    id SERIAL PRIMARY KEY,
+    feedback_text TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 ALTER TABLE auth_user ADD COLUMN IF NOT EXISTS authorization_code VARCHAR(255) UNIQUE;" | psql -h $POSTGRES_HOST -U $POSTGRES_USER -d $POSTGRES_DB -p $POSTGRES_PORT >> /dev/null
 
         break
@@ -23,4 +28,6 @@ done
 
 # Start Gunicorn with SSL certificate and key
 echo "Starting backend with Gunicorn!"
+python3 manage.py makemigrations >> /dev/null
+python3 manage.py migrate >> /dev/null
 gunicorn myproject.wsgi:application --bind 0.0.0.0:8000 --certfile "/etc/ssl/certs/localhost.crt" --keyfile "/etc/ssl/certs/localhost.key" --timeout 300

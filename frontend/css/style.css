@@ -223,3 +223,32 @@ nav a:active {
         transform: scale(1, 1);
     }
 }
+
+.feedback-popup {
+    display: none;
+    position: fixed;
+    bottom: 60px;
+    right: 20px;
+    width: 300px;
+    background-color: rgba(249, 249, 249, 0.3);
+    border: 1px solid rgba(249, 249, 249, 0.3);
+    border-radius: 5px;
+    padding: 20px;
+  }
+  
+  .feedback-content {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .close {
+    align-self: flex-end;
+    cursor: pointer;
+  }
+  
+  textarea {
+    height: 100px;
+    margin-bottom: 10px;
+    background-color: rgba(249, 249, 249, 0.3);
+  }
+  

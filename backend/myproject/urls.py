@@ -44,7 +44,8 @@ urlpatterns = [
     path('update-player/', views.update_player_position, name='update_player_position'),
     path('game-state/', views.get_game_state, name='get_game_state'),
     path('check-player-waiting/<str:user_login>/', views.check_player_waiting, name='check_player_waiting'),
-    
+    path('feedback/', views.submit_feedback, name='submit_feedback'),
+
     # API URLs here
     path('api/login/', views.login_view, name='api_login'),
     path('api/ping/', views.login_view, name='api_ping'),
@@ -74,4 +75,5 @@ urlpatterns = [
     path('api/update-player/', views.update_player_position, name='update_player_position'),
     path('api/game-state/', views.get_game_state, name='get_game_state'),
     path('api/check-player-waiting/<str:user_login>/', views.check_player_waiting, name='check_player_waiting'),
+    path('api/feedback/', views.submit_feedback, name='api_submit_feedback'),
 ]  + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

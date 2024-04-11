@@ -22,7 +22,9 @@ from .serializers import TournamentSerializer
 from .models import Player, WaitingPlayer
 from .models import Message
 from .models import UserProfile
+from .models import Feedback
 from django.utils import timezone
+from django.db import IntegrityError
 
 
 token_obtain_pair_view = TokenObtainPairView.as_view()
@@ -35,6 +37,31 @@ def get_all_users(request):
     return JsonResponse(list(all_users), safe=False)
 
 
+@csrf_exempt
+def submit_feedback(request):
+    if request.method == 'POST':
+        # Parse the JSON data from the request body
+        try:
+            data = json.loads(request.body)
+            feedback_text = data.get('feedback')
+
+            # Create a new Feedback object and save it to the database
+            feedback = Feedback.objects.create(feedback_text=feedback_text)
+            return JsonResponse({'message': 'Feedback submitted successfully'}, status=200)
+        except json.JSONDecodeError:
+            # Handle JSON parsing error
+            return JsonResponse({'error': 'Invalid JSON data'}, status=400)
+        except IntegrityError as e:
+            # Handle database integrity errors
+            return JsonResponse({'error': str(e)}, status=500)
+        except Exception as e:
+            # Handle other unexpected errors and return exception details
+            return JsonResponse({'error': 'An unexpected error occurred', 'details': str(e)}, status=500)
+    else:
+        # Return a JSON response with an error message if the request method is not POST
+        return JsonResponse({'error': 'Invalid request method'}, status=400)
+
+        
 @csrf_exempt
 def messages(request):
     if request.method == 'GET':

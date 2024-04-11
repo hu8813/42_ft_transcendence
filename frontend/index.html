@@ -113,13 +113,22 @@
     });
   </script>
   <div class="app" id="app"></div>
+
+  <div id="feedback-popup" class="feedback-popup">
+    <div class="feedback-content">
+      <span class="close" onclick="closePopup()">&times;</span>
+      <h2>Feedback</h2>
+      <textarea id="feedback-text" placeholder="Enter your feedback here..."></textarea>
+      <button onclick="submitFeedback()">Submit</button>
+    </div>
+  </div>
   <footer class="footer-container">
     
     <div class="footer-links">
       <a onclick="route();" href="/#privacy-policy" class="footer-link" id="privacyPolicy">Privacy Policy</a>
       <a onclick="route()" href="/#contact" class="footer-link" id="impressum">Impressum</a>
        </div>
-  
+       
     <div class="footer-text" style="text-align: right; padding-right: 30px;" >
       <a onclick="route()" href="/#aboutus" class="footer-link" id="aboutUs">
          About Us </a>
@@ -127,6 +136,52 @@
   </footer>
 
   <script src="./js/router.js" defer></script>
+<script>
+  function showPopup() {
+    document.getElementById("feedback-popup").style.display = "block";
+  }
+  
+  // Close the feedback popup
+  function closePopup() {
+    document.getElementById("feedback-popup").style.display = "none";
+  }
+  
+  function submitFeedback() {
+    var feedbackText = document.getElementById("feedback-text").value;
+    
+    // Create a new XMLHttpRequest object
+    var xhr = new XMLHttpRequest();
+
+    // Prepare the request
+    xhr.open("POST", `${getBackendURL()}/feedback/`, true);
+
+    // Set the request header if needed
+    xhr.setRequestHeader("Content-Type", "application/json");
+
+    // Set up the callback function for when the request is complete
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            // Request was successful, do something if needed
+            console.log("Feedback submitted successfully.");
+        } else {
+            // Request failed, handle the error
+            console.error("Error submitting feedback:", xhr.statusText);
+        }
+    };
+
+    // Convert the feedback data to JSON format
+    var data = JSON.stringify({ feedback: feedbackText });
+
+    // Send the request with the feedback data
+    xhr.send(data);
+
+    // Close the popup after submitting
+    closePopup();
+}
+
+showPopup();
+</script>
+  
   
   </body>
   </html>
