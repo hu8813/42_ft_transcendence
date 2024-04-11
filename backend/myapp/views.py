@@ -54,6 +54,7 @@ def submit_feedback(request):
     else:
         return JsonResponse({'error': 'Invalid request method'}, status=400)
 
+
 @csrf_exempt
 def show_feedbacks(request):
     if request.method == 'GET':
