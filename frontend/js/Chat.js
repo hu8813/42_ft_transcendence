@@ -226,7 +226,6 @@ function displayCachedMessages() {
         sendBtn = document.getElementById('msgSend');
     if (sendBtn){
         sendBtn.addEventListener('click', function () {
-            console.log("Send button clicked");
             sendMessageFromInput();
         });
     }
