@@ -61,6 +61,7 @@
     "selectGame": "Select Game Mode"
   },
   "leaderboard": {
+    "page": "Page",
     "leaderboardtitle": "Leaderboard",
     "rank": "Rank",
     "player": "Player",

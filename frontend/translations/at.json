@@ -60,6 +60,7 @@
     "selectGame": "Spielmodus auswählen"
   },
   "leaderboard": {
+    "page": "Seite",
     "leaderboardtitle": "Bestenliste",
     "rank": "Rang",
     "player": "Spieler",
