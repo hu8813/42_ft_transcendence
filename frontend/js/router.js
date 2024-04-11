@@ -69,6 +69,18 @@ if (!currentLanguage) {
     currentLanguage = 'fr';
   } else if (userLanguage.startsWith('ar')) {
     currentLanguage = 'eg';
+  } else if (userLanguage.startsWith('es')) {
+    currentLanguage = 'es';
+  } else if (userLanguage.startsWith('it')) {
+    currentLanguage = 'it';
+  } else if (userLanguage.startsWith('ua')) {
+    currentLanguage = 'ua';
+  } else if (userLanguage.startsWith('ru')) {
+    currentLanguage = 'ru';
+  } else if (userLanguage.startsWith('pt')) {
+    currentLanguage = 'pt';
+  } else if (userLanguage.startsWith('zh')) {
+    currentLanguage = 'zh';
   } else {
     currentLanguage = 'en';
   }
