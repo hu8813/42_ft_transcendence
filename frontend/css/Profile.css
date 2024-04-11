@@ -10,6 +10,8 @@
   text-align: center;
   font-size: 1.5vw;
   animation: lights 2s linear infinite;
+  margin-bottom: 5%;
+  
 }
 
 @keyframes lights {
@@ -133,6 +135,7 @@
   font-weight: bold;
   letter-spacing: 1px;
   cursor: pointer;
+  width: 90%;
 }
 
 .profile-button:active {
@@ -174,8 +177,12 @@
 
 @media (max-width: 768px) {
   .profile-container {
-    width: 90%;
-    margin-top: 5px;
+    flex-direction: column;
+    align-items: center; 
+  }
+
+  .category {
+    font-size: 2vw; 
   }
 
   .profile-title {
