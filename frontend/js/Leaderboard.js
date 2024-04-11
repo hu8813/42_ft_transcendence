@@ -2,9 +2,6 @@ let leaderboardData = null;
 let currentPage = 1;
 const entriesPerPage = 10;
 
-
-
-
 async function fetchLeaderboardData() {
   try {
     const response = await fetch(`${getBackendURL()}/leaderboard/`);
@@ -15,8 +12,6 @@ async function fetchLeaderboardData() {
     leaderboardData = null;
   }
 }
-
-
 
 async function displayLeaderboard() {
 
