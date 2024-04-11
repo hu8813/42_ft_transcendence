@@ -3,7 +3,6 @@ from django.urls import path, re_path
 from . import consumers
 from django.core.asgi import get_asgi_application
 
-
 websocket_urlpatterns = [
     re_path(r'ws/chatpage/$', consumers.ChatConsumer.as_asgi()),
 ]
