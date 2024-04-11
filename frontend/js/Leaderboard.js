@@ -1,6 +1,6 @@
 let leaderboardData = null; 
 let currentPage = 1;
-const entriesPerPage = 10;
+const entriesPerPage = 5;
 
 
 
