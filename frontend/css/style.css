@@ -17,6 +17,7 @@ html,
 body {
     font-family: 'Press Start 2P' !important;
     background: #333841;
+    overflow: auto !important;
 }
 
 .app {
@@ -26,14 +27,14 @@ body {
     background-color: #333 transparent;
     color: antiquewhite;
     width: 100%;
-    height: 100%;
+    height: 90vh;
     position: fixed;
 }
 
 header {
     background: var(--background);
     text-align: center;
-    position: fixed;
+    position: absolute;
     top: 0;
     z-index: 999;
     width: 100%;
