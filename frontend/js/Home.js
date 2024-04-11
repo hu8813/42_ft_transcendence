@@ -15,6 +15,7 @@ function showHome() {
     pongTable.classList.add("pong-table");
     
     pongTable.onmouseover = () => {
+        welcomeMessage.textContent = "Please login to play!"
         const leftPaddle = document.querySelector(".paddle-left");
         const rightPaddle = document.querySelector(".paddle-right");
         const pongBall = document.querySelector(".ping-pong-ball");

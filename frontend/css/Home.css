@@ -13,12 +13,14 @@
 .welcome-page {
   display: flex;
   flex-direction: column;
-  height: 88vh;
+  width: 100%;
+  height: 100%;
   align-items: center;
   position: relative;
-  width: 100%;
   padding-top: 50px;
   background-image: url('../src/bg.jpg');
+  padding-top: 100px;
+  gap: 100px;
   background-size: cover;
   background-position: center;
   animation: zoomInOut 10s infinite alternate; /* Adjust duration and other parameters as needed */
@@ -26,7 +28,7 @@
 
 .welcome-message {
   text-align: center;
-  font-size: 5vh;
+  font-size: 4vh;
   margin-top: 50px;
   animation: rainbow 8s infinite, fadeIn 1s ease-out;
   text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5);
@@ -70,7 +72,6 @@
   border: 5px solid #fff;
   border-style: dotted;
   position: relative;
-  margin-top: 5%;
 }
 
 .paddle-left {

@@ -16,23 +16,17 @@
 html,
 body {
     font-family: 'Press Start 2P' !important;
-    background: rgba(51, 51, 51, 0.8);
-
+    background: #333841;
 }
 
 .app {
-    top: 60px;
-    bottom: 50px;
     display: flex;
     justify-content: center;
     align-items: center;
     background-color: #333 transparent;
-    background-image: none;
-
     color: antiquewhite;
-    border-style: solid;
-    border-color: #333333;
     width: 100%;
+    height: 100%;
     position: fixed;
 }
 

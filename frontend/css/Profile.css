@@ -1,11 +1,10 @@
 .profile-container {
-  background: #333842;
-  border-color: yellow;
-  border-style: solid;
+  background: #333841;
   display: flex;
   width: 100%;
-  height: 100%;
-  overflow: auto;
+  position: fixed;
+  bottom: 50px;
+  top: 60px;
 }
 
 .category {
@@ -65,8 +64,8 @@
 .friends, .achievments{
   flex: 1;
   text-align: center;
-  border-style: double;
-  border-color: red;
+  /*border-style: double;
+  border-color: red; */
 }
 
 .friends {
@@ -78,9 +77,9 @@
 }
 
 .profile {
-  flex: 2;
-  border-style: double;
-  border-color: red;
+  flex: 1;
+  /*border-style: double;
+  border-color: red;*/
   text-align: center;
 }
 
@@ -102,13 +101,12 @@
 
 .profile-title {
   margin-top: 0;
-  font-size: 2rem;
+  font-size: 1.5vw;
   text-shadow: 0 0 10px #21d4fd;
 }
 
 .profile-subtitle {
-  font-size: 1.2rem;
-  margin-top: 10px;
+  font-size: 1.5vw;
 }
 
 .profile-input, .profile-button {
@@ -143,6 +141,10 @@
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
 }
 
+#deleteProfile {
+  background-color: rgba(255, 0, 0, 0.6);
+}
+
 .avatar-preview img {
   max-width: 100px;
   height: 100px;
@@ -153,7 +155,7 @@
 }
 
 .avatar-preview img:hover {
-  transform: scale(1.05);
+  transform: scale(1.25);
   box-shadow: 0 0 15px rgba(33, 212, 253, 0.6), 
               0 0 25px rgba(183, 33, 255, 0.6);
 }
