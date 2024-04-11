@@ -25,7 +25,7 @@ from .models import UserProfile
 from .models import Feedback
 from django.utils import timezone
 from django.db import IntegrityError
-
+from django.utils.html import escape
 
 token_obtain_pair_view = TokenObtainPairView.as_view()
 token_refresh_view = TokenRefreshView.as_view()
@@ -70,19 +70,24 @@ def show_feedbacks(request):
         return JsonResponse({'error': 'Invalid request method'}, status=400)
 
 
+
 @csrf_exempt
 def messages(request):
     if request.method == 'GET':
-        messages = Message.objects.order_by('-created_at')[:50]  # Retrieve the last 50 messages
-        message_data = serializers.serialize('json', messages)
-        return HttpResponse(message_data, content_type='application/json')
+        messages = list(Message.objects.order_by('created_at').reverse()[:50].values())
+        return JsonResponse(messages, safe=False)
     elif request.method == 'POST':
-        data = json.loads(request.body)
+        try:
+            data = json.loads(request.body)
+        except json.JSONDecodeError:
+            return JsonResponse({'error': 'Invalid JSON data'}, status=400)
+        
         name = escape(data.get('name', ''))
         text = escape(data.get('text', ''))
-        recipient = escape(data.get('recipient', ''))
-        
+        recipient = escape(data.get('recipient', ''))  # Ensure recipient is present or set to empty string if absent
+
         message = Message.objects.create(name=name, text=text, recipient=recipient)
+        
         message_data = {
             'id': message.id,
             'name': message.name,
