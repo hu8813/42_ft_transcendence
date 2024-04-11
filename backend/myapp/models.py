@@ -12,7 +12,6 @@ class User(AbstractUser):
         managed = False
         db_table = 'auth_user'
 
-    # Specify custom intermediary table names to avoid clashes
     groups = models.ManyToManyField(
         Group,
         through='MyAppUserGroups',

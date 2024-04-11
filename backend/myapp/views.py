@@ -74,7 +74,7 @@ def show_feedbacks(request):
 @csrf_exempt
 def messages(request):
     if request.method == 'GET':
-        messages = list(Message.objects.order_by('created_at').reverse()[:50].values())
+        messages = list(Message.objects.order_by('created_at')[:50].values())
         return JsonResponse(messages, safe=False)
     elif request.method == 'POST':
         try:
@@ -519,36 +519,28 @@ def get_csrf_token(request):
 @csrf_exempt
 def register(request):
     if request.method == 'POST':
-        form = UserRegistrationForm(request.POST)
-        if form.is_valid():
-            username = form.cleaned_data['username']
-            email = form.cleaned_data['email']
-            password = form.cleaned_data['password']
-            
-            
-            if User.objects.filter(username=username).exists():
-                return HttpResponse("Error occurred: Already exists.", status=400)
-            
-            if User.objects.filter(email=email).exists():
-                return HttpResponse("Error occurred: Already exists.", status=400)
-            
-            
-            user = User.objects.create_user(username=username, email=email, password=password)
-            user.save()
-            
-            
-            profile = UserProfile.objects.create(user=user, score=0, nickname=username)
-            profile.save()
-            
-            return redirect('login')
-        else:
-            
-            errors = form.errors.as_text()
-            return HttpResponse(f"Error occurred: {errors}", status=400)  
-    else:
-        form = UserRegistrationForm()  
-        return render(request, 'registration/register.html', {'form': form})  
+        username = request.POST.get('username')
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        confirm_password = request.POST.get('confirm_password')
 
+        if User.objects.filter(username=username).exists():
+            return JsonResponse({"error": "Username already exists."}, status=400)
+        
+        if User.objects.filter(email=email).exists():
+            return JsonResponse({"error": "Email already exists."}, status=400)
+
+        if password != confirm_password:
+            return JsonResponse({"error": "Passwords do not match."}, status=400)
+
+        user = User.objects.create_user(username=username, nickname=username, email=email, password=password, score=0)
+        
+        #profile = UserProfile.objects.create(user=user, score=0, nickname=username)
+        
+        return JsonResponse({"message": "Registration successful."}, status=200)
+
+    else:
+        return render(request, 'registration/register.html')
             
 @csrf_exempt
 def login_view(request):

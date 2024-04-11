@@ -1,12 +1,11 @@
 function handleRegister(event) {
     event.preventDefault();
 
-    const email = document.getElementById("email").value;
-    const username = document.getElementById("username").value;
-    const password = document.getElementById("password").value;
-    const confirmPassword = document.getElementById("confirm-password").value;
+    const email = document.getElementById("enterEmail").value;
+    const username = document.getElementById("enterUsername").value;
+    const password = document.getElementById("enterPassword").value;
+    const confirmPassword = document.getElementById("confirmPasswordP").value;
 
-    // Check if passwords match
     if (password !== confirmPassword) {
         document.getElementById("password-mismatch-feedback").style.display = "block";
         return;
@@ -14,12 +13,11 @@ function handleRegister(event) {
         document.getElementById("password-mismatch-feedback").style.display = "none";
     }
 
-    // Perform registration process
-    const formData = new FormData();
+
     formData.append("email", email);
     formData.append("username", username);
     formData.append("password", password);
-    formData.append("confirm_password", password);
+    formData.append("confirm_password", confirmPassword);
 
     fetch(`${getBackendURL()}/register/`, {
         method: "POST",
