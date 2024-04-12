@@ -14,7 +14,7 @@ function fetchAndDisplayProfile() {
   });
   //document.getElementById('nicknameadr2').textContent = localStorage.getItem("userNickname") || 'Not available';
   document.getElementById('emailadr').textContent = localStorage.getItem("userEmail") || 'Not available';
-  document.getElementById('scoreadr').textContent = localStorage.getItem("userScore") || 'Not available';
+  //document.getElementById('scoreadr').textContent = localStorage.getItem("userScore") || 'Not available';
 
 
   document.getElementById('deleteProfile').addEventListener('click', function() {
