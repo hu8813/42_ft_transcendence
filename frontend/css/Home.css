@@ -16,11 +16,11 @@
   width: 100%;
   height: 100%;
   align-items: center;
-  position: relative;
-  padding-top: 50px;
-  background-image: url('../src/tt.jpg');
-  padding-top: 100px;
+  justify-content: center;
   gap: 100px;
+  position: fixed;
+  overflow: auto;
+  background-image: url('../src/tt.jpg');
   background-size: cover;
   background-position: center;
   animation: zoomInOut 10s infinite alternate; /* Adjust duration and other parameters as needed */
@@ -29,7 +29,6 @@
 .welcome-message {
   text-align: center;
   font-size: 4vh;
-  margin-top: 50px;
   animation: rainbow 8s infinite, fadeIn 1s ease-out;
   text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5);
   -webkit-text-stroke: 1px black;
@@ -37,13 +36,13 @@
 }
 
 @keyframes rainbow {
-  0%      { color: rgba(255, 0, 0, 0.5); } /* Red */
-  16.67%  { color: rgba(255, 127, 0, 0.5); } /* Orange */
-  33.33%  { color: rgba(255, 255, 0, 0.5); } /* Yellow */
-  50%     { color: rgba(0, 255, 0, 0.5); } /* Green */
-  66.67%  { color: rgba(0, 0, 255, 0.5); } /* Blue */
-  83.33%  { color: rgba(75, 0, 130, 0.5); } /* Indigo */
-  100%    { color: rgba(138, 43, 226, 0.5); } /* Violet */
+  0%      { color: rgba(255, 0, 0, 0.5); } 
+  16.67%  { color: rgba(255, 127, 0, 0.5); } 
+  33.33%  { color: rgba(255, 255, 0, 0.5); } 
+  50%     { color: rgba(0, 255, 0, 0.5); }
+  66.67%  { color: rgba(0, 0, 255, 0.5); }
+  83.33%  { color: rgba(75, 0, 130, 0.5); } 
+  100%    { color: rgba(138, 43, 226, 0.5); } 
 }
 
 
@@ -66,8 +65,10 @@
 }
 
 .pong-table {
-  width: 600px;
-  height: 400px;
+  width: 80%;
+  height: 60%;
+  max-width: 600px;
+  max-height: 400px; 
   background: rgba(34, 34, 34, 0.8); /* 50% transparent black */
   border: 5px solid #fff;
   border-style: dotted;
@@ -102,4 +103,13 @@
 @keyframes movePaddleRight {
   0%, 100% { top: 0; } 
   50% { top: calc(100% - 70px); } 
+}
+
+@media screen and (max-width: 768px) {
+  .pong-table {
+    width: 90%; /* Adjust width for smaller screens */
+    height: 80%; /* Adjust height for smaller screens */
+    max-width: 90%; /* Adjust maximum width for smaller screens */
+    max-height: 80%; /* Adjust maximum height for smaller screens */
+  }
 }

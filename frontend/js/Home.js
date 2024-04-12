@@ -31,29 +31,6 @@ function showHome() {
             const rightPaddleTop = Math.min(400 - 100, Math.max(0, y - 50));
             rightPaddle.style.top = rightPaddleTop + "px";
         };
-        
-        let ballTop = 200;
-        let ballLeft = 300;
-        let ballSpeedTop = 2;
-        let ballSpeedLeft = 2;
-        
-        const ballMove = () => {
-            ballTop += ballSpeedTop;
-            ballLeft += ballSpeedLeft;
-            
-            if (ballTop <= 0 || ballTop >= 400 - 2 * 2) {
-                ballSpeedTop = -ballSpeedTop;
-            }
-            
-            if (ballLeft <= 0 || ballLeft >= 600 - 2 * 2) {
-                ballSpeedLeft = -ballSpeedLeft;
-            }
-            
-            pongBall.style.top = ballTop + "px";
-            pongBall.style.left = ballLeft + "px";
-        };
-        
-        setInterval(ballMove, 10);
     };
     
     // ping-pong ball
