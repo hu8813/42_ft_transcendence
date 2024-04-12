@@ -1,37 +1,51 @@
 import json
 from channels.generic.websocket import WebsocketConsumer
+from asgiref.sync import async_to_sync
 
 class ChatConsumer(WebsocketConsumer):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.messages = []
-
     def connect(self):
         self.accept()  # Accept the WebSocket connection
-        from .models import Message  # Import inside the connect method
-        # Send existing messages to the client upon connection
-        for message in self.messages:
-            self.send_message(message)
+        self.chat_group_name = 'chat'  # Define a chat group name
+        async_to_sync(self.channel_layer.group_add)(
+            self.chat_group_name,
+            self.channel_name
+        )
 
     def disconnect(self, close_code):
-        pass  # Handle WebSocket disconnection
+        async_to_sync(self.channel_layer.group_discard)(
+            self.chat_group_name,
+            self.channel_name
+        )
 
     def receive(self, text_data):
         try:
-            from .models import Message  # Import inside the receive method
             text_data_json = json.loads(text_data)  # Parse incoming JSON data
             name = text_data_json.get('name', '')  # Get the 'name' key or default to an empty string
             text = text_data_json.get('text', '')  # Get the 'text' key or default to an empty string
             recipient = text_data_json.get('recipient', '')  # Get the 'recipient' key or default to an empty string
 
-            # Save the received message to the database
-            message = Message.objects.create(name=name, text=text, recipient=recipient)
-            self.messages.append(message)  # Store the received message
-            self.send_message(message.text)  # Send the received message back to the client
+            # Broadcast the received message to all connected clients
+            async_to_sync(self.channel_layer.group_send)(
+                self.chat_group_name,
+                {
+                    'type': 'chat_message',
+                    'name': name,
+                    'text': text,
+                    'recipient': recipient
+                }
+            )
         except json.JSONDecodeError:
             # Handle cases where the received data is not valid JSON
             pass
 
-    def send_message(self, message):
+    def chat_message(self, event):
+        name = event['name']
+        text = event['text']
+        recipient = event['recipient']
+
         # Send message to the client
-        self.send(text_data=json.dumps({'message': message}))
+        self.send(text_data=json.dumps({
+            'name': name,
+            'text': text,
+            'recipient': recipient
+        }))

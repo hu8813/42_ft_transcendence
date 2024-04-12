@@ -23,6 +23,7 @@ const routes = {
   "#pong4": "/views/pong4.html",
   "#tic1": "/views/tic1.html",
   "#tic2": "/views/tic2.html",
+  "#chatpage": "/views/chatpage.html",
   "#viewprofile": "/views/viewprofile.html",
 };
 
@@ -228,7 +229,13 @@ const handleLocation = async () => {
       logout();
       break;
     case "#chat":
-      openChat();
+    case '#chatpage':
+      const currentUrl2 = window.location.href;
+      if (currentUrl2.includes("pong42")) {
+          openChat();
+      } else {
+          showChatPageWS();
+      }
       break;
     case "#":
     case "#home":
@@ -274,6 +281,8 @@ const handleLocation = async () => {
     case '#contact':
       showImprint();
       break;
+    
+      
     case '#privacy-policy':
       showPrivacyPolicy();
       break;
