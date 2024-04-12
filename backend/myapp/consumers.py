@@ -1,4 +1,5 @@
 import json
+import html  # Import HTML escape function
 from channels.generic.websocket import WebsocketConsumer
 from asgiref.sync import async_to_sync
 
@@ -23,6 +24,11 @@ class ChatConsumer(WebsocketConsumer):
             name = text_data_json.get('name', '')  # Get the 'name' key or default to an empty string
             text = text_data_json.get('text', '')  # Get the 'text' key or default to an empty string
             recipient = text_data_json.get('recipient', '')  # Get the 'recipient' key or default to an empty string
+
+            # Escape special characters in the message
+            name = html.escape(name)
+            text = html.escape(text)
+            recipient = html.escape(recipient)
 
             # Broadcast the received message to all connected clients
             async_to_sync(self.channel_layer.group_send)(

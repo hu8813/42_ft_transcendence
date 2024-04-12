@@ -71,6 +71,7 @@ function sendMessageFromInput() {
     showNotification("Message sent successfully.", true);
 }
 
+
 function displayMessage(message) {
     const msgerChat = document.getElementById('msger-chat');
     const messageElement = document.createElement('div');
@@ -83,36 +84,61 @@ function displayMessage(message) {
     const senderName = message.name || 'Anonymous';
     const formattedCreatedAt = message.created_at ? formatDate(new Date(message.created_at)) : getCurrentTimestamp();
 
+    // Function to decode HTML entities
+    function decodeEntities(encodedString) {
+        const textarea = document.createElement('textarea');
+        textarea.innerHTML = encodedString;
+        return textarea.value;
+    }
 
     if (message.text.includes("joined the chat")) {
         messageElement.innerHTML = `
             <div class="msg-info" style="text-align: ${alignRight};">
-                <span class="msg-info-name" style="color: green;">${senderName} has joined the chat</span>
+                <span class="msg-info-name" style="color: green;">${decodeEntities(senderName)} has joined the chat</span>
                 <span class="msg-info-time">${formattedCreatedAt}</span>
             </div>
-            
         `;
     } else if (message.text.includes("left the chat")) {
         messageElement.innerHTML = `
             <div class="msg-info" style="text-align: ${alignRight};">
-                <span class="msg-info-name" style="color: red;">${senderName} has left the chat</span>
+                <span class="msg-info-name" style="color: red;">${decodeEntities(senderName)} has left the chat</span>
                 <span class="msg-info-time">${formattedCreatedAt}</span>
             </div>
-            
         `;
     } else {
-        messageElement.innerHTML = `
-            <div class="msg-info" style="text-align: ${alignRight};">
-                <span class="msg-info-name">${senderName}</span>
-                <span class="msg-info-time">${formattedCreatedAt}</span>
-            </div>
-            <div class="msg ${isCurrentUser ? 'right-msg' : 'left-msg'} msg-bubble ">${message.text}</div>
+        const messageBubble = document.createElement('div');
+        messageBubble.classList.add('msg', isCurrentUser ? 'right-msg' : 'left-msg', 'msg-bubble');
+        messageBubble.textContent = decodeEntities(message.text);
+        
+        const messageInfo = document.createElement('div');
+        messageInfo.classList.add('msg-info');
+        messageInfo.style.textAlign = alignRight;
+        messageInfo.innerHTML = `
+            <span class="msg-info-name">${decodeEntities(senderName)}</span>
+            <span class="msg-info-time">${formattedCreatedAt}</span>
         `;
+        
+        messageElement.appendChild(messageInfo);
+        messageElement.appendChild(messageBubble);
     }
 
     // Prepend the message element instead of appending
     msgerChat.prepend(messageElement);
 }
+
+
+// Function to escape HTML special characters
+function escapeHTML(text) {
+    const escapeChars = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;'
+    };
+    return text.replace(/[&<>"']/g, match => escapeChars[match]);
+}
+
 
 function formatDate(date) {
     const day = String(date.getDate()).padStart(2, '0');
