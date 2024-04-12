@@ -1,53 +1,66 @@
 .footer-container {
-    display: flex;
-    align-items: center;
-    background:  rgba(51, 51, 51, 0.8);
-    color: white;
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    height: 50px;
-    padding: 0 30px;
-    font-family:'Courier New', Courier, monospace
-  }
-  
-  .footer-links {
-    display: flex;
-    gap: 60px;
-  }
-  
+  display: flex;
+  align-items: center;
+  background:  rgba(51, 51, 51, 0.8);
+  color: white;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 50px;
+  padding: 0 30px;
+  font-family:'Courier New', Courier, monospace
+}
+
+.footer-links {
+  display: flex;
+  gap: 60px;
+}
+
+.footer-link {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+.footer-link:hover {
+  color: #2980b9;
+}
+
+/* Show footer icons on smaller screens */
+@media only screen and (max-width: 768px) {
   .footer-link {
-    color: white;
-    text-decoration: none;
-    font-weight: bold;
-    transition: color 0.3s ease;
+    display: flex; /* Allow space for icons */
+    align-items: center; /* Align icons vertically */
   }
   
-  .footer-link:hover {
-    color: #2980b9;
+  .footer-link i {
+    display: block; /* Display icons only on smaller screens */
+    font-size: 1.2rem; /* Adjust icon size as needed */
+    margin-right: 5px; /* Add space between icon and text (optional) */
   }
   
-  .footer-text {
-    flex: 1;
-    text-align: center;
+  .footer-link span { /* Hide text on smaller screens */
+    display: none;
   }
-  
-  .heart-icon {
-    color: #e74c3c;
-  }
-  
-  .social-icons {
-    display: flex;
-    gap: 10px;
-  }
-  
-  .social-icon {
-    color: #ffffff;
-    font-size: 1.5em;
-    transition: color 0.3s ease;
-  }
-  
-  .social-icon:hover {
-    color: #f39c12;
-  }
-  
+}
+
+
+.heart-icon {
+  color: #e74c3c;
+}
+
+.social-icons {
+  display: flex;
+  gap: 10px;
+}
+
+.social-icon {
+  color: #ffffff;
+  font-size: 1.5em;
+  transition: color 0.3s ease;
+}
+
+.social-icon:hover {
+  color: #f39c12;
+}
