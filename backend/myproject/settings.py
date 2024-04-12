@@ -22,6 +22,8 @@ if os.environ.get('DEBUG', '') in ['1', 'true']:
 ALLOWED_HOSTS = [
     'localhost',
     '192.168.32.1',
+    '169.254.131.21',
+    '20.79.107.6',
     'pong42.azurewebsites.net',
     '127.0.0.1',
     'pong42.vercel.app',
@@ -97,7 +99,7 @@ INTERACTIVE = False
 
 CHANNEL_LAYERS = {
      'default': {
-        'BACKEND': 'channels.layers.InMemoryChannelLayer', # You can also use other backends like Redis
+        'BACKEND': 'channels.layers.InMemoryChannelLayer', 
     },
 }
 
@@ -178,7 +180,11 @@ CSRF_TRUSTED_ORIGINS = [
     'http://localhost:5500',
     'https://transcendence-beige.vercel.app',
     'https://api.intra.42.fr',
-    'https://192.168.32.1'
+    'https://192.168.32.1',
+    'https://169.254.131.21',
+    'https://20.79.107.6',
+    'http://169.254.131.21',
+    'http://20.79.107.6'
 ]
 
 CORS_ALLOWED_ORIGINS = [
@@ -199,7 +205,11 @@ CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
     'http://localhost:5500',
     'https://transcendence-beige.vercel.app',
-    'https://api.intra.42.fr'
+    'https://api.intra.42.fr',
+    'https://169.254.131.21',
+    'https://20.79.107.6',
+    'http://169.254.131.21',
+    'http://20.79.107.6'
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True

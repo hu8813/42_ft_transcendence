@@ -145,7 +145,7 @@ function translateKey(key) {
           translation = translation[part];
         } else {
           
-          reject(new Error(`Translation for key '${key}' not found`));
+          //reject(new Error(`Translation for key '${key}' not found`));
           return;
         }
       }
@@ -154,7 +154,8 @@ function translateKey(key) {
       resolve(translation);
     } else {
       
-      reject(new Error(`Translations for language '${lang}' not found in the cache`));
+      //reject(new Error(`Translations for language '${lang}' not found in the cache`));
+      return;
     }
   });
 }
