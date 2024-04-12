@@ -7,8 +7,8 @@ class ChatConsumer(WebsocketConsumer):
         self.messages = []
 
     def connect(self):
-        from .models import Message  # Deferred import
         self.accept()  # Accept the WebSocket connection
+        from .models import Message  # Import inside the connect method
         # Send existing messages to the client upon connection
         for message in self.messages:
             self.send_message(message)
@@ -18,12 +18,12 @@ class ChatConsumer(WebsocketConsumer):
 
     def receive(self, text_data):
         try:
+            from .models import Message  # Import inside the receive method
             text_data_json = json.loads(text_data)  # Parse incoming JSON data
             name = text_data_json.get('name', '')  # Get the 'name' key or default to an empty string
             text = text_data_json.get('text', '')  # Get the 'text' key or default to an empty string
             recipient = text_data_json.get('recipient', '')  # Get the 'recipient' key or default to an empty string
-            
-            from .models import Message  # Deferred import
+
             # Save the received message to the database
             message = Message.objects.create(name=name, text=text, recipient=recipient)
             self.messages.append(message)  # Store the received message
