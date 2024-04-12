@@ -8,12 +8,14 @@
   width: 100%;
   height: 50px;
   padding: 0 30px;
-  font-family:'Courier New', Courier, monospace
+  font-family:'Courier New', Courier, monospace;
+  justify-content: space-between; 
 }
 
 .footer-links {
   display: flex;
   gap: 60px;
+  justify-content: space-between; 
 }
 
 .footer-link {
@@ -21,6 +23,7 @@
   text-decoration: none;
   font-weight: bold;
   transition: color 0.3s ease;
+  justify-content: space-between; 
 }
 
 .footer-link:hover {

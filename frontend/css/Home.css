@@ -64,12 +64,12 @@
 }
 
 .pong-table {
-  width: 60%; /* Adjusted width for smaller screens */
-  height: 40vh; /* Adjusted height for smaller screens using viewport height */
-  max-width: 70vw; /* Set maximum width to 90% of the viewport width */
-  max-height: 50vh; /* Set maximum height to 70% of the viewport height */
+  width: 90%; /* Adjusted width for smaller screens */
+  height: 60vh; /* Adjusted height for smaller screens using viewport height */
+  max-width: 90vw; /* Set maximum width to 90% of the viewport width */
+  max-height: 70vh; /* Set maximum height to 70% of the viewport height */
   background: rgba(34, 34, 34, 0.8); /* 50% transparent black */
-  border: 1% solid #fff;
+  border: 5px solid #fff;
   border-style: dotted;
   position: relative;
   padding: 2% 0; /* Adjusted padding using percentage */
