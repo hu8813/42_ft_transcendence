@@ -154,7 +154,7 @@
 }
 
 .bn:hover::before,
-.bn:focus::before { /* Add focus pseudo-class to handle keyboard navigation */
+.bn:focus::before { 
   opacity: 1;
 }
 
@@ -175,7 +175,7 @@
 }
 
 .bn:active,
-.bn.active { /* Add active state to keep the glow after click */
+.bn.active { 
   color: #000;
   font-weight: bold;
 }

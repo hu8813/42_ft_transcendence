@@ -45,7 +45,7 @@ var Key = {
     }
   };
 
-// Move Left Button
+
 document.getElementById('moveLeftButton').addEventListener('touchstart', function() {
     Key.onKeydown(Key.LEFT_ARROW);
 });
@@ -66,7 +66,7 @@ document.getElementById('moveLeftButton').addEventListener('click', function() {
     Key.onKeyup(Key.LEFT_ARROW);
 });
 
-// Move Right Button
+
 document.getElementById('moveRightButton').addEventListener('touchstart', function() {
     Key.onKeydown(Key.RIGHT_ARROW);
 });
@@ -625,7 +625,7 @@ window.addEventListener('keydown', function(event) {
     }
 });
 
-// Event listener for keyup event
+
 window.addEventListener('keyup', function(event) {
     if (event.key === 'ArrowLeft') {
         Key.onKeyup(Key.LEFT_ARROW);

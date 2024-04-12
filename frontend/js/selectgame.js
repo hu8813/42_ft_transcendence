@@ -4,13 +4,13 @@ function showGameModes() {
             text: "Pong42",
             imgPlaceholder: './src/pong42.png',
             href: "#pong42",
-            associatedCards: ["#player3d1", "#playerai1", "#pongMultiplayer"] // IDs of associated cards
+            associatedCards: ["#player3d1", "#playerai1", "#pongMultiplayer"] 
         },
         {
             text: "Tic Tac Toe",
             imgPlaceholder: './src/tictactoe.png',
             href: "#tictactoe",
-            associatedCards: ["#tic1", "#tic2", "#xoxo3", "#xoxo4"] // IDs of associated cards
+            associatedCards: ["#tic1", "#tic2", "#xoxo3", "#xoxo4"] 
         }
     ];
 
@@ -29,7 +29,7 @@ function showGameModes() {
             text: "Multiplayer (local)",
             imgPlaceholder: './src/multiplayer.jpeg',
             href: "#pongMultiplayer",
-            associatedCards: ["#pongehab", "#pong3", "#pong4"] // IDs of associated cards
+            associatedCards: ["#pongehab", "#pong3", "#pong4"] 
         },
         {
             text: "Multiplayer 2 Players (local)",
@@ -71,7 +71,7 @@ function showGameModes() {
 
     const container = document.querySelector('.gameModes');
     const cardsContainer = document.createElement('div');
-    let isDeeperLevel = false; // Flag to track if the user has navigated to a deeper level
+    let isDeeperLevel = false; 
     initialVisibleData.forEach(data => createCard(data, cardsContainer));
 
     function createCard(data, parent) {
@@ -127,25 +127,25 @@ function showGameModes() {
     const buttonStyle = document.createElement('style');
     buttonStyle.textContent = `
     .custom-back-button {
-        background-color: #21d4fd;  /* Light blue */
+        background-color: #21d4fd;  
         color: white;
         border: none;
         padding: 10px 20px;
         font-size: 16px;
         cursor: pointer;
-        border-radius: 5px;  /* Rounded corners */
-        box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);  /* Optional shadow */
-        transition: all 0.2s ease-in-out;  /* Smooth hover effect */
+        border-radius: 5px;  
+        box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);  
+        transition: all 0.2s ease-in-out;  
     }
     .custom-back-button:hover {
-        background-color: #2969a1;  /* Darker blue on hover */
+        background-color: #2969a1;  
     }
 `;
     document.head.appendChild(buttonStyle);
     backButton.classList.add('custom-back-button');
     backButton.style.margin = '10px 10px';
     backButton.style.display = 'none';
-    backButton.innerHTML = '<i class="bi bi-arrow-left"></i> Back'; // Adding Bootstrap back icon
+    backButton.innerHTML = '<i class="bi bi-arrow-left"></i> Back'; 
     backButton.addEventListener('click', () => {
         cardsContainer.innerHTML = '';
         initialVisibleData.forEach(data => createCard(data, cardsContainer));

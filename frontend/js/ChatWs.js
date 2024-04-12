@@ -31,9 +31,9 @@ function getWebSocket() {
 function fetchMessagesWebSocket() {
     const socket = getWebSocket();
 
-    // Check if the socket is open
+    
     if (socket.readyState === WebSocket.OPEN) {
-        // Send a message to the WebSocket server to fetch messages
+        
         const message = {
             type: 'fetch_messages'
         };
@@ -144,21 +144,21 @@ function openChat() {
     const NOTIFICATION_DURATION = 2000;
 
     function displayCachedMessages() {
-        // Retrieve cached messages from localStorage
+        
         const cachedMessagesString = localStorage.getItem('cachedMessages');
     
         if (cachedMessagesString) {
-            // Parse cached messages string to JSON
+            
             const cachedMessages = JSON.parse(cachedMessagesString);
     
-            // Check if cachedMessages is an array
+            
             if (Array.isArray(cachedMessages)) {
-                // Clear existing messages
+                
                 msgerChat.innerHTML = '';
     
-                // Iterate over cached messages and display them
+                
                 cachedMessages.forEach(message => {
-                    // Check if the recipient matches the current user or if it's empty
+                    
                     if (message.recipient === PERSON_NAME || message.recipient === '' || message.recipient.startsWith('#')) {
                         const createdAt = message.created_at ? new Date(message.created_at * 1000) : null;
                         const formattedCreatedAt = createdAt ? formatDate(createdAt) : '';

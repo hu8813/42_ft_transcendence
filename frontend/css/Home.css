@@ -3,10 +3,10 @@
     transform: scale(1);
   }
   50% {
-    transform: scale(1.3); /* Adjusted zoom in value */
+    transform: scale(1.3); 
   }
   100% {
-    transform: scale(1.1); /* Adjusted less zoom out value */
+    transform: scale(1.1); 
   }
 }
 
@@ -17,22 +17,24 @@
   height: 100%;
   align-items: center;
   justify-content: center;
-  gap: 5vh; /* Adjusted gap for smaller screens */
+  gap: 5vh; 
   position: fixed;
   overflow: auto;
   background-image: url('../src/tt.jpg');
   background-size: cover;
   background-position: center;
-  animation: zoomInOut 10s infinite alternate; /* Adjust duration and other parameters as needed */
+  animation: zoomInOut 10s infinite alternate; 
 }
 
 .welcome-message {
   text-align: center;
-  font-size: 4vh;
+  font-size: 3vw;
   animation: rainbow 8s infinite, fadeIn 1s ease-out;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Adjusted shadow for smaller screens */
-  -webkit-text-stroke: 0.5px black; /* Adjusted stroke for smaller screens */
-  color: rgba(255, 255, 255, 0.5); /* Adjust the last value (alpha) for transparency */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); 
+  -webkit-text-stroke: 0.5px black; 
+  color: rgba(255, 255, 255, 0.5); 
+  word-wrap: break-word; 
+  height: auto; 
 }
 
 @keyframes rainbow {
@@ -52,7 +54,11 @@
   background-color: white;
   border-radius: 50%;
   animation: bounce 0.6s infinite alternate;
+  left: 50%; 
+  top: 50%; 
+  transform: translate(-50%, -50%); 
 }
+
 
 @keyframes bounce {
   from {
@@ -64,43 +70,40 @@
 }
 
 .pong-table {
-  width: 90%; /* Adjusted width for smaller screens */
-  height: 60vh; /* Adjusted height for smaller screens using viewport height */
-  max-width: 90vw; /* Set maximum width to 90% of the viewport width */
-  max-height: 70vh; /* Set maximum height to 70% of the viewport height */
-  background: rgba(34, 34, 34, 0.8); /* 50% transparent black */
-  border: 5px solid #fff;
+  width: 30%; 
+  height: 20vh; 
+  max-width: 45vw; 
+  max-height: 35vh; 
+  background: rgba(34, 34, 34, 0.8); 
+  border: 1px solid #fff;
   border-style: dotted;
   position: relative;
-  padding: 2% 0; /* Adjusted padding using percentage */
+  padding: 1% 0; 
 }
 
 .paddle-left,
 .paddle-right {
-  width: 1.5vw; /* Adjusted width for smaller screens */
-  height: 7vh; /* Adjusted height for smaller screens */
+  width: 1.5vw; 
+  height: 7vh; 
   background: #fff;
   position: absolute;
-  top: calc(50% - 3.5vh); /* Adjusted top position for smaller screens */
+  top: calc(50% - 3.5vh); 
 }
 
 .paddle-left {
-  left: 2vw; /* Adjusted left position for smaller screens */
+  left: 2vw; 
 }
 
 .paddle-right {
-  right: 2vw; /* Adjusted right position for smaller screens */
+  right: 2vw; 
 }
 
 @media screen and (max-width: 768px) {
   .welcome-page {
-    gap: 3vh; /* Further reduced gap for smaller screens */
+    gap: 3vh; 
   }
   
   .pong-table {
-    width: 90%; /* Adjust width for smaller screens */
-    height: 70%; /* Adjust height for smaller screens */
-    max-width: 90%; /* Adjust maximum width for smaller screens */
-    max-height: 80%; /* Adjust maximum height for smaller screens */
+    visibility: hidden; 
   }
 }

@@ -6,7 +6,7 @@ function showPongEhab() {
     const netHeight = canvas.height;
 
     const paddleWidth = 10;
-    const paddleHeight = 50; // Reduzierte Schlägerhöhe
+    const paddleHeight = 50; 
 
     let upArrowPressed = false;
     let downArrowPressed = false;
@@ -79,17 +79,17 @@ function showPongEhab() {
     function keyDownHandler(event) {
       event.preventDefault();
       switch (event.keyCode) {
-        case 87: // W
+        case 87: 
           wPressed = true;
           break;
-        case 83: // S
+        case 83: 
           sPressed = true;
           break;
-        case 38: // Pfeil nach oben
+        case 38: 
           
           upArrowPressed = true;
           break;
-        case 40: // Pfeil nach unten
+        case 40: 
           downArrowPressed = true;
           break;
       }
@@ -97,16 +97,16 @@ function showPongEhab() {
 
     function keyUpHandler(event) {
       switch (event.keyCode) {
-        case 87: // W
+        case 87: 
           wPressed = false;
           break;
-        case 83: // S
+        case 83: 
           sPressed = false;
           break;
-        case 38: // Pfeil nach oben
+        case 38: 
           upArrowPressed = false;
           break;
-        case 40: // Pfeil nach unten
+        case 40: 
           downArrowPressed = false;
           break;
       }
@@ -130,9 +130,9 @@ function showPongEhab() {
         const button = document.getElementById('newGameButton');
         if (button)
         {
-          button.style.display = 'block'; // Button anzeigen
+          button.style.display = 'block'; 
         button.addEventListener('click', function() {
-            location.reload(); // Die Seite neu laden für ein neues Spiel
+            location.reload(); 
         });
       }
     }
@@ -146,19 +146,19 @@ function showPongEhab() {
             ctx.font = '48px Arial';
             ctx.fillText(winner, canvas.width / 4, canvas.height / 2);
     
-            // Button anzeigen
+            
             showNewGameButton();
           
         }
     }
     
 
-    let gameOver = false; // Globale Variable, um den Spielstatus zu verfolgen
+    let gameOver = false; 
 
-// Update-Funktion, um Dinge zu aktualisieren
+
 function update() {
     if (!gameOver) {
-        // Bewegung der Spieler
+        
         if (wPressed && user.y > 0) {
             user.y -= 8;
         } else if (sPressed && (user.y < canvas.height - user.height)) {
@@ -171,16 +171,16 @@ function update() {
           player2.y += 8;
         }
 
-        // Bewegung des Balls
+        
         ball.x += ball.velocityX;
         ball.y += ball.velocityY;
 
-        // Überprüfung, ob der Ball die oberen oder unteren Wände trifft
+        
         if (ball.y + ball.radius >= canvas.height || ball.y - ball.radius <= 0) {
             ball.velocityY = -ball.velocityY;
         }
 
-        // Punktzahl und Reset, wenn der Ball die linke oder rechte Wand trifft
+        
         if (ball.x + ball.radius >= canvas.width) {
             user.score += 1;
             reset();
@@ -189,10 +189,10 @@ function update() {
             reset();
         }
 
-        // Kollisionsdetektion mit den Schlägern
+        
         let player = (ball.x < canvas.width / 2) ? user : player2;
         if (collisionDetect(player, ball)) {
-            // Ballrichtung ändern
+            
             let angle = 0;
             if (ball.y < (player.y + player.height / 2)) {
                 angle = -1 * Math.PI / 4;
@@ -202,10 +202,10 @@ function update() {
             ball.velocityX = (player === user ? 1 : -1) * ball.speed * Math.cos(angle);
             ball.velocityY = ball.speed * Math.sin(angle);
 
-            ball.speed += 0.1; // Erhöhe die Geschwindigkeit des Balls, um das Spiel herausfordernder zu machen
+            ball.speed += 0.1; 
         }
 
-        // Überprüfe, ob das Spiel vorbei ist
+        
         checkGameOver();
     }
 }
@@ -218,7 +218,7 @@ function checkGameOver() {
         let winner = user.score === 7 ? "Spieler 1 gewinnt!" : "Spieler 2 gewinnt!";
         ctx.fillText(winner, (canvas.width / 4), (canvas.height / 2));
 
-        // Zeige den "New Game" Button
+        
         showNewGameButton();
       
     }
@@ -226,7 +226,7 @@ function checkGameOver() {
 
 function showNewGameButton() {
     const button = document.getElementById('newGameButton');
-    button.style.display = 'block'; // Button anzeigen
+    button.style.display = 'block'; 
 }
 
 function reset() {
@@ -236,18 +236,18 @@ function reset() {
     ball.speed = 7;
 }
 
-// Stelle sicher, dass du den "New Game" Button im HTML hast
-// <button id="newGameButton" style="display:none;">New Game</button>
-// und füge dem Button im JavaScript EventListener hinzu, wie im vorherigen Schritt beschrieben
+
+
+
 document.getElementById('newGameButton').addEventListener('click', function() {
-    location.reload(); // Die Seite neu laden für ein neues Spiel
+    location.reload(); 
 });
 
-// Diese Funktion wird am Anfang einmal aufgerufen, um das Spiel zu starten
+
 function gameLoop() {
     if (!gameOver) {
         update();
-        render(); // Stelle sicher, dass du eine Funktion hast, die alles neu zeichnet
+        render(); 
     }
     requestAnimationFrame(gameLoop);
 }
@@ -275,9 +275,9 @@ requestAnimationFrame(gameLoop);
         const button = document.getElementById('newGameButton');
         if (button)
         {
-        button.style.display = 'block'; // Button anzeigen
+        button.style.display = 'block'; 
         button.addEventListener('click', function() {
-            location.reload(); // Die Seite neu laden für ein neues Spiel
+            location.reload(); 
         });
       }
     }

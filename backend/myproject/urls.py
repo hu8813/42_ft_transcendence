@@ -50,7 +50,7 @@ urlpatterns = [
     path('show-feedbacks/', views.show_feedbacks, name='show_feedbacks'),
 
 
-    # API URLs here
+    
     path('api/login/', views.login_view, name='api_login'),
     path('api/ping/', views.login_view, name='api_ping'),
     path('api/register/', views.register, name='api_register'),

@@ -48,7 +48,7 @@ function showAboutUsPage() {
       imgDiv.appendChild(img);
       card.appendChild(imgDiv);
   
-      // Adding space for name
+      
       const nameDiv = document.createElement('div');
       nameDiv.classList.add('name');
       
@@ -62,7 +62,7 @@ function showAboutUsPage() {
   
       card.appendChild(nameDiv);
 
-      // Adding space between name and icons
+      
       const iconDiv = document.createElement('div');
       iconDiv.classList.add('icon-container');
 

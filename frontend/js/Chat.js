@@ -2,16 +2,16 @@ let fetchMessagesInterval;
 
 
 function fetchMessages() {
-    const path = window.location.hash || '#'; // Get the current hash value
+    const path = window.location.hash || '#'; 
 
-    // Check if the path is '#chat'
+    
     apiUrl = `${getBackendURL()}/messages`;
     
     if (path === '#chat' && apiUrl) {
         fetch(apiUrl)
             .then(response => response.json())
             .then(messages => {
-                localStorage.setItem('cachedMessages', JSON.stringify(messages)); // Cache messages for future use
+                localStorage.setItem('cachedMessages', JSON.stringify(messages)); 
             })
             .catch(error => console.error('Error fetching messages:', error));
     }
@@ -28,10 +28,10 @@ function fetchUsersAndTranslations(recipientSelect) {
 }
 
 function displayUsers(selectRecipient, users, selectRecipientTranslation, channelTranslation) {
-    // Clear existing options
+    
     selectRecipient.innerHTML = '';
 
-    // Add default options
+    
     const defaultOptions = [
         { value: "", id:"selectRecipient", text: selectRecipientTranslation },
         { value: "", text: "--------" },
@@ -45,7 +45,7 @@ function displayUsers(selectRecipient, users, selectRecipientTranslation, channe
         selectRecipient.appendChild(defaultOption);
     });
 
-    // Populate options with all users
+    
     users.forEach(user => {
         const option = document.createElement('option');
         option.value = user;
@@ -69,12 +69,12 @@ function openChat() {
     let PERSON_NAME = localStorage.getItem('userLogin') || "user42";
     const apiUrl = `${getBackendURL()}/messages`;
     const onlineUsersElement = document.getElementById('recipient-select');
-    const msgerChat = document.getElementById('msger-chat'); // Define msgerChat here
+    const msgerChat = document.getElementById('msger-chat'); 
     const messageInput = document.getElementById('message-input');
     let sendBtn = document.getElementById('msgSend');
     const recipientSelect = document.getElementById('recipient-select');
     const recipientActions = document.getElementById('recipient-actions');
-    const notification = document.getElementById('notification'); // Notification area
+    const notification = document.getElementById('notification'); 
     const NOTIFICATION_DURATION = 2000;
 
     window.addEventListener('unload', () => {
@@ -95,7 +95,7 @@ function openChat() {
     
     fetchAndDisplayUsers(recipientSelect);
 
-    // Interval to fetch new messages periodically
+    
     fetchMessagesInterval = setInterval(fetchMessages, 3000);
 
     window.addEventListener('unload', () => {
@@ -105,13 +105,13 @@ function openChat() {
 
     recipientSelect.addEventListener('change', () => {
         const selectedUser = recipientSelect.value;
-        recipientActions.innerHTML = ''; // Clear previous actions
+        recipientActions.innerHTML = ''; 
 
         if (selectedUser) {
             const inviteButton = document.createElement('button');
             inviteButton.textContent = 'Invite to Play';
             inviteButton.addEventListener('click', () => {
-                // Implement invite logic here
+                
                 console.log(`Inviting ${selectedUser} to play.`);
             });
 
@@ -120,12 +120,12 @@ function openChat() {
             profileButton.addEventListener('click', () => {
                 window.open(`#viewprofile?u=${selectedUser}`, '_blank');
             });
-            profileButton.classList.add('msger-msgSend'); // Add the CSS class to style it like the other buttons
+            profileButton.classList.add('msger-msgSend'); 
 
             const blockButton = document.createElement('button');
             blockButton.textContent = 'Block private messages';
             blockButton.addEventListener('click', () => {
-                // Implement block logic here
+                
                 console.log(`Blocking private messages from ${selectedUser}.`);
             });
 
@@ -152,7 +152,7 @@ function openChat() {
         const messageElement = document.createElement('div');
         messageElement.classList.add('msg');
 
-        // Check if the message sender is the current user
+        
         const isCurrentUser = message.name === PERSON_NAME;
 
         if (isCurrentUser) {
@@ -161,7 +161,7 @@ function openChat() {
             messageElement.classList.add('left-msg');
         }
 
-        // Align the sender's name and message to the right if it's sent by the current user
+        
         const alignRight = isCurrentUser ? 'right' : 'left';
 
         const senderName = message.name || 'Anonymous';
@@ -174,7 +174,7 @@ function openChat() {
             <div class="msg-bubble" style="text-align: ${alignRight};">${message.text}</div>
         `;
 
-        // Prepend the new message element to the top of the chat container
+        
         msgerChat.insertBefore(messageElement, msgerChat.firstChild);
 
         scrollToBottom();
@@ -218,14 +218,14 @@ function openChat() {
     });
 
     let lastMessageSentTime = 0;
-    const MESSAGE_SEND_INTERVAL = 5000; // 5 seconds
-    const MAX_MESSAGE_LENGTH = 200; // Maximum allowed characters
+    const MESSAGE_SEND_INTERVAL = 5000; 
+    const MAX_MESSAGE_LENGTH = 200; 
 
     function sendMessageFromInput() {
         const inputText = messageInput.value.trim();
         if (!inputText) return;
 
-        // Check if the input exceeds the maximum character limit
+        
         if (inputText.length > MAX_MESSAGE_LENGTH) {
             showNotification(`Message exceeds the maximum character limit ${MAX_MESSAGE_LENGTH}.`, false);
             return;
@@ -239,7 +239,7 @@ function openChat() {
 
         const recipientName = recipientSelect.value;
 
-        // If recipient is empty, set it to an appropriate value for public message
+        
         const recipient = recipientName ? recipientName : '#CHANNEL';
 
         const newMessage = {
@@ -271,7 +271,7 @@ function openChat() {
                     msgerChat.innerHTML = '';
                     messages.forEach(message => {
                         if (message.recipient === PERSON_NAME || message.recipient === '' || message.recipient === '#CHANNEL') {
-                            const createdAt = message.created_at ? new Date(message.created_at) : null; // Parse directly as a Date
+                            const createdAt = message.created_at ? new Date(message.created_at) : null; 
                             const formattedCreatedAt = createdAt ? formatDate(createdAt) : '';
                             const formattedMessage = { ...message, created_at: formattedCreatedAt };
                             addMessage(formattedMessage);

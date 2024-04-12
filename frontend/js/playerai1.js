@@ -1,6 +1,6 @@
 function showPlayerAi1Page(){
     console.log("pong ai1 page");
-    const canvas = document.getElementById('playerAiCanvas'); // Aktualisierte ID
+    const canvas = document.getElementById('playerAiCanvas'); 
     const ctx = canvas.getContext('2d');
     canvas.width = window.innerWidth / 1.5;
     canvas.height = window.innerHeight / 1.5;
@@ -63,9 +63,9 @@ function showPlayerAi1Page(){
     function showNGameButton() {
         const button = document.getElementById('newGameButton');
         if (button)
-            button.style.display = 'block'; // Button anzeigen
+            button.style.display = 'block'; 
         button.addEventListener('click', function() {
-            location.reload(); // Die Seite neu laden für ein neues Spiel
+            location.reload(); 
         });
     }
 
@@ -95,15 +95,15 @@ function showPlayerAi1Page(){
         ctx.font = '48px Arial';
         ctx.fillText(winner, canvas.width / 4, canvas.height / 2);
     
-        showNGameButton(); // Zeigt den "Neues Spiel" Button an
+        showNGameButton(); 
     }
 
     const update = () => {
         if (player1.score === 7 || CPU.score === 7) {
             gameOver = true;
             winner = player1.score === 7 ? "Player 1 " : "CPU ";
-            showGameOver(); // Eine Funktion, um den Gewinner anzuzeigen und den "Neues Spiel" Button einzublenden
-            return; // Stoppt die Update-Funktion, um weitere Bewegungen zu verhindern
+            showGameOver(); 
+            return; 
         } 
 
         if(player1.moveUp && player1.y > 0) {
@@ -113,7 +113,7 @@ function showPlayerAi1Page(){
             player1.y += 8;
         }
 
-        // Einfache KI für Player 2
+        
         CPU.y += ((ball.y - (CPU.y + CPU.height / 2))) * 0.1;
 
         ball.x += ball.velocityX;
@@ -150,11 +150,11 @@ function showPlayerAi1Page(){
     };
 
     const draw = () => {
-        ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
-        drawRect(0, 0, canvas.width, canvas.height, '#000'); // Background
-        drawRect(player1.x, player1.y, player1.width, player1.height, player1.color); // Player 1
-        drawRect(CPU.x, CPU.y, CPU.width, CPU.height, CPU.color); // Player 2
-        drawCircle(ball.x, ball.y, ball.radius, ball.color); // Ball
+        ctx.clearRect(0, 0, canvas.width, canvas.height); 
+        drawRect(0, 0, canvas.width, canvas.height, '#000'); 
+        drawRect(player1.x, player1.y, player1.width, player1.height, player1.color); 
+        drawRect(CPU.x, CPU.y, CPU.width, CPU.height, CPU.color); 
+        drawCircle(ball.x, ball.y, ball.radius, ball.color); 
         ctx.font = '35px Arial';
         ctx.fillStyle = '#FFF';
         ctx.fillText(player1.score, 100, 50);
@@ -179,23 +179,23 @@ function showPlayerAi1Page(){
     }
     
     function resetGame() {
-        // Setze die Spielvariablen zurück
+        
         ball.x = canvas.width / 2;
         ball.y = canvas.height / 2;
-        ball.velocityX = 5; // oder jede andere Startgeschwindigkeit
-        ball.velocityY = 5; // oder jede andere Startgeschwindigkeit
+        ball.velocityX = 5; 
+        ball.velocityY = 5; 
         ball.speed = 7;
     
-        player1.y = (canvas.height - 100) / 2; // Zurücksetzen der Position
-        CPU.y = (canvas.height - 100) / 2; // Zurücksetzen der Position
+        player1.y = (canvas.height - 100) / 2; 
+        CPU.y = (canvas.height - 100) / 2; 
     
-        player1.score = 0; // Zurücksetzen der Punktzahl
-        CPU.score = 0; // Zurücksetzen der Punktzahl
+        player1.score = 0; 
+        CPU.score = 0; 
     
-        gameOver = false; // Spielende zurücksetzen
-        winner = ''; // Gewinner zurücksetzen
+        gameOver = false; 
+        winner = ''; 
     
-        // Starte das Spiel erneut
+        
         gameLoop();
     }
     

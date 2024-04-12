@@ -14,25 +14,25 @@ prompt_for_variable() {
     local prompt_message=$2
     local current_value
 
-    # Check if the variable is already set in the environment
+    
     current_value="${!var_name}"
 
-    # If not set in the environment, check the .env file
+    
     if [ -z "$current_value" ]; then
         current_value=$(read_var_from_env_file "$var_name")
     fi
 
-    # If not set anywhere, prompt the user (if a prompt message is provided)
+    
     if [ -z "$current_value" ] && [ -n "$prompt_message" ]; then
         echo -e -n "${prompt_message}"
         read current_value
     fi
 
-    # Update or add the variable to the .env file
+    
     if ! grep -q "^${var_name}=" "$env_file"; then
         echo "$var_name=$current_value" >> "$env_file"
     else
-        # Update the value in the .env file directly
+        
         sed -i "/^$var_name=/c\\$var_name=$current_value" "$env_file"
     fi
 }

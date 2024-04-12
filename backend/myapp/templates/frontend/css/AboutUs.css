@@ -68,14 +68,14 @@
   }
   
   .name {
-	margin-top: 10px; /* Adjust as needed */
+	margin-top: 10px; 
 	text-align: center;
   }
   
   .icon-container {
-	margin-top: 10px; /* Adjust as needed */
+	margin-top: 10px; 
 	display: flex;
-	gap: 10px; /* Adjust as needed */
+	gap: 10px; 
   }
   
   .icon {

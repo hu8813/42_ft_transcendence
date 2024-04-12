@@ -1,15 +1,15 @@
-/* Passt die Canvas-Größe dynamisch an und zentriert sie */
+
 #canvasTic2 {
-    background-color: #9c4c2d; /* Dunkler Hintergrund für das Canvas */
-    display: block; /* Stellt sicher, dass das Canvas zentriert werden kann */
-    margin: 7% auto; /* Zentriert das Canvas vertikal und horizontal */
-    max-width: 70vw; /* Maximale Breite auf 70% des Viewport Width */
-    max-height: 70vh; /* Maximale Höhe auf 70% des Viewport Height */
-    box-shadow: 0 0 15px rgba(0,0,0,0.5); /* Fügt einen leichten Schatten hinzu für bessere Sichtbarkeit */
+    background-color: #9c4c2d; 
+    display: block; 
+    margin: 7% auto; 
+    max-width: 70vw; 
+    max-height: 70vh; 
+    box-shadow: 0 0 15px rgba(0,0,0,0.5); 
 }
 
 #newGButton {
-    position: fixed; /* Positioniert den Button absolut zum Viewport */
+    position: fixed; 
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -20,7 +20,7 @@
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    display: none; /* Standardmäßig ist der Button nicht sichtbar */
+    display: none; 
 }
 
 /* body {

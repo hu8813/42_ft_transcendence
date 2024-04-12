@@ -1,11 +1,11 @@
 function handleRegister() {
-    // Get translated placeholder values
+    
     Promise.all([
         translateKey('auth.email'),
         translateKey('auth.username'),
         translateKey('auth.password'),
         translateKey('auth.confirmPassword'),
-        translateKey('auth.passwordMismatch'), // Translation for password mismatch error message
+        translateKey('auth.passwordMismatch'), 
     ]).then(([emailPlaceholderTranslation, usernamePlaceholderTranslation, passwordPlaceholderTranslation, confirmPasswordPlaceholderTranslation, passwordMismatchTranslation]) => {
         document.getElementById("enterEmail").setAttribute('placeholder', emailPlaceholderTranslation);
         document.getElementById("enterUsername").setAttribute('placeholder', usernamePlaceholderTranslation);
@@ -18,15 +18,15 @@ function handleRegister() {
         document.getElementById("confirmPassword").setAttribute('for', 'confirmPasswordP');
 
         document.getElementById("register-form").addEventListener("submit", function(event) {
-            event.preventDefault(); // Prevent default form submission
+            event.preventDefault(); 
     
-            // Get form field values
+            
             const email = document.getElementById("enterEmail").value;
             const username = document.getElementById("enterUsername").value;
             const password = document.getElementById("enterPassword").value;
             const confirmPassword = document.getElementById("confirmPasswordP").value;
             
-            // Check if passwords match
+            
             if (password !== confirmPassword) {
                 document.getElementById("password-mismatch-feedback").style.display = "block";
                 document.getElementById("password-mismatch-feedback").textContent = "Passwords do not match.";

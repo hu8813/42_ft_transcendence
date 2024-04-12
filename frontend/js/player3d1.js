@@ -48,7 +48,7 @@ var Key = {
     }
   };
 
-// Move Left Button
+
 document.getElementById('moveLeftButton').addEventListener('touchstart', function() {
     Key.onKeydown(Key.LEFT_ARROW);
 });
@@ -69,7 +69,7 @@ document.getElementById('moveLeftButton').addEventListener('click', function() {
     Key.onKeyup(Key.LEFT_ARROW);
 });
 
-// Move Right Button
+
 document.getElementById('moveRightButton').addEventListener('touchstart', function() {
     Key.onKeydown(Key.RIGHT_ARROW);
 });
@@ -442,14 +442,14 @@ function opponentPaddleMovement()
 
 function playerPaddleMovement() {
     if (Key.isDown(Key.LEFT_ARROW)) {
-        // Check if paddle is within top boundary
+        
         if (paddle1.position.y < fieldHeight * 0.45) {
             paddle1DirY = paddleSpeed * 0.5;
         } else {
             paddle1DirY = 0;
         }
     } else if (Key.isDown(Key.RIGHT_ARROW)) {
-        // Check if paddle is within bottom boundary
+        
         if (paddle1.position.y > -fieldHeight * 0.45) {
             paddle1DirY = -paddleSpeed * 0.5;
         } else {
@@ -459,17 +459,17 @@ function playerPaddleMovement() {
         paddle1DirY = 0;
     }
     
-    // Apply movement to paddle
+    
     paddle1.position.y += paddle1DirY;
 
-    // Ensure paddle doesn't move beyond boundaries
+    
     if (paddle1.position.y > fieldHeight * 0.45) {
         paddle1.position.y = fieldHeight * 0.45;
     } else if (paddle1.position.y < -fieldHeight * 0.45) {
         paddle1.position.y = -fieldHeight * 0.45;
     }
 
-    // Scale paddle
+    
     paddle1.scale.y += (1 - paddle1.scale.y) * 0.2;
     paddle1.scale.z += (1 - paddle1.scale.z) * 0.2;
 }

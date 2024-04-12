@@ -2,8 +2,8 @@ table {
   border-collapse: collapse;
   width: 90%;
   margin: 5% auto 4%;
-  max-height: 70vh; /* Set maximum height */
-  overflow-y: auto; /* Add vertical scrollbar if needed */
+  max-height: 70vh; 
+  overflow-y: auto; 
   margin-top: 20%;
 }
 
@@ -22,29 +22,29 @@ th {
   align-items: center;
 }
 
-/* Remove margins for th and td */
+
 th,
 td {
   margin: 0;
 }
 
-/* Adjust the font weight of table headers */
+
 th span {
   font-weight: normal;
 }
 
-/* Adjust the margin for the pagination container */
+
 #pagination-container {
   margin-left: 10%;
 }
 
-/* Remove the margin and position styles from the parent div */
+
 #leaderboard-body + tr > td > div {
   margin: 0;
   position: static;
 }
 
-/* Adjust the margin for the page span */
+
 #page {
   margin-right: 5%;
 }

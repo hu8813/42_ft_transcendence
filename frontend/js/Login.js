@@ -2,7 +2,7 @@ function handleLogin() {
   console.log("DOMContentLoaded event fired."); 
   
   const loginForm = document.getElementById("login-form2");
-  // login-status
+  
   const loginStatus = document.getElementById("login-status");
   
   if (loginForm) {
@@ -26,12 +26,12 @@ function handleLogin() {
                   window.location.href = "/";
               } else {
                   console.error("Login failed:", data);
-                  // Update loginStatus to show login failed message
+                  
                   loginStatus.textContent = "Login failed. Please check your credentials.";
               }
           } catch (error) {
               console.error("Error logging in:", error);
-              // Update loginStatus to show error message
+              
               loginStatus.textContent = "Error logging in. Please try again later.";
           }
           

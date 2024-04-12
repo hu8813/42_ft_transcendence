@@ -10,7 +10,7 @@
     padding: 20px;
     border-radius: 10px;
     text-align: center;
-    display: none; /* Versteckt das Modal standardmäßig */
+    display: none; 
 }
 
 .pong-game-over-modal button {

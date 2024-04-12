@@ -92,7 +92,7 @@ if (!currentLanguage) {
 
 
 
-// Usage example:
+
 const apiUrl = `${getBackendURL()}/messages`;
 const signinUrl = `${getBackendURL()}/signin42c/`;
 
@@ -191,7 +191,7 @@ const handleLocation = async () => {
       case "#viewprofile":
     const hashParamsString = window.location.hash.substring(1);
 
-    // Extracting the parameters from the string
+    
     const paramsIndex = hashParamsString.indexOf('?');
     if (paramsIndex !== -1) {
         const paramsString = hashParamsString.substring(paramsIndex + 1);
@@ -202,15 +202,15 @@ const handleLocation = async () => {
             if (username) {
                 await fetchAndDisplayViewProfile(username);
             } else {
-                // Handle scenario where no username is provided
+                
             }
         } else {
             console.error("No 'u' parameter found in the URL.");
-            // Handle scenario where 'u' parameter is not present
+            
         }
     } else {
         console.error("No parameters found in the URL.");
-        // Handle scenario where no parameters are present
+        
     }
     break;
 
@@ -294,14 +294,14 @@ const showNavMenu = () => {
   navMenu.style.display = 'block';
 };
 
-// Function to hide the navigation menu
+
 const hideNavMenu = () => {
   navMenu.style.display = 'none';
 };
 
 
 
-// Function to toggle the navigation menu
+
 const toggleNavMenu = () => {
   if (navMenu.style.display === 'none' || navMenu.style.display === '') {
     showNavMenu();
@@ -310,7 +310,7 @@ const toggleNavMenu = () => {
   }
 };
 
-// Event listener for the navigation toggle button
+
 navToggle.addEventListener('click', toggleNavMenu);
 
 const route = (event) => {
@@ -400,10 +400,10 @@ window.addEventListener('load', () => {
 
 window.addEventListener('resize', () => {
   if (window.innerWidth >= 800) {
-    // Ensure that the navigation menu is always shown on larger screens
+    
     showNavMenu();
   } else {
-    // Hide the navigation menu on smaller screens
+    
     hideNavMenu();
   }
 });

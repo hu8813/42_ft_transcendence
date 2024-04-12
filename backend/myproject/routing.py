@@ -9,9 +9,9 @@ websocket_urlpatterns = [
 ]
 
 application = ProtocolTypeRouter({
-    # Django's ASGI application to handle traditional HTTP requests
+    
     "http": get_asgi_application(),
-    # WebSocket chat handler
+    
     "websocket": URLRouter(
         websocket_urlpatterns
     ),

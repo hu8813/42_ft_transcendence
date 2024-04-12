@@ -80,24 +80,24 @@ function showPong4()
 
     function keyDownHandler(event) {
         switch (event.keyCode) {
-            case 87: // W
+            case 87: 
                 wPressed = true;
                 break;
-            case 83: // S
+            case 83: 
                 sPressed = true;
                 break;
-            case 38: // Up Arrow
+            case 38: 
                 upArrowPressed = true;
                 event.preventDefault();
                 break;
-            case 40: // Down Arrow
+            case 40: 
                 downArrowPressed = true;
                 event.preventDefault();
                 break;
-            case 74: // J
+            case 74: 
                 jPressed = true;
                 break;
-            case 75: // K
+            case 75: 
                 kPressed = true;
                 break;
         }
@@ -105,24 +105,24 @@ function showPong4()
 
     function keyUpHandler(event) {
         switch (event.keyCode) {
-            case 87: // W
+            case 87: 
                 wPressed = false;
                 break;
-            case 83: // S
+            case 83: 
                 sPressed = false;
                 break;
-            case 38: // Up Arrow
+            case 38: 
                 upArrowPressed = false;
                 event.preventDefault();
                 break;
-            case 40: // Down Arrow
+            case 40: 
                 downArrowPressed = false;
                 event.preventDefault();
                 break;
-            case 74: // J
+            case 74: 
                 jPressed = false;
                 break;
-            case 75: // K
+            case 75: 
                 kPressed = false;
                 break;
         }
@@ -220,7 +220,7 @@ function showPong4()
         ctx.fillStyle = "white";
         ctx.font = "48px Arial";
         ctx.textAlign = "center";
-        ctx.fillText(gameOverMessage, canvas.width / 2, canvas.height / 2 - 100); // gameOverMessage sollte die Verlierer-Nachricht sein
+        ctx.fillText(gameOverMessage, canvas.width / 2, canvas.height / 2 - 100); 
         
     }
     

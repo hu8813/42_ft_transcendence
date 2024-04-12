@@ -6,7 +6,7 @@ function showTic1() {
     canvas.width = 800;
     canvas.height = 600;
 
-    let currentPlayer = 'X'; // Starte mit Spieler 'X'
+    let currentPlayer = 'X'; 
     let gameOver = false;
 
     const tileWidth = canvas.width / 3;
@@ -80,7 +80,7 @@ function showTic1() {
             board[yIndex][xIndex] = currentPlayer;
             drawBoard();
             checkForWin();
-            currentPlayer = 'O'; // Wechsel zum Computer nach dem Zug
+            currentPlayer = 'O'; 
             computerMove();
         }
     });
@@ -102,12 +102,12 @@ function showTic1() {
             board[move.rowIndex][move.cellIndex] = currentPlayer;
             drawBoard();
             checkForWin();
-            currentPlayer = 'X'; // Wechsel zurück zum Spieler
+            currentPlayer = 'X'; 
         }
     };
 
     const checkForWin = () => {
-        // Gewinnbedingungen
+        
         const winConditions = [
             [0, 1, 2],
             [3, 4, 5],
@@ -119,21 +119,21 @@ function showTic1() {
             [2, 4, 6]
         ];
     
-        // Konvertiere das 2D-Board in ein 1D-Array für einfache Überprüfung
+        
         let boardIn1D = board.flat();
     
         for (let i = 0; i < winConditions.length; i++) {
             let [a, b, c] = winConditions[i];
             if (boardIn1D[a] && boardIn1D[a] === boardIn1D[b] && boardIn1D[a] === boardIn1D[c]) {
-                gameOver = true; // Setze das Spiel als beendet
-                alert(`${boardIn1D[a]} hat gewonnen!`); // Benachrichtige über den Gewinner
+                gameOver = true; 
+                alert(`${boardIn1D[a]} hat gewonnen!`); 
                 return;
             }
         }
     
-        // Überprüfe auf Unentschieden
+        
         if (boardIn1D.every(cell => cell !== null)) {
-            gameOver = true; // Setze das Spiel als beendet
+            gameOver = true; 
             alert("Unentschieden!");
             return;
         }

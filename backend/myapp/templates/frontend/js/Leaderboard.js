@@ -61,15 +61,15 @@ async function displayLeaderboard() {
       `;
       leaderboardBody.appendChild(row);
       
-      // Add event listener to view profile button
+      
       const viewProfileButton = row.querySelector('.view-profile-btn');
       viewProfileButton.addEventListener('click', (event) => {
-        event.preventDefault(); // Prevent default link behavior
+        event.preventDefault(); 
         const username = event.currentTarget.getAttribute('data-username');
         openProfile(username);
       });
 
-      // Add event listener to profile image
+      
       const profileImage = row.querySelector('.c-avatar img');
       if (profileImage) {
         profileImage.addEventListener('click', (event) => {
@@ -78,7 +78,7 @@ async function displayLeaderboard() {
         });
       }
 
-      // Add event listener to username
+      
       const usernameElement = row.querySelector('.c-media__title');
       if (usernameElement) {
         usernameElement.addEventListener('click', (event) => {

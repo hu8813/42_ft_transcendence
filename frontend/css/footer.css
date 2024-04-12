@@ -30,20 +30,20 @@
   color: #2980b9;
 }
 
-/* Show footer icons on smaller screens */
+
 @media only screen and (max-width: 768px) {
   .footer-link {
-    display: flex; /* Allow space for icons */
-    align-items: center; /* Align icons vertically */
+    display: flex; 
+    align-items: center; 
   }
   
   .footer-link i {
-    display: block; /* Display icons only on smaller screens */
-    font-size: 1.2rem; /* Adjust icon size as needed */
-    margin-right: 5px; /* Add space between icon and text (optional) */
+    display: block; 
+    font-size: 1.2rem; 
+    margin-right: 5px; 
   }
   
-  .footer-link span { /* Hide text on smaller screens */
+  .footer-link span { 
     display: none;
   }
 }

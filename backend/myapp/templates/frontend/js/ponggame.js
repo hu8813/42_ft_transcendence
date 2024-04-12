@@ -2,8 +2,8 @@ function showPongGamePage(){
     console.log("pong game page");
     const canvas = document.getElementById('pongGameCanvas');
     const ctx = canvas.getContext('2d');
-    canvas.width = 800; // Festgelegte Breite für das Canvas
-    canvas.height = 400; // Festgelegte Höhe für das Canvas
+    canvas.width = 800; 
+    canvas.height = 400; 
 
     let gameOver = false;
     let winner = '';
@@ -114,20 +114,20 @@ function showPongGamePage(){
     }
 
     function render() {
-        // Hintergrund
+        
         drawRect(0, 0, canvas.width, canvas.height, '#000');
 
-        // Mittellinie
+        
         drawRect(canvas.width/2 - 2, 0, 4, canvas.height, '#FFF');
 
-        // Ball zeichnen
+        
         drawCircle(ball.x, ball.y, ball.radius, ball.color);
 
-        // Spieler zeichnen
+        
         drawRect(player1.x, player1.y, player1.width, player1.height, player1.color);
         drawRect(player2.x, player2.y, player2.width, player2.height, player2.color);
 
-        // Punktestand
+        
         drawText(player1.score, canvas.width / 4, 50);
         drawText(player2.score, 3 * canvas.width / 4, 50);
     }
@@ -144,16 +144,16 @@ function showPongGamePage(){
 
     function showGameOverModal() {
         const gameOverModal = document.querySelector('.game-over-modal');
-        gameOverModal.style.display = 'block'; // Zeige das Modal
+        gameOverModal.style.display = 'block'; 
         const winnerName = document.getElementById('winner-name');
-        winnerName.textContent = winner; // Setze den Gewinner-Namen
+        winnerName.textContent = winner; 
     }
     /* 
     function showGameOverModal() {
-    const gameOverModal = document.getElementById('pongGameOverModal'); // Verwende die eindeutige ID
-    gameOverModal.classList.remove('hidden'); // Zeige das Modal
-    const winnerName = document.getElementById('pongWinnerName'); // Verwende die eindeutige ID
-    winnerName.textContent = winner; // Setze den Gewinner-Namen
+    const gameOverModal = document.getElementById('pongGameOverModal'); 
+    gameOverModal.classList.remove('hidden'); 
+    const winnerName = document.getElementById('pongWinnerName'); 
+    winnerName.textContent = winner; 
 }
     */
     

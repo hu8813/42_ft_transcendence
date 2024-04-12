@@ -7,7 +7,7 @@ function openChat() {
     const sendBtn = document.getElementById('send-btn');
     const recipientSelect = document.getElementById('recipient-select');
     const recipientActions = document.getElementById('recipient-actions');
-    const notification = document.getElementById('notification'); // Notification area
+    const notification = document.getElementById('notification'); 
     const NOTIFICATION_DURATION = 2000;
 
      function showNotification(message, isSuccess) {
@@ -22,9 +22,9 @@ function openChat() {
         fetch(`${getBackendURL()}/get_all_users`)
             .then(response => response.json())
             .then(users => {
-                // Clear existing options
+                
                 recipientSelect.innerHTML = '';
-                // Add default options
+                
                 const defaultOptions = [
                     { value: "", text: "Select recipient" },
                     { value: "", text: "--------" },
@@ -37,7 +37,7 @@ function openChat() {
                     defaultOption.textContent = option.text;
                     recipientSelect.appendChild(defaultOption);
                 });
-                // Populate options with all users
+                
                 users.forEach(user => {
                     const option = document.createElement('option');
                     option.value = user;
@@ -49,7 +49,7 @@ function openChat() {
     }
 
     if (recipientSelect) {
-        fetchAllUsers(); // Modify recipientSelect's innerHTML only if it exists
+        fetchAllUsers(); 
     }
 
     function formatDate(date) {
@@ -70,7 +70,7 @@ function openChat() {
         const messageElement = document.createElement('div');
         messageElement.classList.add('msg');
     
-        // Check if the message sender is the current user
+        
         const isCurrentUser = message.name === PERSON_NAME;
     
         if (isCurrentUser) {
@@ -79,7 +79,7 @@ function openChat() {
             messageElement.classList.add('left-msg');
         }
     
-        // Align the sender's name and message to the right if it's sent by the current user
+        
         const alignRight = isCurrentUser ? 'right' : 'left';
     
         const senderName = message.name || 'Anonymous';
@@ -92,7 +92,7 @@ function openChat() {
             <div class="msg-bubble" style="text-align: ${alignRight};">${message.text}</div>
         `;
         
-        // Prepend the new message element to the top of the chat container
+        
         msgerChat.insertBefore(messageElement, msgerChat.firstChild);
     
         scrollToBottom();
@@ -141,14 +141,14 @@ function openChat() {
     });
     
     let lastMessageSentTime = 0;
-const MESSAGE_SEND_INTERVAL = 5000; // 5 seconds
-const MAX_MESSAGE_LENGTH = 200; // Maximum allowed characters
+const MESSAGE_SEND_INTERVAL = 5000; 
+const MAX_MESSAGE_LENGTH = 200; 
 
 function sendMessageFromInput() {
     const inputText = messageInput.value.trim();
     if (!inputText) return;
 
-    // Check if the input exceeds the maximum character limit
+    
     if (inputText.length > MAX_MESSAGE_LENGTH) {
         showNotification(`Message exceeds the maximum character limit of ${MAX_MESSAGE_LENGTH}.`, false);
         return;
@@ -162,7 +162,7 @@ function sendMessageFromInput() {
 
     const recipientName = recipientSelect.value;
 
-    // If recipient is empty, set it to an appropriate value for public message
+    
     const recipient = recipientName ? recipientName : '#CHANNEL';
 
     const newMessage = {
@@ -174,13 +174,13 @@ function sendMessageFromInput() {
     sendMessage(newMessage);
     lastMessageSentTime = currentTime;
 
-    // Disable send button for the entire duration of the message send interval
+    
     sendBtn.disabled = true;
     setTimeout(() => {
         sendBtn.disabled = false;
     }, MESSAGE_SEND_INTERVAL);
 
-    showNotification("Message sent successfully.", true); // Notify the user
+    showNotification("Message sent successfully.", true); 
 }
 
 
@@ -191,9 +191,9 @@ function sendMessageFromInput() {
         .then(messages => {
             msgerChat.innerHTML = '';
             messages.forEach(message => {
-                // Check if the recipient matches the current user or if it's empty (indicating a message to all users)
+                
                 if (message.recipient === PERSON_NAME || message.recipient === '' || message.recipient === '#CHANNEL') {
-                    const createdAt = message.created_at ? new Date(message.created_at * 1000) : null; // Multiply by 1000 to convert seconds to milliseconds
+                    const createdAt = message.created_at ? new Date(message.created_at * 1000) : null; 
                     const formattedCreatedAt = createdAt ? formatDate(createdAt) : '';
                     const formattedMessage = { ...message, created_at: formattedCreatedAt };
                     addMessage(formattedMessage);
@@ -210,22 +210,22 @@ function sendMessageFromInput() {
         clearInterval(fetchMessagesInterval);
     });
 
-    // onlineUsers.forEach(user => {
-    //     const option = document.createElement('option');
-    //     option.value = user;
-    //     option.textContent = user;
-    //     recipientSelect.appendChild(option);
-    // });
+    
+    
+    
+    
+    
+    
 
     recipientSelect.addEventListener('change', () => {
         const selectedUser = recipientSelect.value;
-        recipientActions.innerHTML = ''; // Clear previous actions
+        recipientActions.innerHTML = ''; 
 
         if (selectedUser) {
             const inviteButton = document.createElement('button');
             inviteButton.textContent = 'Invite to Play';
             inviteButton.addEventListener('click', () => {
-                // Implement invite logic here
+                
                 console.log(`Inviting ${selectedUser} to play.`);
             });
 
@@ -234,13 +234,13 @@ function sendMessageFromInput() {
             profileButton.addEventListener('click', () => {
                 window.open(`#viewprofile?u=${selectedUser}`, '_blank');
             });
-            profileButton.classList.add('msger-send-btn'); // Add the CSS class to style it like the other buttons
+            profileButton.classList.add('msger-send-btn'); 
 
 
             const blockButton = document.createElement('button');
             blockButton.textContent = 'Block private messages';
             blockButton.addEventListener('click', () => {
-                // Implement block logic here
+                
                 console.log(`Blocking private messages from ${selectedUser}.`);
             });
 
