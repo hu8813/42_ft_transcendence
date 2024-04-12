@@ -132,18 +132,16 @@
       <button onclick="submitFeedback()">Submit</button>
     </div>
   </div>
-<footer class="footer-container">
-  
+  <footer class="footer-container">
     <div class="footer-links">
-      <a onclick="route();" href="/#privacy-policy" class="footer-link privacy-link">
-        <i class="bi bi-lock"></i> <span class="footer-link-text" id="privacyPolicy">Privacy Policy</span> </a>
-      <a onclick="route();" href="/#contact" class="footer-link privacy-link">
+      <a onclick="showPrivacyPolicy();" href="/#privacy-policy" class="footer-link privacy-link">
+        <i class="bi bi-lock"></i> <span class="footer-link-text" id="privacyPolicy">Privacy Policy></span> </a>
+      <a onclick="showImprint();" href="/#contact" class="footer-link privacy-link">
         <i class="bi bi-info-circle"></i> <span class="footer-link-text" id="impressum">Impressum</span> </a>
-      <a onclick="route();" href="/#aboutus" class="footer-link about-link">
+      <a onclick="showAboutUs();" href="/#aboutus" class="footer-link about-link text-right">
         <i class="bi bi-people"></i> <span class="footer-link-text" id="aboutUs">About Us</span> </a>
-      </div>
-      <img src="./src/logo.png" width="5%" style="position: relative;">
-    </footer>
+    </div>
+  </footer>
 
   <script src="./js/router.js" defer></script>
 <script>

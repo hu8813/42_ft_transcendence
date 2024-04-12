@@ -5,8 +5,7 @@ function showHome() {
     const welcomeMessage = document.createElement("div");
     welcomeMessage.classList.add("welcome-message");
     welcomeMessage.id = "welcome";
-    welcomeMessage.textContent = "Welcome to the Pong Game!"
-    
+
     if (translateKey('home.welcome').then((value) => {welcomeMessage.textContent = value;}));
     welcomePage.appendChild(welcomeMessage);
 
@@ -25,11 +24,11 @@ function showHome() {
         
         pongTable.onmousemove = (event) => {
             const y = event.clientY - pongTable.offsetTop;
-            const leftPaddleTop = Math.min(400 - 100, Math.max(0, y - 50));
-            leftPaddle.style.top = leftPaddleTop + "px";
+            const leftPaddleTop = Math.min(70, Math.max(0, y - 25)) + '%'; // Adjusted for percentage
+            leftPaddle.style.top = leftPaddleTop;
             
-            const rightPaddleTop = Math.min(400 - 100, Math.max(0, y - 50));
-            rightPaddle.style.top = rightPaddleTop + "px";
+            const rightPaddleTop = Math.min(70, Math.max(0, y - 25)) + '%'; // Adjusted for percentage
+            rightPaddle.style.top = rightPaddleTop;
         };
     };
     
@@ -38,10 +37,10 @@ function showHome() {
     pongBall.classList.add("ping-pong-ball");
     
     // position of the ball
-    const ballTop = (400 - 2 * 2) / 2;
-    const ballLeft = (600 - 2 * 2) / 2;
-    pongBall.style.top = ballTop + "px";
-    pongBall.style.left = ballLeft + "px";
+    const ballTop = 'calc((80vh - 4vw) / 2)'; // Adjusted for vw and vh
+    const ballLeft = 'calc((80vw - 4vw) / 2)'; // Adjusted for vw and vh
+    pongBall.style.top = ballTop;
+    pongBall.style.left = ballLeft;
     
     const leftPaddle = document.createElement("div");
     leftPaddle.classList.add("paddle-left");

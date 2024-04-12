@@ -1,15 +1,20 @@
 table {
   border-collapse: collapse;
-  width: 100%;
-  height: 90%;
-  margin-top: 100px;
+  width: 90%;
+  margin: 5% auto 4%;
+  max-height: 70vh; /* Set maximum height */
+  overflow-y: auto; /* Add vertical scrollbar if needed */
+  margin-top: 20%;
 }
 
-th{
-  padding: 18px;
+th,
+td {
+  padding: 1vh 1vw;
   text-align: left;
-  margin-top: 10px;
-  margin-bottom: 10px;
+}
+
+th {
+  font-weight: bold;
 }
 
 .c-media {
@@ -17,7 +22,29 @@ th{
   align-items: center;
 }
 
+/* Remove margins for th and td */
+th,
+td {
+  margin: 0;
+}
 
-.c-media__title {
-  font-weight: bold;
+/* Adjust the font weight of table headers */
+th span {
+  font-weight: normal;
+}
+
+/* Adjust the margin for the pagination container */
+#pagination-container {
+  margin-left: 10%;
+}
+
+/* Remove the margin and position styles from the parent div */
+#leaderboard-body + tr > td > div {
+  margin: 0;
+  position: static;
+}
+
+/* Adjust the margin for the page span */
+#page {
+  margin-right: 5%;
 }
