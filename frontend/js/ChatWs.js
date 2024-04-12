@@ -78,7 +78,8 @@ function displayMessage(message) {
 
     const isCurrentUser = message.name === (localStorage.getItem('userLogin') || "user42");
     const alignRight = isCurrentUser ? 'right' : 'left';
-
+    messageElement.classList.add(isCurrentUser ? 'right-msg' : 'left-msg');
+    messageElement.classList.add('msg-bubble');
     const senderName = message.name || 'Anonymous';
     const formattedCreatedAt = message.created_at ? formatDate(new Date(message.created_at)) : getCurrentTimestamp();
 

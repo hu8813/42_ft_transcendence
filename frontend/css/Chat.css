@@ -93,7 +93,7 @@
 
 
 
-.right-msg .msg-bubble {
+.right-msg .msg-bubble  {
   margin-left: auto;
   background: #21d4fd; 
   color: white;
@@ -104,7 +104,7 @@
   word-wrap: break-word;
 }
 
-.left-msg .msg-bubble {
+.left-msg .msg-bubble  {
   background: #b721ff; 
   color: white;
   padding: 10px;
@@ -112,7 +112,8 @@
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
   max-width: 70%; 
   word-wrap: break-word;
-}
+  
+} 
 
 .msg-info-name {
   font-weight: bold;
