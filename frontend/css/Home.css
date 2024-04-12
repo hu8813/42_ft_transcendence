@@ -20,7 +20,7 @@
   gap: 5vh; 
   position: fixed;
   overflow: auto;
-  background-image: url('../src/tt.jpg');
+  background-image: url('../src/bg.jpg');
   background-size: cover;
   background-position: center;
   animation: zoomInOut 10s infinite alternate; 
