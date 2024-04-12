@@ -27,6 +27,9 @@ from django.utils import timezone
 from django.db import IntegrityError
 from django.utils.html import escape
 import re
+from asgiref.sync import async_to_sync
+from channels.layers import get_channel_layer
+
 
 token_obtain_pair_view = TokenObtainPairView.as_view()
 token_refresh_view = TokenRefreshView.as_view()
@@ -71,7 +74,6 @@ def show_feedbacks(request):
         return JsonResponse({'error': 'Invalid request method'}, status=400)
 
 
-
 @csrf_exempt
 def messages(request):
     if request.method == 'GET':
@@ -85,7 +87,7 @@ def messages(request):
         
         name = escape(data.get('name', ''))
         text = escape(data.get('text', ''))
-        recipient = escape(data.get('recipient', ''))  # Ensure recipient is present or set to empty string if absent
+        recipient = escape(data.get('recipient', '')) 
 
         message = Message.objects.create(name=name, text=text, recipient=recipient)
         
@@ -99,7 +101,7 @@ def messages(request):
         return JsonResponse(message_data)
     else:
         return JsonResponse({'error': 'Method not allowed'}, status=405)
-        
+
 @csrf_exempt
 def chat(request):
     return render(request, 'chatpage.html')
@@ -492,20 +494,30 @@ def leaderboard(request):
 
 @csrf_exempt
 def fetch_messages(request):
-    
-    messages = [...]  
-    return JsonResponse(messages, safe=False)
+    # This view will handle WebSocket requests for fetching messages
+    if request.method != 'GET':
+        return JsonResponse({'error': 'Method not allowed'}, status=405)  # Return error for non-GET requests
+
+    channel_layer = get_channel_layer()
+    async_to_sync(channel_layer.group_send)("chat_group", {"type": "fetch_messages"})
+    return JsonResponse({'status': 'success'})
 
 @csrf_exempt
 def send_message(request):
-    
-    
-    message_data = json.loads(request.body)
-    message = message_data['message']
+    # This view will handle WebSocket requests for sending messages
+    if request.method != 'POST':
+        return JsonResponse({'error': 'Method not allowed'}, status=405)  # Return error for non-POST requests
 
-    
-    
+    try:
+        message_data = json.loads(request.body)
+        message = message_data['message']
+    except json.JSONDecodeError:
+        return JsonResponse({'error': 'Invalid JSON data'}, status=400)  # Return error for invalid JSON data
+    except KeyError:
+        return JsonResponse({'error': 'Missing required field "message"'}, status=400)  # Return error for missing "message" field
 
+    channel_layer = get_channel_layer()
+    async_to_sync(channel_layer.group_send)("chat_group", {"type": "send_message", "message": message})
     return JsonResponse({'status': 'success'})
 
 @csrf_exempt
