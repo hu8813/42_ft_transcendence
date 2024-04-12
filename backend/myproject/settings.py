@@ -43,6 +43,7 @@ SOCKETIO_HOST = "0.0.0.0"
 SOCKETIO_PORT = 8001
 
 INSTALLED_APPS = [
+    'daphne',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

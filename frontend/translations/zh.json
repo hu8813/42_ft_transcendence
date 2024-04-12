@@ -1,7 +1,8 @@
 {
     "home": {
     "welcome": "欢迎来到乒乓球游戏！",
-    "ourTeam": "我们的团队"
+    "ourTeam": "我们的团队",
+    "logintoplay": "請登錄以遊玩！"
     },
     "imprints": {
     "imprintTitle": "版权声明",

@@ -1,7 +1,8 @@
 {
     "home": {
       "welcome": "Bem-vindo ao Jogo Pong!",
-      "ourTeam":  "Nossa Equipe"
+      "ourTeam":  "Nossa Equipe",
+      "logintoplay": "Por favor, faça login para jogar!"
     },
     "imprints": {
       "imprintTitle": "Impressão",

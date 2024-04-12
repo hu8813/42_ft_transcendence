@@ -1,7 +1,8 @@
 {
   "home": {
     "welcome": "Добре дошли в играта Pong!",
-    "ourTeam": "Нашият Екип"
+    "ourTeam": "Нашият Екип",
+    "logintoplay": "Моля, влезте, за да играете!"
   },
   "imprints": {
     "imprintTitle": "Импринт",

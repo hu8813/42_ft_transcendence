@@ -1,7 +1,8 @@
 {
   "home": {
     "welcome": "Pong Oyununa Hoş Geldiniz!",
-    "ourTeam": "Ekibimiz"
+    "ourTeam": "Ekibimiz",
+    "logintoplay": "Oynamak için lütfen giriş yapın!"
   },
   "imprints": {
     "imprintTitle": "Baskı",

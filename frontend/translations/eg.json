@@ -1,7 +1,8 @@
 {
   "home": {
     "welcome": "مرحبًا بك في لعبة البونج!",
-    "ourTeam": "فريقنا"
+    "ourTeam": "فريقنا",
+    "logintoplay": "من فضلك سجل الدخول للعب!"
   },
   "imprints": {
     "imprintTitle": "الطبعة",
