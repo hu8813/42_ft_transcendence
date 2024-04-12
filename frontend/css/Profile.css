@@ -2,17 +2,18 @@
   background: #333841;
   display: flex;
   width: 100%;
-  bottom: 50px;
-  top: 60px;
+  height: 100%;
+  margin-top: 110px;
+  font-size: 20px;
 }
 
 .category {
   text-align: center;
   font-size: 1.5vw;
-  animation: lights 2s linear infinite;
-  margin-bottom: 5%;
-  margin-top: 5%;
-  
+  animation: lights 2s linear infinite;;
+  border-style: dotted;
+  border-radius: 50px;
+  margin-bottom: 25px;
 }
 
 @keyframes lights {
@@ -71,11 +72,38 @@
 }
 
 .friends {
-
+  height: 100%;
 }
 
+.friend-list{
+  overflow-y: auto;
+  max-height: 80vh;
+}
+
+.friend-list::-webkit-scrollbar {
+  width: 5px;
+}
+
+.friend-list::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+.friend-list::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 6px; 
+}
+
+
 .achievments {
- 
+  
+}
+
+.achievments ul {
+  list-style-type: none;
+}
+
+li{
+  margin-bottom: 30px;
 }
 
 .profile {
@@ -85,30 +113,20 @@
   text-align: center;
 }
 
+.profile-info-section{
+  padding: 10px;
+  margin: 10px 0;
+  background: rgba(255, 255, 255, 0.1);
+  height: 80vh;
+  border-radius: 10px;
+}
+
 .profile-pic {
   display: block; 
   margin: 0 auto;
   max-width: 100%;
   height: 100%;
   border-radius: 10px;
-}
-
-.profile-title, .profile-subtitle {
-  text-align: center;
-  font-weight: bold;
-  color: #21d4fd;
-  text-transform: uppercase;
-  margin-bottom: 10px;
-}
-
-.profile-title {
-  margin-top: 0;
-  font-size: 1.5vw;
-  text-shadow: 0 0 10px #21d4fd;
-}
-
-.profile-subtitle {
-  font-size: 1.5vw;
 }
 
 .profile-input, .profile-button {
@@ -136,7 +154,9 @@
   font-weight: bold;
   letter-spacing: 1px;
   cursor: pointer;
-  width: 90%;
+  width: 90%; 
+  margin-bottom: 20px;
+  margin-top: 20px;
 }
 
 .profile-button:active {
@@ -146,35 +166,21 @@
 
 #deleteProfile {
   background-color: rgba(255, 0, 0, 0.6);
+  margin-top: 20px;
 }
 
-.avatar-preview img {
-  max-width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  box-shadow: 0 0 15px rgba(33, 212, 253, 0.4), 
-              0 0 20px rgba(183, 33, 255, 0.4);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.avatar-preview img:hover {
-  transform: scale(1.25);
+.profile-pic:hover {
+  animation: zoom 0.1s linear forwards;
+  transform-origin: center;
   box-shadow: 0 0 15px rgba(33, 212, 253, 0.6), 
               0 0 25px rgba(183, 33, 255, 0.6);
 }
 
-.profile-info-section, .email-info-section, .score-info-section {
-  text-align: center;
-  padding: 10px;
-  margin: 10px 0;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 5px;
-  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3);
+@keyframes zoom{
+  0%   {transform: scale(1)   ;}
+  100% {transform: scale(1.2) ;}
 }
 
-.info-header {
-  margin-top: 0;
-}
 
 @media (max-width: 768px) {
   .profile-container {
@@ -187,10 +193,6 @@
   }
 
   .profile-title {
-    font-size: 1rem;
-  }
-
-  .profile-subtitle {
     font-size: 1rem;
   }
 }

@@ -1,43 +1,75 @@
 <div class="profile-container">
   <div class="friends">
-    <div class="category">Friends</div>
+      <div class="category">Friends</div>
+      <div class="friend-list">
+        <div class="friend">Friend 1</div>
+        <div class="friend">Friend 2</div>
+        <div class="friend">Friend 3</div>
+        <div class="friend">Friend 4</div>
+        <div class="friend">Friend 5</div>
+        <div class="friend">Friend 6</div>
+        <div class="friend">Friend 7</div>
+        <div class="friend">Friend 8</div>
+        <div class="friend">Friend 9</div>
+        <div class="friend">Friend 10</div>
+        <div class="friend">Friend 11</div>
+        <div class="friend">Friend 12</div>
+        <div class="friend">Friend 13</div>
+        <div class="friend">Friend 14</div>
+        <div class="friend">Friend 15</div>
+        <div class="friend">Friend 16</div>
+        <div class="friend">Friend 17</div>
+        <div class="friend">Friend 18</div>
+        <div class="friend">Friend 19</div>
+        <div class="friend">Friend 20</div>
+        <div class="friend">Friend 21</div>
+        <div class="friend">Friend 22</div>
+        <div class="friend">Friend 23</div>
+        <div class="friend">Friend 24</div>
+        <div class="friend">Friend 25</div>
+        <div class="friend">Friend 26</div>
+        <div class="friend">Friend 27</div>
+        <div class="friend">Friend 28</div>
+        <div class="friend">Friend 29</div>
+        <div class="friend">Friend 30</div>
+        <div class="friend">Friend 31</div>
+        <div class="friend">Friend 32</div>
+        <div class="friend">Friend 33</div>
+        <div class="friend">Friend 34</div>
+        <div class="friend">Friend 35</div>
+        <div class="friend">Friend 36</div>
+        <div class="friend">Friend 37</div>
+        <div class="friend">Friend 38</div>
+        <div class="friend">Friend 39</div>
+        <div class="friend">Friend 40</div>
+      </div>
   </div>
   <div class="profile">
     <div class="category">Player Profile</div>
-    <div id="avatar-preview">
-      <img class="profile-pic" src="" width="250px" height="250px" alt="Profile Picture">
-      <button id="changePhoto" class="profile-button">Change Photo</button>
-      <input type="file" id="uploadPhoto" class="profile-input" style="display: none;" onchange="uploadPhoto(event)">
-    </div>
     <div class="profile-info-section">
+      <div id="avatar-preview">
+        <img class="profile-pic" src="" width="250px" height="250px" alt="Profile Picture">
+        <button id="changePhoto" class="profile-button">Change Photo</button>
+        <input type="file" id="uploadPhoto" style="display: none;" onchange="uploadPhoto(event)">
+      </div>
       <div class="info-header"><span id="nickname">Nickname</span>: <span id="nicknameadr">Loading...</span></div>
       <button id="changeNick" class="profile-button"><span id="changeNickname">Change Nickname</span></button>
       <div class="email-info-section">
         <div class="info-header"><span id="email">E-mail</span>: <span id="emailadr">Loading...</span></div>
       </div>
-    </div>
-    <div class="score-info-section">
-      <div class="info-header"><span id="score">Score</span>: <span id="scoreadr"></span></div>
-    </div>
-    <br/>
-    <div style="text-align: center;">
-      <button id="deleteProfile" class="bn" style="width: calc(100% - 20px);">Delete Profile</button>
+      <div>
+        <button id="deleteProfile" class="bn" style="width: calc(100% - 20px);">Delete Profile</button>
+      </div>
     </div>
   </div>
   <div class="achievments">
     <div class="category">Achievements</div>
+    <ul>
+      <li>Games Played: <span id="games-played">100</span></li>
+      <li>Games Won: <span id="games-won">75</span></li>
+      <li>Games Lost: <span id="games-lost">25</span></li>
+      <li>Tournaments Won: <span id="tournaments-won">5</span></li>
+      <li>Favorite Game: <span id="favorite-game">Pong</span></li>
+    </ul>
   </div>
 </div>
-<!--
-
-  <div class="email-info-section">
-    <h2 class="info-header"><span id="email">E-mail</span>: <span id="emailadr">Loading...</span></h2>
-  </div>
-  <div class="score-info-section">
-    <h2 class="info-header"><span id="score">Score</span>: <span id="scoreadr"></span></h2>
-  </div>
-  <br/>
-  <div style="text-align: center;">
-    <button id="deleteProfile" class="bn" style="width: calc(100% - 20px);">Delete Profile</button>
-  </div>
-</div> -->
