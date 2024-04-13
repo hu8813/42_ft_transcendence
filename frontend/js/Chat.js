@@ -217,6 +217,7 @@ function sendMessageFromInput() {
     const recipient = recipientName ? recipientName : '#CHANNEL';
 
     const newMessage = {
+        name: localStorage.getItem('userLogin') || "user42",
         recipient: recipient,
         text: inputText,
     };
