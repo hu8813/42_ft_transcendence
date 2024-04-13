@@ -8,7 +8,8 @@ let isDisconnected = false;
 let lastMessageSentTime = 0;
 const MESSAGE_SEND_INTERVAL = 5000; // 5 seconds (adjust as needed)
 const MAX_MESSAGE_LENGTH = 200; // Maximum character limit for a message
-
+let storedMessages;
+let msgerChat;
 function toggleSocketConnection() {
     if (isDisconnected) {
         // Reconnect the socket
@@ -105,8 +106,15 @@ function sendMessage(message) {
 }
 
 
+// Function to save messages to local storage
+function saveMessageToLocal(message) {
+    const storedMessages = JSON.parse(localStorage.getItem('chatMessages')) || [];
+    storedMessages.push(message);
+    localStorage.setItem('chatMessages', JSON.stringify(storedMessages));
+}
+
 function displayMessage(message) {
-    const msgerChat = document.getElementById('msger-chat');
+    msgerChat = document.getElementById('msger-chat');
     const messageElement = document.createElement('div');
     messageElement.classList.add('msg');
 
@@ -158,6 +166,8 @@ function displayMessage(message) {
     // Prepend the message element instead of appending
     if (msgerChat)
         msgerChat.prepend(messageElement);
+    
+    // Save the message to local storage
 }
 
 
@@ -166,6 +176,7 @@ function openChat() {
     recipientSelect = document.getElementById('recipient-select');
     const sendBtn = document.getElementById('msgSend');
     const msgDisconnect = document.getElementById('msgDisconnect'); // Add this line
+    msgerChat = document.getElementById('msger-chat');
 
     if (sendBtn) {
         sendBtn.addEventListener('click', sendMessageFromInput);
@@ -190,6 +201,13 @@ function openChat() {
     });
 
     socket = getWebSocket();
+    console.log('msgerChat.childElementCount:', msgerChat.childElementCount );
+    if (msgerChat.childElementCount === 0) {
+        msgerChat.innerHTML = '';
+        storedMessages = JSON.parse(localStorage.getItem('chatMessages')) || [];
+        storedMessages.forEach(message => displayMessage(message));
+    }
+    
 }
 
 function sendMessageFromInput() {
@@ -223,13 +241,16 @@ function sendMessageFromInput() {
     };
 
     sendMessage(newMessage);
-
+    saveMessageToLocal(newMessage);
+    if (messageInput)
+        messageInput.value = '';
     showNotification("Message sent successfully.", true);
     // Disable the send button temporarily to prevent rapid clicking
     const sendBtn = document.getElementById('msgSend');
 
     if (sendBtn){
         sendBtn.disabled = true;
+        sendBtn.style.visibility = false;
         setTimeout(() => {
             sendBtn.disabled = false;
         }, MESSAGE_SEND_INTERVAL);
