@@ -70,22 +70,20 @@ function showTic1() {
     };
 
     const checkForWinOrDraw = () => {
-        // You need at least 5 moves to have a winner in Tic Tac Toe, 3 by one player and 2 by the other.
         const totalMoves = board.flat().filter(cell => cell !== null).length;
         if (totalMoves < 5) {
             return false;
         }
     
         const winConditions = [
-            // Define the win conditions based on the board indices
-            [[0, 0], [0, 1], [0, 2]], // Top row
-            [[1, 0], [1, 1], [1, 2]], // Middle row
-            [[2, 0], [2, 1], [2, 2]], // Bottom row
-            [[0, 0], [1, 0], [2, 0]], // Left column
-            [[0, 1], [1, 1], [2, 1]], // Middle column
-            [[0, 2], [1, 2], [2, 2]], // Right column
-            [[0, 0], [1, 1], [2, 2]], // Diagonal from top-left to bottom-right
-            [[0, 2], [1, 1], [2, 0]]  // Diagonal from top-right to bottom-left
+            [[0, 0], [0, 1], [0, 2]],
+            [[1, 0], [1, 1], [1, 2]],
+            [[2, 0], [2, 1], [2, 2]],
+            [[0, 0], [1, 0], [2, 0]],
+            [[0, 1], [1, 1], [2, 1]],
+            [[0, 2], [1, 2], [2, 2]],
+            [[0, 0], [1, 1], [2, 2]],
+            [[0, 2], [1, 1], [2, 0]]
         ];
     
     for (let condition of winConditions) {
@@ -130,19 +128,16 @@ function showTic1() {
         }
     
         if (!moveMade) {
-            // Zentrum besetzen
             if (!board[1][1]) {
                 board[1][1] = 'O';
                 moveMade = true;
             } else {
-                // Ecke besetzen, wenn verfügbar
                 let availableCorners = [[0, 0], [0, 2], [2, 0], [2, 2]].filter(([i, j]) => !board[i][j]);
                 if (availableCorners.length > 0) {
                     const [i, j] = availableCorners[Math.floor(Math.random() * availableCorners.length)];
                     board[i][j] = 'O';
                     moveMade = true;
                 } else {
-                    // Offene Seite besetzen
                     let availableSides = [[0, 1], [1, 0], [1, 2], [2, 1]].filter(([i, j]) => !board[i][j]);
                     if (availableSides.length > 0) {
                         const [i, j] = availableSides[Math.floor(Math.random() * availableSides.length)];
