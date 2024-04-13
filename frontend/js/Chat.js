@@ -104,7 +104,6 @@ function sendMessage(message) {
             }
         }, 2000);
     }
-    saveMessageToLocal(newMessage);
 
 }
 
@@ -211,9 +210,8 @@ function openChat() {
     });
 
     socket = getWebSocket();
-    console.log('msgerChat.childElementCount:', msgerChat.childElementCount );
     if (msgerChat.childElementCount === 0) {
-        msgerChat.innerHTML = '';
+        //msgerChat.innerHTML = '';
         storedMessages = JSON.parse(localStorage.getItem('chatMessages')) || [];
         storedMessages.forEach(message => displayMessage(message));
     }
