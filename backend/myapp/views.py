@@ -527,7 +527,6 @@ def get_csrf_token(request):
 
     
     return JsonResponse({'csrfToken': csrf_token})
-
 @csrf_exempt
 def register(request):
     if request.method == 'POST':
@@ -540,13 +539,14 @@ def register(request):
             return JsonResponse({"error": "Username can only contain alphanumeric characters, underscores, and hyphens."}, status=400)
 
         if not re.match(r'^[\w\.-]+@[\w\.-]+$', email):
-            return JsonResponse({"error": "Invalid email format."}, status=400)
+            return JsonResponse({"error": "Invalid email format. Please enter a valid email address."}, status=400)
 
         if len(password) < 8:
             return JsonResponse({"error": "Password must be at least 8 characters long."}, status=400)
 
         if not any(char.isdigit() for char in password):
             return JsonResponse({"error": "Password must contain at least one digit."}, status=400)
+
         if not any(char.isupper() for char in password):
             return JsonResponse({"error": "Password must contain at least one uppercase letter."}, status=400)
 
@@ -554,24 +554,23 @@ def register(request):
             return JsonResponse({"error": "Username can only contain alphanumeric characters, underscores, and hyphens."}, status=400)
 
         if User.objects.filter(username=username).exists():
-            return JsonResponse({"error": "Username already exists."}, status=400)
+            return JsonResponse({"error": "Username already exists. Please choose a different username."}, status=400)
 
         if User.objects.filter(email=email).exists():
-            return JsonResponse({"error": "Email already exists."}, status=400)
+            return JsonResponse({"error": "Email already exists. Please use a different email address."}, status=400)
 
         if password != confirm_password:
-            return JsonResponse({"error": "Passwords do not match."}, status=400)
+            return JsonResponse({"error": "Passwords do not match. Please make sure your passwords match."}, status=400)
 
         try:
             user = User.objects.create_user(username=username, nickname=username, email=email, password=password, score=0)
         except Exception as e:
-            return JsonResponse({"error": str(e)}, status=500)
+            return JsonResponse({"error": "An error occurred while registering. Please try again later."}, status=500)
         
-        return JsonResponse({"message": "Registration successful."}, status=200)
+        return JsonResponse({"message": "Registration successful. You can now log in."}, status=200)
 
     else:
         return render(request, 'registration/register.html')
-
 
             
 @csrf_exempt

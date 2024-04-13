@@ -12,6 +12,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 CLIENT_ID = os.environ.get("CLIENT_ID")
 CLIENT_SECRET = os.environ.get("CLIENT_SECRET")
 REDIRECT_URI = os.environ.get("REDIRECT_URI")
+DJANGO_ALLOW_ASYNC_UNSAFE = True
 
 if os.environ.get('DEBUG', '') in ['1', 'true']:
     SECURE_SSL_REDIRECT = True

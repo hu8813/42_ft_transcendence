@@ -1,9 +1,9 @@
 import json
 import html  # Import HTML escape function
-from channels.generic.websocket import WebsocketConsumer
+from channels.generic.websocket import WebsocketConsumer, AsyncWebsocketConsumer
 from asgiref.sync import async_to_sync
 
-class ChatConsumer(WebsocketConsumer):
+class ChatConsumer(AsyncWebsocketConsumer):
     def connect(self):
         self.accept()  # Accept the WebSocket connection
         self.chat_group_name = 'chat'  # Define a chat group name
@@ -57,7 +57,7 @@ class ChatConsumer(WebsocketConsumer):
         }))
 
 
-class PingPongConsumer(WebsocketConsumer):
+class PingPongConsumer(AsyncWebsocketConsumer):
     def connect(self):
         self.accept()  # Accept the WebSocket connection
         self.pingpong_group_name = 'pingpong'  # Define a group name for ping pong game

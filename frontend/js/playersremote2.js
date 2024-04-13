@@ -148,15 +148,21 @@ function showPlayersRemote2() {
             // Event listeners for keydown and keyup events
             window.addEventListener('keydown', event => {
                 if (event.key === 'ArrowUp') {
+                    upArrowPressed = true;
                     sendKeycodeToServer('ArrowUp');
                 } else if (event.key === 'ArrowDown') {
+                    downArrowPressed = true;
                     sendKeycodeToServer('ArrowDown');
                 }
             });
             
             window.addEventListener('keyup', event => {
-                if (event.key === 'ArrowUp' || event.key === 'ArrowDown') {
-                    sendKeycodeToServer('');
+                if (event.key === 'ArrowUp') {
+                    upArrowPressed = false;
+                    sendKeycodeToServer('ArrowUpRelease');
+                } else if (event.key === 'ArrowDown') {
+                    downArrowPressed = false;
+                    sendKeycodeToServer('ArrowDownRelease');
                 }
             });
             
