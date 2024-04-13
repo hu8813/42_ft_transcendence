@@ -55,3 +55,83 @@ class ChatConsumer(WebsocketConsumer):
             'text': text,
             'recipient': recipient
         }))
+
+
+
+class PingPongConsumer(WebsocketConsumer):
+    def connect(self):
+        self.accept()  # Accept the WebSocket connection
+        self.pingpong_group_name = 'pingpong'  # Define a group name for ping pong game
+        async_to_sync(self.channel_layer.group_add)(
+            self.pingpong_group_name,
+            self.channel_name
+        )
+
+    def disconnect(self, close_code):
+        async_to_sync(self.channel_layer.group_discard)(
+            self.pingpong_group_name,
+            self.channel_name
+        )
+
+    def receive(self, text_data):
+        try:
+            text_data_json = json.loads(text_data)  # Parse incoming JSON data
+            keycode = text_data_json.get('keycode')  # Get the keycode from the received data
+
+            # Broadcast the received keycode to all connected clients in the ping pong group
+            async_to_sync(self.channel_layer.group_send)(
+                self.pingpong_group_name,
+                {
+                    'type': 'move_paddle',
+                    'keycode': keycode
+                }
+            )
+        except json.JSONDecodeError:
+            # Handle cases where the received data is not valid JSON
+            pass
+
+    def move_paddle(self, event):
+        keycode = event['keycode']
+
+        # Send keycode to the client
+        self.send(text_data=json.dumps({
+            'keycode': keycode
+        }))
+    def connect(self):
+        self.accept()  # Accept the WebSocket connection
+        self.pingpong_group_name = 'pingpong'  # Define a group name for ping pong game
+        async_to_sync(self.channel_layer.group_add)(
+            self.pingpong_group_name,
+            self.channel_name
+        )
+
+    def disconnect(self, close_code):
+        async_to_sync(self.channel_layer.group_discard)(
+            self.pingpong_group_name,
+            self.channel_name
+        )
+
+    def receive(self, text_data):
+        try:
+            text_data_json = json.loads(text_data)  # Parse incoming JSON data
+            keycode = text_data_json.get('keycode')  # Get the keycode from the received data
+
+            # Broadcast the received keycode to all connected clients in the ping pong group
+            async_to_sync(self.channel_layer.group_send)(
+                self.pingpong_group_name,
+                {
+                    'type': 'move_paddle',
+                    'keycode': keycode
+                }
+            )
+        except json.JSONDecodeError:
+            # Handle cases where the received data is not valid JSON
+            pass
+
+    def move_paddle(self, event):
+        keycode = event['keycode']
+
+        # Send keycode to the client
+        self.send(text_data=json.dumps({
+            'keycode': keycode
+        }))

@@ -1,99 +1,73 @@
 function showPlayersRemote2() {
-    
-    const loadCanvas = new Promise((resolve, reject) => {
+    const websocketGameUrl = 'wss://localhost:8443/ws/pingpong/';
+    const socketgame = new WebSocket(websocketGameUrl);
 
-        const canvas = document.getElementById('canvasremote2');
-        if (canvas) {
-            const ctx = canvas.getContext('2d');
-            resolve(ctx);
+    // Variables to track WebSocket connection status and number of players
+    let connected = false;
+    let numberOfPlayers = 0;
 
-            const userLogin = localStorage.getItem('userLogin');
+    socketgame.onerror = function(error) {
+        console.error('WebSocket error:', error);
+    };
 
-            if (userLogin) {
-                
-                fetch(`${getBackendURL()}/check-player-waiting/${userLogin}/`)
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.waiting) {
-                            
-                            startGame(ctx);
-                        } else {
-                            
-                            displayWaitingMessage();
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error checking player waiting status:', error);
-                    });
+    socketgame.onclose = function(event) {
+        console.log('WebSocket connection closed:', event);
+        connected = false; // Reset connection status on close
+    };
+
+    socketgame.onmessage = function(event) {
+        console.log('WebSocket message received:', event.data);
+        const data = JSON.parse(event.data);
+
+        // Update number of players if received from the server
+        if (data.numberOfPlayers !== undefined) {
+            numberOfPlayers = data.numberOfPlayers;
+            if (numberOfPlayers === 2 && connected) {
+                startGame();
             } else {
-                console.error('User login not found in local storage');
+                console.log('Number of players:', numberOfPlayers);
+                console.log('WebSocket connected:', connected);
+                displayWaitingMessage();
             }
+        }
+    };
 
-            function displayWaitingMessage() {
-                const messageContainer = document.getElementById('waitingMessageContainer');
-                if (messageContainer) {
-                    messageContainer.innerText = 'Waiting for the second player to join...';
-                }
-            }
+    function displayWaitingMessage() {
+        const messageContainer = document.getElementById('waitingMessageContainer');
+        if (messageContainer) {
+            messageContainer.innerText = 'Waiting for the second player to join...';
+        }
+    }
 
-            function startGame(ctx) {
-                
-                console.log('Starting the game...');
+    function startGame() {
+        console.log('Starting the game...');
+        clearWaitingMessage();
+        gameLoop();
+    }
 
-                
-                clearWaitingMessage();
+    function clearWaitingMessage() {
+        const messageContainer = document.getElementById('waitingMessageContainer');
+        if (messageContainer) {
+            messageContainer.innerText = ''; 
+        }
+    }
 
-                
-                gameLoop();
+    // Send a message to the server to check the number of players when WebSocket connection is established
+    socketgame.onopen = function(event) {
+        console.log('WebSocket connection established.');
+        connected = true;
+        socketgame.send(JSON.stringify({ action: 'check_number_of_players', nickname: localStorage.getItem('userLogin') }));
+        console.log(JSON.stringify({ action: 'check_number_of_players', nickname: localStorage.getItem('userLogin') }));
+    };
 
-                
-            }
 
-            function clearWaitingMessage() {
-                const messageContainer = document.getElementById('waitingMessageContainer');
-                if (messageContainer) {
-                    messageContainer.innerText = ''; 
-                }
-            }
 
-            function sendPlayerInput(input) {
-                fetch(`${getBackendURL()}/update-player/`, {
-                    method: 'POST',
-                    body: JSON.stringify({ input }),
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Failed to send player input to server');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error sending player input:', error);
-                });
-            }
-
-            function updateGameFromServer() {
-                fetch(`${getBackendURL()}/game-state/`)
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Failed to fetch game state');
-                        }
-                        return response.json();
-                    })
-                    .then(gameState => {
-                        
-                        
-                    })
-                    .catch(error => {
-                        console.error('Error fetching game state:', error);
-                        
-                        gameOver = true; 
-                    });
-            }
-            
-
+    const canvas = document.getElementById('canvasremote2');
+    
+    if (!canvas) {
+        reject(new Error('Canvas element not found'));
+        return;
+    }
             const netWidth = 4;
             const netHeight = canvas.height;
 
@@ -104,6 +78,7 @@ function showPlayersRemote2() {
             let downArrowPressed = false;
             let wPressed = false;
             let sPressed = false;
+            const ctx = canvas.getContext('2d'); // Obtain the 2D drawing context
 
             const net = {
                 x: canvas.width / 2 - netWidth / 2,
@@ -165,25 +140,26 @@ function showPlayersRemote2() {
                 ctx.fill();
             }
 
+            function sendKeycodeToServer(keycode) {
+                const message = JSON.stringify({ keycode: keycode });
+                socketgame.send(message);
+            }
+            
+            // Event listeners for keydown and keyup events
             window.addEventListener('keydown', event => {
-                if (event.key === 'ArrowUp' || event.key === 'ArrowDown') {
-                    sendPlayerInput(event.key);
-                }
-
                 if (event.key === 'ArrowUp') {
-                    upArrowPressed = true;
+                    sendKeycodeToServer('ArrowUp');
                 } else if (event.key === 'ArrowDown') {
-                    downArrowPressed = true;
+                    sendKeycodeToServer('ArrowDown');
                 }
             });
-
+            
             window.addEventListener('keyup', event => {
-                if (event.key === 'ArrowUp') {
-                    upArrowPressed = false;
-                } else if (event.key === 'ArrowDown') {
-                    downArrowPressed = false;
+                if (event.key === 'ArrowUp' || event.key === 'ArrowDown') {
+                    sendKeycodeToServer('');
                 }
             });
+            
 
             function collisionDetect(player, ball) {
                 player.top = player.y;
@@ -217,7 +193,7 @@ function showPlayersRemote2() {
 
             
             function update() {
-                if (!gameOver) {
+                if (!gameOver && numberOfPlayers === 2 && connected) {
                     
                     if (wPressed && user.y > 0) {
                         user.y -= 8;
@@ -281,7 +257,7 @@ function showPlayersRemote2() {
             
             function gameLoop() {
                 if (!gameOver) {
-                    updateGameFromServer();
+                    //updateGameFromServer();
                     update();
                     render(); 
                 }
@@ -292,6 +268,11 @@ function showPlayersRemote2() {
 
 
             function render() {
+             
+            if (!canvas || !ctx) {
+                reject(new Error('Canvas element or 2D context not found'));
+                return;
+}
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 drawNet();
                 drawScore(canvas.width / 4, canvas.height / 6, user.score);
@@ -311,9 +292,5 @@ function showPlayersRemote2() {
                 location.reload(); 
             });
 
-        } else {
-            reject(new Error('Canvas element not found'));
-        }
-
-    });
+        
 }

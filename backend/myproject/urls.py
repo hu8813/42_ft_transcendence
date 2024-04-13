@@ -17,6 +17,8 @@ urlpatterns = [
     path('', views.home, name='home'),
     path('ws/chatpage/', consumers.ChatConsumer.as_asgi()),
     path('chatpage/', consumers.ChatConsumer.as_asgi()),
+    path('ws/pingpong/', consumers.PingPongConsumer.as_asgi()),
+    path('pingpong/', consumers.PingPongConsumer.as_asgi()),
     #path('admin/', admin.site.urls),
     path('login/', views.login_view, name='login'),
     path('ping/', views.login_view, name='ping'),

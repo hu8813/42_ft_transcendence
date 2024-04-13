@@ -25,7 +25,7 @@ function toggleSocketConnection() {
             setTimeout(function() {
                 socket.close();
                 document.getElementById('msgDisconnect').textContent = 'Reconnect';
-            }, 1000); // 1000 milliseconds = 1 second
+            }, 2000); // 1000 milliseconds = 1 second
         } else {
             console.log('WebSocket is not initialized.');
         }
@@ -74,8 +74,27 @@ function getWebSocket() {
 function sendMessage(message) {
     if (socket.readyState === WebSocket.OPEN) {
         socket.send(JSON.stringify(message));
+        showNotification("Message sent successfully.", true);
     } else {
         console.error('WebSocket connection is not open.');
+        showNotification("You are disconnected. Trying to reconnect...", false);
+        toggleSocketConnection(); // Initiates reconnection
+
+        // Check for WebSocket connection reestablishment after a delay
+        setTimeout(() => {
+            if (socket.readyState === WebSocket.OPEN) {
+                showNotification("Reconnected. Message sent successfully.", true);
+                const joinMessage3 = {
+                    text: 'joined the chat',
+                    name: localStorage.getItem('userLogin') || "user42"
+                };
+                socket.send(JSON.stringify(joinMessage3));
+                socket.send(JSON.stringify(message));
+            } else {
+                console.error('WebSocket connection could not be reestablished.');
+                showNotification("Failed to reconnect. Please try again later.", false);
+            }
+        }, 2000);
     }
 }
 
@@ -96,7 +115,7 @@ function sendMessageFromInput() {
     sendMessage(newMessage);
     messageInput.value = '';
 
-    showNotification("Message sent successfully.", true);
+    
 }
 
 
@@ -151,7 +170,8 @@ function displayMessage(message) {
     }
 
     // Prepend the message element instead of appending
-    msgerChat.prepend(messageElement);
+    if (msgerChat)
+        msgerChat.prepend(messageElement);
 }
 
 
