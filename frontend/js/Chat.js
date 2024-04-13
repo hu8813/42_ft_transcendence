@@ -6,17 +6,18 @@ let MAX_RETRIES = 3;
 let retryCount = 0;
 let isDisconnected = false;
 let lastMessageSentTime = 0;
-const MESSAGE_SEND_INTERVAL = 5000; // 5 seconds (adjust as needed)
-const MAX_MESSAGE_LENGTH = 200; // Maximum character limit for a message
+const MESSAGE_SEND_INTERVAL = 5000; 
+const MAX_MESSAGE_LENGTH = 200; 
 let storedMessages;
 let msgerChat;
+
 function toggleSocketConnection() {
     if (isDisconnected) {
-        // Reconnect the socket
+        
         socket = getWebSocket();
         document.getElementById('msgDisconnect').textContent = 'Disconnect';
     } else {
-        // Disconnect the socket
+        
         if (socket) {
             console.log('WebSocket disconnected.');
             const leftMessage = {
@@ -25,16 +26,16 @@ function toggleSocketConnection() {
             };
             sendMessage(leftMessage);
         
-            // Wait for 1 second (adjust as needed)
+            
             setTimeout(function() {
                 socket.close();
                 document.getElementById('msgDisconnect').textContent = 'Reconnect';
-            }, 2000); // 1000 milliseconds = 1 second
+            }, 2000); 
         } else {
             console.log('WebSocket is not initialized.');
         }
     }
-    isDisconnected = !isDisconnected; // Toggle the disconnected status
+    isDisconnected = !isDisconnected; 
 }
 
 function getWebSocket() {
@@ -85,9 +86,9 @@ function sendMessage(message) {
     } else {
         console.error('WebSocket connection is not open.');
         showNotification("You are disconnected. Trying to reconnect...", false);
-        toggleSocketConnection(); // Initiates reconnection
+        toggleSocketConnection(); 
 
-        // Check for WebSocket connection reestablishment after a delay
+        
         setTimeout(() => {
             if (socket.readyState === WebSocket.OPEN) {
                 showNotification("Reconnected. Message sent successfully.", true);
@@ -103,15 +104,24 @@ function sendMessage(message) {
             }
         }, 2000);
     }
+    saveMessageToLocal(newMessage);
+
 }
 
 
-// Function to save messages to local storage
 function saveMessageToLocal(message) {
     const storedMessages = JSON.parse(localStorage.getItem('chatMessages')) || [];
-    storedMessages.push(message);
-    localStorage.setItem('chatMessages', JSON.stringify(storedMessages));
+    
+    const isMessageExists = storedMessages.some(msg => {
+        
+        return msg.text === message.text && msg.name === message.name && msg.recipient === message.recipient;
+    });
+    if (!isMessageExists) {
+        storedMessages.push(message);
+        localStorage.setItem('chatMessages', JSON.stringify(storedMessages));
+    }
 }
+
 
 function displayMessage(message) {
     msgerChat = document.getElementById('msger-chat');
@@ -125,7 +135,7 @@ function displayMessage(message) {
     const senderName = message.name || 'Anonymous';
     const formattedCreatedAt = message.created_at ? formatDate(new Date(message.created_at)) : getCurrentTimestamp();
 
-    // Function to decode HTML entities
+    
     function decodeEntities(encodedString) {
         const textarea = document.createElement('textarea');
         textarea.innerHTML = encodedString;
@@ -163,11 +173,11 @@ function displayMessage(message) {
         messageElement.appendChild(messageBubble);
     }
 
-    // Prepend the message element instead of appending
+    
     if (msgerChat)
         msgerChat.prepend(messageElement);
     
-    // Save the message to local storage
+    saveMessageToLocal(message);
 }
 
 
@@ -175,7 +185,7 @@ function openChat() {
     messageInput = document.getElementById('message-input');
     recipientSelect = document.getElementById('recipient-select');
     const sendBtn = document.getElementById('msgSend');
-    const msgDisconnect = document.getElementById('msgDisconnect'); // Add this line
+    const msgDisconnect = document.getElementById('msgDisconnect'); 
     msgerChat = document.getElementById('msger-chat');
 
     if (sendBtn) {
@@ -214,7 +224,7 @@ function sendMessageFromInput() {
     const inputText = messageInput.value.trim();
     if (!inputText) return;
 
-    // Check if the message length exceeds the maximum allowed
+    
     if (inputText.length > MAX_MESSAGE_LENGTH) {
         showNotification(`Message exceeds the maximum character limit ${MAX_MESSAGE_LENGTH}.`, false);
         return;
@@ -222,13 +232,13 @@ function sendMessageFromInput() {
 
     const currentTime = new Date().getTime();
 
-    // Check if the elapsed time since the last message sent is less than the interval
+    
     if (currentTime - lastMessageSentTime < MESSAGE_SEND_INTERVAL) {
         showNotification("Please wait before sending another message.", false);
         return;
     }
 
-    // Update the last message sent time
+    
     lastMessageSentTime = currentTime;
 
     const recipientName = recipientSelect.value;
@@ -241,11 +251,10 @@ function sendMessageFromInput() {
     };
 
     sendMessage(newMessage);
-    saveMessageToLocal(newMessage);
     if (messageInput)
         messageInput.value = '';
     showNotification("Message sent successfully.", true);
-    // Disable the send button temporarily to prevent rapid clicking
+    
     const sendBtn = document.getElementById('msgSend');
 
     if (sendBtn){
@@ -260,7 +269,7 @@ function sendMessageFromInput() {
 
 
 
-// Function to escape HTML special characters
+
 function escapeHTML(text) {
     const escapeChars = {
         '&': '&amp;',

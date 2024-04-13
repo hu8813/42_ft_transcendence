@@ -3,7 +3,7 @@ function showPlayersRemote2() {
     const websocketGameUrl = 'wss://localhost:8443/ws/pingpong/';
     const socketgame = new WebSocket(websocketGameUrl);
 
-    // Variables to track WebSocket connection status, number of players, user login, and game ID
+    
     let connected = false;
     let numberOfPlayers = 0;
     let gameId = null;
@@ -13,7 +13,7 @@ function showPlayersRemote2() {
 
     socketgame.onclose = function(event) {
         console.log('WebSocket connection closed:', event);
-        connected = false; // Reset connection status on close
+        connected = false; 
     };
 
     socketgame.onmessage = function(event) {
@@ -21,11 +21,11 @@ function showPlayersRemote2() {
         const data = JSON.parse(event.data);
 
         if (data.keycode !== null) {
-            // Display the user login and keycode
+            
             console.log('User:', data.userLogin, 'pressed key:', data.keycode);
         }
 
-        // Update number of players if received from the server
+        
         if (data.numberOfPlayers !== undefined) {
             numberOfPlayers = data.numberOfPlayers;
             if (numberOfPlayers >= 2 && connected) {
@@ -37,7 +37,7 @@ function showPlayersRemote2() {
             }
         }
 
-        // Receive game ID from the server
+        
         if (data.gameId !== undefined) {
             gameId = data.gameId;
             console.log('Game ID:', gameId);
@@ -64,7 +64,7 @@ function showPlayersRemote2() {
         }
     }
 
-    // Send a message to the server to check the number of players and user login when WebSocket connection is established
+    
     socketgame.onopen = function(event) {
         console.log('WebSocket connection established.');
         connected = true;
@@ -87,7 +87,7 @@ function showPlayersRemote2() {
 
     let upArrowPressed = false;
     let downArrowPressed = false;
-    const ctx = canvas.getContext('2d'); // Obtain the 2D drawing context
+    const ctx = canvas.getContext('2d'); 
 
     const net = {
         x: canvas.width / 2 - netWidth / 2,
@@ -154,7 +154,7 @@ function showPlayersRemote2() {
         socketgame.send(message);
     }
     
-    // Event listeners for keydown and keyup events
+    
     window.addEventListener('keydown', event => {
         if (event.key === 'ArrowUp') {
             upArrowPressed = true;
@@ -218,7 +218,7 @@ function showPlayersRemote2() {
 
             
             if (ball.velocityX < 0) {
-                // Only move AI paddle if ball is moving towards AI
+                
                 if (ai.y + ai.height / 2 < ball.y) {
                     ai.y += 6;
                 } else {
