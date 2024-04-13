@@ -1,13 +1,12 @@
-
-#canvasTic2 {
-    background-color: #9c4c2d; 
-    display: block; 
+canvasTic2 {
+  display: block;
     margin: 7% auto; 
+    background-color: #151a15; 
     max-width: 70vw; 
     max-height: 70vh; 
     box-shadow: 0 0 15px rgba(0,0,0,0.5); 
-}
-
+  }
+  
 #newGButton {
     position: fixed; 
     top: 50%;
@@ -22,10 +21,3 @@
     cursor: pointer;
     display: none; 
 }
-
-/* body {
-    text-align: center; 
-    background-color: #333; 
-    color: #FFF;
-    font-family: Arial, sans-serif;
-} */
