@@ -189,6 +189,7 @@ CSRF_TRUSTED_ORIGINS = [
 
 CORS_ALLOWED_ORIGINS = [
     'https://192.168.32.1',
+    'http://localhost:8080',
     'http://localhost',
     'https://localhost',
     'http://localhost:8443',

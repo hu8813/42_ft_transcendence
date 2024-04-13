@@ -1,104 +1,61 @@
-let socket;
-let messageInput;
-let recipientSelect; 
-let NOTIFICATION_DURATION = 2000;
-let MAX_RETRIES = 3;
-let retryCount = 0;
-let isDisconnected = false;
+let socketio;
+let messageInputio;
+let recipientSelectio;
+const NOTIFICATION_DURATIONio = 2000;
+const MAX_RETRIESio = 3;
+let retryCountio = 0;
 
-function toggleSocketConnection() {
-    if (isDisconnected) {
-        // Reconnect the socket
-        socket = getWebSocket();
-        document.getElementById('msgDisconnect').textContent = 'Disconnect';
-    } else {
-        // Disconnect the socket
-        if (socket) {
-            console.log('WebSocket disconnected.');
-            const leftMessage = {
-                text: 'left the chat',
-                name: localStorage.getItem('userLogin') || "user42"
-            };
-            sendMessage(leftMessage);
-        
-            // Wait for 1 second (adjust as needed)
-            setTimeout(function() {
-                socket.close();
-                document.getElementById('msgDisconnect').textContent = 'Reconnect';
-            }, 1000); // 1000 milliseconds = 1 second
-        } else {
-            console.log('WebSocket is not initialized.');
+function connectToSocket() {
+    const endpoint = 'https://pong.webpubsub.azure.com/client/socketio';
+    const accessKey = 'NSlyB/hmHT+bV+mvkaEGcfHPw/dRCcI7d4g9vGepjsM=';
+    socketio = io(endpoint, {
+        query: {
+            'accessKey': accessKey
         }
-    }
-    isDisconnected = !isDisconnected; // Toggle the disconnected status
-}
+    });
 
-function getWebSocket() {
-    const websocketUrl = 'wss://localhost:8443/ws/chatpage/';
+    console.log('Connecting to Azure Web PubSub for Socket.IO...');
 
-    if (socket && socket.readyState === WebSocket.OPEN) {
-        return socket;
-    } else {
-        socket = new WebSocket(websocketUrl);
+    socketio.on('connect', () => {
+        console.log('Connected to Azure Web PubSub for Socket.IO');
+        // Your logic after successful connection
+    });
 
-        socket.addEventListener('open', () => {
-            console.log('WebSocket connection established.');
-            const joinMessage = {
-                text: 'joined the chat',
-                name: localStorage.getItem('userLogin') || "user42"
-            };
-            sendMessage(joinMessage);
-            retryCount = 0;
-        });
+    socketio.on('disconnect', () => {
+        console.log('Disconnected from Azure Web PubSub for Socket.IO');
+        // Your logic after disconnection
+    });
 
-        socket.addEventListener('message', event => {
-            const message = JSON.parse(event.data);
-            displayMessage(message);
-        });
+    socketio.on('error', (error) => {
+        console.error('Socket.IO error:', error);
+        // Your error handling logic
+    });
 
-        socket.addEventListener('error', error => {
-            console.error('WebSocket error:', error);
-            if (retryCount < MAX_RETRIES) {
-                console.log('Retrying WebSocket connection...');
-                retryCount++;
-                setTimeout(getWebSocket, 3000); 
-            } else {
-                console.error('Maximum retry attempts reached. Unable to establish WebSocket connection.');
-            }
-        });
-
-        return socket;
-    }
+    // Add other event listeners as needed
 }
 
 function sendMessage(message) {
-    if (socket.readyState === WebSocket.OPEN) {
-        socket.send(JSON.stringify(message));
-    } else {
-        console.error('WebSocket connection is not open.');
-    }
+    socketio.emit('chat message', JSON.stringify(message));
 }
 
 function sendMessageFromInput() {
-    const inputText = messageInput.value.trim();
+    const inputText = messageInputio.value.trim();
     if (!inputText) return;
 
-    const recipientName = recipientSelect.value;
+    const recipientName = recipientSelectio.value;
     const recipient = recipientName ? recipientName : '#CHANNEL';
 
     const newMessage = {
-        name: localStorage.getItem('userLogin') || "user42",
+        name: localStorage.getItem('userLogin') || 'user42',
         recipient: recipient,
         text: inputText,
     };
 
-
     sendMessage(newMessage);
-    messageInput.value = '';
+    messageInputio.value = '';
 
     showNotification("Message sent successfully.", true);
 }
-
 
 function displayMessage(message) {
     const msgerChat = document.getElementById('msger-chat');
@@ -154,8 +111,6 @@ function displayMessage(message) {
     msgerChat.prepend(messageElement);
 }
 
-
-// Function to escape HTML special characters
 function escapeHTML(text) {
     const escapeChars = {
         '&': '&amp;',
@@ -166,7 +121,6 @@ function escapeHTML(text) {
     };
     return text.replace(/[&<>"']/g, match => escapeChars[match]);
 }
-
 
 function formatDate(date) {
     const day = String(date.getDate()).padStart(2, '0');
@@ -192,36 +146,25 @@ function showNotification(message, isSuccess) {
     notification.style.color = isSuccess ? 'green' : 'red';
     setTimeout(() => {
         notification.textContent = '';
-    }, NOTIFICATION_DURATION);
+    }, NOTIFICATION_DURATIONio);
 }
 
-function showChatPageWS() {
-    messageInput = document.getElementById('message-input');
-    recipientSelect = document.getElementById('recipient-select');
-    const sendBtn = document.getElementById('msgSend');
-    const msgDisconnect = document.getElementById('msgDisconnect'); // Add this line
+function showChatSocket() {
+    messageInputio = document.getElementById('message-input');
+    recipientSelectio = document.getElementById('recipient-select');
+    const sendButton = document.getElementById('msgSendio');
+    const disconnectButton = document.getElementById('msgDisconnect');
 
-    if (sendBtn) {
-        sendBtn.addEventListener('click', sendMessageFromInput);
-    }
+    connectToSocket();
 
-    if (msgDisconnect) { 
-        msgDisconnect.addEventListener('click', toggleSocketConnection);
-    }
-
-    messageInput.addEventListener('keypress', function (e) {
-        if (e.key === "Enter") {
-            e.preventDefault();
+    sendButton.addEventListener('click', sendMessageFromInput); // Updated this line
+    messageInputio.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
             sendMessageFromInput();
         }
     });
 
-    messageInput.addEventListener('keydown', function (e) {
-        if (e.key === "Enter") {
-            e.preventDefault();
-            sendMessageFromInput();
-        }
+    disconnectButton.addEventListener('click', () => {
+        socketio.disconnect();
     });
-
-    socket = getWebSocket();
-}
+};

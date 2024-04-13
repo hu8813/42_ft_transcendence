@@ -35,6 +35,7 @@
   color: rgba(255, 255, 255, 0.5); 
   word-wrap: break-word; 
   height: auto; 
+  width: 60%;
 }
 
 @keyframes rainbow {

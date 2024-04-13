@@ -24,6 +24,7 @@ const routes = {
   "#tic1": "/views/tic1.html",
   "#tic2": "/views/tic2.html",
   "#chatpage": "/views/chatpage.html",
+  "#chatsocket": "/views/chatsocket.html",
   "#viewprofile": "/views/viewprofile.html",
 };
 
@@ -281,7 +282,10 @@ const handleLocation = async () => {
     case '#contact':
       showImprint();
       break;
-    
+    case '#chatsocket':
+      showChatSocket();
+      break;
+      
       
     case '#privacy-policy':
       showPrivacyPolicy();

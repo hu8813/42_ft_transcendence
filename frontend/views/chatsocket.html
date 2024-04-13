@@ -1,0 +1,26 @@
+<div class="chat-body">
+    <div class="chat-container">
+      <aside class="msger-users">
+        <h2><span id="chatUsers">Users</span></h2><br/>
+        <select id="recipient-select" class="bn " style="color: black;">
+          <option value="" id="selectRecipient">Select recipient</option>
+          <option value="">--------</option>
+          <option value="" id="channel">#CHANNEL</option>
+          <option value="">--------</option>
+        </select>
+        <div id="recipient-actions"></div>
+      </aside>
+      
+      <div class="chat-main">
+          
+        <div class="msger-inputarea">
+            <input type="text" class="msger-input" placeholder="Enter your message..." id="message-input">
+            <button class="msger-send-btn" id="msgSendio">Send</button>  <button class="msger-disconnect-btn" id="msgDisconnect">Disconnect</button>
+          </div>
+          <div id="notification"></div> 
+          
+        <main class="msger-chat" id="msger-chat"></main>
+      </div>
+    </div>
+  </div>
+  
