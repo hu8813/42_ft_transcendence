@@ -5,6 +5,9 @@ let NOTIFICATION_DURATION = 2000;
 let MAX_RETRIES = 3;
 let retryCount = 0;
 let isDisconnected = false;
+let lastMessageSentTime = 0;
+const MESSAGE_SEND_INTERVAL = 5000; // 5 seconds (adjust as needed)
+const MAX_MESSAGE_LENGTH = 200; // Maximum character limit for a message
 
 function toggleSocketConnection() {
     if (isDisconnected) {
@@ -98,25 +101,48 @@ function sendMessage(message) {
     }
 }
 
+
 function sendMessageFromInput() {
     const inputText = messageInput.value.trim();
     if (!inputText) return;
+
+    // Check if the message length exceeds the maximum allowed
+    if (inputText.length > MAX_MESSAGE_LENGTH) {
+        showNotification(`Message exceeds the maximum character limit ${MAX_MESSAGE_LENGTH}.`, false);
+        return;
+    }
+
+    const currentTime = new Date().getTime();
+
+    // Check if the elapsed time since the last message sent is less than the interval
+    if (currentTime - lastMessageSentTime < MESSAGE_SEND_INTERVAL) {
+        showNotification("Please wait before sending another message.", false);
+        return;
+    }
+
+    // Update the last message sent time
+    lastMessageSentTime = currentTime;
 
     const recipientName = recipientSelect.value;
     const recipient = recipientName ? recipientName : '#CHANNEL';
 
     const newMessage = {
-        name: localStorage.getItem('userLogin') || "user42",
+        name: PERSON_NAME,
         recipient: recipient,
         text: inputText,
     };
 
-
     sendMessage(newMessage);
-    messageInput.value = '';
 
-    
+    // Disable the send button temporarily to prevent rapid clicking
+    sendBtn.disabled = true;
+    setTimeout(() => {
+        sendBtn.disabled = false;
+    }, MESSAGE_SEND_INTERVAL);
+
+    showNotification("Message sent successfully.", true);
 }
+
 
 
 function displayMessage(message) {
