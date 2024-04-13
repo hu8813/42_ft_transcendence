@@ -44,6 +44,12 @@ function showTic1() {
         });
     };
 
+    const handleResult = result => {
+        if (result) {
+            setTimeout(() => alert(result), 10);
+        }
+    };
+
     const drawX = (x, y) => {
         const offset = 50;
         ctx.strokeStyle = '#FFF';
@@ -63,11 +69,108 @@ function showTic1() {
         ctx.stroke();
     };
 
-    canvas.addEventListener('click', (event) => {
+    const checkForWinOrDraw = () => {
+        // You need at least 5 moves to have a winner in Tic Tac Toe, 3 by one player and 2 by the other.
+        const totalMoves = board.flat().filter(cell => cell !== null).length;
+        if (totalMoves < 5) {
+            return false;
+        }
+    
+        const winConditions = [
+            // Define the win conditions based on the board indices
+            [[0, 0], [0, 1], [0, 2]], // Top row
+            [[1, 0], [1, 1], [1, 2]], // Middle row
+            [[2, 0], [2, 1], [2, 2]], // Bottom row
+            [[0, 0], [1, 0], [2, 0]], // Left column
+            [[0, 1], [1, 1], [2, 1]], // Middle column
+            [[0, 2], [1, 2], [2, 2]], // Right column
+            [[0, 0], [1, 1], [2, 2]], // Diagonal from top-left to bottom-right
+            [[0, 2], [1, 1], [2, 0]]  // Diagonal from top-right to bottom-left
+        ];
+    
+    for (let condition of winConditions) {
+        const [[x1, y1], [x2, y2], [x3, y3]] = condition;
+        if (board[x1][y1] && board[x1][y1] === board[x2][y2] && board[x1][y1] === board[x3][y3]) {
+            gameOver = true;
+            return `${board[x1][y1]} hat gewonnen!`;
+        }
+    }
+
+    if (totalMoves === 9) {
+        gameOver = true;
+        return "Unentschieden!";
+    }
+    
+    return null; 
+};
+            
+
+    const computerMove = () => {
+        if (gameOver) return;
+    
+        let moveMade = false;
+        for (let i = 0; i < 3 && !moveMade; i++) {
+            for (let j = 0; j < 3 && !moveMade; j++) {
+                if (!board[i][j]) {
+                    board[i][j] = 'O';
+                    if (checkForWinOrDraw()) {
+                        moveMade = true;
+                        continue;
+                    }
+                    board[i][j] = null;
+                        board[i][j] = 'X';
+                    if (checkForWinOrDraw()) {
+                        board[i][j] = 'O';
+                        moveMade = true;
+                        continue;
+                    }
+                    board[i][j] = null;
+                }
+            }
+        }
+    
+        if (!moveMade) {
+            // Zentrum besetzen
+            if (!board[1][1]) {
+                board[1][1] = 'O';
+                moveMade = true;
+            } else {
+                // Ecke besetzen, wenn verfügbar
+                let availableCorners = [[0, 0], [0, 2], [2, 0], [2, 2]].filter(([i, j]) => !board[i][j]);
+                if (availableCorners.length > 0) {
+                    const [i, j] = availableCorners[Math.floor(Math.random() * availableCorners.length)];
+                    board[i][j] = 'O';
+                    moveMade = true;
+                } else {
+                    // Offene Seite besetzen
+                    let availableSides = [[0, 1], [1, 0], [1, 2], [2, 1]].filter(([i, j]) => !board[i][j]);
+                    if (availableSides.length > 0) {
+                        const [i, j] = availableSides[Math.floor(Math.random() * availableSides.length)];
+                        board[i][j] = 'O';
+                        moveMade = true;
+                    }
+                }
+            }
+        }
+    
+        if (moveMade) {
+            drawBoard();
+            let result = checkForWinOrDraw();
+            handleResult(result);
+        }
+    
+        if (!gameOver) {
+            currentPlayer = 'X';
+        }
+    };
+    
+        
+        canvas.addEventListener('click', (event) => {
+        console.log("Canvas geklickt");
         if (gameOver || currentPlayer !== 'X') return;
 
         let rect = canvas.getBoundingClientRect();
-        let scaleX = canvas.width / rect.width;
+        let scaleX = canvas.width / rect.width; 
         let scaleY = canvas.height / rect.height;
 
         let mouseX = (event.clientX - rect.left) * scaleX;
@@ -76,69 +179,16 @@ function showTic1() {
         let xIndex = Math.floor(mouseX / tileWidth);
         let yIndex = Math.floor(mouseY / tileHeight);
 
-        if (!board[yIndex][xIndex]) {
+        if (!board[yIndex][xIndex] && !gameOver) {
             board[yIndex][xIndex] = currentPlayer;
             drawBoard();
-            checkForWin();
-            currentPlayer = 'O'; 
-            computerMove();
-        }
-    });
-
-    const computerMove = () => {
-        if (gameOver) return;
-
-        let availableMoves = [];
-        board.forEach((row, rowIndex) => {
-            row.forEach((cell, cellIndex) => {
-                if (!cell) {
-                    availableMoves.push({ rowIndex, cellIndex });
-                }
-            });
-        });
-
-        if (availableMoves.length > 0) {
-            const move = availableMoves[Math.floor(Math.random() * availableMoves.length)];
-            board[move.rowIndex][move.cellIndex] = currentPlayer;
-            drawBoard();
-            checkForWin();
-            currentPlayer = 'X'; 
-        }
-    };
-
-    const checkForWin = () => {
-        
-        const winConditions = [
-            [0, 1, 2],
-            [3, 4, 5],
-            [6, 7, 8],
-            [0, 3, 6],
-            [1, 4, 7],
-            [2, 5, 8],
-            [0, 4, 8],
-            [2, 4, 6]
-        ];
-    
-        
-        let boardIn1D = board.flat();
-    
-        for (let i = 0; i < winConditions.length; i++) {
-            let [a, b, c] = winConditions[i];
-            if (boardIn1D[a] && boardIn1D[a] === boardIn1D[b] && boardIn1D[a] === boardIn1D[c]) {
-                gameOver = true; 
-                alert(`${boardIn1D[a]} hat gewonnen!`); 
-                return;
+            let result = checkForWinOrDraw();
+            handleResult(result);
+            if (!gameOver) {
+                currentPlayer = 'O';
+                computerMove();
             }
         }
-    
-        
-        if (boardIn1D.every(cell => cell !== null)) {
-            gameOver = true; 
-            alert("Unentschieden!");
-            return;
-        }
-    };
-    
-
+    });
     drawBoard();
 }
