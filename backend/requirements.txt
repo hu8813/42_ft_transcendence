@@ -13,3 +13,4 @@ uvicorn
 whitenoise
 django-extensions
 daphne
+pyjwt

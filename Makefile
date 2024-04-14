@@ -19,12 +19,6 @@ check_certs:
 
 check_env:
 	@if [ ! -f ".env" ]; then \
-		if [ -f "sample.env" ]; then \
-			cp sample.env .env; \
-			echo "Copied sample.env to .env"; \
-		else \
-			echo "sample.env not found, please create it"; \
-		fi; \
 		./src/check_env.sh; \
 	fi
 

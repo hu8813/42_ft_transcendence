@@ -6,7 +6,19 @@ env_file=".env"
 
 read_var_from_env_file() {
     local var_name=$1
-    grep "^${var_name}=" "$env_file" | sed -E "s/^${var_name}=(.*)/\1/" | tail -1
+    local value
+
+    # Check if the variable exists and is not empty in the .env file
+    value=$(grep "^${var_name}=" "$env_file" | sed -E "s/^${var_name}=(.*)/\1/" | tail -1)
+
+    if [ -z "$value" ]; then
+        # If the value is empty in the .env file, try to read from sample.env if it exists
+        if [ -f "sample.env" ]; then
+            value=$(grep "^${var_name}=" "sample.env" | sed -E "s/^${var_name}=(.*)/\1/" | tail -1)
+        fi
+    fi
+
+    echo "$value"
 }
 
 prompt_for_variable() {

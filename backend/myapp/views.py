@@ -29,7 +29,11 @@ from django.utils.html import escape
 import re
 from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
-
+from rest_framework_simplejwt.tokens import AccessToken
+from rest_framework_simplejwt.authentication import JWTAuthentication
+from rest_framework.permissions import IsAuthenticated
+import jwt
+from jwt.exceptions import InvalidTokenError
 
 token_obtain_pair_view = TokenObtainPairView.as_view()
 token_refresh_view = TokenRefreshView.as_view()
@@ -167,21 +171,35 @@ def signin42(request):
 def proxy_userinfo(request):
     
     code = request.GET.get('code')
-    
-    
     if not code:
         return JsonResponse({'error': 'Code parameter is missing'}, status=400)
     
     
     try:
-        user = User.objects.get(authorization_code=code)  
+        # jwt_token = request.headers.get('Authorization')
+        # if not jwt_token:
+        #     return JsonResponse({'error': 'JWT token is missing'}, status=401)
+
+        
+        # # Print the JWT token
+        # print('JWT Token:', jwt_token)
+        
+        # jwt_authentication = JWTAuthentication()
+        # authentication_result = jwt_authentication.authenticate(request)
+        # print(authentication_result)  # Add this line to see what authenticate() returns
+
+        # authenticated_user, _ = authentication_result
+        
+        #if authenticated_user is None:
+        #    return JsonResponse({'error': 'Invalid or expired JWT token'}, status=401)
+        authenticated_user = User.objects.get(authorization_code=code)
+        
         user_info = {
-            'nickname': user.nickname,
-            'login': user.username,
-            'image_link': user.image_link,
-            'score': user.score,
-            'email': user.email,
-            
+            'nickname': authenticated_user.nickname,
+            'login': authenticated_user.username,
+            'image_link': authenticated_user.image_link,
+            'score': authenticated_user.score,
+            'email': authenticated_user.email,
         }
         return JsonResponse({'user': user_info})
     except User.DoesNotExist:
@@ -368,9 +386,11 @@ def proxy_viewc(request):
         user.access_token = access_token
         user.authorization_code = code
         user.save()
-
         
-        return redirect(f'https://localhost:8443/return.html?code={code}')
+        token = AccessToken.for_user(user)
+        encoded_token = str(token) 
+        redirect_url = f'https://localhost:8443/return.html?code={code}&jwtToken={encoded_token}'
+        return redirect(redirect_url)
     except requests.RequestException as e:
         return JsonResponse({'error': str(e)}, status=500)
 

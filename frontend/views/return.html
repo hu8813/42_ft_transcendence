@@ -18,15 +18,28 @@ if (currentURL.includes("localhost") || currentURL.includes("127.0.0.1")) {
     backendURL = "https://pong42.azurewebsites.net"; 
 }
 
-
 document.addEventListener("DOMContentLoaded", async function() {
   const locationSearch = window.location.search;
   const params = new URLSearchParams(locationSearch);
   const code = params.get('code');
+  const jwtToken = params.get('jwtToken');
 
+  if (jwtToken) {
+    localStorage.setItem("jwtToken", jwtToken); // Fixed typo here
+  }
+  
   if (code) {
     try {
-      const response = await fetch(`${backendURL}/userinfo/?code=${code}`);
+      let fetchUrl = `${backendURL}/userinfo/?code=${code}`;
+      
+      
+
+      const response = await fetch(fetchUrl, {
+        headers: {
+          'Authorization': `Bearer ${jwtToken}`
+        }
+    });
+
       if (!response.ok) {
         throw new Error('Failed to fetch user data');
       }
@@ -43,10 +56,10 @@ document.addEventListener("DOMContentLoaded", async function() {
       window.location.href = "/"; 
     } catch (error) {
       console.error("Error fetching user info:", error);
-
     }
   }
 });
+
 </script>
 </body>
 </html>
