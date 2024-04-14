@@ -45,8 +45,8 @@ function showTic2() {
         }
 
 
-        function nButton() {
-            const button = document.getElementById('nButton');
+        function nNButton() {
+            const button = document.getElementById('nNButton');
             if (button)
             {
                 button.style.display = 'block';
@@ -66,10 +66,10 @@ function showTic2() {
         context.fillText(message, canvasSize / 2, canvasSize / 2);
 
         setTimeout(() => {
-        const nButton2 = document.getElementById('nButton');
+        const nButton2 = document.getElementById('nNButton');
         if (nButton2)
-            document.getElementById('nButton').style.display = 'block';
-        nButton();
+            document.getElementById('nNButton').style.display = 'block';
+        nNButton();
         }, 1000);
     } 
     
