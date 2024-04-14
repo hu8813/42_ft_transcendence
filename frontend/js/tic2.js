@@ -44,7 +44,36 @@ function showTic2() {
             return null;
         }
 
-        function addPlayingPiece(mouse) {
+
+        function nButton() {
+            const button = document.getElementById('nButton');
+            if (button)
+            {
+                button.style.display = 'block';
+                button.addEventListener('click', function() {
+                location.reload();
+            });
+          }
+        }
+
+    function showGameOverMessage(winner) {
+        const message = winner === 'nowinner' ? 'The game is tied!' : `Player ${winner} has won!`;
+        context.fillStyle = "rgba(0, 0, 0, 0.7)";
+        context.fillRect(0, 0, canvasSize, canvasSize);
+        context.fillStyle = "white";
+        context.font = "48px Arial";
+        context.textAlign = "center";
+        context.fillText(message, canvasSize / 2, canvasSize / 2);
+
+        setTimeout(() => {
+        const nButton2 = document.getElementById('nButton');
+        if (nButton2)
+            document.getElementById('nButton').style.display = 'block';
+        nButton();
+        }, 1000);
+    } 
+    
+    function addPlayingPiece(mouse) {
             for (let x = 0; x < 3; x++) {
                 for (let y = 0; y < 3; y++) {
                     const xCordinate = x * sectionSize;
@@ -71,11 +100,7 @@ function showTic2() {
                             let winner = checkWinner();
                             if (winner) {
                                 canvas.removeEventListener('mouseup', handleMouseUp);
-                                if (winner === 'nowinner') {
-                                    alert('The game is tied!');
-                                } else {
-                                    alert(`Player ${winner} has won!`);
-                                }
+                                showGameOverMessage(winner);
                             } else {
                                 player = 3 - player;
                             }
@@ -147,5 +172,9 @@ function showTic2() {
         canvas.addEventListener('mouseup', handleMouseUp);
 
         drawLines(10, lineColor);
+        
+        function startNewGame() {
+            location.reload(); // Lädt die Seite neu und startet das Spiel neu.
+        }
     }
 }
