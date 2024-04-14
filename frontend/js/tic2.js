@@ -172,9 +172,5 @@ function showTic2() {
         canvas.addEventListener('mouseup', handleMouseUp);
 
         drawLines(10, lineColor);
-        
-        function startNewGame() {
-            location.reload(); // Lädt die Seite neu und startet das Spiel neu.
-        }
     }
 }
