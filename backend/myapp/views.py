@@ -534,33 +534,35 @@ def register(request):
     else:
         return render(request, 'registration/register.html')
 
-            
-@csrf_exempt
+     @csrf_exempt
 def login_view(request):
-    
-    if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        user = authenticate(username=username, password=password)
-        if user is not None:
-            login(request, user)
-            token = AccessToken.for_user(user)
-            encoded_token = str(token)
+    try:
+        if request.method == 'POST':
+            username = request.POST.get('username')
+            password = request.POST.get('password')
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                login(request, user)
+                token = AccessToken.for_user(user)
+                encoded_token = str(token)
 
-            user_info = {
-                'message': 'Login successful',
-                'jwt_token': encoded_token,
-                'userNickname': user.nickname if user.nickname else '',
-                'image_link': user.image_link if user.image_link else '',
-                'score': user.score if user.score else 0,
-                'email': user.email if user.email else '',
-                'userLogin': user.username if user.username else ''
-            }
-            return JsonResponse(user_info, status=200)
+                user_info = {
+                    'message': 'Login successful',
+                    'jwt_token': encoded_token,
+                    'userNickname': user.nickname if user.nickname else 'unknown',
+                    'image_link': user.image_link if user.image_link else '',
+                    'score': user.score if user.score else '0',
+                    'email': user.email if user.email else 'unknown',
+                    'userLogin': user.username if user.username else 'unknown'
+                }
+                return JsonResponse(user_info, status=200)
+            else:
+                return JsonResponse({'error': 'Invalid login credentials'}, status=400)
         else:
-            return JsonResponse({'error': 'Invalid login credentials'}, status=400)
-    else:
-        return render(request, 'login.html') 
+            return render(request, 'login.html')
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)
+
 
 @csrf_exempt
 def update_player_position(request):
