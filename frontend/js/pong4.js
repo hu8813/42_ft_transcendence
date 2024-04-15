@@ -131,7 +131,6 @@ function showPong4()
     function mouseMoveHandler(event) {
         let canvasRect = canvas.getBoundingClientRect();
         let scaleX = canvas.width / canvasRect.width;
-        let scaleY = canvas.height / canvasRect.height;
         let mouseX = (event.clientX - canvasRect.left) * scaleX;
         player3.x = Math.max(Math.min(mouseX - (player3.width / 2), canvas.width - player3.width), 0);
     }
@@ -153,8 +152,6 @@ function showPong4()
         return false;
     }
     
-    
-
     function handlePaddleBallCollision(player, ball) {
         let collidePoint;
         if (player === player3 || player === player4) {
@@ -181,8 +178,6 @@ function showPong4()
         });
       }
     }
-
-    const startMessage = document.getElementById('startMessage');
 
     showStartMessageWithCountdown(5);
 
@@ -228,12 +223,6 @@ function showPong4()
         gameOverMessage = `${loser} lost!`;
         showGameOverModal2(loser);
         gameOver = true;
-    }
-
-    function disableControls() {
-        document.removeEventListener('keydown', keyDownHandler);
-        document.removeEventListener('keyup', keyUpHandler);
-        canvas.removeEventListener('mousemove', mouseMoveHandler);
     }
 
     function update() {
