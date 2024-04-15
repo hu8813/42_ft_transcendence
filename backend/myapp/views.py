@@ -544,11 +544,13 @@ def login_view(request):
         user = authenticate(username=username, password=password)
         if user is not None:
             login(request, user)
-            return HttpResponse('Login successful')
+            token = AccessToken.for_user(user)
+            encoded_token = str(token)
+            return JsonResponse({'message': 'Login successful', 'jwt_token': encoded_token})
         else:
-            return HttpResponse('Invalid login credentials')
+            return JsonResponse({'error': 'Invalid login credentials'}, status=400)
     else:
-        return render(request, 'login.html')  
+        return render(request, 'login.html') 
 
 @csrf_exempt
 def update_player_position(request):
