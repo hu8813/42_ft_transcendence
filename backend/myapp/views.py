@@ -275,9 +275,9 @@ def proxy_viewb(request):
         return JsonResponse({'error': 'Code parameter is missing'}, status=400)
 
     
-    client_id = os.getenv('VANILLA_CLIENT_ID')
-    client_secret = os.getenv('VANILLA_CLIENT_SECRET')
-    redirect_uri = os.getenv('VANILLA_REDIRECT_URI')
+    client_id = os.getenv('CLIENT_ID')
+    client_secret = os.getenv('CLIENT_SECRET')
+    redirect_uri = os.getenv('REDIRECT_URI')
 
     
     if not client_id or not client_secret or not redirect_uri:
