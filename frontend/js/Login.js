@@ -21,18 +21,16 @@ function handleLogin() {
                 throw new Error('Failed to fetch login');
               }
             const data = await response.json(); 
-            console.log("msg:", data.message);
             
             if ('message' in data && data.message === "Login successful") {
-                console.log("login successful:", data);
                 localStorage.setItem("isLoggedIn", "true");
-                if ('jwtToken' in data) {
+                if ('jwt_token' in data) {
                     localStorage.setItem("jwtToken", data.jwtToken);
                 }
         
                 setTimeout(() => {
-                    //window.location.href = "/";
-                }, 2000);
+                    window.location.href = "/";
+                }, 1000);
             } else {
                 console.error("Login failed:", data);
         
