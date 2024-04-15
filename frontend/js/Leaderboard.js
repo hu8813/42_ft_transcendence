@@ -125,7 +125,7 @@ async function calculateDaysSinceJoining(dateString) {
   const daysDifference = Math.floor(timeDifference / (1000 * 3600 * 24));
 
   
-  const percentage = ((daysDifference + 1) / 50) * 100; 
+  const percentage = ((daysDifference + 1) / 25) * 50; 
 
   
   const days_since = await translateKey('leaderboard.days');
@@ -133,7 +133,7 @@ async function calculateDaysSinceJoining(dateString) {
   
   const progressBar = `
     <div class="progress" style="height: 20px;">
-      <div class="progress-bar" role="progressbar" style="width: ${percentage}%; background-color: #007bff;" aria-valuenow="${percentage}" aria-valuemin="0" aria-valuemax="100" title="${daysDifference} ${days_since}">
+      <div class="progress-bar" role="progressbar" style="width: ${percentage}%; background-color: #007bff;" aria-valuenow="${percentage}" aria-valuemin="0" aria-valuemax="50" title="${daysDifference} ${days_since}">
         &nbsp;
       </div>
     </div>

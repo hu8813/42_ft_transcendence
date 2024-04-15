@@ -367,6 +367,7 @@ function updateNavigation() {
   if (!checkisLoggedIn) {
     localStorage.setItem('isLoggedIn', 'false');
     isLoggedIn = false;
+    window.location.href = '/#login'; 
   }
   const navMenu = document.getElementById('nav-menu');
   navMenu.innerHTML = ''; 
