@@ -61,7 +61,7 @@ fetch(`${getBackendURL()}/register/`, {
 })
             .catch(error => {
                 console.error("Error registering:", error);
-                document.getElementById("register-status").textContent = "Error registering";
+                document.getElementById("register-status").textContent = "Error registering "+error;
             });
         });
     }).catch(error => {

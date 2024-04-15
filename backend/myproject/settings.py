@@ -15,10 +15,11 @@ CLIENT_SECRET = os.environ.get("CLIENT_SECRET")
 REDIRECT_URI = os.environ.get("REDIRECT_URI")
 DJANGO_ALLOW_ASYNC_UNSAFE = True
 
-if os.environ.get('DEBUG', '') in ['1', 'true']:
-    SECURE_SSL_REDIRECT = True
-    SESSION_COOKIE_SECURE = True
-    CSRF_COOKIE_SECURE = True
+if os.environ.get('DEBUG') in ['1', 'true']:
+    #SECURE_SSL_REDIRECT = True
+    #SESSION_COOKIE_SECURE = True
+    #CSRF_COOKIE_SECURE = True
+    DEBUG = True
 
 
 ALLOWED_HOSTS = [

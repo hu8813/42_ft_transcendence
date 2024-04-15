@@ -9,10 +9,10 @@ function handleLogin() {
         e.preventDefault();
   
         // Disable the submit button to prevent multiple submissions
+        
+        const formData = new FormData(loginForm);
         if (submitButton)
             submitButton.disabled = true;
-  
-        const formData = new FormData(loginForm);
   
         try {
           const response = await fetch(`${getBackendURL()}/login/`, {
