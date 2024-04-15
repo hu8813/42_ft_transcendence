@@ -1,189 +1,314 @@
 function showTic1() {
     const canvas = document.getElementById('canvasTic1');
-    if (!canvas) return;
-    
-    const ctx = canvas.getContext('2d');
-    canvas.width = 800;
-    canvas.height = 600;
+    if (canvas) {
+        const context = canvas.getContext('2d');
+        const canvasSize = 500;
+        const sectionSize = canvasSize / 3;
+        let currentPlayer = 'X';
+        const lineColor = "#8f957d";
+        const board = Array(3).fill(null).map(() => Array(3).fill(null));
 
-    let currentPlayer = 'X'; 
-    let gameOver = false;
+        canvas.width = canvasSize;
+        canvas.height = canvasSize;
+        context.translate(0.5, 0.5);
 
-    const tileWidth = canvas.width / 3;
-    const tileHeight = canvas.height / 3;
-
-    let board = Array(3).fill().map(() => Array(3).fill(null));
-
-    const drawBoard = () => {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.strokeStyle = '#FFF';
-
-        for (let i = 1; i < 3; i++) {
-            ctx.beginPath();
-            ctx.moveTo(i * tileWidth, 0);
-            ctx.lineTo(i * tileWidth, canvas.height);
-            ctx.stroke();
-
-            ctx.beginPath();
-            ctx.moveTo(0, i * tileHeight);
-            ctx.lineTo(canvas.width, i * tileHeight);
-            ctx.stroke();
-        }
-
-        board.forEach((row, rowIndex) => {
-            row.forEach((cell, cellIndex) => {
-                const x = cellIndex * tileWidth + tileWidth / 2;
-                const y = rowIndex * tileHeight + tileHeight / 2;
-
-                if (cell === 'X') {
-                    drawX(x, y);
-                } else if (cell === 'O') {
-                    drawO(x, y);
+        function checkWinner() {
+            for (let i = 0; i < 3; i++) {
+                if (board[i][0] === board[i][1] && board[i][1] === board[i][2] && board[i][0] !== null) {
+                    return board[i][0];
                 }
-            });
-        });
-    };
-
-    const handleResult = result => {
-        if (result) {
-            setTimeout(() => alert(result), 10);
-        }
-    };
-
-    const drawX = (x, y) => {
-        const offset = 50;
-        ctx.strokeStyle = '#FFF';
-        ctx.beginPath();
-        ctx.moveTo(x - offset, y - offset);
-        ctx.lineTo(x + offset, y + offset);
-        ctx.moveTo(x + offset, y - offset);
-        ctx.lineTo(x - offset, y + offset);
-        ctx.stroke();
-    };
-
-    const drawO = (x, y) => {
-        const radius = 40;
-        ctx.strokeStyle = '#FFF';
-        ctx.beginPath();
-        ctx.arc(x, y, radius, 0, Math.PI * 2);
-        ctx.stroke();
-    };
-
-    const checkForWinOrDraw = () => {
-        const totalMoves = board.flat().filter(cell => cell !== null).length;
-        if (totalMoves < 5) {
-            return false;
-        }
-    
-        const winConditions = [
-            [[0, 0], [0, 1], [0, 2]],
-            [[1, 0], [1, 1], [1, 2]],
-            [[2, 0], [2, 1], [2, 2]],
-            [[0, 0], [1, 0], [2, 0]],
-            [[0, 1], [1, 1], [2, 1]],
-            [[0, 2], [1, 2], [2, 2]],
-            [[0, 0], [1, 1], [2, 2]],
-            [[0, 2], [1, 1], [2, 0]]
-        ];
-    
-    for (let condition of winConditions) {
-        const [[x1, y1], [x2, y2], [x3, y3]] = condition;
-        if (board[x1][y1] && board[x1][y1] === board[x2][y2] && board[x1][y1] === board[x3][y3]) {
-            gameOver = true;
-            return `${board[x1][y1]} hat gewonnen!`;
-        }
-    }
-
-    if (totalMoves === 9) {
-        gameOver = true;
-        return "Unentschieden!";
-    }
-    
-    return null; 
-};
-            
-
-    const computerMove = () => {
-        if (gameOver) return;
-    
-        let moveMade = false;
-        for (let i = 0; i < 3 && !moveMade; i++) {
-            for (let j = 0; j < 3 && !moveMade; j++) {
-                if (!board[i][j]) {
-                    board[i][j] = 'O';
-                    if (checkForWinOrDraw()) {
-                        moveMade = true;
-                        continue;
-                    }
-                    board[i][j] = null;
-                        board[i][j] = 'X';
-                    if (checkForWinOrDraw()) {
-                        board[i][j] = 'O';
-                        moveMade = true;
-                        continue;
-                    }
-                    board[i][j] = null;
+                if (board[0][i] === board[1][i] && board[1][i] === board[2][i] && board[0][i] !== null) {
+                    return board[0][i];
                 }
             }
-        }
-    
-        if (!moveMade) {
-            if (!board[1][1]) {
-                board[1][1] = 'O';
-                moveMade = true;
-            } else {
-                let availableCorners = [[0, 0], [0, 2], [2, 0], [2, 2]].filter(([i, j]) => !board[i][j]);
-                if (availableCorners.length > 0) {
-                    const [i, j] = availableCorners[Math.floor(Math.random() * availableCorners.length)];
-                    board[i][j] = 'O';
-                    moveMade = true;
-                } else {
-                    let availableSides = [[0, 1], [1, 0], [1, 2], [2, 1]].filter(([i, j]) => !board[i][j]);
-                    if (availableSides.length > 0) {
-                        const [i, j] = availableSides[Math.floor(Math.random() * availableSides.length)];
-                        board[i][j] = 'O';
-                        moveMade = true;
+            if (board[0][0] === board[1][1] && board[1][1] === board[2][2] && board[0][0] !== null) {
+                return board[0][0];
+            }
+            if (board[0][2] === board[1][1] && board[1][1] === board[2][0] && board[0][2] !== null) {
+                return board[0][2];
+            }
+            let isBoardFull = true;
+            for (let x = 0; x < 3; x++) {
+                for (let y = 0; y < 3; y++) {
+                    if (board[x][y] === null) {
+                        isBoardFull = false;
+                        break;
                     }
                 }
+                if (!isBoardFull) break;
             }
-        }
-    
-        if (moveMade) {
-            drawBoard();
-            let result = checkForWinOrDraw();
-            handleResult(result);
-        }
-    
-        if (!gameOver) {
-            currentPlayer = 'X';
-        }
-    };
-    
         
-        canvas.addEventListener('click', (event) => {
-        console.log("Canvas geklickt");
-        if (gameOver || currentPlayer !== 'X') return;
+            if (isBoardFull) {
+                return 'nowinner';
+            }
+            return null;
+        }
 
-        let rect = canvas.getBoundingClientRect();
-        let scaleX = canvas.width / rect.width; 
-        let scaleY = canvas.height / rect.height;
 
-        let mouseX = (event.clientX - rect.left) * scaleX;
-        let mouseY = (event.clientY - rect.top) * scaleY;
+        function nGButton() {
+            const button = document.getElementById('nGButton');
+            if (button)
+            {
+                button.style.display = 'block';
+                button.addEventListener('click', function() {
+                location.reload();
+            });
+          }
+        }
 
-        let xIndex = Math.floor(mouseX / tileWidth);
-        let yIndex = Math.floor(mouseY / tileHeight);
+        function showGameOverMessage(winner) {
+        const message = winner === 'nowinner' ? 'The game is tied!' : `Player ${winner} has won!`;
+        context.fillStyle = "rgba(0, 0, 0, 0.7)";
+        context.fillRect(0, 0, canvasSize, canvasSize);
+        context.fillStyle = "white";
+        context.font = "48px Arial";
+        context.textAlign = "center";
+        context.fillText(message, canvasSize / 2, canvasSize / 2);
 
-        if (!board[yIndex][xIndex] && !gameOver) {
-            board[yIndex][xIndex] = currentPlayer;
-            drawBoard();
-            let result = checkForWinOrDraw();
-            handleResult(result);
-            if (!gameOver) {
+        setTimeout(() => {
+        const nButton2 = document.getElementById('nGButton');
+        if (nButton2)
+            document.getElementById('nGButton').style.display = 'block';
+        nGButton();
+        }, 1000);
+        } 
+
+        function computerMove() {
+            let move = getWinningMove('O') || getBlockingMove('X') || getCenterMove() || getCornerMove() || getSideMove();
+            if (!move) return;
+            board[move.x][move.y] = 'O';
+            drawO(move.x * sectionSize, move.y * sectionSize);
+            drawLines(10, lineColor);
+        
+            let winner = checkWinner();
+            if (winner) {
+                canvas.removeEventListener('mouseup', handleRelease);
+                canvas.removeEventListener('touchend', handleRelease);
+                showGameOverMessage(winner);
+            }
+        }
+    
+        function playerMove(x, y) {
+            if (board[x][y] !== null) {
+                return;
+            }
+    
+            board[x][y] = currentPlayer;
+            drawX(x * sectionSize, y * sectionSize);
+            drawLines(10, lineColor);
+    
+            let winner = checkWinner();
+            if (winner) {
+                canvas.removeEventListener('mouseup', handleRelease);
+                canvas.removeEventListener('touchend', handleRelease);
+                showGameOverMessage(winner);
+                return;
+            }
+    
+            computerMove();
+        }
+
+        function drawO(xCordinate, yCordinate) {
+            const halfSectionSize = 0.5 * sectionSize;
+            const centerX = xCordinate + halfSectionSize;
+            const centerY = yCordinate + halfSectionSize;
+            const radius = (sectionSize - 100) / 2;
+
+            context.lineWidth = 10;
+            context.strokeStyle = "#a32c08";
+            context.beginPath();
+            context.arc(centerX, centerY, radius, 0, 2 * Math.PI);
+            context.stroke();
+        }
+
+        function drawX(xCordinate, yCordinate) {
+            const offset = 50;
+            context.strokeStyle = "#667c21";
+            context.beginPath();
+            context.moveTo(xCordinate + offset, yCordinate + offset);
+            context.lineTo(xCordinate + sectionSize - offset, yCordinate + sectionSize - offset);
+            context.moveTo(xCordinate + offset, yCordinate + sectionSize - offset);
+            context.lineTo(xCordinate + sectionSize - offset, yCordinate + offset);
+            context.stroke();
+        }
+
+        function drawLines(lineWidth, strokeStyle) {
+            context.lineWidth = lineWidth;
+            context.strokeStyle = strokeStyle;
+        
+            context.beginPath();
+            context.moveTo(sectionSize, 0);
+            context.lineTo(sectionSize, canvasSize);
+            context.moveTo(2 * sectionSize, 0);
+            context.lineTo(2 * sectionSize, canvasSize);
+            context.moveTo(0, sectionSize);
+            context.lineTo(canvasSize, sectionSize);
+            context.moveTo(0, 2 * sectionSize);
+            context.lineTo(canvasSize, 2 * sectionSize);
+            context.stroke();
+        
+            context.beginPath();
+            context.rect(0, 0, canvasSize, canvasSize);
+            context.stroke();
+        }
+        
+        function getCanvasMousePosition(event) {
+            const rect = canvas.getBoundingClientRect();
+            return {
+                x: event.clientX - rect.left,
+                y: event.clientY - rect.top
+            }
+        }
+
+        function getCanvasMousePosition(event) {
+            const rect = canvas.getBoundingClientRect();
+            const scaleX = canvas.width / rect.width;
+            const scaleY = canvas.height / rect.height;
+            let x, y;
+
+            if (event.touches) {
+                x = event.touches[0].clientX - rect.left;
+                y = event.touches[0].clientY - rect.top;
+            } else {
+                x = event.clientX - rect.left;
+                y = event.clientY - rect.top;
+            }
+            return {
+                x: x * scaleX,
+                y: y * scaleY
+            };
+        }
+    
+        function isMoveLeft(board) {
+            return board.some(row => row.includes(null));
+        }
+
+        function evaluate(b) {
+            for (let row = 0; row < 3; row++) {
+                if (b[row][0] === b[row][1] && b[row][1] === b[row][2]) {
+                    if (b[row][0] === 'O') return +10;
+                    else if (b[row][0] === 'X') return -10;
+                }
+            }
+            for (let col = 0; col < 3; col++) {
+                if (b[0][col] === b[1][col] && b[1][col] === b[2][col]) {
+                    if (b[0][col] === 'O') return +10;
+                    else if (b[0][col] === 'X') return -10;
+                }
+            }
+            if (b[0][0] === b[1][1] && b[1][1] === b[2][2]) {
+                if (b[0][0] === 'O') return +10;
+                else if (b[0][0] === 'X') return -10;
+            }
+            if (b[0][2] === b[1][1] && b[1][1] === b[2][0]) {
+                if (b[0][2] === 'O') return +10;
+                else if (b[0][2] === 'X') return -10;
+            }
+            return 0;
+        }
+
+        function minimax(board, depth, isMax) {
+            let score = evaluate(board);
+
+            if (score === 10) return score - depth;
+            if (score === -10) return score + depth;
+            if (!isMoveLeft(board)) return 0;
+
+            if (isMax) {
+                let best = -1000;
+                for (let i = 0; i < 3; i++) {
+                    for (let j = 0; j < 3; j++) {
+                        if (board[i][j] === null) {
+                            board[i][j] = 'O';
+                            best = Math.max(best, minimax(board, depth + 1, !isMax));
+                            board[i][j] = null;
+                        }
+                    }
+                }
+                return best;
+            } else {
+                let best = 1000;
+                for (let i = 0; i < 3; i++) {
+                    for (let j = 0; j < 3; j++) {
+                        if (board[i][j] === null) {
+                            board[i][j] = 'X';
+                            best = Math.min(best, minimax(board, depth + 1, !isMax));
+                            board[i][j] = null;
+                        }
+                    }
+                }
+                return best;
+            }
+        }
+
+        function findBestMove(board) {
+            let bestVal = -1000;
+            let bestMove = { row: -1, col: -1 };
+            for (let i = 0; i < 3; i++) {
+                for (let j = 0; j < 3; j++) {
+                    if (board[i][j] === null) {
+                        board[i][j] = 'O';
+                        let moveVal = minimax(board, 0, false);
+                        board[i][j] = null;
+                        if (moveVal > bestVal) {
+                            bestMove = { row: i, col: j };
+                            bestVal = moveVal;
+                        }
+                    }
+                }
+            }
+            return bestMove;
+        }
+
+        function computerMove() {
+            let move;
+            if (isMoveLeft(board)) {
+                move = findBestMove(board);
+                if (move.row !== -1 && move.col !== -1) {
+                    board[move.row][move.col] = 'O';
+                    drawO(move.row * sectionSize, move.col * sectionSize);
+                    drawLines(10, lineColor);
+                }
+            }
+        
+            let winner = checkWinner();
+            if (winner) {
+                canvas.removeEventListener('mouseup', handleRelease);
+                canvas.removeEventListener('touchend', handleRelease);
+                showGameOverMessage(winner);
+            }
+        }
+
+        function handleRelease(event) {
+            event.preventDefault();
+            if (currentPlayer === 'O')
+                return;
+            let position = getCanvasMousePosition(event.changedTouches ? event.changedTouches[0] : event);
+            const x = Math.floor(position.x / sectionSize);
+            const y = Math.floor(position.y / sectionSize);
+
+            if (board[x][y] !== null) {
+                return;
+            }
+
+            board[x][y] = 'X';
+            drawX(x * sectionSize, y * sectionSize);
+            drawLines(10, lineColor);
+
+            let winner = checkWinner();
+            if (winner) {
+                canvas.removeEventListener('mouseup', handleRelease);
+                canvas.removeEventListener('touchend', handleRelease);
+                showGameOverMessage(winner);
+            } else {
                 currentPlayer = 'O';
                 computerMove();
+                currentPlayer = 'X';
             }
         }
-    });
-    drawBoard();
+        canvas.addEventListener('mouseup', handleRelease);
+        canvas.addEventListener('touchend', handleRelease);
+
+        drawLines(10, lineColor);
+    }
 }
