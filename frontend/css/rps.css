@@ -68,15 +68,13 @@
     width: 100%;
     justify-content: center;
     font-family: 'Courier New', Courier, monospace;
-    border: solid;
-
   }
 
   .rps-player-block{
     background-color: black;
     border-radius: 50px;
     margin: 20px;
-    width: 600px;
+    width: 700px;
     height: 310px;
     text-align: center;
   }
@@ -85,6 +83,7 @@
     display: flex;
     justify-content: center;
     align-self: center;
+    gap:50px;
   }
 
   .player-score{
