@@ -45,7 +45,7 @@ function playRPS() {
             if (result === 'won') {
                 document.getElementById('playerscore').textContent = `Score: ${++won}`;
                 if (won === 5) {
-                    on("Player")
+                    on("You")
 
                 }
             } else if (result === 'lost') {
