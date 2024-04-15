@@ -25,7 +25,9 @@ function handleLogin() {
                     localStorage.setItem("jwtToken", data.jwtToken);
                 }
         
-                window.location.href = "/";
+                setTimeout(() => {
+                    window.location.href = "/";
+                }, 2000);
             } else {
                 console.error("Login failed:", data);
         
