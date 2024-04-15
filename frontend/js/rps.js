@@ -44,13 +44,13 @@ function playRPS() {
 
             if (result === 'won') {
                 document.getElementById('playerscore').textContent = `Score: ${++won}`;
-                if (won === 2) {
+                if (won === 5) {
                     on("Player")
 
                 }
             } else if (result === 'lost') {
                 document.getElementById('computerscore').textContent = `Score: ${++lost}`;
-                if (lost === 2) {
+                if (lost === 5) {
                     on("CPU")
                 }
             }
