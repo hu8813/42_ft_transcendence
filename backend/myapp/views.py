@@ -34,6 +34,8 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.permissions import IsAuthenticated
 import jwt
 from jwt.exceptions import InvalidTokenError
+from rest_framework import status
+from rest_framework.response import Response
 
 token_obtain_pair_view = TokenObtainPairView.as_view()
 token_refresh_view = TokenRefreshView.as_view()
