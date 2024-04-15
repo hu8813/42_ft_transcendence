@@ -1,0 +1,214 @@
+.rps{
+    height: 87vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 50px;
+}
+
+.rps-title {
+    font-size: 2vw;
+    animation: lights1 2s linear infinite;
+    margin-top: 50px;
+    
+}
+
+@keyframes lights1 {
+    0% {
+      color: hsl(0, 100%, 50%);
+      text-shadow:
+        0 0 1em hsla(320, 100%, 50%, 0.2),
+        0 0 0.125em hsla(320, 100%, 60%, 0.3),
+        -1em -0.125em 0.5em hsla(40, 100%, 60%, 0),
+        1em 0.125em 0.5em hsla(200, 100%, 60%, 0);
+    }
+    
+    30% { 
+      color: hsl(54, 100%, 50%);
+      text-shadow:
+        0 0 1em hsla(320, 100%, 50%, 0.5),
+        0 0 0.125em hsla(320, 100%, 60%, 0.5),
+        -0.5em -0.125em 0.25em hsla(40, 100%, 60%, 0.2),
+        0.5em 0.125em 0.25em hsla(200, 100%, 60%, 0.4);
+    }
+    
+    40% { 
+      color: hsl(133, 100%, 50%);
+      text-shadow:
+        0 0 1em hsla(320, 100%, 50%, 0.5),
+        0 0 0.125em hsla(320, 100%, 90%, 0.5),
+        -0.25em -0.125em 0.125em hsla(40, 100%, 60%, 0.2),
+        0.25em 0.125em 0.125em hsla(200, 100%, 60%, 0.4);
+    }
+    
+    70% {
+      color: hsl(226, 100%, 50%);
+      text-shadow:
+        0 0 1em hsla(320, 100%, 50%, 0.5),
+        0 0 0.125em hsla(320, 100%, 60%, 0.5),
+        0.5em -0.125em 0.25em hsla(40, 100%, 60%, 0.2),
+        -0.5em 0.125em 0.25em hsla(200, 100%, 60%, 0.4);
+    }
+    
+    100% {
+      color: hsl(325, 100%, 50%);
+      text-shadow:
+        0 0 1em hsla(320, 100%, 50%, 0.2),
+        0 0 0.125em hsla(320, 100%, 60%, 0.3),
+        1em -0.125em 0.5em hsla(40, 100%, 60%, 0),
+        -1em 0.125em 0.5em hsla(200, 100%, 60%, 0);
+    }
+  }
+
+  .rps-game{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: center;
+    font-family: 'Courier New', Courier, monospace;
+    border: solid;
+
+  }
+
+  .rps-player-block{
+    background-color: black;
+    border-radius: 50px;
+    margin: 20px;
+    width: 600px;
+    height: 310px;
+    text-align: center;
+  }
+
+  .playerinfo {
+    display: flex;
+    justify-content: center;
+    align-self: center;
+  }
+
+  .player-score{
+    width: fit-content;
+    align-items: center;
+    display: flex;
+  }
+
+  .player-score > p{
+    font-size: 30px;
+    text-align: center;
+  }
+
+  .selections{
+    display: flex;
+    justify-content: center;
+  }
+
+
+  .select {
+    width: 10vw;
+    height: 10vh;
+    font-size: 50px;
+    border: none;
+    outline: none;
+    background: transparent;
+    position: relative;
+    z-index: 0;
+    border-radius: 10px;
+    margin: 10px;
+}
+
+.select:before {
+    content: '';
+    background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+    position: absolute;
+    top: -2px;
+    left:-2px;
+    background-size: 400%;
+    z-index: -1;
+    filter: blur(5px);
+    width: calc(100% + 4px);
+    height: calc(100% + 4px);
+    animation: glowing 20s linear infinite;
+    opacity: 0;
+    transition: opacity .3s ease-in-out;
+    border-radius: 10px;
+}
+
+.select:active {
+    color: black;
+}
+
+.select:active:after {
+    background: transparent;
+}
+
+.select:hover:before {
+    opacity: 1;
+}
+
+.select:after {
+    z-index: -1;
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: black;
+    left: 0;
+    top: 0;
+    border-radius: 10px;
+}
+
+
+.select-cpu {
+    width: 10vw;
+    height: 10vh;
+    font-size: 50px;
+    border: none;
+    outline: none;
+    background: transparent;
+    position: relative;
+    z-index: 0;
+    border-radius: 10px;
+    margin: 10px;
+}
+
+
+@keyframes glowing {
+    0% { background-position: 0 0; }
+    50% { background-position: 400% 0; }
+    100% { background-position: 0 0; }
+}
+
+#overlay {
+    position: fixed;
+    display: none;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 2;
+    cursor: pointer;
+  }
+
+  #overtext{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    font-size: 50px;
+    color: white;
+    transform: translate(-50%,-50%);
+    -ms-transform: translate(-50%,-50%);
+  }
+
+  #overtxt{
+    position: absolute;
+    top: 60%;
+    left: 50%;
+    font-size: 50px;
+    color: white;
+    transform: translate(-50%,-50%);
+    -ms-transform: translate(-50%,-50%);
+  }

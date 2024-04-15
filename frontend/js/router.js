@@ -24,6 +24,7 @@ const routes = {
   "#tic1": "/views/tic1.html",
   "#tic2": "/views/tic2.html",
   "#viewprofile": "/views/viewprofile.html",
+  "#rps" : "/views/rps.html",
 };
 
 
@@ -274,10 +275,11 @@ const handleLocation = async () => {
     case '#contact':
       showImprint();
       break;
-    
-      
     case '#privacy-policy':
       showPrivacyPolicy();
+      break;
+    case '#rps':
+      playRPS();
       break;
         default:
           translate(currentLanguage);

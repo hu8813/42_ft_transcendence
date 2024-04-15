@@ -10,7 +10,7 @@
 .category {
   text-align: center;
   font-size: 1.5vw;
-  animation: lights 2s linear infinite;;
+  animation: lights 2s linear infinite;
   border-style: dotted;
   border-radius: 50px;
   margin-bottom: 25px;
@@ -61,7 +61,6 @@
       1em -0.125em 0.5em hsla(40, 100%, 60%, 0),
       -1em 0.125em 0.5em hsla(200, 100%, 60%, 0);
   }
-  
 }
 
 .friends, .achievments{

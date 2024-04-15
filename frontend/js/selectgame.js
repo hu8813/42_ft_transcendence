@@ -11,6 +11,11 @@ function showGameModes() {
             imgPlaceholder: './src/tictactoe.png',
             href: "#tictactoe",
             associatedCards: ["#tic1", "#tic2", "#xoxo3"] 
+        },
+        {
+            text: "Rock Paper Scissors",
+            imgPlaceholder: './src/rps.png',
+            href: "#rps", 
         }
     ];
 
