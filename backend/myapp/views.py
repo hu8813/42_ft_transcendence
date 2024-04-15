@@ -550,13 +550,12 @@ def login_view(request):
             user_info = {
                 'message': 'Login successful',
                 'jwt_token': encoded_token,
-                'userNickname': user.nickname,
-                'image_link': user.image_link,
-                'score': user.score,
-                'email': user.email,
-                'userLogin': user.username
+                'userNickname': user.nickname if user.nickname else '',
+                'image_link': user.image_link if user.image_link else '',
+                'score': user.score if user.score else 0,
+                'email': user.email if user.email else '',
+                'userLogin': user.username if user.username else ''
             }
-
             return JsonResponse(user_info, status=200)
         else:
             return JsonResponse({'error': 'Invalid login credentials'}, status=400)
