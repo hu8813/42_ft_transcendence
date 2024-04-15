@@ -109,11 +109,8 @@ function showPong3() {
 
     function mouseMoveHandler(event) {
         let canvasRect = canvas.getBoundingClientRect();
-        let scaleX = canvas.width / canvasRect.width; 
-        let scaleY = canvas.height / canvasRect.height; 
-    
+        let scaleX = canvas.width / canvasRect.width;     
         let mouseX = (event.clientX - canvasRect.left) * scaleX; 
-        
         player3.x = Math.max(Math.min(mouseX - (player3.width / 2), canvas.width - player3.width), 0);
     }
     
@@ -156,9 +153,6 @@ function showPong3() {
         });
       }
     }
-
-    
-    const startMessage = document.getElementById('startMessage');
 
     showStartMessageWithCountdown(5);
 

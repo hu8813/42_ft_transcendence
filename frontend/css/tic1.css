@@ -1,6 +1,5 @@
 
 #canvasTic1 {
-    background-color: #151a15; 
     display: block; 
     margin: 7% auto; 
     max-width: 70vw; 
@@ -9,8 +8,8 @@
 }
 
 #nGButton {
-    position: fixed; 
-    top: 50%;
+    position: absolute;
+    top: 58%;
     left: 50%;
     transform: translate(-50%, -50%);
     padding: 10px 20px;
