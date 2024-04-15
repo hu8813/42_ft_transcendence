@@ -18,10 +18,9 @@ function handleLogin() {
             });
         
             const data = await response.json(); // Parse response as JSON
-        
-            if (data.hasOwnProperty('message') && data.message === "Login successful") {
+            if ('message' in data && data.message === "Login successful") {
                 localStorage.setItem("isLoggedIn", "true");
-                if (data.hasOwnProperty('jwtToken')) {
+                if ('jwtToken' in data) {
                     localStorage.setItem("jwtToken", data.jwtToken);
                 }
         
