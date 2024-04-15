@@ -361,8 +361,13 @@ translate(currentLanguage);
 
 
 function updateNavigation() {
-  const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-  
+  let isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+  const jwtToken = localStorage.getItem('jwtToken');
+  let checkisLoggedIn = jwtToken !== null;
+  if (!checkisLoggedIn) {
+    localStorage.setItem('isLoggedIn', 'false');
+    isLoggedIn = false;
+  }
   const navMenu = document.getElementById('nav-menu');
   navMenu.innerHTML = ''; 
   //navMenu.style.display = 'block';

@@ -14,8 +14,15 @@ function showHome() {
     pongTable.classList.add("pong-table");
     
     pongTable.onmouseover = () => {
-        welcomeMessage.textContent = "Please login to play!"
-        if (translateKey('home.logintoplay').then((value) => {welcomeMessage.textContent = value;}));
+        if (localStorage.getItem("isLoggedIn") !== 'true' && welcomeMessage)  {
+            welcomeMessage.textContent = "Please login to play!"
+            if (translateKey('home.logintoplay').then((value) => {welcomeMessage.textContent = value;}));
+
+        }
+        else if (localStorage.getItem("isLoggedIn") === 'true' && welcomeMessage && localStorage.getItem("userNickname") !== null) {
+            if (translateKey('auth.profile-title').then((value) => {welcomeMessage.textContent = value + " " + localStorage.getItem("userNickname");}));
+        }
+
 
         const leftPaddle = document.querySelector(".paddle-left");
         const rightPaddle = document.querySelector(".paddle-right");

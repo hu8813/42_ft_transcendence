@@ -417,8 +417,16 @@ translate(currentLanguage);
 
 
 function updateNavigation() {
-  const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-  
+  let isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+  const jwtToken = localStorage.getItem('jwtToken');
+  console.log ("jwtToken: " + jwtToken);
+  let checkisLoggedIn = jwtToken !== null;
+  if (!checkisLoggedIn) {
+    localStorage.setItem('isLoggedIn', 'false');
+    isLoggedIn = false;
+}
+
+
   const navMenu = document.getElementById('nav-menu');
   if (navMenu)
     navMenu.innerHTML = ''; 
