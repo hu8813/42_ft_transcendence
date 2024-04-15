@@ -176,30 +176,28 @@ def proxy_userinfo(request):
     
     
     try:
-        # jwt_token = request.headers.get('Authorization')
-        # if not jwt_token:
-        #     return JsonResponse({'error': 'JWT token is missing'}, status=401)
+        jwt_token = request.headers.get('Authorization')
+        if not jwt_token:
+            return JsonResponse({'error': 'JWT token is missing'}, status=401)
 
-        
-        # # Print the JWT token
-        # print('JWT Token:', jwt_token)
-        
-        # jwt_authentication = JWTAuthentication()
-        # authentication_result = jwt_authentication.authenticate(request)
-        # print(authentication_result)  # Add this line to see what authenticate() returns
+        jwt_authentication = JWTAuthentication()
+        authentication_result = jwt_authentication.authenticate(request)
+        #print(authentication_result)  # Add this line to see what authenticate() returns
 
-        # authenticated_user, _ = authentication_result
+        authenticated_user, _ = authentication_result
         
-        #if authenticated_user is None:
-        #    return JsonResponse({'error': 'Invalid or expired JWT token'}, status=401)
-        authenticated_user = User.objects.get(authorization_code=code)
+        if authenticated_user is None:
+           return JsonResponse({'error': 'Invalid or expired JWT token'}, status=401)
+        authenticated_user2 = User.objects.get(id=authentication_result[1]['user_id'])
+        
+        #print(authentication_result[1]['user_id'])
         
         user_info = {
-            'nickname': authenticated_user.nickname,
-            'login': authenticated_user.username,
-            'image_link': authenticated_user.image_link,
-            'score': authenticated_user.score,
-            'email': authenticated_user.email,
+            'nickname': authenticated_user2.nickname,
+            'login': authenticated_user2.username,
+            'image_link': authenticated_user2.image_link,
+            'score': authenticated_user2.score,
+            'email': authenticated_user2.email,
         }
         return JsonResponse({'user': user_info})
     except User.DoesNotExist:
