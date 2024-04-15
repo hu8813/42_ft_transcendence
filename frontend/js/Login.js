@@ -25,8 +25,24 @@ function handleLogin() {
             if ('message' in data && data.message === "Login successful") {
                 localStorage.setItem("isLoggedIn", "true");
                 if ('jwt_token' in data) {
-                    localStorage.setItem("jwtToken", data.jwtToken);
+                    localStorage.setItem("jwtToken", data.jwt_token);
                 }
+                if ('login' in data) {
+                    localStorage.setItem("userLogin", data.login);
+                }
+                if ('nickname' in data) {
+                    localStorage.setItem("userNickname", data.nickname);
+                }
+                if ('email' in data) {
+                    localStorage.setItem("userEmail", data.email);
+                }
+                if ('score' in data) {
+                    localStorage.setItem("userScore", data.score);
+                }
+                if ('image_link' in data) {
+                    localStorage.setItem("userImage", data.image_link);
+                }
+
         
                 setTimeout(() => {
                     window.location.href = "/";
@@ -41,7 +57,6 @@ function handleLogin() {
                 }
             }
           } catch (error) {
-              console.error("Error logging in:", error);
               
               loginStatus.textContent = "Error logging in. Please try again later.";
           }

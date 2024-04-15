@@ -546,7 +546,18 @@ def login_view(request):
             login(request, user)
             token = AccessToken.for_user(user)
             encoded_token = str(token)
-            return JsonResponse({'message': 'Login successful', 'jwt_token': encoded_token})
+
+            user_info = {
+                'message': 'Login successful',
+                'jwt_token': encoded_token,
+                'userNickname': user.nickname,
+                'image_link': user.image_link,
+                'score': user.score,
+                'email': user.email,
+                'login': user.username
+            }
+
+            return JsonResponse(user_info, status=200)
         else:
             return JsonResponse({'error': 'Invalid login credentials'}, status=400)
     else:
