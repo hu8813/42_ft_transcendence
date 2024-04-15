@@ -207,67 +207,6 @@ def proxy_userinfo(request):
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=500)
 
-@csrf_exempt
-def proxy_view(request):
-    
-    code = request.GET.get('code')
-    if not code:
-        return JsonResponse({'error': 'Code parameter is missing'}, status=400)
-
-    
-    client_id = os.getenv('REACT_APP_CLIENT_ID')
-    client_secret = os.getenv('REACT_APP_CLIENT_SECRET')
-    redirect_uri = os.getenv('REACT_APP_REDIRECT_URI')
-
-    
-    if not client_id or not client_secret or not redirect_uri:
-        return JsonResponse({'error': 'Environment variables are not set correctly'}, status=500)
-
-    
-    data = {
-        'grant_type': 'authorization_code',
-        'client_id': client_id,
-        'client_secret': client_secret,
-        'code': code,
-        'redirect_uri': redirect_uri,
-    }
-
-    try:
-        
-        response = requests.post('https://api.intra.42.fr/oauth/token', data=data)
-        response.raise_for_status()  
-
-        
-        access_token = response.json().get('access_token')
-
-        
-        user_data_response = requests.get('https://api.intra.42.fr/v2/me', headers={'Authorization': f'Bearer {access_token}'})
-        user_data_response.raise_for_status()  
-
-        
-        user_data = user_data_response.json()
-        login = user_data.get('login')
-        email = user_data.get('email')
-        image_data = user_data.get('image', {})
-        image_link = image_data.get('versions', {}).get('medium', image_data.get('link'))
-
-
-        
-        user, created = User.objects.get_or_create(username=login, email=email)
-
-        
-        user.nickname = user_data.get('nickname', user.username)  
-        user.score += 0 
-        user.image_link = image_link
-        user.access_token = access_token
-        user.authorization_code = code
-        user.save()
-
-        
-        return redirect(f'https://localhost:8443/login/return/?code={code}')
-    except requests.RequestException as e:
-        return JsonResponse({'error': str(e)}, status=500)
-
 
 @csrf_exempt
 def proxy_viewb(request):
@@ -328,6 +267,7 @@ def proxy_viewb(request):
         token = AccessToken.for_user(user)
         encoded_token = str(token) 
         redirect_url = f'https://pong42.azurewebsites.net/return.html?code={code}&jwtToken={encoded_token}'
+        
         return redirect(redirect_url)
     except requests.RequestException as e:
         return JsonResponse({'error': str(e)}, status=500)
