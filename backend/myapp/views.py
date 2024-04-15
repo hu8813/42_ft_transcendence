@@ -554,7 +554,7 @@ def login_view(request):
                 'image_link': user.image_link,
                 'score': user.score,
                 'email': user.email,
-                'login': user.username
+                'userLogin': user.username
             }
 
             return JsonResponse(user_info, status=200)
