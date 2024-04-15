@@ -13,22 +13,28 @@ function handleLogin() {
           const formData = new FormData(loginForm);
       
           try {
-              const response = await fetch(`${getBackendURL()}/login/`, {
-                  method: "POST",
-                  body: formData,
-              });
-                    
-              const data = await response.text();
-              console.log("Login Response:", data); 
-              
-              if (data.trim() === "Login successful") {
-                  localStorage.setItem("isLoggedIn","true");
-                  window.location.href = "/";
-              } else {
-                  console.error("Login failed:", data);
-                  
-                  loginStatus.textContent = "Login failed. Please check your credentials.";
-              }
+            const response = await fetch(`${getBackendURL()}/login/`, {
+                method: "POST",
+                body: formData,
+            });
+        
+            const data = await response.json(); // Parse response as JSON
+            if ('message' in data && data.message === "Login successful") {
+                localStorage.setItem("isLoggedIn", "true");
+                if ('jwtToken' in data) {
+                    localStorage.setItem("jwtToken", data.jwtToken);
+                }
+        
+                window.location.href = "/";
+            } else {
+                console.error("Login failed:", data);
+        
+                if (data.hasOwnProperty('error')) {
+                    loginStatus.textContent = data.error;
+                } else {
+                    loginStatus.textContent = "Login failed. Please check your credentials.";
+                }
+            }
           } catch (error) {
               console.error("Error logging in:", error);
               

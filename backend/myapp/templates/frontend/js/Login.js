@@ -18,7 +18,8 @@ function handleLogin() {
             });
         
             const data = await response.json(); // Parse response as JSON
-            if ('message' in data && data.message === "Login successful") {
+            console.log("msg:", data.message);
+            if ('message' in data && "Login successful" in data) {
                 localStorage.setItem("isLoggedIn", "true");
                 if ('jwtToken' in data) {
                     localStorage.setItem("jwtToken", data.jwtToken);
