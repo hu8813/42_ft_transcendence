@@ -9,7 +9,8 @@ function handleLogin() {
         e.preventDefault();
   
         // Disable the submit button to prevent multiple submissions
-        submitButton.disabled = true;
+        if (submitButton)
+            submitButton.disabled = true;
   
         const formData = new FormData(loginForm);
   
@@ -19,9 +20,9 @@ function handleLogin() {
             body: formData,
           });
   
-          if (!response.ok) {
-            throw new Error('Failed to fetch login');
-          }
+        //   if (!response.ok) {
+        //     throw new Error('Failed to fetch login');
+        //   }
   
           const data = await response.json();
   
@@ -48,7 +49,8 @@ function handleLogin() {
   
             setTimeout(() => {
               // Re-enable the submit button after a delay
-              submitButton.disabled = false;
+              if (submitButton)
+                submitButton.disabled = false;
               window.location.href = "/";
             }, 5000); // Enable after 5 seconds
   
@@ -62,14 +64,16 @@ function handleLogin() {
             }
             
             // Re-enable the submit button immediately in case of failure
-            submitButton.disabled = false;
+            if (submitButton)
+                submitButton.disabled = false;
           }
         } catch (error) {
           console.error("Error logging in:", error);
           loginStatus.textContent = "Error logging in. Please try again later.";
   
           // Re-enable the submit button immediately in case of error
-          submitButton.disabled = false;
+          if (submitButton)
+            submitButton.disabled = false;
         }
   
         return false;
