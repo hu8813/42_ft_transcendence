@@ -75,7 +75,11 @@ set_default_variable POSTGRES_PORT "5432"
 
 pgpassword_value=$(read_var_from_env_file PGPASSWORD)
 set_default_variable POSTGRES_PASSWORD "$pgpassword_value"
+set_default_variable DJANGO_SETTINGS_MODULE "myproject.settings"
+set_default_variable WEBSOCKET_PORT "8001"
+prompt_for_variable JWT_SECRET_KEY "Enter Jwt secret Key: "
 
-cp $env_file backend/.env
+
+#cp $env_file backend/.env
 echo "Environment variables have been updated in $env_file."
 
