@@ -323,8 +323,10 @@ def proxy_viewb(request):
         user.authorization_code = code
         user.save()
 
-        
-        return redirect(f'http://pong42.vercel.app/return.html?code={code}')
+        token = AccessToken.for_user(user)
+        encoded_token = str(token) 
+        redirect_url = f'https://pong42.azurewebsites.net/return.html?code={code}&jwtToken={encoded_token}'
+        return redirect(redirect_url)
     except requests.RequestException as e:
         return JsonResponse({'error': str(e)}, status=500)
 
