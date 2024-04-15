@@ -136,8 +136,8 @@ def get_profile_info(request):
 
 @csrf_exempt
 def signin42b(request):
-    redirect_uri = os.getenv('VANILLA_REDIRECT_URI')
-    client_id = os.getenv('VANILLA_CLIENT_ID')
+    redirect_uri = os.getenv('REDIRECT_URI')
+    client_id = os.getenv('CLIENT_ID')
     
     authorization_url = f'https://api.intra.42.fr/oauth/authorize?client_id={client_id}&redirect_uri={redirect_uri}&response_type=code'
     
