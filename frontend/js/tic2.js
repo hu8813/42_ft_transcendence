@@ -99,7 +99,8 @@ function showTic2() {
                         setTimeout(() => {
                             let winner = checkWinner();
                             if (winner) {
-                                canvas.removeEventListener('mouseup', handleMouseUp);
+                                //canvas.removeEventListener('mouseup', handleMouseUp);
+                                canvas.addEventListener('mouseup', handleRelease);
                                 showGameOverMessage(winner);
                             } else {
                                 player = 3 - player;
@@ -163,13 +164,47 @@ function showTic2() {
             }
         }
 
-        function handleMouseUp(event) {
+        /* function handleMouseUp(event) {
             const canvasMousePosition = getCanvasMousePosition(event);
             addPlayingPiece(canvasMousePosition);
             drawLines(10, lineColor);
+        } */
+
+        function getCanvasMousePosition(event) {
+            const rect = canvas.getBoundingClientRect();
+            const scaleX = canvas.width / rect.width;
+            const scaleY = canvas.height / rect.height;
+            let x, y;
+
+            if (event.touches) {
+                x = event.touches[0].clientX - rect.left;
+                y = event.touches[0].clientY - rect.top;
+            } else {
+                x = event.clientX - rect.left;
+                y = event.clientY - rect.top;
+            }
+            return {
+                x: x * scaleX,
+                y: y * scaleY
+            };
         }
 
-        canvas.addEventListener('mouseup', handleMouseUp);
+        function handleRelease(event) {
+            event.preventDefault();
+            let position;
+
+            if (event.changedTouches) {
+                position = getCanvasMousePosition(event.changedTouches[0]);
+            } else {
+                position = getCanvasMousePosition(event);
+            }
+
+            addPlayingPiece(position);
+        }
+
+        //canvas.addEventListener('mouseup', handleMouseUp);
+        canvas.addEventListener('mouseup', handleRelease);
+        canvas.addEventListener('touchend', handleRelease);
 
         drawLines(10, lineColor);
     }
