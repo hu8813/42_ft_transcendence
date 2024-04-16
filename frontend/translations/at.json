@@ -49,11 +49,12 @@
     "register": "Registrieren",
     "signInWith42": "Anmeldung über 42Sign-in",
     "signIn": "Standardanmeldung:",
-    "passwordMismatch": "Passwort leer/ungültig",
+    "passwordMismatch": "Passwort leer/ungültig/nicht gleich",
     "confirmPassword": "Passwort bestätigen",
     "termsAndConditions": "Allgemeine Geschäftsbedingungen",
     "acceptTerms": "Ich akzeptiere die Allgemeinen Geschäftsbedingungen",
-    "profiletitle": "Profil"
+    "profiletitle": "Profil",
+    "register-status": "Das Passwort muss mindestens 8 Zeichen, 1 Großbuchstaben und 1 Zahl enthalten."
   },
   "game": {
     "play!title": "Spielen!",

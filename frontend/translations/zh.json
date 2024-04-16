@@ -54,7 +54,8 @@
     "confirmPassword": "确认密码",
     "termsAndConditions": "条款和条件",
     "acceptTerms": "我接受条款和条件",
-    "profiletitle": "个人资料"
+    "profiletitle": "个人资料",
+    "register-status": "密碼必須至少包含8個字符，1個大寫字母和1個數字。"
     },
     "game": {
     "play!title": "开始游戏！",

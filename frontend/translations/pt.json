@@ -54,7 +54,8 @@
       "confirmPassword": "Confirme a senha",
       "termsAndConditions": "Termos & Condições",
       "acceptTerms": "Aceito os Termos & Condições",
-      "profiletitle": "Perfil"
+      "profiletitle": "Perfil",
+      "register-status": "A senha deve ter pelo menos 8 caracteres, 1 letra maiúscula e 1 dígito."
     },
     "game": {
       "play!title": "Jogar!",

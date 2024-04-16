@@ -53,7 +53,8 @@
     "confirmPassword": "تأكيد كلمة المرور",
     "termsAndConditions": "البنود والظروف",
     "acceptTerms": "أوافق على البنود والظروف",
-    "profiletitle": "الملف الشخصي"
+    "profiletitle": "الملف الشخصي",
+    "register-status": "كلمة السر يجب أن تحتوي على ما لا يقل عن 8 أحرف، 1 حرف كبير ورقم واحد"
   },
   "game": {
     "play!title": "إلعب!",
