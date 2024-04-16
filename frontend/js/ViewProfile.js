@@ -7,12 +7,13 @@ async function fetchAndDisplayViewProfile(username) {
               'Authorization': `Bearer ${jwtToken}`
             }
         });
-        if (!response.ok) {
-            throw new Error('Profile not found');
-        }
-
+        if (response.ok) {
+            
         const profileData = await response.json();
-
+        if ('error' in profileData) {
+            profileData = null; 
+            window.location.href = "/#logout";
+        }
         
         const user = profileData.user || {}; 
         const imageLink = user.image_link || '../src/emptyavatar.jpeg';
@@ -26,19 +27,20 @@ async function fetchAndDisplayViewProfile(username) {
         document.getElementById('nicknameadr2').textContent = login;
         document.getElementById('scoreadr').textContent = score;
         document.getElementById('addFriend').addEventListener('click', function() {
-            
-            
-            
+  
             console.log('Adding as friend...');
         });
         document.getElementById('viewScores').addEventListener('click', function() {
-            
-            
-            
+    
             console.log('Viewing recent scores...');
         });
+    } else
+    {
+        throw new Error('Profile not found');
+    }
+
     } catch (error) {
         console.error('Error fetching and displaying profile:', error);
-        
+        window.location.href = "/#logout";
     }
 }

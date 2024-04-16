@@ -3,21 +3,33 @@ let currentPage = 1;
 const entriesPerPage = 5;
 
 async function fetchLeaderboardData() {
-  try {
-    const jwtToken = localStorage.getItem('jwtToken');
-
-    const response = await fetch(`${getBackendURL()}/leaderboard/`, {
-        headers: {
-          'Authorization': `Bearer ${jwtToken}`
+    try {
+      const jwtToken = localStorage.getItem('jwtToken');
+  
+      const response = await fetch(`${getBackendURL()}/leaderboard/`, {
+          headers: {
+            'Authorization': `Bearer ${jwtToken}`
+          }
+      });
+      
+      if (response.ok) {
+        const data = await response.json();
+        if ('error' in data) {
+            leaderboardData = null;
+            window.location.href = "/#logout";
+        } else {
+        leaderboardData = data;
         }
-    });
-    const data = await response.json();
-    leaderboardData = data;
-  } catch (error) {
-    console.error('Error fetching leaderboard data:', error);
-    leaderboardData = null;
+      } else {
+        throw new Error('Failed to fetch data');
+      }
+    } catch (error) {
+      console.error('Error fetching leaderboard data:', error);
+      leaderboardData = null;
+      window.location.href = "/#logout";
+    }
   }
-}
+  
 
 async function displayLeaderboard() {
 

@@ -14,6 +14,7 @@ CLIENT_ID = os.environ.get("CLIENT_ID")
 CLIENT_SECRET = os.environ.get("CLIENT_SECRET")
 REDIRECT_URI = os.environ.get("REDIRECT_URI")
 DJANGO_ALLOW_ASYNC_UNSAFE = True
+SIGNING_KEY = os.environ.get("JWT_SECRET_KEY")
 
 if os.environ.get('DEBUG') in ['1', 'true']:
     #SECURE_SSL_REDIRECT = True
@@ -80,7 +81,7 @@ MIDDLEWARE = [
 
 SIMPLE_JWT = {
     'AUTH_HEADER_TYPES': ('Bearer',),
-    'SIGNING_KEY': os.environ.get('JWT_SECRET_KEY'), 
+    'SIGNING_KEY': SIGNING_KEY, 
     'ALGORITHM': 'HS256',
     'VERIFY_EXPIRATION': True,
     'UPDATE_LAST_LOGIN': False,

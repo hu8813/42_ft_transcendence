@@ -448,12 +448,28 @@ def tournaments(request):
     serializer = TournamentSerializer(tournaments, many=True)
     return JsonResponse(serializer.data, safe=False)
 
+
 @csrf_exempt
 def leaderboard(request):
-    leaderboard_users = User.objects.order_by('-score')[:100]  
-    leaderboard_data = [{'username': user.username, 'date_joined': user.date_joined, 'image_link': user.image_link, 'score': user.score} for user in leaderboard_users]
-    return JsonResponse(leaderboard_data, safe=False)
-
+    token = request.headers.get('Authorization', '').split('Bearer ')[-1]
+    
+    try:
+        payload = jwt.decode(token, settings.SIGNING_KEY, algorithms=['HS256'])
+        user_id = payload['user_id']
+        user = User.objects.get(pk=user_id)
+        
+        leaderboard_users = User.objects.order_by('-score')[:100]  
+        leaderboard_data = [{'username': user.username, 'date_joined': user.date_joined, 'image_link': user.image_link, 'score': user.score} for user in leaderboard_users]
+        
+        return JsonResponse(leaderboard_data, safe=False, status=200)
+    
+    except jwt.ExpiredSignatureError:
+        return JsonResponse({'error': 'Token has expired'}, status=401)
+    except jwt.InvalidTokenError:
+        return JsonResponse({'error': 'Invalid token'}, status=401)
+    except User.DoesNotExist:
+        return JsonResponse({'error': 'User not found'}, status=404)
+    
 @csrf_exempt
 def fetch_messages(request):
     # This view will handle WebSocket requests for fetching messages
