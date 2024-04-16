@@ -1,7 +1,7 @@
 function display2faPage() {
     function check2FAStatus() {
         // Call backend API to get 2FA status
-        fetch('/api/2fa-status')
+        fetch(`${getBackendURL()}/2fa-status`)
             .then(response => response.json())
             .then(data => {
                 const statusElement = document.getElementById('status');
@@ -18,7 +18,7 @@ function display2faPage() {
     function activate2FA() {
         const activationCode = document.getElementById('activationCode').value;
         // Call backend API to activate 2FA with the provided activation code
-        fetch('/api/2fa-activate', {
+        fetch(`${getBackendURL()}/2fa-activate`, {
             method: 'POST',
             body: JSON.stringify({ activationCode }),
             headers: {
@@ -39,7 +39,7 @@ function display2faPage() {
 
     function generateQRCode() {
         // Call backend API to generate QR code
-        fetch('/api/2fa-qr-code')
+        fetch(`${getBackendURL()}/2fa-qr-code`)
             .then(response => response.blob())
             .then(data => {
                 const qrCodeElement = document.getElementById('qrCode');
