@@ -11,11 +11,11 @@
 let backendURL = "";
 const privateIPRegex = /^(10\.|192\.168\.|172\.(1[6-9]|2[0-9]|3[0-1])\.)/;
 if (currentURL.includes("localhost") || currentURL.includes("127.0.0.1")) {
-    backendURL = "https://localhost:8443/api";
+    backendURL = "/api";
 } else if (privateIPRegex.test(currentURL)) {
-    backendURL = "https://localhost:8443/api"; 
+    backendURL = "/api"; 
 } else {
-    backendURL = "https://pong42.azurewebsites.net"; 
+    backendURL = "/api"; 
 }
 
 document.addEventListener("DOMContentLoaded", async function() {

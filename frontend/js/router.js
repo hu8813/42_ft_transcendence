@@ -35,9 +35,9 @@ function getBackendURL() {
   let backendURL = "";
   
   if (currentURL.includes("localhost") || currentURL.includes("127.0.0.1") || privateIPRegex.test(currentURL)) {
-      backendURL = "https://localhost:8443/api";
+      backendURL = "/api";
   } else {
-      backendURL = "https://pong42.azurewebsites.net";
+      backendURL = "/api";
   }
   
   return backendURL;
