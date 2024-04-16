@@ -6,9 +6,11 @@ function showHome() {
     welcomeMessage.classList.add("welcome-message");
     welcomeMessage.id = "welcome";
 
-    if (translateKey('home.welcome').then((value) => {welcomeMessage.textContent = value;}));
-    welcomePage.appendChild(welcomeMessage);
-
+    if (welcomePage)
+    {
+        if (translateKey('home.welcome').then((value) => {welcomeMessage.textContent = value;}));
+        welcomePage.appendChild(welcomeMessage);
+    }    
     
     const pongTable = document.createElement("div");
     pongTable.classList.add("pong-table");

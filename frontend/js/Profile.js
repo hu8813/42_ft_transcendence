@@ -1,4 +1,20 @@
+function displayErrorMessage(message) {
+    const errorMessageElement = document.getElementById('errorMessage');
+        if (errorMessageElement)
+        {
+            errorMessageElement.textContent = message;
+            errorMessageElement.style.display = 'block';
+            errorMessageElement.style.color = 'red';
+            errorMessageElement.style.fontSize = '0.6em';
+        }    
+
+    }
+
 async function fetchAndDisplayProfile() {
+    const errorMessageElement = document.getElementById('errorMessage');
+
+    
+
     try {
         const jwtToken = localStorage.getItem('jwtToken');
         const response = await fetch(`${getBackendURL()}/manage-profile/`, {
@@ -29,6 +45,8 @@ async function fetchAndDisplayProfile() {
                 try {
                     await updateProfileWithPhoto(formData);
                 } catch (error) {
+                    if (error.message)
+                        displayErrorMessage(error.message);
                     console.error('Error updating profile photo:', error);
                 }
             });
@@ -40,6 +58,8 @@ async function fetchAndDisplayProfile() {
                         const updatedProfile = await updateProfile({ nickname: newNickname });
                         document.getElementById('nicknameadr').textContent = newNickname;
                     } catch (error) {
+                        if (error.message)
+                            displayErrorMessage(error.message);
                         console.error('Error updating nickname:', error);
                     }
                 }
@@ -55,15 +75,20 @@ async function fetchAndDisplayProfile() {
                         localStorage.setItem('language', tmplang);
                         window.location.reload();
                     } catch (error) {
+                        if (error.message)
+                            displayErrorMessage(error.message);
                         console.error('Error deleting profile:', error);
                     }
                 }
             });
         } else {
+            displayErrorMessage('Profile not found');
             throw new Error('Profile not found');
         }
     } catch (error) {
         console.error('Error fetching and displaying profile:', error);
+        if (error.message)
+            displayErrorMessage(error.message);
         //window.location.href = "/#logout";
     }
 }
@@ -79,6 +104,7 @@ async function updateProfileWithPhoto(formData) {
         body: formData
     });
     if (!response.ok) {
+        displayErrorMessage('Failed to update profile photo');
         throw new Error('Failed to update profile photo');
     }
 }
@@ -89,6 +115,7 @@ async function updateProfile(data) {
     // Validate nickname
     const nicknameRegex = /^[a-zA-Z0-9_-]+$/;
     if (!nicknameRegex.test(data.nickname)) {
+        displayErrorMessage('Invalid nickname format. Only alphanumeric characters, underscore, and hyphen are allowed.');
         throw new Error('Invalid nickname format. Only alphanumeric characters, underscore, and hyphen are allowed.');
     }
     document.getElementById('nicknameadr').textContent = data.nickname;
@@ -99,6 +126,7 @@ async function updateProfile(data) {
         const allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
         const extension = imageFile.name.split('.').pop().toLowerCase();
         if (!allowedExtensions.includes(extension)) {
+            displayErrorMessage('Invalid image file format. Only JPG, JPEG, PNG, or GIF are allowed.');
             throw new Error('Invalid image file format. Only JPG, JPEG, PNG, or GIF are allowed.');
         }
     }
@@ -112,6 +140,7 @@ async function updateProfile(data) {
         body: JSON.stringify(data)
     });
     if (!response.ok) {
+        displayErrorMessage('Failed to update profile');
         throw new Error('Failed to update profile');
     }
     return await response.json();
@@ -126,6 +155,7 @@ async function deleteProfile() {
         }
     });
     if (!response.ok) {
+        displayErrorMessage('Failed to delete profile');
         throw new Error('Failed to delete profile');
     }
 }
