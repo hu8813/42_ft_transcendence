@@ -5,13 +5,14 @@ function handleRegister() {
         translateKey('auth.username'),
         translateKey('auth.password'),
         translateKey('auth.confirmPassword'),
-        translateKey('auth.passwordMismatch'), 
-    ]).then(([emailPlaceholderTranslation, usernamePlaceholderTranslation, passwordPlaceholderTranslation, confirmPasswordPlaceholderTranslation, passwordMismatchTranslation]) => {
+        translateKey('auth.passwordMismatch'),
+        translateKey('auth.register-status'), 
+    ]).then(([emailPlaceholderTranslation, usernamePlaceholderTranslation, passwordPlaceholderTranslation, confirmPasswordPlaceholderTranslation, passwordMismatchTranslation, registerStatusTranslation]) => {
         document.getElementById("enterEmail").setAttribute('placeholder', emailPlaceholderTranslation);
         document.getElementById("enterUsername").setAttribute('placeholder', usernamePlaceholderTranslation);
         document.getElementById("enterPassword").setAttribute('placeholder', passwordPlaceholderTranslation);
         document.getElementById("confirmPasswordP").setAttribute('placeholder', confirmPasswordPlaceholderTranslation);
-
+        document.getElementById("register-status").textContent = registerStatusTranslation;
         document.getElementById("email").setAttribute('for', 'enterEmail');
         document.getElementById("username").setAttribute('for', 'enterUsername');
         document.getElementById("password").setAttribute('for', 'enterPassword');

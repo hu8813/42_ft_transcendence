@@ -53,7 +53,8 @@
     "confirmPassword": "Потвърдете паролата",
     "termsAndConditions": "Условия за ползване",
     "acceptTerms": "Приемам Условията за ползване",
-    "profiletitle": "Профил"
+    "profiletitle": "Профил",
+    "register-status": "Паролата трябва да съдържа поне 8 знака, 1 голяма буква и 1 цифра."
   },
   "game": {
     "play!title": "Играй!",

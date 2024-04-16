@@ -54,7 +54,8 @@
       "confirmPassword": "Подтвердите пароль",
       "termsAndConditions": "Условия использования",
       "acceptTerms": "Я принимаю Условия использования",
-      "profiletitle": "Профиль"
+      "profiletitle": "Профиль",
+      "register-status": "Пароль должен содержать не менее 8 символов, 1 заглавную букву и 1 цифру."
     },
     "game": {
       "play!title": "Играть!",

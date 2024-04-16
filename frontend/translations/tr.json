@@ -53,7 +53,8 @@
     "confirmPassword": "Şifreyi Onayla",
     "termsAndConditions": "Kullanım Koşulları",
     "acceptTerms": "Kullanım Koşullarını kabul ediyorum",
-    "profiletitle": "Profil"
+    "profiletitle": "Profil",
+    "register-status": "Parola en az 8 karakter, 1 büyük harf ve 1 rakam içermelidir."
   },
   "game": {
     "play!title": "Oyna!",

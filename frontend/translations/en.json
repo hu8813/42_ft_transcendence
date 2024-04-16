@@ -50,11 +50,12 @@
     "register": "Register",
     "signInWith42": "Login via 42Sign-in",
     "signIn": "Standard Login:",
-    "passwordMismatch": "Password empty/invalid",
+    "passwordMismatch": "Password empty/invalid/not same",
     "confirmPassword": "Confirm password",
     "termsAndConditions": "Terms & Conditions",
     "acceptTerms": "i accept Terms & Conditions",
-    "profiletitle": "Profile"
+    "profiletitle": "Profile",
+    "register-status":"Password must have at least 8 characters, 1 uppercase letter and 1 digit"
   },
   "game": {
     "play!title": "Play!",
