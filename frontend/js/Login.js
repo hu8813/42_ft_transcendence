@@ -55,12 +55,13 @@ function handleLogin() {
             }, 5000); // Enable after 5 seconds
   
           } else {
-            console.error("Login failed:", data);
   
             if (data.hasOwnProperty('error')) {
               loginStatus.textContent = data.error;
+              loginStatus.style.color = "red";
             } else {
               loginStatus.textContent = "Login failed. Please check your credentials.";
+              loginStatus.style.color = "red";
             }
             
             // Re-enable the submit button immediately in case of failure
@@ -70,6 +71,7 @@ function handleLogin() {
         } catch (error) {
           console.error("Error logging in:", error);
           loginStatus.textContent = "Error logging in. Please try again later.";
+          loginStatus.style.color = "red";
   
           // Re-enable the submit button immediately in case of error
           if (submitButton)

@@ -494,15 +494,15 @@ def get_csrf_token(request):
 def register(request):
     if request.method == 'POST':
         try:
-            username = request.POST.get('username')
+            username2 = request.POST.get('username')
             email = request.POST.get('email')
             password = request.POST.get('password')
             confirm_password = request.POST.get('confirm_password')
 
-            if not username or not email or not password or not confirm_password:
+            if not username2 or not email or not password or not confirm_password:
                 return JsonResponse({"error": "All fields are required."}, status=400)
 
-            if not re.match(r'^[\w-]+$', username):
+            if not re.match(r'^[\w-]+$', username2):
                 return JsonResponse({"error": "Username can only contain alphanumeric characters, underscores, and hyphens."}, status=400)
 
             if not re.match(r'^[\w\.-]+@[\w\.-]+$', email):
@@ -517,10 +517,10 @@ def register(request):
             if not any(char.isupper() for char in password):
                 return JsonResponse({"error": "Password must contain at least one uppercase letter."}, status=400)
 
-            if not all(char.isalnum() or char in ['_', '-'] for char in username):
+            if not all(char.isalnum() or char in ['_', '-'] for char in username2):
                 return JsonResponse({"error": "Username can only contain alphanumeric characters, underscores, and hyphens."}, status=400)
 
-            if User.objects.filter(username=username).exists():
+            if User.objects.filter(username=username2).exists():
                 return JsonResponse({"error": "Username already exists. Please choose a different username."}, status=400)
 
             if User.objects.filter(email=email).exists():
@@ -529,7 +529,10 @@ def register(request):
             if password != confirm_password:
                 return JsonResponse({"error": "Passwords do not match. Please make sure your passwords match."}, status=400)
 
-            user = User.objects.create_user(username=username, nickname=username, email=email, password=password, score=0)
+            user = User.objects.create_user(username=username2, nickname=username2, email=email, password=password, score=0)
+            user.nickname = username2
+            user.save()
+            
             return JsonResponse({"message": "Registration successful. You can now log in."}, status=200)
 
         except Exception as e:
@@ -553,11 +556,11 @@ def login_view(request):
                 user_info = {
                     'message': 'Login successful',
                     'jwt_token': encoded_token,
-                    'userNickname': user.nickname if user.nickname else 'unknown',
-                    'image_link': user.image_link if user.image_link else '',
-                    'score': user.score if user.score else '0',
-                    'email': user.email if user.email else 'unknown',
-                    'userLogin': user.username if user.username else 'unknown'
+                    'userNickname': getattr(user, 'nickname', 'unknown'),
+                    'image_link': getattr(user, 'image_link', ''),
+                    'score': getattr(user, 'score', '0'),
+                    'email': getattr(user, 'email', 'unknown'),
+                    'userLogin': getattr(user, 'username', 'unknown')
                 }
                 return JsonResponse(user_info, status=200)
             else:
