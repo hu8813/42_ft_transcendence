@@ -4,7 +4,13 @@ const entriesPerPage = 5;
 
 async function fetchLeaderboardData() {
   try {
-    const response = await fetch(`${getBackendURL()}/leaderboard/`);
+    const jwtToken = localStorage.getItem('jwtToken');
+
+    const response = await fetch(`${getBackendURL()}/leaderboard/`, {
+        headers: {
+          'Authorization': `Bearer ${jwtToken}`
+        }
+    });
     const data = await response.json();
     leaderboardData = data;
   } catch (error) {

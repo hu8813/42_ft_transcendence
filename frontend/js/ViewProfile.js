@@ -1,7 +1,12 @@
 async function fetchAndDisplayViewProfile(username) {
     console.log(username);
     try {
-        const response = await fetch(`${getBackendURL()}/profiles/?username=${username}`);
+        const jwtToken = localStorage.getItem('jwtToken');
+        const response = await fetch(`${getBackendURL()}/profiles/?username=${username}`, {
+            headers: {
+              'Authorization': `Bearer ${jwtToken}`
+            }
+        });
         if (!response.ok) {
             throw new Error('Profile not found');
         }
