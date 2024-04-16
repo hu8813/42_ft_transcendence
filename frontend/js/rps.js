@@ -76,6 +76,9 @@ function off() {
     document.getElementById('c-paper').style.backgroundColor = "black";
     document.getElementById('c-scissors').style.backgroundColor = "black";
 }
+
+
 let won = 0;
 let lost = 0;
+
 
