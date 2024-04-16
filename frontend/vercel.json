@@ -1,0 +1,19 @@
+{
+    "rewrites": [
+      {
+        "source": "/api/:path*",
+        "destination": "https://pong42.azurewebsites.net/:path*",
+        "headers": {
+          "Authorization": "Bearer $request.headers.jwt"
+        }
+      },
+      {
+        "source": "/api/:path*/",
+        "destination": "https://pong42.azurewebsites.net/:path*/",
+        "headers": {
+          "Authorization": "Bearer $request.headers.jwt"
+        }
+      }
+    ]
+  }
+  
