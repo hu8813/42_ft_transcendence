@@ -59,13 +59,9 @@ function showPong3() {
 
     document.addEventListener("visibilitychange", function() {
         if (document.visibilityState === 'hidden') {
-            
             isGamePaused = true;
-            
         } else {
-            
-            isGamePaused = false;
-            
+            isGamePaused = false; 
         }
     });
 
@@ -157,26 +153,26 @@ function showPong3() {
     showStartMessageWithCountdown(5);
 
     function showStartMessageWithCountdown(seconds) {
-    if(seconds > 0) {
-        
-        ctx.fillStyle = "rgba(0, 0, 0, 0.7)"; 
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        if(seconds > 0) {
+            
+            ctx.fillStyle = "rgba(0, 0, 0, 0.7)"; 
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-        ctx.fillStyle = "#FFF"; 
-        ctx.font = "30px Arial";
-        ctx.textAlign = "center";
-        ctx.fillText("Whoever gets 7 goals loses", canvas.width / 2, canvas.height / 2 - 30);
-        ctx.font = "bold 50px Arial";
-        ctx.fillText(seconds, canvas.width / 2, canvas.height / 2 + 30);
+            ctx.fillStyle = "#FFF"; 
+            ctx.font = "30px Arial";
+            ctx.textAlign = "center";
+            ctx.fillText("Whoever gets 7 goals loses", canvas.width / 2, canvas.height / 2 - 30);
+            ctx.font = "bold 50px Arial";
+            ctx.fillText(seconds, canvas.width / 2, canvas.height / 2 + 30);
 
-        
-        setTimeout(function() {
-        showStartMessageWithCountdown(seconds - 1);
-        }, 1000);
-    } else {
-        
-        gameLoop();
-    }
+            
+            setTimeout(function() {
+            showStartMessageWithCountdown(seconds - 1);
+            }, 1000);
+        } else {
+            
+            gameLoop();
+        }
     }
 
     function showGameOverModal2(loser) {
@@ -192,8 +188,6 @@ function showPong3() {
     }
 
     function showGameOver() {
-
-        
         ctx.fillStyle = "rgba(0, 0, 0, 0.7)";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -293,11 +287,7 @@ function showPong3() {
         ctx.fillStyle = "white";
         ctx.font = "32px Arial";
         ctx.fillText(player1.score.toString(), 20, 50); 
-    
-        
         ctx.fillText(player2.score.toString(), canvas.width - 140, 50); 
-    
-        
         ctx.fillText(player3.score.toString(), canvas.width / 2 - 70, canvas.height - 20); 
     }
 
