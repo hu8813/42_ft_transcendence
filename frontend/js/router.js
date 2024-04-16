@@ -164,7 +164,18 @@ function translateKey(key) {
 
 initialize();
 
+function doLogout (){
+  const language = localStorage.getItem("language");
+  localStorage.clear(); 
+  if (language) {
+    localStorage.setItem("language", language);
+  }
+  localStorage.setItem("isLoggedIn", "false");
 
+  setTimeout(() => {
+    window.location.href = "/"; 
+}, 1000);
+};
 
 const handleLocation = async () => {
   let path = window.location.hash || '#'; 
@@ -226,7 +237,7 @@ const handleLocation = async () => {
       }
       break;
     case "#logout":
-      logout();
+      doLogout();
       break;
     case "#chat":
       openChat();

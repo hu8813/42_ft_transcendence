@@ -1,6 +1,16 @@
 <div class="container" style="margin-top: 3rem">
-    <hgroup>
-      <h2>Logging out...</h2>
-      <h3>coming soon..</h3>
-    </hgroup>
-  </div>
+  <hgroup>
+    <h2>Logging out...</h2>
+  </hgroup>
+</div>
+
+<script>
+  setTimeout(() => {
+      const language = localStorage.getItem("language");
+      localStorage.clear(); 
+      if (language) {
+          localStorage.setItem("language", language);
+      }
+      window.location.href = "/"; 
+  }, 1000);
+</script>
