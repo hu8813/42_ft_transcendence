@@ -25,6 +25,7 @@ const routes = {
   "#tic2": "/views/tic2.html",
   "#viewprofile": "/views/viewprofile.html",
   "#rps" : "/views/rps.html",
+  "#manage2fa" : "/views/manage2fa.html",
 };
 
 
@@ -170,7 +171,6 @@ function doLogout (){
   if (language) {
     localStorage.setItem("language", language);
   }
-  localStorage.setItem("isLoggedIn", "false");
 
   setTimeout(() => {
     window.location.href = "/"; 
@@ -292,8 +292,11 @@ const handleLocation = async () => {
     case '#rps':
       playRPS();
       break;
-        default:
-          translate(currentLanguage);
+    case '#manage2fa':
+      display2faPage();
+      break;
+    default:
+      translate(currentLanguage);
       break;
   }
   
@@ -376,7 +379,9 @@ function updateNavigation() {
   const jwtToken = localStorage.getItem('jwtToken');
   let checkisLoggedIn = jwtToken !== null;
   if (!checkisLoggedIn) {
-    localStorage.setItem('isLoggedIn', 'false');
+    let langtmp = localStorage.getItem('language');
+    localStorage.clear();
+    localStorage.setItem('language', langtmp);
     isLoggedIn = false;
     window.location.href = '/#login'; 
   }
@@ -414,7 +419,9 @@ const languageSelect = document.getElementById('languageSelect');
 
 window.addEventListener('load', () => {
   if (localStorage.getItem('isLoggedIn') === null) {
-    localStorage.setItem('isLoggedIn', 'false');
+    let langtmp2 = localStorage.getItem('language');
+    localStorage.clear();
+    localStorage.setItem('language', langtmp2);
   }
   updateNavigation();
 });

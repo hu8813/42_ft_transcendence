@@ -36,6 +36,11 @@ import jwt
 from jwt.exceptions import InvalidTokenError
 from rest_framework import status
 from rest_framework.response import Response
+import qrcode
+import pyotp
+from django.core.files.base import ContentFile
+from django.core.files.storage import default_storage
+from io import BytesIO
 
 token_obtain_pair_view = TokenObtainPairView.as_view()
 token_refresh_view = TokenRefreshView.as_view()
@@ -118,8 +123,12 @@ def get_profile_info(request):
     
     if not username:
         return JsonResponse({'error': 'Username parameter is missing'}, status=400)
+    token = request.headers.get('Authorization', '').split('Bearer ')[-1]
     
     try:
+        payload = jwt.decode(token, settings.SIGNING_KEY, algorithms=['HS256'])
+        user_id = payload['user_id']
+        user_requester = User.objects.get(pk=user_id)
         user = User.objects.get(username=username)
         user_info = {
             'nickname': user.nickname,
@@ -129,6 +138,12 @@ def get_profile_info(request):
 
         }
         return JsonResponse({'user': user_info})
+    except jwt.ExpiredSignatureError:
+        return JsonResponse({'error': 'Token has expired'}, status=401)
+    except jwt.InvalidTokenError:
+        return JsonResponse({'error': 'Invalid token'}, status=401)
+    except User.DoesNotExist:
+        return JsonResponse({'error': 'User not found'}, status=404)
     except User.DoesNotExist:
         return JsonResponse({'error': 'User not found'}, status=404)
     except Exception as e:
@@ -472,7 +487,6 @@ def leaderboard(request):
     
 @csrf_exempt
 def fetch_messages(request):
-    # This view will handle WebSocket requests for fetching messages
     if request.method != 'GET':
         return JsonResponse({'error': 'Method not allowed'}, status=405)  # Return error for non-GET requests
 
@@ -482,7 +496,6 @@ def fetch_messages(request):
 
 @csrf_exempt
 def send_message(request):
-    # This view will handle WebSocket requests for sending messages
     if request.method != 'POST':
         return JsonResponse({'error': 'Method not allowed'}, status=405)  # Return error for non-POST requests
 
@@ -576,7 +589,8 @@ def login_view(request):
                     'image_link': getattr(user, 'image_link', ''),
                     'score': getattr(user, 'score', '0'),
                     'email': getattr(user, 'email', 'unknown'),
-                    'userLogin': getattr(user, 'username', 'unknown')
+                    'userLogin': getattr(user, 'username', 'unknown'),
+                    'jwt_token': encoded_token,
                 }
                 return JsonResponse(user_info, status=200)
             else:
@@ -649,3 +663,113 @@ def cancel_waiting(request, user_login):
     
     waiting_queue = [player for player in waiting_queue if player != user_login]
     return JsonResponse({'message': f'User {user_login} removed from waiting queue'})
+
+@csrf_exempt
+def manage_profile(request):
+    token = request.headers.get('Authorization', '').split('Bearer ')[-1]
+    
+    try:
+        payload = jwt.decode(token, settings.SIGNING_KEY, algorithms=['HS256'])
+        user_id = payload['user_id']
+        user = User.objects.get(pk=user_id)
+        
+        if request.method == 'GET':
+            user_info = {
+                'userNickname': getattr(user, 'nickname', 'unknown'),
+                'image_link': getattr(user, 'image_link', ''),
+                'score': getattr(user, 'score', '0'),
+                'email': getattr(user, 'email', 'unknown'),
+                'userLogin': getattr(user, 'username', 'unknown')
+            }
+            return JsonResponse({'user': user_info})
+        
+        elif request.method == 'PUT':
+            new_nickname = request.POST.get('nickname')
+            new_username = request.POST.get('username')
+            
+            if new_nickname:
+                # Check if the new nickname is valid
+                if not re.match(r'^[a-zA-Z0-9_-]+$', new_nickname):
+                    return JsonResponse({'error': 'Invalid nickname format. Only alphanumeric characters, underscore, and hyphen are allowed.'}, status=400)
+                user.nickname = new_nickname
+            
+            if new_username:
+                # Check if the new username already exists
+                if User.objects.filter(username=new_username).exclude(pk=user_id).exists():
+                    return JsonResponse({'error': 'Username already exists'}, status=400)
+                user.username = new_username
+            
+            user.save()
+            return JsonResponse({'message': 'Profile information updated successfully'})
+        
+        elif request.method == 'DELETE':
+            # Delete user profile
+            user.delete()
+            return JsonResponse({'message': 'Profile deleted successfully'})
+        
+        elif request.method == 'POST' and '2fa_enabled' in request.POST:
+            # Toggle 2FA status
+            two_fa_enabled = request.POST.get('2fa_enabled') == 'true'
+            user.two_fa_enabled = two_fa_enabled
+            user.save()
+            return JsonResponse({'message': f'2FA {"enabled" if two_fa_enabled else "disabled"} successfully'})
+        
+        else:
+            return JsonResponse({'error': 'Method not allowed'}, status=405)
+    
+    except jwt.ExpiredSignatureError:
+        return JsonResponse({'error': 'Token has expired'}, status=401)
+    except jwt.InvalidTokenError:
+        return JsonResponse({'error': 'Invalid token'}, status=401)
+    except User.DoesNotExist:
+        return JsonResponse({'error': 'User not found'}, status=404)
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)
+
+@csrf_exempt
+def get_2fa_status(request):
+    # Logic to check 2FA status
+    # Return JSON response indicating whether 2FA is enabled or not
+    return JsonResponse({'enabled': False})
+
+@csrf_exempt
+def generate_qr_code(request):
+    # Generate a random secret key
+    secret_key = pyotp.random_base32()
+
+    # Generate the QR code URL for the secret key
+    qr_url = pyotp.totp.TOTP(secret_key).provisioning_uri('user@example.com', issuer_name='YourApp')
+
+    # Generate the QR code image
+    qr = qrcode.QRCode(
+        version=1,
+        error_correction=qrcode.constants.ERROR_CORRECT_L,
+        box_size=10,
+        border=4,
+    )
+    qr.add_data(qr_url)
+    qr.make(fit=True)
+    img = qr.make_image(fill_color="black", back_color="white")
+
+    # Save the QR code image to a file
+    filename = 'qr_code.png'
+    img_io = BytesIO()
+    img.save(img_io, 'PNG')
+    img_file = ContentFile(img_io.getvalue())
+    path = default_storage.save(filename, img_file)
+
+    # Return the QR code image as a response
+    with default_storage.open(path) as f:
+        response = HttpResponse(f.read(), content_type='image/png')
+        response['Content-Disposition'] = 'inline; filename="qr_code.png"'
+        return response
+
+@csrf_exempt
+def activate_2fa(request):
+    if request.method == 'POST':
+        # Logic to activate 2FA with the provided activation code
+        # Return JSON response indicating success or failure
+        return JsonResponse({'success': True})
+    else:
+        return JsonResponse({'error': 'Method not allowed'}, status=405)
+    

@@ -8,7 +8,6 @@ from . import consumers
 from django.conf import settings
 from django.conf.urls.static import static
 
-#from socketio import views as socketio_views
 
 handler404 = 'myapp.views.custom_404'
 
@@ -49,6 +48,10 @@ urlpatterns = [
     path('check-player-waiting/<str:user_login>/', views.check_player_waiting, name='check_player_waiting'),
     path('feedback/', views.submit_feedback, name='submit_feedback'),
     path('show-feedbacks/', views.show_feedbacks, name='show_feedbacks'),
+    path('manage-profile/', views.manage_profile, name='manage_profile'),
+    path('2fa-status', views.get_2fa_status, name='get_2fa_status'),
+    path('2fa-activate', views.activate_2fa, name='activate_2fa'),
+    path('2fa-qr-code', views.generate_qr_code, name='generate_qr_code'),
 
 
     
@@ -81,5 +84,11 @@ urlpatterns = [
     path('api/check-player-waiting/<str:user_login>/', views.check_player_waiting, name='check_player_waiting'),
     path('api/feedback/', views.submit_feedback, name='api_submit_feedback'),
     path('api/show-feedbacks/', views.show_feedbacks, name='show_feedbacks'),
+    path('api/manage-profile/', views.manage_profile, name='manage_profile'),
+    path('api/2fa-status', views.get_2fa_status, name='get_2fa_status'),
+    path('api/2fa-activate', views.activate_2fa, name='activate_2fa'),
+    path('api/2fa-qr-code', views.generate_qr_code, name='generate_qr_code'),
+
+
 
 ]  + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

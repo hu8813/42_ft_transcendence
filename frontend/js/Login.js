@@ -48,11 +48,10 @@ function handleLogin() {
             }
   
             setTimeout(() => {
-              // Re-enable the submit button after a delay
               if (submitButton)
                 submitButton.disabled = false;
               window.location.href = "/";
-            }, 5000); // Enable after 5 seconds
+            }, 1000); 
   
           } else {
   

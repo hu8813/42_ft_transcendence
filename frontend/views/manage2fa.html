@@ -1,0 +1,15 @@
+<div class="row">
+    <div class="col">
+        <h1>Manage 2FA</h1>
+        <div>
+            <p>Current 2FA Status: <span id="status">Not enabled</span></p>
+            <button id="enable2FA">Enable 2FA</button>
+        </div>
+    </div>
+    <div class="col" id="qrCodeSection" style="display: none;">
+        <p>Scan the QR code below with Google Authenticator to enable 2FA:</p>
+        <div id="qrCode"></div>
+        <input type="text" id="activationCode" placeholder="Enter activation code">
+        <button id="activate2FA">Activate 2FA</button>
+    </div>
+</div>

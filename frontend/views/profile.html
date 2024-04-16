@@ -45,23 +45,27 @@
       </div>
   </div>
   <div class="profile">
-    <div class="category">Player Profile</div>
-    <div class="profile-info-section">
-      <div id="avatar-preview">
-        <img class="profile-pic" src="" width="250px" height="250px" alt="Profile Picture">
-        <button id="changePhoto" class="profile-button">Change Photo</button>
-        <input type="file" id="uploadPhoto" style="display: none;" onchange="uploadPhoto(event)">
-      </div>
-      <div class="info-header"><span id="nickname">Nickname</span>: <span id="nicknameadr">Loading...</span></div>
-      <button id="changeNick" class="profile-button"><span id="changeNickname">Change Nickname</span></button>
-      <div class="email-info-section">
-        <div class="info-header"><span id="email">E-mail</span>: <span id="emailadr">Loading...</span></div>
-      </div>
-      <div>
-        <button id="deleteProfile" class="bn" style="width: calc(100% - 20px);">Delete Profile</button>
-      </div>
+  <div class="category">Player Profile</div>
+  <div class="profile-info-section">
+    <div id="avatar-preview">
+      <img class="profile-pic" src="" width="250px" height="250px" alt="Profile Picture">
+      <button id="changePhoto" class="profile-button">Change Photo</button>
+      <input type="file" id="uploadPhoto" style="display: none;">
+    </div>
+    <div class="info-header"><span id="nickname">Nickname</span>: <span id="nicknameadr">Loading...</span></div>
+    <button id="changeNick" class="profile-button"><span id="changeNickname">Change Nickname</span></button>
+    <div class="email-info-section">
+      <div class="info-header"><span id="email">E-mail</span>: <span id="emailadr">Loading...</span></div>
+    </div>
+    <div>
+      <button id="toggle2FA" class="profile-button" onclick="window.location.href='/#manage2fa'">Enable/Disable 2FA</button>
+    </div>
+    <div>
+      <button id="deleteProfile" class="bn" style="width: calc(100% - 20px);">Delete Profile</button>
     </div>
   </div>
+</div>
+
   <div class="achievments">
     <div class="category">Achievements</div>
     <ul>

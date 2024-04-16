@@ -79,7 +79,7 @@ async function displayLeaderboard() {
                 <td>
                     <div class="c-media">
                         <div class="c-avatar c-media__img" style="background-color: ${getRandomColor()}">
-                            ${member.image_link ? `<img style="width: 55px; height: 55px; max-width: 55px; max-height: 55px;" src="${member.image_link}" alt="${member.username}" data-username="${member.username}" />` : `<div class="default-profile-pic" data-username="${member.username}"></div>`}
+                            ${member.image_link ? `<img style="width: 55px; height: 55px; max-width: 55px; max-height: 55px;" src="${member.image_link}" alt="${member.username}" data-username="${member.username}" />` : `<img style="width: 55px; height: 55px; max-width: 55px; max-height: 55px;" src="../src/emptyavatar.jpeg" alt="${member.username}" data-username="${member.username}" />`}
                         </div>
                         <div class="c-media__content">
                             <div class="c-media__title">
