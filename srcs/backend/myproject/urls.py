@@ -52,6 +52,7 @@ urlpatterns = [
     path('2fa-status', views.get_2fa_status, name='get_2fa_status'),
     path('2fa-activate', views.activate_2fa, name='activate_2fa'),
     path('2fa-qr-code', views.generate_qr_code, name='generate_qr_code'),
+    path('update-score', views.update_score, name='update_score'),
 
 
     
@@ -88,6 +89,7 @@ urlpatterns = [
     path('api/2fa-status', views.get_2fa_status, name='get_2fa_status'),
     path('api/2fa-activate', views.activate_2fa, name='activate_2fa'),
     path('api/2fa-qr-code', views.generate_qr_code, name='generate_qr_code'),
+    path('api/update-score', views.update_score, name='update_score'),
 
 
 

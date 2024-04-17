@@ -8,34 +8,13 @@ function displayErrorMessage(message) {
     }
 }
 
-async function fetchAndDisplayProfile() {
-    const errorMessageElement = document.getElementById('errorMessage');
-
-    async function updateProfile(data) {
+async function uploadImage(imageFile) {
+    try {
         const jwtToken = localStorage.getItem('jwtToken');
-        if (!csrfToken)
-            csrfToken = await getCSRFCookie();
-
         const formData = new FormData();
+        formData.append('image', imageFile);
 
-        // Validate and append nickname if provided
-        if (data.nickname) {
-            const nicknameRegex = /^[a-zA-Z0-9_-]+$/;
-            if (!nicknameRegex.test(data.nickname)) {
-                displayErrorMessage('Invalid nickname format. Only alphanumeric characters, underscore, and hyphen are allowed.');
-                throw new Error('Invalid nickname format. Only alphanumeric characters, underscore, and hyphen are allowed.');
-            }
-            formData.append('nickname', data.nickname);
-            document.getElementById('nicknameadr').textContent = data.nickname;
-        }
-
-        // Append image if provided
-        if (data.image) {
-            const imageFile = data.image;
-            formData.append('image', imageFile);
-        }
-
-        const response = await fetch(`${getBackendURL()}/manage-profile/`, {
+        const response = await fetch(`${getBackendURL()}/upload-image/`, {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${jwtToken}`,
@@ -43,12 +22,66 @@ async function fetchAndDisplayProfile() {
             },
             body: formData
         });
+
         if (!response.ok) {
-            displayErrorMessage('Failed to update profile');
+            throw new Error('Failed to upload image');
+        }
+
+        const responseData = await response.json();
+        return responseData.image_link;
+    } catch (error) {
+        // Handle upload errors
+        console.error('Error uploading image:', error);
+        throw new Error('Failed to upload image');
+    }
+}
+
+async function fetchAndDisplayProfile() {
+    const errorMessageElement = document.getElementById('errorMessage');
+
+    async function updateProfile(data) {
+        try {
+            const jwtToken = localStorage.getItem('jwtToken');
+            const formData = new FormData();
+    
+            // Validate and append nickname if provided
+            if (data.nickname) {
+                const nicknameRegex = /^[a-zA-Z0-9_-]+$/;
+                if (!nicknameRegex.test(data.nickname)) {
+                    throw new Error('Invalid nickname format. Only alphanumeric characters, underscore, and hyphen are allowed.');
+                }
+                formData.append('nickname', data.nickname);
+                document.getElementById('nicknameadr').textContent = data.nickname;
+            }
+    
+            // Append image if provided
+            if (data.image) {
+                const imageFile = data.image;
+                const imageLink = await uploadImage(imageFile);
+                formData.append('image_link', imageLink);
+                document.querySelector('.profile-pic').src = imageLink; // Update image source
+            }
+    
+            const response = await fetch(`${getBackendURL()}/manage-profile/`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${jwtToken}`,
+                    'X-CSRFToken': csrfToken
+                },
+                body: formData
+            });
+    
+            if (!response.ok) {
+                throw new Error('Failed to update profile');
+            }
+    
+            const responseData = await response.json();
+            return responseData;
+        } catch (error) {
+            // Handle update errors
+            console.error('Error updating profile:', error);
             throw new Error('Failed to update profile');
         }
-        const responseData = await response.json();
-        return responseData; 
     }
 
     if (!csrfToken)
@@ -84,10 +117,8 @@ async function fetchAndDisplayProfile() {
             document.getElementById('uploadPhoto').addEventListener('change', async function () {
                 // Handle file upload here
                 const imageFile = this.files[0];
-                const formData = new FormData();
-                formData.append('image', imageFile);
                 try {
-                    const responseData = await updateProfile({ image: imageFile });
+                    const responseData = await uploadImage(imageFile);
                     const imageLink = responseData.image_link || '../src/emptyavatar.jpeg'; // Use default if image_link is not provided
                     document.querySelector('.profile-pic').src = imageLink; // Update image source
                 } catch (error) {

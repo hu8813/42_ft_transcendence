@@ -241,7 +241,7 @@ function showPlayer3d1Page() {
         renderer.shadowMap.enabled = true;
     }
 
-    function ballPhysics() {
+    async function ballPhysics() {
         if (ball.position.x <= -fieldWidth / 2) {
             score2++;
             ballDirX = Math.abs(ballDirX);
@@ -250,7 +250,7 @@ function showPlayer3d1Page() {
                 scores3dElement.innerHTML = score1 + "-" + score2;
             }
             resetBall(2);
-            matchScoreCheck();
+            await matchScoreCheck();
         }
         if (ball.position.x >= fieldWidth / 2) {
             score1++;
@@ -258,7 +258,7 @@ function showPlayer3d1Page() {
             if (scores3dElement)
                 scores3dElement.innerHTML = score1 + "-" + score2;
             resetBall(1);
-            matchScoreCheck();
+            await matchScoreCheck();
         }
         if (ball.position.y <= -fieldHeight / 2) {
             ballDirY = Math.abs(ballDirY);
@@ -277,20 +277,19 @@ function showPlayer3d1Page() {
     }
 
     function opponentPaddleMovement() {
-        paddle2DirY = (ball.position.y - paddle2.position.y) * difficulty;
-        if (Math.abs(paddle2DirY) <= paddleSpeed) {
-            paddle2.position.y += paddle2DirY;
-        }
-        else {
-            if (paddle2DirY > paddleSpeed) {
-                paddle2.position.y += paddleSpeed;
-            }
-            else if (paddle2DirY < -paddleSpeed) {
-                paddle2.position.y -= paddleSpeed;
-            }
-        }
+        const opponentSpeedFactor = 0.5; // Adjust as needed, lower value for slower movement
+        const targetPosition = ball.position.y;
+        const distanceToTarget = targetPosition - paddle2.position.y;
+        const maxMovement = paddleSpeed * opponentSpeedFactor;
+        let actualMovement = Math.min(Math.abs(distanceToTarget), maxMovement);
+        actualMovement *= (Math.random() * 0.5 + 0.75); // Adjust the range of randomness as needed
+        const direction = Math.sign(distanceToTarget);
+        paddle2.position.y += actualMovement * direction;
         paddle2.scale.y += (1 - paddle2.scale.y) * 0.2;
     }
+    
+    
+    
 
     function playerPaddleMovement() {
         if (Key.isDown(Key.LEFT_ARROW)) {
@@ -318,6 +317,7 @@ function showPlayer3d1Page() {
         paddle1.scale.y += (1 - paddle1.scale.y) * 0.2;
         paddle1.scale.z += (1 - paddle1.scale.z) * 0.2;
     }
+
     function cameraPhysics() {
         spotLight.position.x = ball.position.x * 2;
         spotLight.position.y = ball.position.y * 2;
@@ -364,16 +364,34 @@ function showPlayer3d1Page() {
         ballDirY = 1;
     }
     var bounceTime = 0;
-    function matchScoreCheck() {
+    async function matchScoreCheck() {
         if (score1 >= maxScore) {
             ballSpeed = 0;
             if (scores3dElement)
                 scores3dElement.innerHTML = "Player wins!";
+
             if (winnerBoardElement)
                 winnerBoardElement.innerHTML = "Refresh to play again";
             bounceTime++;
             paddle1.position.z = Math.sin(bounceTime * 0.1) * 10;
-            
+            const jwtToken = localStorage.getItem('jwtToken');
+            const csrfToken = getCSRFCookie(); 
+            try {
+                const response = await fetch(`${getBackendURL()}/update-score`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${jwtToken}`,
+                        'X-CSRFToken': csrfToken
+                    },
+                });
+                if (response.ok) {
+                    console.log('User score updated successfully');
+                } else {
+                    console.error('Failed to update user score');
+                }
+            } catch (error) {
+                console.error('Failed to update user score:', error);
+            }
         }
         else if (score2 >= maxScore) {
             ballSpeed = 0;

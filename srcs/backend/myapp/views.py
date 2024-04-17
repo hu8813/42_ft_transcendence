@@ -43,6 +43,7 @@ from django.core.files.storage import default_storage
 from io import BytesIO
 from django.middleware.csrf import get_token
 from django.views.decorators.csrf import ensure_csrf_cookie
+from rest_framework.decorators import api_view, permission_classes
 
 
 token_obtain_pair_view = TokenObtainPairView.as_view()
@@ -423,7 +424,23 @@ def upload_avatar(request):
     else:
         return Response({"message": "No avatar file provided."}, status=status.HTTP_400_BAD_REQUEST)
 
-
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def update_score(request):
+    token = request.headers.get('Authorization', '').split('Bearer ')[-1]
+    try:
+        payload = jwt.decode(token, settings.SIGNING_KEY, algorithms=['HS256'])
+        user_id = payload['user_id']
+        user = User.objects.get(pk=user_id)
+        user.score += 1
+        user.save()
+        return Response({'message': 'Score updated successfully'})
+    except jwt.ExpiredSignatureError:
+        return Response({'error': 'JWT signature has expired'}, status=status.HTTP_401_UNAUTHORIZED)
+    except jwt.InvalidTokenError:
+        return Response({'error': 'Invalid JWT token'}, status=status.HTTP_401_UNAUTHORIZED)
+    except User.DoesNotExist:
+        return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
 
 def get_score(request):
     
