@@ -35,18 +35,7 @@ function handleLogin() {
             if ('userLogin' in data) {
               localStorage.setItem("userLogin", data.userLogin);
             }
-            if ('userNickname' in data) {
-              localStorage.setItem("userNickname", data.userNickname);
-            }
-            if ('email' in data) {
-              localStorage.setItem("userEmail", data.email);
-            }
-            if ('score' in data) {
-              localStorage.setItem("userScore", data.score);
-            }
-            if ('image_link' in data) {
-              localStorage.setItem("userImage", data.image_link);
-            }
+           
   
             setTimeout(() => {
               if (submitButton)

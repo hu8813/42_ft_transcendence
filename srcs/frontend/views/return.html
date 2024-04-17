@@ -49,12 +49,8 @@ document.addEventListener("DOMContentLoaded", async function() {
       const userData = responseData.user; 
 
       localStorage.setItem("isLoggedIn", true);
-      localStorage.setItem("userNickname", userData.nickname);
       localStorage.setItem("userLogin", userData.login);
-      localStorage.setItem("userImage", userData.image_link);
-      localStorage.setItem("userScore", userData.score);
-      localStorage.setItem("userEmail", userData.email);
-
+      
       window.location.href = "/"; 
     } catch (error) {
       console.error("Error fetching user info:", error);

@@ -7,6 +7,8 @@ class User(AbstractUser):
     image_link = models.URLField(null=True, blank=True)
     access_token = models.CharField(max_length=255, blank=True, null=True)
     authorization_code = models.CharField(max_length=255, unique=True, blank=True, null=True)
+    friends = models.ManyToManyField('self', symmetrical=True, blank=True)  # Many-to-many relationship for friends
+    blocked_users = models.ManyToManyField('self', symmetrical=False, related_name='blocked_by', blank=True)  # Many-to-many relationship for blocked users
 
     class Meta:
         managed = False
@@ -27,6 +29,14 @@ class User(AbstractUser):
         blank=True,
     )
 
+class Achievement(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    games_played = models.IntegerField(default=0)
+    games_won = models.IntegerField(default=0)
+    games_lost = models.IntegerField(default=0)
+    tournaments_won = models.IntegerField(default=0)
+    favorite_game = models.CharField(max_length=100, blank=True, null=True)
+    
 class MyAppUserGroups(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     group = models.ForeignKey(Group, on_delete=models.CASCADE)
