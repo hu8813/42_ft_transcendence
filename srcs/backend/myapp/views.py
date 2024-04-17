@@ -676,7 +676,7 @@ def manage_profile(request):
                 'userLogin': getattr(user, 'username', 'unknown'),
                 'csrfToken': csrf_token,
             }
-            return JsonResponse({'user': user_info})
+            return JsonResponse({'user_info': user_info})
         
         elif request.method == 'POST' and 'image_file' in request.POST:
             try:

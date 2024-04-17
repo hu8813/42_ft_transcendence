@@ -57,6 +57,7 @@ async function fetchAndDisplayProfile() {
     try {
         const jwtToken = localStorage.getItem('jwtToken');
         const response = await fetch(`${getBackendURL()}/manage-profile/`, {
+            method: 'GET',
             headers: {
                 'Authorization': `Bearer ${jwtToken}`,
                 'X-CSRFToken': csrfToken
