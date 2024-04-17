@@ -425,7 +425,6 @@ def upload_avatar(request):
         return Response({"message": "No avatar file provided."}, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['POST'])
-@permission_classes([IsAuthenticated])
 def update_score(request):
     token = request.headers.get('Authorization', '').split('Bearer ')[-1]
     try:
