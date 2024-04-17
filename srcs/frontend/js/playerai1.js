@@ -130,7 +130,7 @@ function showPlayerAi1Page() {
                 ctx.fillText("You are on the left side.", canvas.width / 2, canvas.height / 2 + 80);
                 
                 ctx.font = "25px Arial";
-                ctx.fillText("Use 'W' to move up and 'S' to move down.", canvas.width / 2, canvas.height / 2 + 130);        
+                ctx.fillText("if you play on the pc, use 'W' to move up and 'S' to move down.", canvas.width / 2, canvas.height / 2 + 130);        
                 
     
                 
