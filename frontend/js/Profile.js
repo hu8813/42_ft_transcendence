@@ -10,10 +10,13 @@ function displayErrorMessage(message) {
 
     }
 
+
+
 async function fetchAndDisplayProfile() {
     const errorMessageElement = document.getElementById('errorMessage');
 
-    let csrfToken = await getCSRFCookie();
+    if (!csrfToken)
+        csrfToken = await getCSRFCookie();
 
 
     try {
@@ -28,7 +31,7 @@ async function fetchAndDisplayProfile() {
             const profileData = await response.json();
             const user = profileData.user || {};
             const imageLink = (user.image_link && user.image_link.length >= 4) ? user.image_link : '../src/emptyavatar.jpeg';
-            const nickname = user.nickname || 'Not available';
+            const nickname = user.nickname || user.username ||'Not available';
             const email = user.email || 'Not available';
 
             document.querySelector('.profile-pic').src = imageLink;
@@ -97,7 +100,8 @@ async function fetchAndDisplayProfile() {
 
 async function updateProfileWithPhoto(formData) {
     const jwtToken = localStorage.getItem('jwtToken');
-    
+    if (!csrfToken)
+        csrfToken = await getCSRFCookie();
     const response = await fetch(`${getBackendURL()}/manage-profile/`, {
         method: 'PUT',
         headers: {
@@ -114,7 +118,8 @@ async function updateProfileWithPhoto(formData) {
 
 async function updateProfile(data) {
     const jwtToken = localStorage.getItem('jwtToken');
-    
+    if (!csrfToken)
+        csrfToken = await getCSRFCookie();
     // Validate nickname
     const nicknameRegex = /^[a-zA-Z0-9_-]+$/;
     if (!nicknameRegex.test(data.nickname)) {

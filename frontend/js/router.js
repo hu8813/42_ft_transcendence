@@ -28,7 +28,7 @@ const routes = {
   "#manage2fa" : "/views/manage2fa.html",
 };
 
-
+let csrfToken;
 function getBackendURL() {
   const currentURL = window.location.href;
   const privateIPRegex = /^(10\.|192\.168\.|172\.(1[6-9]|2[0-9]|3[0-1])\.)/;
@@ -79,7 +79,7 @@ showPopup();
 
 async function getCSRFCookie() {
   const csrfCookieName = 'csrftoken'; 
-  const csrfCookie = getCookie(csrfCookieName);
+  let csrfCookie = getCookie(csrfCookieName);
   
   if (!csrfCookie) {
       try {
@@ -91,7 +91,7 @@ async function getCSRFCookie() {
               throw new Error('Failed to fetch CSRF token');
           }
           const data = await response.json();
-          const csrfToken = data.csrfToken;
+          csrfToken = data.csrfToken;
           if (csrfToken) {
               document.cookie = `${csrfCookieName}=${csrfToken}; path=/`;
               return csrfToken;

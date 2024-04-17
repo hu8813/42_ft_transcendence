@@ -48,13 +48,13 @@ from django.views.decorators.csrf import ensure_csrf_cookie
 token_obtain_pair_view = TokenObtainPairView.as_view()
 token_refresh_view = TokenRefreshView.as_view()
 
-@csrf_exempt
+
 def get_all_users(request):
     all_users = User.objects.values_list('username', flat=True)
     return JsonResponse(list(all_users), safe=False)
 
 
-@csrf_exempt
+
 def submit_feedback(request):
     if request.method == 'POST':
         try:
@@ -73,7 +73,7 @@ def submit_feedback(request):
         return JsonResponse({'error': 'Invalid request method'}, status=400)
 
 
-@csrf_exempt
+
 def show_feedbacks(request):
     if request.method == 'GET':
         try:
@@ -88,7 +88,7 @@ def show_feedbacks(request):
         return JsonResponse({'error': 'Invalid request method'}, status=400)
 
 
-@csrf_exempt
+
 def messages(request):
     if request.method == 'GET':
         messages = list(Message.objects.order_by('created_at')[:50].values())
@@ -118,7 +118,7 @@ def messages(request):
     else:
         return JsonResponse({'error': 'Method not allowed'}, status=405)
 
-@csrf_exempt
+
 def chat(request):
     return render(request, 'chatpage.html')
 
@@ -155,30 +155,20 @@ def get_profile_info(request):
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=500)
 
-@csrf_exempt
 def signin42b(request):
     redirect_uri = os.getenv('REDIRECT_URI')
     client_id = os.getenv('CLIENT_ID')
-    
     authorization_url = f'https://api.intra.42.fr/oauth/authorize?client_id={client_id}&redirect_uri={redirect_uri}&response_type=code'
-    
     return HttpResponseRedirect(authorization_url)
 
-@csrf_exempt
-def signin42c(request):
-    
+def signin42c(request):    
     redirect_uri = os.getenv('REDIRECT_URI')
     client_id = os.getenv('CLIENT_ID')
-    
-    
     authorization_url = f'https://api.intra.42.fr/oauth/authorize?client_id={client_id}&redirect_uri={redirect_uri}&response_type=code'
-    
-    
     return HttpResponseRedirect(authorization_url)
 
 
 
-@csrf_exempt
 def signin42(request):
     
     redirect_uri = os.getenv('REACT_APP_REDIRECT_URI')
@@ -190,7 +180,6 @@ def signin42(request):
     
     return HttpResponseRedirect(authorization_url)
 
-@csrf_exempt
 def proxy_userinfo(request):
     
     code = request.GET.get('code')
@@ -231,7 +220,6 @@ def proxy_userinfo(request):
         return JsonResponse({'error': str(e)}, status=500)
 
 
-@csrf_exempt
 def proxy_viewb(request):
     
     code = request.GET.get('code')
@@ -298,7 +286,6 @@ def proxy_viewb(request):
         return JsonResponse({'error': str(e)}, status=500)
 
 
-@csrf_exempt
 def proxy_viewc(request):
     
     code = request.GET.get('code')
@@ -364,7 +351,6 @@ def proxy_viewc(request):
         return JsonResponse({'error': str(e)}, status=500)
 
 
-@csrf_exempt
 @api_view(['POST'])
 def obtain_token(request):
     if request.method == 'POST':
@@ -378,7 +364,6 @@ def obtain_token(request):
             return Response({'error': 'Invalid credentials'}, status=400)
 
 
-@csrf_exempt
 def get_email(request):
     
     
@@ -389,7 +374,6 @@ def get_email(request):
     else:
         return JsonResponse({'error': 'User is not authenticated'}, status=401)
 
-@csrf_exempt
 def get_nickname(request):
     user = request.user
     if user.is_authenticated:
@@ -398,7 +382,6 @@ def get_nickname(request):
     else:
         return JsonResponse({'error': 'User is not authenticated'}, status=401)
 
-@csrf_exempt 
 @api_view(['POST'])
 def update_nickname(request):
     if request.method == 'POST':
@@ -413,7 +396,7 @@ def update_nickname(request):
     else:
         return JsonResponse({"message": "Invalid request method."}, status=400)
        
-@csrf_exempt
+
 @api_view(['POST'])
 def upload_avatar(request):
     if request.method == 'POST' and request.FILES.get('avatar'):
@@ -441,7 +424,7 @@ def upload_avatar(request):
         return Response({"message": "No avatar file provided."}, status=status.HTTP_400_BAD_REQUEST)
 
 
-@csrf_exempt
+
 def get_score(request):
     
     users = User.objects.all()
@@ -460,23 +443,22 @@ def get_score(request):
     
     return JsonResponse(response_data)
 
-@csrf_exempt
+
 def ping(request):
     return JsonResponse({'message': 'Server is awake!'})
 
-@csrf_exempt
+
 def get_games(request):
     return JsonResponse({'message': 'Server is awake!'})
 
 
-@csrf_exempt
+
 def tournaments(request):
     tournaments = Tournament.objects.all()
     serializer = TournamentSerializer(tournaments, many=True)
     return JsonResponse(serializer.data, safe=False)
 
 
-@csrf_exempt
 def leaderboard(request):
     token = request.headers.get('Authorization', '').split('Bearer ')[-1]
     
@@ -497,7 +479,7 @@ def leaderboard(request):
     except User.DoesNotExist:
         return JsonResponse({'error': 'User not found'}, status=404)
     
-@csrf_exempt
+
 def fetch_messages(request):
     if request.method != 'GET':
         return JsonResponse({'error': 'Method not allowed'}, status=405)  # Return error for non-GET requests
@@ -506,7 +488,7 @@ def fetch_messages(request):
     async_to_sync(channel_layer.group_send)("chat_group", {"type": "fetch_messages"})
     return JsonResponse({'status': 'success'})
 
-@csrf_exempt
+
 def send_message(request):
     if request.method != 'POST':
         return JsonResponse({'error': 'Method not allowed'}, status=405)  # Return error for non-POST requests
@@ -528,7 +510,6 @@ def get_csrf_token(request):
     csrf_token = get_token(request)    
     return JsonResponse({'csrfToken': csrf_token})
 
-@csrf_exempt
 def register(request):
     if request.method == 'POST':
         try:
@@ -612,7 +593,7 @@ def login_view(request):
         return JsonResponse({'error': str(e)}, status=500)
 
 
-@csrf_exempt
+
 def update_player_position(request):
     if request.method == 'POST':
         
@@ -633,7 +614,7 @@ def update_player_position(request):
     
     return JsonResponse({'success': False, 'error': 'Invalid HTTP method'})
 
-@csrf_exempt
+
 def get_game_state(request):
     
     players = Player.objects.all()
@@ -642,15 +623,14 @@ def get_game_state(request):
 
 waiting_queue = []
 
-@csrf_exempt
+
 def home(request):
     return render(request, 'frontend/index.html')
 
-@csrf_exempt
 def custom_404(request, exception):
     return render(request, '404.html', status=404)
 
-@csrf_exempt
+
 def check_player_waiting(request, user_login):
     global waiting_queue
 
@@ -667,7 +647,7 @@ def check_player_waiting(request, user_login):
 
 
 
-@csrf_exempt
+
 def cancel_waiting(request, user_login):
     global waiting_queue
 
@@ -675,7 +655,6 @@ def cancel_waiting(request, user_login):
     waiting_queue = [player for player in waiting_queue if player != user_login]
     return JsonResponse({'message': f'User {user_login} removed from waiting queue'})
 
-@csrf_exempt
 def manage_profile(request):
     token = request.headers.get('Authorization', '').split('Bearer ')[-1]
     
@@ -739,13 +718,11 @@ def manage_profile(request):
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=500)
 
-@csrf_exempt
 def get_2fa_status(request):
     # Logic to check 2FA status
     # Return JSON response indicating whether 2FA is enabled or not
     return JsonResponse({'enabled': False})
 
-@csrf_exempt
 def generate_qr_code(request):
     # Generate a random secret key
     secret_key = pyotp.random_base32()
@@ -777,7 +754,6 @@ def generate_qr_code(request):
         response['Content-Disposition'] = 'inline; filename="qr_code.png"'
         return response
 
-@csrf_exempt
 def activate_2fa(request):
     if request.method == 'POST':
         # Logic to activate 2FA with the provided activation code
