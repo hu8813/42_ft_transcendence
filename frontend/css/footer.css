@@ -5,7 +5,9 @@
   color: white;
   position: sticky;
   bottom: 0;
-  height: 4.7vh;
+  left: 0;
+  right: 0;
+  height: 6.7vh;
   padding: 0 30px;
   font-family:'Courier New', Courier, monospace;
   justify-content: space-between; 
