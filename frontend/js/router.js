@@ -57,6 +57,26 @@ function getBackendSigninURL() {
   return backendSigninURL;
 }
 
+function showPopup() {
+  feedbackPopup = document.getElementById("feedback-popup");
+  if (feedbackPopup) {
+    feedbackPopup.style.display = "block";
+  }
+  
+  if (window.innerWidth <= 768) {
+    closePopup();
+  }
+}
+
+
+function closePopup() {
+  feedbackPopup = document.getElementById("feedback-popup");
+  if (feedbackPopup) {
+    feedbackPopup.style.display = "none";
+  }
+}
+showPopup();
+
 async function getCSRFCookie() {
   const csrfCookieName = 'csrftoken'; 
   const csrfCookie = getCookie(csrfCookieName);

@@ -1,5 +1,4 @@
 async function fetchAndDisplayViewProfile(username) {
-    console.log(username);
     try {
         const jwtToken = localStorage.getItem('jwtToken');
         const csrfToken = await getCSRFCookie();

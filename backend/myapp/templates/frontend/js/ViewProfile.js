@@ -1,5 +1,4 @@
 async function fetchAndDisplayViewProfile(username) {
-    console.log(username);
     try {
         const response = await fetch(`${getBackendURL()}/profiles/?username=${username}`);
         if (!response.ok) {

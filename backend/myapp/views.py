@@ -122,7 +122,6 @@ def messages(request):
 def chat(request):
     return render(request, 'chatpage.html')
 
-@csrf_exempt
 def get_profile_info(request):
     username = request.GET.get('username')
     
