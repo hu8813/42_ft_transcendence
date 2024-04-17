@@ -13,13 +13,15 @@ function displayErrorMessage(message) {
 async function fetchAndDisplayProfile() {
     const errorMessageElement = document.getElementById('errorMessage');
 
-    
+    let csrfToken = await getCSRFCookie();
+
 
     try {
         const jwtToken = localStorage.getItem('jwtToken');
         const response = await fetch(`${getBackendURL()}/manage-profile/`, {
             headers: {
-                'Authorization': `Bearer ${jwtToken}`
+                'Authorization': `Bearer ${jwtToken}`,
+                'X-CSRFToken': csrfToken
             }
         });
         if (response.ok) {
@@ -100,6 +102,7 @@ async function updateProfileWithPhoto(formData) {
         method: 'PUT',
         headers: {
             'Authorization': `Bearer ${jwtToken}`,
+            'X-CSRFToken': csrfToken
         },
         body: formData
     });
@@ -135,7 +138,8 @@ async function updateProfile(data) {
         method: 'PUT',
         headers: {
             'Authorization': `Bearer ${jwtToken}`,
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrfToken
         },
         body: JSON.stringify(data)
     });
@@ -151,7 +155,8 @@ async function deleteProfile() {
     const response = await fetch(`${getBackendURL()}/manage-profile/`, {
         method: 'DELETE',
         headers: {
-            'Authorization': `Bearer ${jwtToken}`
+            'Authorization': `Bearer ${jwtToken}`,
+            'X-CSRFToken': csrfToken
         }
     });
     if (!response.ok) {

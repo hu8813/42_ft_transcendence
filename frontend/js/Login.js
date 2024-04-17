@@ -1,5 +1,5 @@
 function handleLogin() {
-  
+
     const loginForm = document.getElementById("login-form2");
     const loginStatus = document.getElementById("login-status");
     const submitButton = loginForm.querySelector('[type="submit"]');
@@ -8,16 +8,17 @@ function handleLogin() {
       const handleSubmit = async (e) => {
         e.preventDefault();
   
-        // Disable the submit button to prevent multiple submissions
-        
         const formData = new FormData(loginForm);
         if (submitButton)
             submitButton.disabled = true;
-  
+        let csrfToken = await getCSRFCookie();
         try {
           const response = await fetch(`${getBackendURL()}/login/`, {
             method: "POST",
             body: formData,
+            headers: {
+              "X-CSRFToken": csrfToken,
+            },
           });
   
         //   if (!response.ok) {

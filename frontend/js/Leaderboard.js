@@ -5,10 +5,12 @@ const entriesPerPage = 5;
 async function fetchLeaderboardData() {
     try {
       const jwtToken = localStorage.getItem('jwtToken');
+      let csrfToken = await getCSRFCookie();
   
       const response = await fetch(`${getBackendURL()}/leaderboard/`, {
           headers: {
-            'Authorization': `Bearer ${jwtToken}`
+            'Authorization': `Bearer ${jwtToken}`,
+            'X-CSRFToken': csrfToken
           }
       });
       

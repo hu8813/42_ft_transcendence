@@ -2,9 +2,12 @@ async function fetchAndDisplayViewProfile(username) {
     console.log(username);
     try {
         const jwtToken = localStorage.getItem('jwtToken');
+        const csrfToken = await getCSRFCookie();
+
         const response = await fetch(`${getBackendURL()}/profiles/?username=${username}`, {
             headers: {
-              'Authorization': `Bearer ${jwtToken}`
+              'Authorization': `Bearer ${jwtToken}`,
+              'X-CSRFToken': csrfToken
             }
         });
         if (response.ok) {

@@ -57,6 +57,51 @@ function getBackendSigninURL() {
   return backendSigninURL;
 }
 
+async function getCSRFCookie() {
+  const csrfCookieName = 'csrftoken'; 
+  const csrfCookie = getCookie(csrfCookieName);
+  
+  if (!csrfCookie) {
+      try {
+          const response = await fetch('/api/get-csrf-token/', {
+              method: 'GET',
+              credentials: 'same-origin'
+          });
+          if (!response.ok) {
+              throw new Error('Failed to fetch CSRF token');
+          }
+          const data = await response.json();
+          const csrfToken = data.csrfToken;
+          if (csrfToken) {
+              document.cookie = `${csrfCookieName}=${csrfToken}; path=/`;
+              return csrfToken;
+          }
+      } catch (error) {
+          console.error('Error fetching CSRF token:', error);
+          return null;
+      }
+  } else {
+      return csrfCookie;
+  }
+}
+
+
+function getCookie(name) {
+  const cookies = document.cookie.split(';');
+  for (let cookie of cookies) {
+      const [cookieName, cookieValue] = cookie.trim().split('=');
+      if (cookieName === name) {
+          return cookieValue;
+      }
+  }
+  return null;
+}
+
+getCSRFCookie();
+
+(async function() {
+  let csrfToken = await getCSRFCookie();
+})();
 let translationsCache = {}; 
 let currentLanguage = localStorage.getItem('language');
 if (!currentLanguage) {

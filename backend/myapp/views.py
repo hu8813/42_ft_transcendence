@@ -41,6 +41,9 @@ import pyotp
 from django.core.files.base import ContentFile
 from django.core.files.storage import default_storage
 from io import BytesIO
+from django.middleware.csrf import get_token
+from django.views.decorators.csrf import ensure_csrf_cookie
+
 
 token_obtain_pair_view = TokenObtainPairView.as_view()
 token_refresh_view = TokenRefreshView.as_view()
@@ -98,7 +101,8 @@ def messages(request):
         
         name = escape(data.get('name', ''))
         text = escape(data.get('text', ''))
-        recipient = escape(data.get('recipient', '')) 
+        recipient = escape(data.get('recipient', ''))
+        csrf_token = get_token(request) 
 
         message = Message.objects.create(name=name, text=text, recipient=recipient)
         
@@ -107,7 +111,8 @@ def messages(request):
             'name': message.name,
             'text': message.text,
             'recipient': message.recipient,
-            'created_at': timezone.localtime(message.created_at).timestamp()
+            'created_at': timezone.localtime(message.created_at).timestamp(),
+            'csrfToken': csrf_token,
         }
         return JsonResponse(message_data)
     else:
@@ -130,11 +135,13 @@ def get_profile_info(request):
         user_id = payload['user_id']
         user_requester = User.objects.get(pk=user_id)
         user = User.objects.get(username=username)
+        csrf_token = get_token(request)
         user_info = {
             'nickname': user.nickname,
             'login': user.username,
             'score': user.score,
             'image_link': user.image_link,
+            'csrfToken': csrf_token,
 
         }
         return JsonResponse({'user': user_info})
@@ -202,6 +209,7 @@ def proxy_userinfo(request):
         #print(authentication_result)  # Add this line to see what authenticate() returns
 
         authenticated_user, _ = authentication_result
+        csrf_token = get_token(request)
         
         if authenticated_user is None:
            return JsonResponse({'error': 'Invalid or expired JWT token'}, status=401)
@@ -215,6 +223,7 @@ def proxy_userinfo(request):
             'image_link': authenticated_user2.image_link,
             'score': authenticated_user2.score,
             'email': authenticated_user2.email,
+            'csrfToken': csrf_token,
         }
         return JsonResponse({'user': user_info})
     except User.DoesNotExist:
@@ -234,6 +243,7 @@ def proxy_viewb(request):
     client_id = os.getenv('CLIENT_ID')
     client_secret = os.getenv('CLIENT_SECRET')
     redirect_uri = os.getenv('REDIRECT_URI')
+    csrf_token = get_token(request)
 
     
     if not client_id or not client_secret or not redirect_uri:
@@ -246,6 +256,7 @@ def proxy_viewb(request):
         'client_secret': client_secret,
         'code': code,
         'redirect_uri': redirect_uri,
+        'csrfToken': csrf_token,
     }
 
     try:
@@ -299,6 +310,7 @@ def proxy_viewc(request):
     client_id = os.getenv('CLIENT_ID')
     client_secret = os.getenv('CLIENT_SECRET')
     redirect_uri = os.getenv('REDIRECT_URI')
+    csrf_token = get_token(request)
 
     
     if not client_id or not client_secret or not redirect_uri:
@@ -311,6 +323,7 @@ def proxy_viewc(request):
         'client_secret': client_secret,
         'code': code,
         'redirect_uri': redirect_uri,
+        'csrfToken': csrf_token,
     }
 
     try:
@@ -511,12 +524,9 @@ def send_message(request):
     async_to_sync(channel_layer.group_send)("chat_group", {"type": "send_message", "message": message})
     return JsonResponse({'status': 'success'})
 
-@csrf_exempt
+@ensure_csrf_cookie
 def get_csrf_token(request):
-    
-    csrf_token = request.COOKIES.get('csrftoken', '')
-
-    
+    csrf_token = get_token(request)    
     return JsonResponse({'csrfToken': csrf_token})
 
 @csrf_exempt
@@ -570,7 +580,7 @@ def register(request):
     else:
         return render(request, 'registration/register.html')
     
-@csrf_exempt
+
 def login_view(request):
     try:
         if request.method == 'POST':
@@ -581,6 +591,7 @@ def login_view(request):
                 login(request, user)
                 token = AccessToken.for_user(user)
                 encoded_token = str(token)
+                csrf_token = get_token(request)
 
                 user_info = {
                     'message': 'Login successful',
@@ -591,6 +602,7 @@ def login_view(request):
                     'email': getattr(user, 'email', 'unknown'),
                     'userLogin': getattr(user, 'username', 'unknown'),
                     'jwt_token': encoded_token,
+                    'csrfToken': csrf_token,
                 }
                 return JsonResponse(user_info, status=200)
             else:
@@ -672,6 +684,7 @@ def manage_profile(request):
         payload = jwt.decode(token, settings.SIGNING_KEY, algorithms=['HS256'])
         user_id = payload['user_id']
         user = User.objects.get(pk=user_id)
+        csrf_token = get_token(request)
         
         if request.method == 'GET':
             user_info = {
@@ -679,7 +692,8 @@ def manage_profile(request):
                 'image_link': getattr(user, 'image_link', ''),
                 'score': getattr(user, 'score', '0'),
                 'email': getattr(user, 'email', 'unknown'),
-                'userLogin': getattr(user, 'username', 'unknown')
+                'userLogin': getattr(user, 'username', 'unknown'),
+                'csrfToken': csrf_token,
             }
             return JsonResponse({'user': user_info})
         

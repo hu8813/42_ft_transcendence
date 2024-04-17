@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", async function() {
 
   if (code) {
     try {
-      const response = await fetch(`${backendURL}/userinfo/?code=${code}`);
+      const response = await fetch(`/api/userinfo/?code=${code}`);
       if (!response.ok) {
         throw new Error('Failed to fetch user data');
       }
