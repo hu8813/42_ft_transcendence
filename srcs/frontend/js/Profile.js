@@ -105,7 +105,7 @@ async function fetchAndDisplayProfile() {
             const score = user.score || 0;
             const csrfTokenNew = user.csrfToken || csrfToken;
             if (csrfTokenNew)
-                localStorage.setItem('csrfToken', csrfTokenNew);
+                setCSRFCookie(csrfTokenNew);
             document.querySelector('.profile-pic').src = imageLink;
             document.getElementById('nicknameadr').textContent = nickname;
             document.getElementById('emailadr').textContent = email;

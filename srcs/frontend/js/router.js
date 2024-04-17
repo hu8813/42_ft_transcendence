@@ -76,9 +76,13 @@ function closePopup() {
   }
 }
 showPopup();
+const csrfCookieName = 'csrftoken';
+
+function setCSRFCookie(csrfToken) {
+  document.cookie = `${csrfCookieName}=${csrfToken}; path=/`;
+}
 
 async function getCSRFCookie() {
-  const csrfCookieName = 'csrftoken'; 
   let csrfCookie = getCookie(csrfCookieName);
   
   if (!csrfCookie) {
