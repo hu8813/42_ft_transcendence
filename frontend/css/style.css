@@ -16,6 +16,7 @@ body {
     background-color: #333 !important;
     font-family: 'Press Start 2P' !important;
     min-height: 100%;
+    right: 0;
 }
 
 .app {
@@ -25,7 +26,7 @@ body {
     background-color: #333;
     color: antiquewhite;
     position: relative;
-    height: 89vh;
+    height: 87vh;
 }
 
 header {
@@ -33,7 +34,8 @@ header {
     text-align: center;
     position: sticky;
     top: 0;
-    width: 100%;
+    right: 0;
+    left: 0;
     z-index: 999;
     height: 60px;
     border-radius: 50px;
