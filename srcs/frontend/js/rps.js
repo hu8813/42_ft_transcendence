@@ -24,11 +24,11 @@ function getComputerChoice(){
         return "scissors"
 }
 
-function playRPS() {
+async function playRPS() {
     const container = document.querySelector(".rps-player-block");
 
     container.querySelectorAll('.select').forEach(button => {
-        button.addEventListener('click', function() {
+        button.addEventListener('click', async function() {
             document.getElementById('c-rock').style.backgroundColor = "black";
             document.getElementById('c-paper').style.backgroundColor = "black";
             document.getElementById('c-scissors').style.backgroundColor = "black";
@@ -46,7 +46,24 @@ function playRPS() {
                 document.getElementById('playerscore').textContent = `Score: ${++won}`;
                 if (won === 5) {
                     on("You")
-
+                    const jwtToken = localStorage.getItem('jwtToken');
+                    const csrfToken = getCSRFCookie(); 
+                    try {
+                    const response = await fetch(`${getBackendURL()}/update-score`, {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': `Bearer ${jwtToken}`,
+                            'X-CSRFToken': csrfToken
+                        },
+                    });
+                    if (response.ok) {
+                        console.log('User score updated successfully');
+                    } else {
+                        console.error('Failed to update user score');
+                    }
+                    } catch (error) {
+                    console.error('Failed to update user score:', error);
+                    }
                 }
             } else if (result === 'lost') {
                 document.getElementById('computerscore').textContent = `Score: ${++lost}`;

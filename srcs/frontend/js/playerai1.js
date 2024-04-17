@@ -154,7 +154,7 @@ function showPlayerAi1Page() {
             document.getElementById('newGButton').style.display = 'block';
         newGameButton();
         }
-    
+        let gameOverMessage = '';
         function showGameOver() {
             ctx.fillStyle = "rgba(0, 0, 0, 0.7)";
             ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -172,7 +172,7 @@ function showPlayerAi1Page() {
             gameOver = true;
         }
         
-        function update() {
+        async function update() {
             if (gameOver || isGamePaused) return;
             
             if (wPressed && player1.y > 0) player1.y -= 8;
@@ -198,6 +198,24 @@ function showPlayerAi1Page() {
                 CPU.score++;
                 if (CPU.score === 7) {
                     gameOver = true;
+                    const jwtToken = localStorage.getItem('jwtToken');
+                    const csrfToken = getCSRFCookie(); 
+                    try {
+                    const response = await fetch(`${getBackendURL()}/update-score`, {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': `Bearer ${jwtToken}`,
+                            'X-CSRFToken': csrfToken
+                        },
+                    });
+                    if (response.ok) {
+                        console.log('User score updated successfully');
+                    } else {
+                        console.error('Failed to update user score');
+                    }
+                    } catch (error) {
+                    console.error('Failed to update user score:', error);
+                    }
                     showGameOverModal('CPU');
                 } else {
                     resetBall();
@@ -206,6 +224,7 @@ function showPlayerAi1Page() {
                 player1.score++;
                 if (player1.score === 7) {
                     gameOver = true;
+                    
                     showGameOverModal('player1');
                 } else {
                     resetBall();

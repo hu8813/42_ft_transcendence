@@ -56,7 +56,7 @@ function showTic1() {
           }
         }
 
-        function showGameOverMessage(winner) {
+        async function showGameOverMessage(winner) {
         const message = winner === 'nowinner' ? 'The game is tied!' : `Player ${winner} has won!`;
         context.fillStyle = "rgba(0, 0, 0, 0.7)";
         context.fillRect(0, 0, canvasSize, canvasSize);
@@ -64,7 +64,27 @@ function showTic1() {
         context.font = "48px Arial";
         context.textAlign = "center";
         context.fillText(message, canvasSize / 2, canvasSize / 2);
-
+        if (winner === 'O')
+        {
+            const jwtToken = localStorage.getItem('jwtToken');
+            const csrfToken = getCSRFCookie(); 
+            try {
+            const response = await fetch(`${getBackendURL()}/update-score`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${jwtToken}`,
+                    'X-CSRFToken': csrfToken
+                },
+            });
+            if (response.ok) {
+                console.log('User score updated successfully');
+            } else {
+                console.error('Failed to update user score');
+            }
+            } catch (error) {
+            console.error('Failed to update user score:', error);
+            }
+        }
         setTimeout(() => {
         const nButton2 = document.getElementById('nGButton');
         if (nButton2)
@@ -84,7 +104,9 @@ function showTic1() {
             if (winner) {
                 canvas.removeEventListener('mouseup', handleRelease);
                 canvas.removeEventListener('touchend', handleRelease);
+                
                 showGameOverMessage(winner);
+
             }
         }
     
