@@ -1,33 +1,22 @@
 .wrapperaboutus {
-	max-width: 1400px;
+	max-width: fit-content;
 	width: 100%;
-	margin: auto auto;
-	padding-top: 100px;
 	background-color: #333; /* Set background color */
-	overflow-x: auto; /* Enable horizontal scrollbar */
   }
   
   .wrapperaboutus .carouselaboutus {
-	display: grid;
-	grid-auto-flow: column;
-	grid-auto-columns: calc((100% / 4) - 12px);
+	display: flex;
 	gap: 20px;
 	padding-left: 0px;
-	overflow-x: auto; /* Enable horizontal scrollbar */
   }
   
   .carouselaboutus .card {
-	height: 500px;
 	list-style: none;
 	background: #333;
 	border-radius: 8px;
-	display: flex;
-	cursor: pointer;
 	width: 100%;
-	padding-bottom: 15px;
 	align-items: center;
-	justify-content: center;
-	flex-direction: column;
+	gap: 20px;
 	border-color: whitesmoke;
 	border-style: double;
   }
@@ -63,29 +52,10 @@
 	#ec0808, #2600ff, #ad47a8, #2f00ff)
 } 
 
-.card {
-	position: relative;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-}
-
 .name {
-	margin-top: 10px; 
-	text-align: center;
 	color: whitesmoke;
 }
 
-.icon-container {
-	margin-top: 10px; 
-	display: flex;
-	gap: 10px; 
-}
-
-.icon {
-	font-size: 24px;
-	color: black;
-}
 
 @keyframes fadeIn {
 	from {
