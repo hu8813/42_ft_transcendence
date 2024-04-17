@@ -209,9 +209,9 @@ function showPongEhab() {
           } */
           if (ball.y - ball.radius < 0) {
             ball.velocityY = Math.abs(ball.velocityY);
-        } else if (ball.y + ball.radius > canvas.height) {
+          } else if (ball.y + ball.radius > canvas.height) {
             ball.velocityY = -Math.abs(ball.velocityY);
-        }
+          }
 
           if (ball.x - ball.radius < 0) {
               player2.score++;
@@ -250,7 +250,7 @@ function showPongEhab() {
         ball.velocityX = (Math.random() > 0.5 ? 1 : -1) * ball.speed;
         ball.velocityY = (Math.random() * 2 - 1) * ball.speed;
         ball.speed = 7;
-    }
+      }
 
       function drawScore() {
           ctx.fillStyle = "white";
