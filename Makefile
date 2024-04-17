@@ -8,15 +8,6 @@ up: check_env check_certs
 #	@echo "Open: https://localhost:8443/"
 	docker compose up
 
-
-check_certs:
-	@if [ ! -f "srcs/certs/localhost.crt" ] || [ ! -f "srcs/certs/localhost.key" ]; then \
-		echo "Generating self-signed certificates..."; \
-		mkdir -p srcs/certs; \
-		openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout srcs/certs/localhost.key -out srcs/certs/localhost.crt -subj "/C=AT/ST=W/L=Vienna/O=Pong42/OU=IT Department/CN=localhost"; \
-		echo "Certificates generated."; \
-	fi
-
 check_env:
 	@if [ ! -f ".env" ]; then \
 		./srcs/check_env.sh; \
@@ -42,7 +33,7 @@ clean:
 	@echo "Clean-up done."
 
 
-re: down check_env check_certs
+re: down check_env 
 	docker compose up --build
 
 .PHONY: re clean up down
