@@ -468,7 +468,10 @@ def leaderboard(request):
         user = User.objects.get(pk=user_id)
         
         leaderboard_users = User.objects.order_by('-score')[:100]  
-        leaderboard_data = [{'username': user.username, 'date_joined': user.date_joined, 'image_link': user.image_link, 'score': user.score} for user in leaderboard_users]
+        leaderboard_data = [{'username': user.nickname if user.nickname else user.username,
+                     'date_joined': user.date_joined,
+                     'image_link': user.image_link,
+                     'score': user.score} for user in leaderboard_users]
         
         return JsonResponse(leaderboard_data, safe=False, status=200)
     
@@ -675,32 +678,39 @@ def manage_profile(request):
             }
             return JsonResponse({'user': user_info})
         
-        elif request.method == 'PUT':
-            new_nickname = request.POST.get('nickname')
-            new_username = request.POST.get('username')
-            
-            if new_nickname:
-                # Check if the new nickname is valid
-                if not re.match(r'^[a-zA-Z0-9_-]+$', new_nickname):
-                    return JsonResponse({'error': 'Invalid nickname format. Only alphanumeric characters, underscore, and hyphen are allowed.'}, status=400)
-                user.nickname = new_nickname
-            
-            if new_username:
-                # Check if the new username already exists
-                if User.objects.filter(username=new_username).exclude(pk=user_id).exists():
-                    return JsonResponse({'error': 'Username already exists'}, status=400)
-                user.username = new_username
-            
-            user.save()
-            return JsonResponse({'message': 'Profile information updated successfully'})
+        elif request.method == 'POST' and 'image_file' in request.POST:
+            try:
+              
+                image_file = request.FILES.get('image')
+                if image_file:
+                    pass
+
+                
+                user.save()
+                return JsonResponse({'message': 'Profile information updated successfully'})
+            except Exception as e:
+                return JsonResponse({'error': str(e)}, status=500)
+        
+        
+        elif request.method == 'POST' and 'nickname' in request.POST:
+            try:
+                new_nickname = request.POST.get('nickname')
+                
+                if new_nickname:
+                    if not re.match(r'^[a-zA-Z0-9_-]+$', new_nickname):
+                        return JsonResponse({'error': 'Invalid nickname format. Only alphanumeric characters, underscore, and hyphen are allowed.'}, status=400)
+                    user.nickname = new_nickname
+                
+                user.save()
+                return JsonResponse({'message': 'Profile information updated successfully'})
+            except Exception as e:
+                return JsonResponse({'error': str(e)}, status=500)
         
         elif request.method == 'DELETE':
-            # Delete user profile
             user.delete()
             return JsonResponse({'message': 'Profile deleted successfully'})
         
         elif request.method == 'POST' and '2fa_enabled' in request.POST:
-            # Toggle 2FA status
             two_fa_enabled = request.POST.get('2fa_enabled') == 'true'
             user.two_fa_enabled = two_fa_enabled
             user.save()

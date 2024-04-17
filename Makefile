@@ -1,4 +1,4 @@
-up: check_env check_certs
+up: check_env
 	$(eval VOLUME_PATH := $(HOME)/volumes)
 	mkdir -p $(HOME)/volumes/grafana
 	mkdir -p $(HOME)/volumes/prometheus
