@@ -1,6 +1,6 @@
 #!/bin/bash
 
-env_file=".env"
+env_file="../.env"
 
 #touch "$env_file" backend/.env
 
@@ -13,8 +13,8 @@ read_var_from_env_file() {
 
     if [ -z "$value" ]; then
         # If the value is empty in the .env file, try to read from sample.env if it exists
-        if [ -f "sample.env" ]; then
-            value=$(grep "^${var_name}=" "sample.env" | sed -E "s/^${var_name}=(.*)/\1/" | tail -1)
+        if [ -f "../sample.env" ]; then
+            value=$(grep "^${var_name}=" "../sample.env" | sed -E "s/^${var_name}=(.*)/\1/" | tail -1)
         fi
     fi
 

@@ -10,16 +10,16 @@ up: check_env check_certs
 
 
 check_certs:
-	@if [ ! -f "certs/localhost.crt" ] || [ ! -f "certs/localhost.key" ]; then \
+	@if [ ! -f "srcs/certs/localhost.crt" ] || [ ! -f "srcs/certs/localhost.key" ]; then \
 		echo "Generating self-signed certificates..."; \
-		mkdir -p certs; \
-		openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout certs/localhost.key -out certs/localhost.crt -subj "/C=AT/ST=W/L=Vienna/O=Pong42/OU=IT Department/CN=localhost"; \
+		mkdir -p srcs/certs; \
+		openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout srcs/certs/localhost.key -out srcs/certs/localhost.crt -subj "/C=AT/ST=W/L=Vienna/O=Pong42/OU=IT Department/CN=localhost"; \
 		echo "Certificates generated."; \
 	fi
 
 check_env:
 	@if [ ! -f ".env" ]; then \
-		./src/check_env.sh; \
+		./srcs/check_env.sh; \
 	fi
 
 
