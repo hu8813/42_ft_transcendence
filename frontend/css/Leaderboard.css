@@ -1,10 +1,7 @@
 table {
   border-collapse: collapse;
-  width: 90%;
-  margin: 5% auto 4%;
-  max-height: 70vh; 
-  overflow-y: auto; 
-  margin-top: 20%;
+  overflow-y: auto;
+  width: 100%;
 }
 
 th,

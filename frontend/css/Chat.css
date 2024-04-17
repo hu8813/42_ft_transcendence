@@ -1,5 +1,3 @@
-
-
 .chat-body {
   color: #ffffff;
   font-family: 'Arial', sans-serif;
@@ -10,7 +8,6 @@
   background-image: url('../src/chatbg.png');
   background-size: 40%;
   background-position: center;
-  margin-top: 119px;
 }
 
 .chat-container {
