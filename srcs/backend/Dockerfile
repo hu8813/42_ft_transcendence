@@ -10,13 +10,13 @@ ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
 # Generate SSL certificates inside the container
-#RUN openssl req -newkey rsa:4096 -x509 -sha256 -days 365 -nodes \
-#    -out /etc/ssl/localhost.crt \
-#    -keyout /etc/ssl/localhost.key \
-#    -subj "/C=AT/ST=W/L=W/O=42/OU=42/CN=localhost"
+RUN mkdir -p /etc/ssl/certs
+RUN openssl req -newkey rsa:4096 -x509 -sha256 -days 365 -nodes \
+    -out /etc/ssl/certs/localhost.crt \
+    -keyout /etc/ssl/certs/localhost.key \
+    -subj "/C=AT/ST=W/L=W/O=42/OU=42/CN=localhost"
 
 # Expose port 443 and copy SSL certificates to desired location
-#RUN mkdir -p /etc/ssl/certs && mkdir -p /etc/ssl/private
 EXPOSE 443
 
 # Install dependencies

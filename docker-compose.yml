@@ -7,7 +7,6 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./srcs/backend:/usr/src/app/
-      - ./srcs/certs:/etc/ssl/certs
     ports:
       - '8000:8000'
     env_file:
@@ -31,11 +30,9 @@ services:
       context: ./srcs/nginx
       dockerfile: Dockerfile
     ports:
-#      - "8080:80"
       - "8443:443"
     volumes:
       - ./srcs/frontend:/etc/frontend
-      - ./srcs/certs:/etc/nginx/ssl
     depends_on:
       - backend
 
@@ -67,24 +64,24 @@ services:
   #   restart: unless-stopped
 
 volumes:
-  cert-volumes:
   database-postgres:
-  prometheus:
-    name: prometheus
-    driver: local
-    driver_opts:
-      device: ${VOLUME_PATH}/prometheus
-      o: bind
-      type: none
-  grafana:
-    name: grafana
-    driver: local
-    driver_opts:
-      device: ${VOLUME_PATH}/grafana
-      o: bind
-      type: none
+#  prometheus:
+#    name: prometheus
+#    driver: local
+#    driver_opts:
+#      device: ${VOLUME_PATH}/prometheus
+#      o: bind
+#      type: none
+#  grafana:
+#    name: grafana
+#    driver: local
+#    driver_opts:
+#      device: ${VOLUME_PATH}/grafana
+#      o: bind
+#      type: none
       
 networks:
   transcendence:
     name: transcendence
     driver: bridge
+
