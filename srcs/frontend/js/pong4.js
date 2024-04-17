@@ -179,24 +179,47 @@ function showPong4()
       }
     }
 
-    showStartMessageWithCountdown(5);
+    showStartMessageWithCountdown(7);
 
     function showStartMessageWithCountdown(seconds) {
-    if(seconds > 0) {
-        ctx.fillStyle = "rgba(0, 0, 0, 0.7)";
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        ctx.fillStyle = "#FFF";
-        ctx.font = "30px Arial";
-        ctx.textAlign = "center";
-        ctx.fillText("Whoever gets 7 goals loses", canvas.width / 2, canvas.height / 2 - 30);
-        ctx.font = "bold 50px Arial";
-        ctx.fillText(seconds, canvas.width / 2, canvas.height / 2 + 30);
-        setTimeout(function() {
-        showStartMessageWithCountdown(seconds - 1);
-        }, 1000);
-    } else {
-        gameLoop();
-    }
+        if (seconds > 0) {
+            ctx.fillStyle = "rgba(0, 0, 0, 0.7)";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+            ctx.fillStyle = "#FFF";
+            ctx.font = "20px Arial";
+            ctx.textAlign = "left";
+    
+            // Player 1 controls
+            ctx.fillText("Player 1", 20, canvas.height / 2 - 10);
+            ctx.fillText("Use (W / S)", 20, canvas.height / 2 + 10);
+    
+            // Player 2 controls
+            ctx.fillText("Player 2", canvas.width - 100, canvas.height / 2 - 10);
+            ctx.fillText("Use (↑ / ↓)", canvas.width - 100, canvas.height / 2 + 10);
+    
+            // Player 3 controls
+            ctx.fillText("Player 3", canvas.width / 2 - 50, canvas.height - 50);
+            ctx.fillText("Use (Mouse)", canvas.width / 2 - 65, canvas.height - 30);
+    
+            ctx.fillText("Player 4", canvas.width / 2 - 50, canvas.height / 2 - 250);
+            ctx.fillText("Use (J / K)", canvas.width / 2 - 60, canvas.height / 2 - 230);
+            // Game objective
+            ctx.font = "bold 30px Arial";
+            ctx.fillText("Whoever gets 7 goals loses", canvas.width / 2 - 190, canvas.height / 2 - 20);
+    
+            // Second timer
+    
+            // Countdown
+            ctx.font = "bold 30px Arial";
+            ctx.fillText("Starting in: " + seconds, canvas.width / 2 - 100, canvas.height / 2 + 50);
+    
+            setTimeout(function () {
+                showStartMessageWithCountdown(seconds - 1);
+            }, 1000);
+        } else {
+            gameLoop();
+        }
     }
 
     function showGameOverModal2(loser) {
