@@ -64,7 +64,7 @@ function showTic1() {
         context.font = "48px Arial";
         context.textAlign = "center";
         context.fillText(message, canvasSize / 2, canvasSize / 2);
-        if (winner === 'O')
+        if (winner === 'X')
         {
             const jwtToken = localStorage.getItem('jwtToken');
             const csrfToken = getCSRFCookie(); 
