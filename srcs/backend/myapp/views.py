@@ -495,6 +495,7 @@ def get_csrf_token(request):
     csrf_token = get_token(request)    
     return JsonResponse({'csrfToken': csrf_token})
 
+
 def register(request):
     if request.method == 'POST':
         try:

@@ -207,8 +207,9 @@ function openChat() {
         storedMessages.forEach(message => displayMessage(message));
     }
 
-    // Request online users list from server
+    if (socket.readyState === WebSocket.OPEN) {
     socket.send(JSON.stringify({ type: 'requestOnlineUsers' }));
+    }
 }
 
 // Function to send a message from input

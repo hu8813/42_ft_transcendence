@@ -106,9 +106,21 @@ async function fetchAndDisplayProfile() {
             const csrfTokenNew = user.csrfToken || csrfToken;
             if (csrfTokenNew)
                 setCSRFCookie(csrfTokenNew);
-            document.querySelector('.profile-pic').src = imageLink;
-            document.getElementById('nicknameadr').textContent = nickname;
-            document.getElementById('emailadr').textContent = email;
+            
+            const profilePicElement = document.querySelector('.profile-pic');
+            if (profilePicElement) {
+                profilePicElement.src = imageLink;
+            }
+
+            const nicknameElement = document.getElementById('nicknameadr');
+            if (nicknameElement) {
+                nicknameElement.textContent = nickname;
+            }
+
+            const emailElement = document.getElementById('emailadr');
+            if (emailElement) {
+                emailElement.textContent = email;
+            }
 
             document.getElementById('changePhoto').addEventListener('click', function () {
                 document.getElementById('uploadPhoto').click();

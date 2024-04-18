@@ -1,5 +1,6 @@
-function handleRegister() {
-    
+async function handleRegister() {
+const jwtToken = localStorage.getItem('jwtToken');
+const csrfToken = await getCSRFCookie(); 
     Promise.all([
         translateKey('email'),
         translateKey('username'),
@@ -44,8 +45,13 @@ formData.append("password", password);
 formData.append("confirm_password", confirmPassword);
 
 
+                    
 fetch(`${getBackendURL()}/register/`, {
     method: "POST",
+    headers: {
+        'Authorization': `Bearer ${jwtToken}`,
+        'X-CSRFToken': csrfToken
+    },
     body: formData,
 })
 .then(response => {
