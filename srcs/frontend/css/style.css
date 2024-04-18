@@ -23,7 +23,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: red;
+    background-color: #333;
     color: antiquewhite;
     position: relative;
     height: 88vh;
