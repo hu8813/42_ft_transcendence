@@ -8,7 +8,7 @@ function showHome() {
 
     if (welcomePage)
     {
-        if (translateKey('home.welcome').then((value) => {welcomeMessage.textContent = value;}));
+        if (translateKey('welcome').then((value) => {welcomeMessage.textContent = value;}));
         welcomePage.appendChild(welcomeMessage);
     }    
     
@@ -18,11 +18,11 @@ function showHome() {
     pongTable.onmouseover = () => {
         if (localStorage.getItem("isLoggedIn") !== 'true' && welcomeMessage)  {
             welcomeMessage.textContent = "Please login to play!"
-            if (translateKey('home.logintoplay').then((value) => {welcomeMessage.textContent = value;}));
+            if (translateKey('logintoplay').then((value) => {welcomeMessage.textContent = value;}));
 
         }
         else if (localStorage.getItem("isLoggedIn") === 'true' && welcomeMessage && localStorage.getItem("userNickname") !== null) {
-            if (translateKey('auth.profile-title').then((value) => {welcomeMessage.textContent = value + " " + localStorage.getItem("userNickname");}));
+            if (translateKey('profile-title').then((value) => {welcomeMessage.textContent = value + " " + localStorage.getItem("userNickname");}));
         }
 
 

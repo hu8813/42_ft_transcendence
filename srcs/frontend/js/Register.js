@@ -1,12 +1,12 @@
 function handleRegister() {
     
     Promise.all([
-        translateKey('auth.email'),
-        translateKey('auth.username'),
-        translateKey('auth.password'),
-        translateKey('auth.confirmPassword'),
-        translateKey('auth.passwordMismatch'),
-        translateKey('auth.register-status'), 
+        translateKey('email'),
+        translateKey('username'),
+        translateKey('password'),
+        translateKey('confirmPassword'),
+        translateKey('passwordMismatch'),
+        translateKey('register-status'), 
     ]).then(([emailPlaceholderTranslation, usernamePlaceholderTranslation, passwordPlaceholderTranslation, confirmPasswordPlaceholderTranslation, passwordMismatchTranslation, registerStatusTranslation]) => {
         document.getElementById("enterEmail").setAttribute('placeholder', emailPlaceholderTranslation);
         document.getElementById("enterUsername").setAttribute('placeholder', usernamePlaceholderTranslation);

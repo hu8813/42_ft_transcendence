@@ -94,7 +94,7 @@ function showAboutUsPage() {
 
   const wrapper = document.querySelector('.wrapperaboutus');
   const title = document.createElement("h1");
-  translateKey('home.ourTeam').then(ourTeamTranslation => {
+  translateKey('ourTeam').then(ourTeamTranslation => {
     title.innerHTML = `<span id="ourTeam">${ourTeamTranslation}</span>`;
 });
 if (wrapper)

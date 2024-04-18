@@ -416,26 +416,25 @@ window.onpopstate = () => {
 
 function translate(lang) {
   let currentLanguagetmp = localStorage.getItem('language');
-if (!currentLanguagetmp) {
-  currentLanguagetmp = lang || 'en';
+  if (!currentLanguagetmp) {
+    currentLanguagetmp = lang || 'en';
     localStorage.setItem('language', currentLanguagetmp);
     currentLanguage = currentLanguagetmp;
-}
+  }
 
   fetch(`translations/${lang}.json`)
     .then(response => response.json())
     .then(translations => {
-      Object.keys(translations).forEach(category => {
-        Object.keys(translations[category]).forEach(key => {
-          const element = document.getElementById(key);
-          if (element) {
-            element.innerHTML = translations[category][key];
-          }
-        });
+      Object.keys(translations).forEach(key => {
+        const element = document.getElementById(key);
+        if (element) {
+          element.innerHTML = translations[key];
+        }
       });
     })
     .catch(error => console.error('Error fetching translations:', error));
 }
+
 
 
 translate(currentLanguage);

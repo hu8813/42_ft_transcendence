@@ -148,7 +148,7 @@ async function calculateDaysSinceJoining(dateString) {
   const percentage = ((daysDifference + 1) / 25) * 50; 
 
   
-  const days_since = await translateKey('leaderboard.days');
+  const days_since = await translateKey('days');
 
   
   const progressBar = `

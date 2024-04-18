@@ -21,8 +21,8 @@ function fetchMessages() {
 
 function fetchUsersAndTranslations(recipientSelect) {
     return Promise.all([
-        translateKey('chat.selectRecipient'),
-        translateKey('chat.channel'),
+        translateKey('selectRecipient'),
+        translateKey('channel'),
         fetch(`${getBackendURL()}/get_all_users`).then(response => response.json())
     ]);
 }
@@ -81,7 +81,7 @@ function openChat() {
         clearInterval(fetchMessagesInterval);
     });
 
-    translateKey('chat.msgPlaceholder').then(msgPlaceholderTranslation => {
+    translateKey('msgPlaceholder').then(msgPlaceholderTranslation => {
         messageInput.placeholder = msgPlaceholderTranslation;
     });
 
