@@ -53,7 +53,7 @@ function getWebSocket() {
             console.log('WebSocket connection established.');
             const joinMessage = {
                 text: 'joined the chat',
-                name: localStorage.getItem('userLogin') || "user42"
+                name: localStorage.getItem('userNickname') || localStorage.getItem('userLogin') || "user42"
             };
             sendMessage(joinMessage);
             retryCount = 0;
@@ -94,7 +94,7 @@ function sendMessage(message) {
                 showNotification("Reconnected. Message sent successfully.", true);
                 const joinMessage3 = {
                     text: 'joined the chat',
-                    name: localStorage.getItem('userLogin') || "user42"
+                    name: localStorage.getItem('userNickname') || localStorage.getItem('userLogin') || "user42"
                 };
                 socket.send(JSON.stringify(joinMessage3));
                 socket.send(JSON.stringify(message));
@@ -127,7 +127,7 @@ function displayMessage(message) {
     const messageElement = document.createElement('div');
     messageElement.classList.add('msg');
 
-    const isCurrentUser = message.name === (localStorage.getItem('userLogin') || "user42");
+    const isCurrentUser = message.name === (localStorage.getItem('userNickname') || localStorage.getItem('userLogin') || "user42");
     const alignRight = isCurrentUser ? 'right' : 'left';
     messageElement.classList.add(isCurrentUser ? 'right-msg' : 'left-msg');
     messageElement.classList.add('msg-bubble');
@@ -243,7 +243,7 @@ function sendMessageFromInput() {
     const recipient = recipientName ? recipientName : '#CHANNEL';
 
     const newMessage = {
-        name: localStorage.getItem('userLogin') || "user42",
+        name: localStorage.getItem('userNickname') || localStorage.getItem('userLogin') || "user42",
         recipient: recipient,
         text: inputText,
     };
