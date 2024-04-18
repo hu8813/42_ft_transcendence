@@ -11,6 +11,7 @@
 	animation: fadeIn 1s ease-out;
 	font-size: 50px;
 	text-align: center;
+	color: wheat;
 }
 
 .carouselaboutus {
@@ -29,7 +30,7 @@
 	flex: 0 0 auto;
 	justify-content: center;
 	border-style: double;
-	border-color: whitesmoke;
+	border-color: wheat;
 	border-radius: 20px;
 	gap: 50px;
   }
@@ -38,7 +39,7 @@
 	width: 70%;
 	border-radius: 50%;
 	object-fit: cover;
-	border: 6px double whitesmoke;
+	border: 6px double wheat;
 	transition: transform 0.3s;
 }
 
@@ -48,17 +49,29 @@
 }
 
 .name {
-	color: whitesmoke;
+	color: wheat;
 	font-size: x-large;
 }
 
+.icon-container {
+	display: flex;
+	justify-content: center;
+	gap: 20px; /* Adjust this value as needed */
+  }
+
+.icon {
+	background-color: transparent;
+	border-style: none;
+	color: wheat;
+}
+
 .icon i{
-	font-size:xx-large;
+	font-size:50px;
 	border-radius: 50%;
 }
 
 .icon i:hover {
-	color: red;
+	color: black;
 	transition: color 0.2s ease;
 }
 
