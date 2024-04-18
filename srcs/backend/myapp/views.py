@@ -173,8 +173,7 @@ def proxy_userinfo(request):
     code = request.GET.get('code')
     if not code:
         return JsonResponse({'error': 'Code parameter is missing'}, status=400)
-    
-    
+   
     try:
         jwt_token = request.headers.get('Authorization')
         if not jwt_token:
@@ -471,7 +470,7 @@ def leaderboard(request):
         user = User.objects.get(pk=user_id)
         
         leaderboard_users = User.objects.order_by('-score')[:100]  
-        leaderboard_data = [{'username': user.nickname if user.nickname else user.username,
+        leaderboard_data = [{'username': user.username if user.username else user.nickname,
                      'date_joined': user.date_joined,
                      'image_link': user.image_link,
                      'score': user.score} for user in leaderboard_users]
