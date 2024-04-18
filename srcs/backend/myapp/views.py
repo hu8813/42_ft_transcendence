@@ -424,7 +424,6 @@ def upload_avatar(request):
     else:
         return Response({"message": "No avatar file provided."}, status=status.HTTP_400_BAD_REQUEST)
 
-@api_view(['POST'])
 def update_score(request):
     token = request.headers.get('Authorization', '').split('Bearer ')[-1]
     try:
@@ -433,14 +432,14 @@ def update_score(request):
         user = User.objects.get(pk=user_id)
         user.score += 1
         user.save()
-        return Response({'message': 'Score updated successfully'})
+        return JsonResponse({'message': 'Score updated successfully'})
     except jwt.ExpiredSignatureError:
-        return Response({'error': 'JWT signature has expired'}, status=status.HTTP_401_UNAUTHORIZED)
+        return JsonResponse({'error': 'JWT signature has expired'}, status=401)
     except jwt.InvalidTokenError:
-        return Response({'error': 'Invalid JWT token'}, status=status.HTTP_401_UNAUTHORIZED)
+        return JsonResponse({'error': 'Invalid JWT token'}, status=401)
     except User.DoesNotExist:
-        return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
-
+        return JsonResponse({'error': 'User not found'}, status=404)
+    
 def get_score(request):
     
     users = User.objects.all()

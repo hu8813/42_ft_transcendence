@@ -47,14 +47,13 @@ async function playRPS() {
                 if (won === 5) {
                     on("You")
                     const jwtToken = localStorage.getItem('jwtToken');
-                    const csrfToken2 = getCSRFCookie(); 
-                    console.log('csrfToken:', csrfToken);
+                    const csrfToken = await getCSRFCookie(); 
                     try {
                     const response = await fetch(`${getBackendURL()}/update-score`, {
                         method: 'POST',
                         headers: {
                             'Authorization': `Bearer ${jwtToken}`,
-                            'X-CSRFToken': csrfToken2
+                            'X-CSRFToken': csrfToken
                         },
                     });
                     if (response.ok) {
