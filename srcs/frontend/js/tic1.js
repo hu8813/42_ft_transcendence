@@ -67,7 +67,7 @@ function showTic1() {
         if (winner === 'X')
         {
             const jwtToken = localStorage.getItem('jwtToken');
-            const csrfToken = getCSRFCookie(); 
+            const csrfToken = await getCSRFCookie(); 
             try {
             const response = await fetch(`${getBackendURL()}/update-score`, {
                 method: 'POST',

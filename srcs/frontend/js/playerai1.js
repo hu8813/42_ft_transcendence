@@ -198,8 +198,19 @@ function showPlayerAi1Page() {
                 CPU.score++;
                 if (CPU.score === 7) {
                     gameOver = true;
+                    
+                    showGameOverModal('CPU');
+                } else {
+                    resetBall();
+                }
+            } else if (ball.x + ball.radius > canvas.width) {
+                player1.score++;
+                if (player1.score === 7) {
+                    gameOver = true;
                     const jwtToken = localStorage.getItem('jwtToken');
-                    const csrfToken = getCSRFCookie(); 
+                    const csrfToken = await getCSRFCookie(); 
+                    console.log('jwtToken:', jwtToken);
+                    console.log('csrfToken:', csrfToken);
                     try {
                     const response = await fetch(`${getBackendURL()}/update-score`, {
                         method: 'POST',
@@ -216,15 +227,6 @@ function showPlayerAi1Page() {
                     } catch (error) {
                     console.error('Failed to update user score:', error);
                     }
-                    showGameOverModal('CPU');
-                } else {
-                    resetBall();
-                }
-            } else if (ball.x + ball.radius > canvas.width) {
-                player1.score++;
-                if (player1.score === 7) {
-                    gameOver = true;
-                    
                     showGameOverModal('player1');
                 } else {
                     resetBall();

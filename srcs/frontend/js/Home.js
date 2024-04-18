@@ -21,8 +21,8 @@ function showHome() {
             if (translateKey('home.logintoplay').then((value) => {welcomeMessage.textContent = value;}));
 
         }
-        else if (localStorage.getItem("isLoggedIn") === 'true' && welcomeMessage && localStorage.getItem("userLogin") !== null) {
-            if (translateKey('auth.profile-title').then((value) => {welcomeMessage.textContent = value + " " + localStorage.getItem("userLogin");}));
+        else if (localStorage.getItem("isLoggedIn") === 'true' && welcomeMessage && localStorage.getItem("userNickname") !== null) {
+            if (translateKey('auth.profile-title').then((value) => {welcomeMessage.textContent = value + " " + localStorage.getItem("userNickname");}));
         }
 
 

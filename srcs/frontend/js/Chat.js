@@ -22,7 +22,7 @@ function toggleSocketConnection() {
             console.log('WebSocket disconnected.');
             const leftMessage = {
                 text: 'left the chat',
-                name: localStorage.getItem('userLogin') || "user42"
+                name: localStorage.getItem('userNickname') || localStorage.getItem('userLogin') || "user42"
             };
             sendMessage(leftMessage);
         

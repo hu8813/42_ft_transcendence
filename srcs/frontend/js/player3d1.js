@@ -375,7 +375,7 @@ function showPlayer3d1Page() {
             bounceTime++;
             paddle1.position.z = Math.sin(bounceTime * 0.1) * 10;
             const jwtToken = localStorage.getItem('jwtToken');
-            const csrfToken = getCSRFCookie(); 
+            const csrfToken = await getCSRFCookie(); 
             try {
                 const response = await fetch(`${getBackendURL()}/update-score`, {
                     method: 'POST',

@@ -52,6 +52,7 @@ async function fetchAndDisplayProfile() {
                 }
                 formData.append('nickname', data.nickname);
                 document.getElementById('nicknameadr').textContent = data.nickname;
+                localStorage.setItem('userNickname', data.nickname);
             }
     
             // Append image if provided
