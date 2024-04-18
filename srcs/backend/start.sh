@@ -9,12 +9,76 @@ while true; do
         python manage.py makemigrations >> /dev/null
         python manage.py migrate >> /dev/null
         
-        echo "ALTER TABLE auth_user ADD COLUMN IF NOT EXISTS score INTEGER DEFAULT 0;
+        echo "
+
+-- Create tables
+CREATE TABLE IF NOT EXISTS auth_user_friends (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES auth_user(id),
+    friend_id INTEGER REFERENCES auth_user(id),
+    from_user_id INTEGER REFERENCES auth_user(id),
+    CONSTRAINT unique_user_friend UNIQUE (user_id, friend_id)
+);
+
+CREATE TABLE IF NOT EXISTS myapp_feedback (
+    id SERIAL PRIMARY KEY,
+    feedback_text TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS myapp_userprofile (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER UNIQUE REFERENCES auth_user(id),
+    score INTEGER DEFAULT 0,
+    nickname VARCHAR(100)
+);
+
+CREATE TABLE IF NOT EXISTS myapp_user_permissions (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES auth_user(id),
+    permission_id INTEGER REFERENCES auth_permission(id)
+);
+
+CREATE TABLE IF NOT EXISTS myapp_user_groups (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES auth_user(id),
+    group_id INTEGER REFERENCES auth_group(id)
+);
+
+CREATE TABLE IF NOT EXISTS myapp_achievement (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES auth_user(id),
+    games_played INTEGER DEFAULT 0,
+    games_won INTEGER DEFAULT 0,
+    games_lost INTEGER DEFAULT 0,
+    tournaments_won INTEGER DEFAULT 0,
+    favorite_game VARCHAR(100)
+);
+
+CREATE TABLE IF NOT EXISTS auth_user_blocked_users (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES auth_user(id),
+    blocked_user_id INTEGER REFERENCES auth_user(id)
+);
+
+CREATE TABLE IF NOT EXISTS myapp_waitingplayer (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER UNIQUE REFERENCES auth_user(id)
+);
+
+-- Alter tables
+ALTER TABLE auth_user ADD COLUMN IF NOT EXISTS score INTEGER DEFAULT 0;
 ALTER TABLE auth_user ADD COLUMN IF NOT EXISTS nickname VARCHAR(50);
 ALTER TABLE auth_user ADD COLUMN IF NOT EXISTS image_link VARCHAR(255);
 ALTER TABLE auth_user ADD COLUMN IF NOT EXISTS access_token VARCHAR(255);
-
 ALTER TABLE auth_user ADD COLUMN IF NOT EXISTS authorization_code VARCHAR(255) UNIQUE;
+
+ALTER TABLE auth_user_friends ADD COLUMN IF NOT EXISTS from_user_id INTEGER REFERENCES auth_user(id);
+ALTER TABLE auth_user_friends ADD COLUMN IF NOT EXISTS to_user_id INTEGER REFERENCES auth_user(id);
+
+ALTER TABLE auth_user_blocked_users ADD COLUMN IF NOT EXISTS from_user_id INTEGER REFERENCES auth_user(id);
+ALTER TABLE auth_user_blocked_users ADD COLUMN IF NOT EXISTS to_user_id INTEGER REFERENCES auth_user(id);
+
 INSERT INTO auth_user (username, email, password, first_name, last_name, is_superuser, is_staff, is_active, date_joined, score, nickname, image_link)
 VALUES
     ('user1', 'user1@example.com', 'password1', 'John', 'Doe', FALSE, FALSE, TRUE, NOW(), 0, 'Johny', 'https://pong42.vercel.app/src/logo.png'),

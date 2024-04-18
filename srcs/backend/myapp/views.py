@@ -1,28 +1,21 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
-from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.csrf import csrf_exempt, ensure_csrf_cookie
 from django.core.serializers import serialize
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
-from django.core.files.images import ImageFile
-from rest_framework.authtoken.models import Token
-from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
-import uuid
-import os
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from rest_framework.authtoken.models import Token
 from django.conf import settings
 import requests
-from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+import uuid
+import os
 import json
 from .forms import UserRegistrationForm
-from .models import Tournament, User
-from .serializers import TournamentSerializer
-from .models import Player, WaitingPlayer
-from .models import Message
-from .models import UserProfile
-from .models import Feedback
+from .models import Tournament, User, Player, WaitingPlayer, Message, UserProfile, Feedback, Achievement, MyAppUserGroups, MyAppUserPermissions
 from django.utils import timezone
 from django.db import IntegrityError
 from django.utils.html import escape
@@ -30,21 +23,15 @@ import re
 from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
 from rest_framework_simplejwt.tokens import AccessToken
-from rest_framework_simplejwt.authentication import JWTAuthentication
-from rest_framework.permissions import IsAuthenticated
 import jwt
 from jwt.exceptions import InvalidTokenError
 from rest_framework import status
-from rest_framework.response import Response
 import qrcode
 import pyotp
 from django.core.files.base import ContentFile
 from django.core.files.storage import default_storage
 from io import BytesIO
 from django.middleware.csrf import get_token
-from django.views.decorators.csrf import ensure_csrf_cookie
-from rest_framework.decorators import api_view, permission_classes
-
 
 token_obtain_pair_view = TokenObtainPairView.as_view()
 token_refresh_view = TokenRefreshView.as_view()
@@ -469,9 +456,10 @@ def get_games(request):
 
 
 def tournaments(request):
-    tournaments = Tournament.objects.all()
-    serializer = TournamentSerializer(tournaments, many=True)
-    return JsonResponse(serializer.data, safe=False)
+    pass
+    #tournaments = Tournament.objects.all()
+    #serializer = TournamentSerializer(tournaments, many=True)
+    #return JsonResponse(serializer.data, safe=False)
 
 
 def leaderboard(request):
@@ -722,6 +710,12 @@ def manage_profile(request):
                 return JsonResponse({'error': str(e)}, status=500)
         
         elif request.method == 'DELETE':
+            Achievement.objects.filter(user=user).delete()
+            MyAppUserGroups.objects.filter(user=user).delete()
+            MyAppUserPermissions.objects.filter(user=user).delete()
+            UserProfile.objects.filter(user=user).delete()
+            WaitingPlayer.objects.filter(user=user).delete()
+
             user.delete()
             return JsonResponse({'message': 'Profile deleted successfully'})
         

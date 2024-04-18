@@ -14,7 +14,7 @@ async function fetchAndDisplayViewProfile(username) {
         const profileData = await response.json();
         if ('error' in profileData) {
             profileData = null; 
-            window.location.href = "/#logout";
+            //window.location.href = "/#logout";
         }
         
         const user = profileData.user || {}; 
@@ -43,6 +43,6 @@ async function fetchAndDisplayViewProfile(username) {
 
     } catch (error) {
         console.error('Error fetching and displaying profile:', error);
-        window.location.href = "/#logout";
+        //window.location.href = "/#logout";
     }
 }
