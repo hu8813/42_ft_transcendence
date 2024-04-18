@@ -60,7 +60,14 @@
   "game": {
     "play!title": "Play!",
     "controls": "Left Player: W/S - Right Player: UP/DOWN",
-    "selectGame": "Select Game Mode"
+    "selectGame": "Select Game Mode",
+    "instructions3d": "Use arrow keys or move your phone left/right to move the paddle",
+    "reach7points": "Reach 7 points to win!",
+    "startGameButton": "Start Game",
+    "moveLeftButton": "Move Left",
+    "moveRightButton": "Move Right",
+    "computerOpponent": "Computer",
+    "rpsTitle":"Rock Paper Scissors"
   },
   "leaderboard": {
     "page": "Page",

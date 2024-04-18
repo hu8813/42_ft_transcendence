@@ -1,3 +1,15 @@
+@keyframes zoomInOut {
+  0% {
+    transform: scale(1.05);
+  }
+  50% {
+    transform: scale(1.35); 
+  }
+  100% {
+    transform: scale(1.2); 
+  }
+}
+
 .welcome-page {
   display: flex;
   flex-direction: column;
@@ -9,6 +21,7 @@
   background-image: url('../src/bg.jpg');
   background-size: cover;
   background-position: center;
+  animation: zoomInOut 10s infinite alternate;
 }
 
 .welcome-message {

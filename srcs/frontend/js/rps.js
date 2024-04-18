@@ -42,7 +42,7 @@ async function playRPS() {
             const result = playRound(playerSelection, computerSelection);
             if (result === 'won') {
                 document.getElementById('playerscore').textContent = `Score: ${++won}`;
-                if (won === 3) {
+                if (won === 7) {
                     on("You");
                     const jwtToken = localStorage.getItem('jwtToken');
                     const csrfToken = await getCSRFCookie(); 
@@ -65,7 +65,7 @@ async function playRPS() {
                 }
             } else if (result === 'lost') {
                 document.getElementById('computerscore').textContent = `Score: ${++lost}`;
-                if (lost === 3) {
+                if (lost === 7) {
                     on("CPU");
                 }
             }

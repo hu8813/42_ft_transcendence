@@ -31,14 +31,6 @@ function showHome() {
         const pongBall = document.querySelector(".ping-pong-ball");
         const pongTable = document.querySelector(".pong-table");
         
-        pongTable.onmousemove = (event) => {
-            const y = event.clientY - pongTable.offsetTop;
-            const leftPaddleTop = Math.min(70, Math.max(0, y - 25)) + '%'; 
-            leftPaddle.style.top = leftPaddleTop;
-            
-            const rightPaddleTop = Math.min(70, Math.max(0, y - 25)) + '%'; 
-            rightPaddle.style.top = rightPaddleTop;
-        };
     };
     
     
