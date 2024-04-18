@@ -39,10 +39,10 @@ function showAboutUsPage() {
 
   cardsData.forEach(data => {
     const card = document.createElement('li');
-    card.classList.add('card', 'bn');
+    card.classList.add('aucard', 'bn');
 
     const imgDiv = document.createElement('div');
-    imgDiv.classList.add('img', 'bn');
+    imgDiv.classList.add('img');
     const img = document.createElement('img');
     img.src = data.imgSrc;
     img.alt = data.imgAlt;
@@ -97,14 +97,15 @@ function showAboutUsPage() {
   translateKey('home.ourTeam').then(ourTeamTranslation => {
     title.innerHTML = `<span id="ourTeam">${ourTeamTranslation}</span>`;
 });
-  wrapper.appendChild(title);
+if (wrapper)
+{
+    wrapper.appendChild(title);
   const carousel = document.createElement('ul');
   carousel.classList.add('carouselaboutus');
   carousel.appendChild(fragment);
-  wrapper.appendChild(carousel);
 
-  title.style.textAlign = "center";
-  title.style.fontSize = "50px";
-  title.classList.add('animated-title');
-  //translate(currentLanguage);
+
+  wrapper.appendChild(carousel);
+}
+//translate(currentLanguage);
 }

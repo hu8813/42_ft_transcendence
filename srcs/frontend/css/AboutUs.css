@@ -1,61 +1,66 @@
 .wrapperaboutus {
-	max-width: fit-content;
-	width: 100%;
-	background-color: #333; /* Set background color */
-  }
-  
-  .wrapperaboutus .carouselaboutus {
-	display: flex;
-	gap: 20px;
-	padding-left: 0px;
-  }
-  
-  .carouselaboutus .card {
-	list-style: none;
-	background: #333;
-	border-radius: 8px;
-	width: 100%;
-	align-items: center;
-	gap: 20px;
-	border-color: whitesmoke;
-	border-style: double;
-  }
-  
-
-.card .img { 
-	width: 200px; 
-	height: 200px;
 	display: flex;
 	flex-direction: column;
-	justify-content: center;
-	align-items: center;
+	width: 100%;
+	height: 100%;
+	background-color: #333;
+	padding-top: 30px;
+  }
+
+.wrapperaboutus > h1 {
+	animation: fadeIn 1s ease-out;
+	font-size: 50px;
+	text-align: center;
 }
 
-.card .img img {
-	width: 100%; 
-	height: 100%; 
-	object-fit: cover; 
-	border-radius: 50%; 
-	border: 6px double whitesmoke; 
-} 
+.carouselaboutus {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	overflow: auto;
+	padding-left: 0px;
+	height: 100%;
+	gap:50px;
+}
+  
+.aucard {
+	display: flex;
+	flex-direction: column;
+	flex: 0 0 auto;
+	justify-content: center;
+	border-style: double;
+	border-color: whitesmoke;
+	border-radius: 20px;
+	gap: 50px;
+  }
 
-.card .img :hover{
-	width: 150%; 
-	height: 150%; 
-	object-fit: cover; 
-	border-radius: 100%; 
-	background-color: #333;
-	border-color: black;
-	background: linear-gradient(
-	45deg,
-	#071cd8, #f5578b, #2f00ff, #00ff37,
-	#ec0808, #2600ff, #ad47a8, #2f00ff)
-} 
+.aucard > .img img{
+	width: 70%;
+	border-radius: 50%;
+	object-fit: cover;
+	border: 6px double whitesmoke;
+	transition: transform 0.3s;
+}
+
+.aucard > .img :hover{
+	width: 100%;
+	transform: rotate(360deg);
+}
 
 .name {
 	color: whitesmoke;
+	font-size: x-large;
 }
 
+.icon i{
+	font-size:xx-large;
+	border-radius: 50%;
+}
+
+.icon i:hover {
+	color: red;
+	transition: color 0.2s ease;
+}
 
 @keyframes fadeIn {
 	from {
@@ -68,27 +73,3 @@
 	}
 }
 
-h1 {
-	animation: fadeIn 1s ease-out;
-}
-
-@media screen and (max-width: 900px) { 
-	.wrapperaboutus .carouselaboutus { 
-		grid-auto-columns: calc((100% / 4) - 9px); 
-	} 
-} 
-
-@media screen and (max-width: 600px) {
-	.wrapperaboutus .carouselaboutus {
-	  display: flex;
-	  flex-direction: column;
-	  align-items: center;
-	  overflow-y: auto; /* Add vertical scrollbar */
-	  overflow-x: hidden; /* Hide horizontal scrollbar */
-	}
-  
-	.carouselaboutus .card {
-	  width: 100%; /* Set card width to full width */
-	}
-  }
-  
