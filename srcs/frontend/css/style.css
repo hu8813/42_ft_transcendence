@@ -23,10 +23,10 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #333;
+    background-color: red;
     color: antiquewhite;
     position: relative;
-    height: 87vh;
+    height: 88vh;
 }
 
 header {
