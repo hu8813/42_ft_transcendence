@@ -170,9 +170,9 @@ def signin42(request):
 
 def proxy_userinfo(request):
     
-    code = request.GET.get('code')
-    if not code:
-        return JsonResponse({'error': 'Code parameter is missing'}, status=400)
+    #code = request.GET.get('code')
+    #if not code:
+    #    return JsonResponse({'error': 'Code parameter is missing'}, status=400)
    
     try:
         jwt_token = request.headers.get('Authorization')
@@ -206,24 +206,19 @@ def proxy_userinfo(request):
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=500)
 
-
 def proxy_viewb(request):
-    
     code = request.GET.get('code')
     if not code:
         return JsonResponse({'error': 'Code parameter is missing'}, status=400)
 
-    
     client_id = os.getenv('CLIENT_ID')
     client_secret = os.getenv('CLIENT_SECRET')
     redirect_uri = os.getenv('REDIRECT_URI')
     csrf_token = get_token(request)
 
-    
     if not client_id or not client_secret or not redirect_uri:
         return JsonResponse({'error': 'Environment variables are not set correctly'}, status=500)
 
-    
     data = {
         'grant_type': 'authorization_code',
         'client_id': client_id,
@@ -234,62 +229,52 @@ def proxy_viewb(request):
     }
 
     try:
-        
         response = requests.post('https://api.intra.42.fr/oauth/token', data=data)
-        response.raise_for_status()  
+        response.raise_for_status()
 
-        
         access_token = response.json().get('access_token')
 
-        
         user_data_response = requests.get('https://api.intra.42.fr/v2/me', headers={'Authorization': f'Bearer {access_token}'})
-        user_data_response.raise_for_status()  
+        user_data_response.raise_for_status()
 
-        
         user_data = user_data_response.json()
         login = user_data.get('login')
         email = user_data.get('email')
         image_data = user_data.get('image', {})
         image_link = image_data.get('versions', {}).get('medium', image_data.get('link'))
 
+        # Check if the user already exists
+        try:
+            user = User.objects.get(username=login)
+        except User.DoesNotExist:
+            # Create a new user if the user doesn't exist
+            user = User.objects.create_user(username=login, email=email)
 
-        
-        user, created = User.objects.get_or_create(username=login, email=email)
-
-        
-        user.nickname = user_data.get('nickname', user.username)  
-        user.score += 0 
-        user.image_link = image_link
-        user.access_token = access_token
-        user.authorization_code = code
-        user.save()
+            user.nickname = user_data.get('nickname', user.username)
+            user.image_link = image_link
+            user.save()
 
         token = AccessToken.for_user(user)
-        encoded_token = str(token) 
-        redirect_url = f'https://pong42.vercel.app/return.html?code={code}&jwtToken={encoded_token}'
-        
+        encoded_token = str(token)
+        redirect_url = f'https://pong42.vercel.app/return.html?jwtToken={encoded_token}'
+
         return redirect(redirect_url)
     except requests.RequestException as e:
         return JsonResponse({'error': str(e)}, status=500)
-
-
+    
 def proxy_viewc(request):
-    
     code = request.GET.get('code')
     if not code:
         return JsonResponse({'error': 'Code parameter is missing'}, status=400)
 
-    
     client_id = os.getenv('CLIENT_ID')
     client_secret = os.getenv('CLIENT_SECRET')
     redirect_uri = os.getenv('REDIRECT_URI')
     csrf_token = get_token(request)
 
-    
     if not client_id or not client_secret or not redirect_uri:
         return JsonResponse({'error': 'Environment variables are not set correctly'}, status=500)
 
-    
     data = {
         'grant_type': 'authorization_code',
         'client_id': client_id,
@@ -300,43 +285,38 @@ def proxy_viewc(request):
     }
 
     try:
-        
         response = requests.post('https://api.intra.42.fr/oauth/token', data=data)
-        response.raise_for_status()  
+        response.raise_for_status()
 
-        
         access_token = response.json().get('access_token')
 
-        
         user_data_response = requests.get('https://api.intra.42.fr/v2/me', headers={'Authorization': f'Bearer {access_token}'})
-        user_data_response.raise_for_status()  
+        user_data_response.raise_for_status()
 
-        
         user_data = user_data_response.json()
         login = user_data.get('login')
         email = user_data.get('email')
         image_data = user_data.get('image', {})
         image_link = image_data.get('versions', {}).get('medium', image_data.get('link'))
 
+        # Check if the user already exists
+        try:
+            user = User.objects.get(username=login)
+        except User.DoesNotExist:
+            # Create a new user if the user doesn't exist
+            user = User.objects.create_user(username=login, email=email)
 
-        
-        user, created = User.objects.get_or_create(username=login, email=email)
+            user.nickname = user_data.get('nickname', user.username)
+            user.image_link = image_link
+            user.save()
 
-        
-        user.nickname = user_data.get('nickname', user.username)  
-        user.score += 0 
-        user.image_link = image_link
-        user.access_token = access_token
-        user.authorization_code = code
-        user.save()
-        
         token = AccessToken.for_user(user)
-        encoded_token = str(token) 
-        redirect_url = f'https://localhost:8443/return.html?code={code}&jwtToken={encoded_token}'
+        encoded_token = str(token)
+        redirect_url = f'https://localhost:8443/return.html?jwtToken={encoded_token}'
+
         return redirect(redirect_url)
     except requests.RequestException as e:
         return JsonResponse({'error': str(e)}, status=500)
-
 
 @api_view(['POST'])
 def obtain_token(request):

@@ -52,17 +52,16 @@ function getCookie(name) {
 document.addEventListener("DOMContentLoaded", async function() {
   const locationSearch = window.location.search;
   const params = new URLSearchParams(locationSearch);
-  const code = params.get('code');
   const jwtToken = params.get('jwtToken');
   const csrfToken = await getCSRFCookie();
   
   if (jwtToken) {
-    localStorage.setItem("jwtToken", jwtToken); // Fixed typo here
+    localStorage.setItem("jwtToken", jwtToken); 
   }
   
-  if (code) {
+  if (jwtToken) {
     try {
-      let fetchUrl = `/api/userinfo/?code=${code}`;
+      let fetchUrl = `/api/userinfo/`;
       
 
       const response = await fetch(fetchUrl, {
