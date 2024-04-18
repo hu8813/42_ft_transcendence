@@ -91,45 +91,8 @@ function showTic1() {
             document.getElementById('nGButton').style.display = 'block';
         nGButton();
         }, 1000);
-        } 
-
-        function computerMove() {
-            let move = getWinningMove('O') || getBlockingMove('X') || getCenterMove() || getCornerMove() || getSideMove();
-            if (!move) return;
-            board[move.x][move.y] = 'O';
-            drawO(move.x * sectionSize, move.y * sectionSize);
-            drawLines(10, lineColor);
+        }
         
-            let winner = checkWinner();
-            if (winner) {
-                canvas.removeEventListener('mouseup', handleRelease);
-                canvas.removeEventListener('touchend', handleRelease);
-                
-                showGameOverMessage(winner);
-
-            }
-        }
-    
-        function playerMove(x, y) {
-            if (board[x][y] !== null) {
-                return;
-            }
-    
-            board[x][y] = currentPlayer;
-            drawX(x * sectionSize, y * sectionSize);
-            drawLines(10, lineColor);
-    
-            let winner = checkWinner();
-            if (winner) {
-                canvas.removeEventListener('mouseup', handleRelease);
-                canvas.removeEventListener('touchend', handleRelease);
-                showGameOverMessage(winner);
-                return;
-            }
-    
-            computerMove();
-        }
-
         function drawO(xCordinate, yCordinate) {
             const halfSectionSize = 0.5 * sectionSize;
             const centerX = xCordinate + halfSectionSize;
@@ -182,25 +145,6 @@ function showTic1() {
             }
         }
 
-        function getCanvasMousePosition(event) {
-            const rect = canvas.getBoundingClientRect();
-            const scaleX = canvas.width / rect.width;
-            const scaleY = canvas.height / rect.height;
-            let x, y;
-
-            if (event.touches) {
-                x = event.touches[0].clientX - rect.left;
-                y = event.touches[0].clientY - rect.top;
-            } else {
-                x = event.clientX - rect.left;
-                y = event.clientY - rect.top;
-            }
-            return {
-                x: x * scaleX,
-                y: y * scaleY
-            };
-        }
-    
         function isMoveLeft(board) {
             return board.some(row => row.includes(null));
         }
@@ -282,25 +226,87 @@ function showTic1() {
             return bestMove;
         }
 
+        let difficulty = Math.random() < 0.6 ? 'hard' : 'easy';
+
+        function getEasyOrRandomMove() {
+            let availableMoves = [];
+            for (let i = 0; i < 3; i++) {
+                for (let j = 0; j < 3; j++) {
+                    if (board[i][j] === null) {
+                        availableMoves.push({ row: i, col: j });
+                    }
+                }
+            }        
+            if (availableMoves.length === 0) {
+                return null;
+            }        
+            let randomIndex = Math.floor(Math.random() * availableMoves.length);
+            return availableMoves[randomIndex];
+        }
+
+        function getMediumMove() {
+            let availableMoves = [];
+            let blockMove = null;
+
+            for (let i = 0; i < 3; i++) {
+                for (let j = 0; j < 3; j++) {
+                    if (board[i][j] === null) {
+                        board[i][j] = 'X';
+                        if (checkWinner() === 'X') {
+                            blockMove = { row: i, col: j };
+                        }
+                        board[i][j] = null;
+                    }
+                }
+            }        
+            if (blockMove) {
+                return blockMove;
+            }
+        
+            for (let i = 0; i < 3; i++) {
+                for (let j = 0; j < 3; j++) {
+                    if (board[i][j] === null) {
+                        availableMoves.push({ row: i, col: j });
+                    }
+                }
+            }
+                    if (availableMoves.length > 0) {
+                let randomIndex = Math.floor(Math.random() * availableMoves.length);
+                return availableMoves[randomIndex];
+            }
+        
+            return null;
+        }
+
         function computerMove() {
             let move;
             if (isMoveLeft(board)) {
-                move = findBestMove(board);
-                if (move.row !== -1 && move.col !== -1) {
+                if (difficulty === 'hard') {
+                    move = findBestMove(board);
+                } else {
+                    if (Math.random() < 0.6) {
+                        //move = getMediumMove();  //harder 
+                        move = getEasyOrRandomMove(); //easyer
+                    } else {
+                        move = findBestMove(board);
+                    }
+                }
+
+                if (move && board[move.row][move.col] === null) {
                     board[move.row][move.col] = 'O';
                     drawO(move.row * sectionSize, move.col * sectionSize);
                     drawLines(10, lineColor);
                 }
-            }
-        
-            let winner = checkWinner();
-            if (winner) {
-                canvas.removeEventListener('mouseup', handleRelease);
-                canvas.removeEventListener('touchend', handleRelease);
-                showGameOverMessage(winner);
+
+                let winner = checkWinner();
+                if (winner) {
+                    canvas.removeEventListener('mouseup', handleRelease);
+                    canvas.removeEventListener('touchend', handleRelease);
+                    showGameOverMessage(winner);
+                }
             }
         }
-
+        
         function handleRelease(event) {
             event.preventDefault();
             if (currentPlayer === 'O')
