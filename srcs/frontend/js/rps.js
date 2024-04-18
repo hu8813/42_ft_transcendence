@@ -1,32 +1,31 @@
-function playRound(playerSelection, computerSelection)
-{
+function playRound(playerSelection, computerSelection) {
     if ((playerSelection === "rock" && computerSelection === "rock")
         || (playerSelection === "paper" && computerSelection === "paper")
-        || (playerSelection === "scissors" && computerSelection === "scissors"))
+        || (playerSelection === "scissors" && computerSelection === "scissors")) {
         return "drew";
-    else if ((playerSelection === "rock" && computerSelection === "scissors")
+    } else if ((playerSelection === "rock" && computerSelection === "scissors")
         || (playerSelection === "paper" && computerSelection === "rock")
-        || (playerSelection === "scissors" && computerSelection === "paper"))
+        || (playerSelection === "scissors" && computerSelection === "paper")) {
         return "won";
-    else if ((playerSelection === "rock" && computerSelection === "paper")
+    } else if ((playerSelection === "rock" && computerSelection === "paper")
         || (playerSelection === "paper" && computerSelection === "scissors")
-        || (playerSelection === "scissors" && computerSelection === "rock"))
+        || (playerSelection === "scissors" && computerSelection === "rock")) {
         return "lost";
+    }
 }
 
-function getComputerChoice(){
-    let num = Math.floor(Math.random() * 3)
+function getComputerChoice() {
+    let num = Math.floor(Math.random() * 3);
     if (num === 0)
-        return "rock"
+        return "rock";
     else if (num === 1)
-        return "paper"
+        return "paper";
     else
-        return "scissors"
+        return "scissors";
 }
 
 async function playRPS() {
     const container = document.querySelector(".rps-player-block");
-
     container.querySelectorAll('.select').forEach(button => {
         button.addEventListener('click', async function() {
             document.getElementById('c-rock').style.backgroundColor = "black";
@@ -41,47 +40,47 @@ async function playRPS() {
             else
                 document.getElementById('c-scissors').style.backgroundColor = "red";
             const result = playRound(playerSelection, computerSelection);
-
             if (result === 'won') {
                 document.getElementById('playerscore').textContent = `Score: ${++won}`;
-                if (won === 5) {
-                    on("You")
+                if (won === 3) {
+                    on("You");
                     const jwtToken = localStorage.getItem('jwtToken');
                     const csrfToken = await getCSRFCookie(); 
                     try {
-                    const response = await fetch(`${getBackendURL()}/update-score`, {
-                        method: 'POST',
-                        headers: {
-                            'Authorization': `Bearer ${jwtToken}`,
-                            'X-CSRFToken': csrfToken
-                        },
-                    });
-                    if (response.ok) {
-                        console.log('User score updated successfully');
-                    } else {
-                        console.error('Failed to update user score');
-                    }
+                        const response = await fetch(`${getBackendURL()}/update-score`, {
+                            method: 'POST',
+                            headers: {
+                                'Authorization': `Bearer ${jwtToken}`,
+                                'X-CSRFToken': csrfToken
+                            },
+                        });
+                        if (response.ok) {
+                            console.log('User score updated successfully');
+                        } else {
+                            console.error('Failed to update user score');
+                        }
                     } catch (error) {
-                    console.error('Failed to update user score:', error);
+                        console.error('Failed to update user score:', error);
                     }
                 }
             } else if (result === 'lost') {
                 document.getElementById('computerscore').textContent = `Score: ${++lost}`;
-                if (lost === 5) {
-                    on("CPU")
+                if (lost === 3) {
+                    on("CPU");
                 }
             }
-
         });
     });
 }
 
 function on(winner) {
-    document.getElementById("overlay").style.display = "block";
-    document.getElementById("overtext").textContent = winner + " WON";
-    document.getElementById("overtxt").textContent = "PLAY AGAIN";
+    const overlay = document.getElementById("overlay");
+    overlay.style.display = "block";
 
-    }
+    const overtext = document.getElementById("overtext");
+    overtext.textContent = winner + " WON\nPLAY AGAIN";
+}
+
 
 function off() {
     won = 0;
@@ -94,8 +93,5 @@ function off() {
     document.getElementById('c-scissors').style.backgroundColor = "black";
 }
 
-
 let won = 0;
 let lost = 0;
-
-

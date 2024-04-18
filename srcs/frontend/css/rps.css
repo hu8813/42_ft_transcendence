@@ -194,22 +194,14 @@
     cursor: pointer;
   }
 
-  #overtext{
+  #overtext {
     position: absolute;
     top: 50%;
     left: 50%;
     font-size: 50px;
     color: white;
-    transform: translate(-50%,-50%);
-    -ms-transform: translate(-50%,-50%);
-  }
+    text-align: center; /* Center-align the text */
+    white-space: pre; /* Preserve white space including line breaks */
+    display: inline-block; /* Ensure the text is displayed inline */
+}
 
-  #overtxt{
-    position: absolute;
-    top: 60%;
-    left: 50%;
-    font-size: 50px;
-    color: white;
-    transform: translate(-50%,-50%);
-    -ms-transform: translate(-50%,-50%);
-  }
