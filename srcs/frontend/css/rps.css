@@ -200,8 +200,16 @@
     left: 50%;
     font-size: 50px;
     color: white;
+    transform: translate(-50%, -50%); /* Center horizontally and vertically */
     text-align: center; /* Center-align the text */
     white-space: pre; /* Preserve white space including line breaks */
     display: inline-block; /* Ensure the text is displayed inline */
 }
+
+@media screen and (max-width: 768px) {
+  #overtext {
+      font-size: 40px; /* Adjust font size for smaller screens */
+  }
+}
+
 
