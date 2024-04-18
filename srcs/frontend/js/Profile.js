@@ -84,8 +84,7 @@ async function fetchAndDisplayProfile() {
         }
     }
 
-    if (!csrfToken)
-        csrfToken = await getCSRFCookie();
+    csrfToken = await getCSRFCookie();
 
     try {
         const jwtToken = localStorage.getItem('jwtToken');

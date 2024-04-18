@@ -85,7 +85,7 @@ function setCSRFCookie(csrfToken) {
 async function getCSRFCookie() {
   let csrfCookie = getCookie(csrfCookieName);
   
-  if (!csrfCookie) {
+
       try {
           const response = await fetch('/api/get-csrf-token/', {
               method: 'GET',
@@ -104,9 +104,7 @@ async function getCSRFCookie() {
           console.error('Error fetching CSRF token:', error);
           return null;
       }
-  } else {
-      return csrfCookie;
-  }
+  
 }
 
 
