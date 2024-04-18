@@ -208,7 +208,7 @@
 
 @media screen and (max-width: 768px) {
   #overtext {
-      font-size: 40px; /* Adjust font size for smaller screens */
+      font-size: 35px; /* Adjust font size for smaller screens */
   }
 }
 
