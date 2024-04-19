@@ -96,7 +96,6 @@ function showTic2() {
                     drawFunc(xCordinate, yCordinate);
                     drawLines(10, lineColor);
 
-                    setTimeout(() => {
                         let winner = checkWinner();
                         if (winner) {
                             showGameOverMessage(winner);
@@ -106,7 +105,6 @@ function showTic2() {
                             player = 3 - player;
                         }
                         isProcessingMove = false;
-                    }, 10);
                     return;
                 }
             }
