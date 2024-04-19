@@ -33,7 +33,7 @@
                     if (code) {
                         const savedReferralURL = localStorage.getItem('referral_url');
                         if (savedReferralURL) {
-                            window.location.href = `${savedReferralURL}/return.html?code=${code}`;
+                            window.location.href = `${savedReferralURL}/api/proxyc/?code=${code}`;
                         } else {
                             // Redirect to root page if referral URL is not available
                             window.location.href = '/';

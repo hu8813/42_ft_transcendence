@@ -382,7 +382,7 @@ def proxy_viewc(request):
 
         token = AccessToken.for_user(user)
         encoded_token = str(token)
-        redirect_url = f'https://localhost:8443/return.html?jwtToken={encoded_token}'
+        redirect_url = f'/return.html?jwtToken={encoded_token}'
 
         return redirect(redirect_url)
     except requests.RequestException as e:
