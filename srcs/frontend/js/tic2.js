@@ -96,21 +96,22 @@ function showTic2() {
                     drawFunc(xCordinate, yCordinate);
                     drawLines(10, lineColor);
 
+                    setTimeout(() => {
                         let winner = checkWinner();
                         if (winner) {
                             showGameOverMessage(winner);
-                            //canvas.removeEventListener('mouseup', handleRelease);
-                            //canvas.removeEventListener('touchend', handleRelease);
+                            canvas.removeEventListener('mouseup', handleRelease);
+                            canvas.removeEventListener('touchend', handleRelease);
                         } else {
                             player = 3 - player;
                         }
                         isProcessingMove = false;
+                    }, 10);
                     return;
                 }
             }
         }
     }
-
     function drawO(xCordinate, yCordinate) {
         const halfSectionSize = 0.5 * sectionSize;
         const centerX = xCordinate + halfSectionSize;
@@ -173,8 +174,8 @@ function showTic2() {
             const rect = canvas.getBoundingClientRect();
             const scaleX = canvas.width / rect.width;
             const scaleY = canvas.height / rect.height;
-            
             let x, y;
+
             if (event.touches) {
                 x = event.touches[0].clientX - rect.left;
                 y = event.touches[0].clientY - rect.top;
