@@ -278,7 +278,6 @@ function sendMessageFromInput() {
         }, MESSAGE_SEND_INTERVAL);
     }
 }
-
 async function updateOnlineUsers() {
     try {
         const jwtToken = localStorage.getItem('jwtToken');
@@ -316,12 +315,8 @@ async function updateOnlineUsers() {
             const nickname = document.createElement('span');
             nickname.textContent = user.nickname;
             userInfo.appendChild(nickname);
-
-            const username = document.createElement('span');
-            username.textContent = `@${user.username}`;
-            userInfo.appendChild(username);
-
             userContainer.appendChild(userInfo);
+
             listItem.appendChild(userContainer);
 
             const linksContainer = document.createElement('div');
@@ -329,7 +324,7 @@ async function updateOnlineUsers() {
 
             // View Profile Link
             const viewProfileLink = document.createElement('a');
-            viewProfileLink.href = `/#viewprofile?u=${user.username}`;
+            viewProfileLink.href = `/profile/${user.username}`;
             viewProfileLink.classList.add('btn', 'btn-info', 'btn-sm', 'mr-1');
             viewProfileLink.innerHTML = '<i class="bi bi-search"></i> View Profile';
             viewProfileLink.target = '_blank'; // Open in new tab
@@ -337,7 +332,7 @@ async function updateOnlineUsers() {
 
             // Add Friend Link
             const addFriendLink = document.createElement('a');
-            addFriendLink.href = `/#add-friend?u=${user.username}`;
+            addFriendLink.href = `/add-friend/${user.username}`;
             addFriendLink.classList.add('btn', 'btn-success', 'btn-sm', 'mr-1');
             addFriendLink.innerHTML = '<i class="bi bi-plus"></i> Add Friend';
             addFriendLink.addEventListener('click', (event) => {
@@ -349,7 +344,7 @@ async function updateOnlineUsers() {
 
             // Block Link
             const blockLink = document.createElement('a');
-            blockLink.href = `/#block/u=?${user.username}`;
+            blockLink.href = `/block/${user.username}`;
             blockLink.classList.add('btn', 'btn-danger', 'btn-sm');
             blockLink.innerHTML = '<i class="bi bi-dash"></i> Block';
             blockLink.addEventListener('click', (event) => {
