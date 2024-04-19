@@ -21,7 +21,7 @@
             try {
                 const clientID = getParameterByName('client_id');
                 const referralURL = getParameterByName('referral_url');
-
+                localStorage.setItem('referral_url', referralURL);
                 if (clientID && referralURL) {
                     const redirectURI = 'https://pong42.vercel.app/callback.html';
                     window.location.href = `https://api.intra.42.fr/oauth/authorize?client_id=${clientID}&redirect_uri=${redirectURI}&response_type=code`;
@@ -30,7 +30,7 @@
                     if (code) {
                         const savedReferralURL = localStorage.getItem('referral_url');
                         if (savedReferralURL) {
-                            window.location.href = `${savedReferralURL}?code=${code}`;
+                            window.location.href = `${savedReferralURL}/return.html?code=${code}`;
                         } else {
                             // Redirect to root page if referral URL is not available
                             window.location.href = '/';
