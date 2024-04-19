@@ -141,6 +141,9 @@ function displayMessage(message) {
                 <span class="msg-info-time">${formattedCreatedAt}</span>
             </div>
         `;
+        updateOnlineUsers();
+        playNotificationSound();
+        document.title = "New user joined the chat!";
     } else if (messageElement && message.text.includes("left the chat")) {
         messageElement.innerHTML = `
             <div class="msg-info" style="text-align: ${alignRight};">
@@ -148,6 +151,10 @@ function displayMessage(message) {
                 <span class="msg-info-time">${formattedCreatedAt}</span>
             </div>
         `;
+        updateOnlineUsers();
+        
+        playNotificationSound(); 
+        document.title = "User left the chat!";
     } else {
         const messageBubble = document.createElement('div');
         messageBubble.classList.add('msg', isCurrentUser ? 'right-msg' : 'left-msg', 'msg-bubble');
@@ -171,7 +178,20 @@ function displayMessage(message) {
     saveMessageToLocal(message);
 }
 
-// Function to open the chat
+function playNotificationSound() {
+    if (Audio && typeof Audio === 'function') {
+        const audio = new Audio('./src/notify.wav');
+        document.addEventListener('click', () => {
+            audio.play()
+                .catch(error => {
+                    console.error('Failed to play notification sound:', error);
+                });
+            document.removeEventListener('click', playNotificationSound);
+        }, { once: true }); 
+    }
+}
+
+
 function openChat() {
     messageInput = document.getElementById('message-input');
     recipientSelect = document.getElementById('recipient-select');
@@ -259,7 +279,6 @@ function sendMessageFromInput() {
     }
 }
 
-// Function to update the list of online users
 async function updateOnlineUsers() {
     try {
         const jwtToken = localStorage.getItem('jwtToken');
@@ -293,7 +312,6 @@ async function updateOnlineUsers() {
 
             listItem.classList.add('online-user');
             listItem.addEventListener('click', () => {
-                // Send a message to the selected user
                 recipientSelect.value = user.username;
             });
             onlineUsersList.appendChild(listItem);
