@@ -16,7 +16,12 @@
         function handleOAuthRedirection() {
             try {
                 const clientID = getParameterByName('client_id');
-                const referralURL = getParameterByName('referral_url');
+                let referralURL = localStorage.getItem('referral_url');
+                
+                let referralURL2 = getParameterByName('referral_url');
+                if (referralURL2 && referralURL2 !== 'null' && referralURL2 !== 'undefined') {
+                    referralURL = referralURL2;
+                }
                 //console.log('clientID:', clientID);
                 //console.log('referralURL:', referralURL);
                 localStorage.setItem('referral_url', referralURL);
@@ -27,22 +32,20 @@
                     const code = getParameterByName('code');
                     if (code) {
                         const savedReferralURL = localStorage.getItem('referral_url');
-                        alert('Code: ' + code);
-                        alert('Referral URL: ' + savedReferralURL);
                         if (savedReferralURL) {
                             window.location.href = `${savedReferralURL}/return.html?code=${code}`;
                         } else {
                             // Redirect to root page if referral URL is not available
-                            //window.location.href = '/';
+                            window.location.href = '/';
                         }
                     } else {
                         // Redirect to root page if required parameters are not found
-                        //window.location.href = '/';
+                        window.location.href = '/';
                     }
                 }
             } catch (error) {
                 // Redirect to root page on error
-                //window.location.href = '/';
+                window.location.href = '/';
             }
         }
 
