@@ -9,7 +9,8 @@ class User(AbstractUser):
     #authorization_code = models.CharField(max_length=255, unique=True, blank=True, null=True)
     friends = models.ManyToManyField('self', symmetrical=True, blank=True)  
     blocked_users = models.ManyToManyField('self', symmetrical=False, related_name='blocked_by', blank=True) 
-
+    two_factor_enabled = models.BooleanField(default=False)
+    
     class Meta:
         managed = False
         db_table = 'auth_user'

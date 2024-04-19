@@ -32,9 +32,67 @@ from django.core.files.base import ContentFile
 from django.core.files.storage import default_storage
 from io import BytesIO
 from django.middleware.csrf import get_token
+from django.contrib.sessions.models import Session
+from datetime import timedelta
+from django.core.exceptions import ObjectDoesNotExist
+from django.contrib.sessions.backends.db import SessionStore
 
 token_obtain_pair_view = TokenObtainPairView.as_view()
 token_refresh_view = TokenRefreshView.as_view()
+
+@csrf_exempt
+def get_online_users(request):
+    try:
+        time_threshold = timezone.now() - timedelta(minutes=42)
+        
+        active_sessions = Session.objects.filter(expire_date__gte=time_threshold)
+        
+        user_ids = [session.get_decoded().get('_auth_user_id') for session in active_sessions]
+        
+        online_user_ids = list(set(user_ids))
+        
+        online_users = []
+        for user_id in online_user_ids:
+            try:
+                user = User.objects.get(id=user_id)
+                online_users.append({
+                    'username': user.username,
+                    'nickname': user.nickname,
+                    'image_link': user.image_link if hasattr(user, 'image_link') else None
+                })
+            except ObjectDoesNotExist:
+                pass
+        
+        return JsonResponse({'online_users': online_users})
+    
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=400)
+    
+@csrf_exempt
+def logout_view(request):
+    token = request.headers.get('Authorization', '').split('Bearer ')[-1]
+
+    try:
+        payload = jwt.decode(token, settings.SIGNING_KEY, algorithms=['HS256'])
+        user_id = payload.get('user_id')
+        
+        session_key = f"_auth_user_id:{user_id}"
+        
+        if session_key:
+            try:
+                session = Session.objects.get(session_key=session_key)
+                session.delete()
+            except Session.DoesNotExist:
+                pass
+
+        request.session.flush()
+
+        return JsonResponse({'success': 'Logged out successfully'})
+    
+    except jwt.ExpiredSignatureError:
+        return JsonResponse({'error': 'Token has expired'}, status=401)
+    except jwt.InvalidTokenError:
+        return JsonResponse({'error': 'Invalid token'}, status=401)
 
 
 def get_all_users(request):
@@ -54,9 +112,9 @@ def submit_feedback(request):
         except json.JSONDecodeError:
             return JsonResponse({'error': 'Invalid JSON data'}, status=400)
         except IntegrityError as e:
-            return JsonResponse({'error': str(e)}, status=500)
+            return JsonResponse({'error': str(e)}, status=400)
         except Exception as e:
-            return JsonResponse({'error': 'An unexpected error occurred', 'details': str(e)}, status=500)
+            return JsonResponse({'error': 'An unexpected error occurred', 'details': str(e)}, status=400)
     else:
         return JsonResponse({'error': 'Invalid request method'}, status=400)
 
@@ -71,7 +129,7 @@ def show_feedbacks(request):
 
             return JsonResponse({'feedbacks': feedback_list}, status=200)
         except Exception as e:
-            return JsonResponse({'error': 'An unexpected error occurred', 'details': str(e)}, status=500)
+            return JsonResponse({'error': 'An unexpected error occurred', 'details': str(e)}, status=400)
     else:
         return JsonResponse({'error': 'Invalid request method'}, status=400)
 
@@ -110,6 +168,7 @@ def messages(request):
 def chat(request):
     return render(request, 'chatpage.html')
 
+
 def get_profile_info(request):
     username = request.GET.get('username')
     
@@ -141,7 +200,7 @@ def get_profile_info(request):
     except User.DoesNotExist:
         return JsonResponse({'error': 'User not found'}, status=404)
     except Exception as e:
-        return JsonResponse({'error': str(e)}, status=500)
+        return JsonResponse({'error': str(e)}, status=400)
 
 def signin42b(request):
     redirect_uri = os.getenv('REDIRECT_URI')
@@ -191,6 +250,10 @@ def proxy_userinfo(request):
         authenticated_user2 = User.objects.get(id=authentication_result[1]['user_id'])
         
         #print(authentication_result[1]['user_id'])
+        session = SessionStore()
+        session['user_id'] = authenticated_user2.id
+        session.create()
+        login(request, authenticated_user)
         
         user_info = {
             'nickname': authenticated_user2.nickname,
@@ -204,7 +267,7 @@ def proxy_userinfo(request):
     except User.DoesNotExist:
         return JsonResponse({'error': 'User not found'}, status=404)
     except Exception as e:
-        return JsonResponse({'error': str(e)}, status=500)
+        return JsonResponse({'error': str(e)}, status=400)
 
 def proxy_viewb(request):
     code = request.GET.get('code')
@@ -217,7 +280,7 @@ def proxy_viewb(request):
     csrf_token = get_token(request)
 
     if not client_id or not client_secret or not redirect_uri:
-        return JsonResponse({'error': 'Environment variables are not set correctly'}, status=500)
+        return JsonResponse({'error': 'Environment variables are not set correctly'}, status=400)
 
     data = {
         'grant_type': 'authorization_code',
@@ -260,7 +323,7 @@ def proxy_viewb(request):
 
         return redirect(redirect_url)
     except requests.RequestException as e:
-        return JsonResponse({'error': str(e)}, status=500)
+        return JsonResponse({'error': str(e)}, status=400)
     
 def proxy_viewc(request):
     code = request.GET.get('code')
@@ -273,7 +336,7 @@ def proxy_viewc(request):
     csrf_token = get_token(request)
 
     if not client_id or not client_secret or not redirect_uri:
-        return JsonResponse({'error': 'Environment variables are not set correctly'}, status=500)
+        return JsonResponse({'error': 'Environment variables are not set correctly'}, status=400)
 
     data = {
         'grant_type': 'authorization_code',
@@ -316,7 +379,7 @@ def proxy_viewc(request):
 
         return redirect(redirect_url)
     except requests.RequestException as e:
-        return JsonResponse({'error': str(e)}, status=500)
+        return JsonResponse({'error': str(e)}, status=400)
 
 @api_view(['POST'])
 def obtain_token(request):
@@ -541,7 +604,7 @@ def register(request):
             return JsonResponse({"message": "Registration successful. You can now log in."}, status=200)
 
         except Exception as e:
-            return JsonResponse({"error": "An error occurred while registering. Please try again later."}, status=500)
+            return JsonResponse({"error": "An error occurred while registering. Please try again later."}, status=400)
 
     else:
         return render(request, 'registration/register.html')
@@ -576,7 +639,7 @@ def login_view(request):
         else:
             return render(request, 'login.html')
     except Exception as e:
-        return JsonResponse({'error': str(e)}, status=500)
+        return JsonResponse({'error': str(e)}, status=400)
 
 
 
@@ -672,7 +735,7 @@ def manage_profile(request):
                 user.save()
                 return JsonResponse({'message': 'Profile information updated successfully'})
             except Exception as e:
-                return JsonResponse({'error': str(e)}, status=500)
+                return JsonResponse({'error': str(e)}, status=400)
         
         
         elif request.method == 'POST' and 'nickname' in request.POST:
@@ -687,7 +750,7 @@ def manage_profile(request):
                 user.save()
                 return JsonResponse({'message': 'Profile information updated successfully'})
             except Exception as e:
-                return JsonResponse({'error': str(e)}, status=500)
+                return JsonResponse({'error': str(e)}, status=400)
         
         elif request.method == 'DELETE':
             Achievement.objects.filter(user=user).delete()
@@ -715,49 +778,82 @@ def manage_profile(request):
     except User.DoesNotExist:
         return JsonResponse({'error': 'User not found'}, status=404)
     except Exception as e:
-        return JsonResponse({'error': str(e)}, status=500)
+        return JsonResponse({'error': str(e)}, status=400)
 
 def get_2fa_status(request):
-    # Logic to check 2FA status
-    # Return JSON response indicating whether 2FA is enabled or not
-    return JsonResponse({'enabled': False})
+    token = request.headers.get('Authorization', '').split('Bearer ')[-1]
+
+    try:
+        payload = jwt.decode(token, settings.SIGNING_KEY, algorithms=['HS256'])
+        user_id = payload['user_id']
+        user = User.objects.get(pk=user_id)
+        is_2fa_enabled = user.two_factor_enabled if hasattr(user, 'two_factor_enabled') else False
+        return JsonResponse({'enabled': is_2fa_enabled})
+    except jwt.ExpiredSignatureError:
+        return JsonResponse({'error': 'Token has expired'}, status=401)
+    except jwt.InvalidTokenError:
+        return JsonResponse({'error': 'Invalid token'}, status=401)
+    except User.DoesNotExist:
+        return JsonResponse({'error': 'User not found'}, status=404)
 
 def generate_qr_code(request):
-    # Generate a random secret key
-    secret_key = pyotp.random_base32()
-
-    # Generate the QR code URL for the secret key
-    qr_url = pyotp.totp.TOTP(secret_key).provisioning_uri('user@example.com', issuer_name='YourApp')
-
-    # Generate the QR code image
-    qr = qrcode.QRCode(
-        version=1,
-        error_correction=qrcode.constants.ERROR_CORRECT_L,
-        box_size=10,
-        border=4,
-    )
-    qr.add_data(qr_url)
-    qr.make(fit=True)
-    img = qr.make_image(fill_color="black", back_color="white")
-
-    # Save the QR code image to a file
-    filename = 'qr_code.png'
-    img_io = BytesIO()
-    img.save(img_io, 'PNG')
-    img_file = ContentFile(img_io.getvalue())
-    path = default_storage.save(filename, img_file)
-
-    # Return the QR code image as a response
-    with default_storage.open(path) as f:
-        response = HttpResponse(f.read(), content_type='image/png')
-        response['Content-Disposition'] = 'inline; filename="qr_code.png"'
-        return response
+    token = request.headers.get('Authorization', '').split('Bearer ')[-1]
+    
+    try:
+        payload = jwt.decode(token, settings.SIGNING_KEY, algorithms=['HS256'])
+        user_id = payload['user_id']
+        user = User.objects.get(pk=user_id)
+        
+        if user.two_factor_enabled:
+            return JsonResponse({'error': '2FA is already enabled'}, status=400)
+        
+        secret_key = pyotp.random_base32()
+        qr_url = pyotp.totp.TOTP(secret_key).provisioning_uri(user.email, issuer_name='YourApp')
+        
+        qr = qrcode.QRCode(
+            version=1,
+            error_correction=qrcode.constants.ERROR_CORRECT_L,
+            box_size=10,
+            border=4,
+        )
+        qr.add_data(qr_url)
+        qr.make(fit=True)
+        img = qr.make_image(fill_color="black", back_color="white")
+        
+        filename = f'{user.username}_qr_code.png'
+        img_io = BytesIO()
+        img.save(img_io, 'PNG')
+        img_file = ContentFile(img_io.getvalue())
+        path = default_storage.save(filename, img_file)
+        
+        with default_storage.open(path) as f:
+            response = HttpResponse(f.read(), content_type='image/png')
+            response['Content-Disposition'] = 'inline; filename="qr_code.png"'
+            return response
+    except jwt.ExpiredSignatureError:
+        return JsonResponse({'error': 'Token has expired'}, status=401)
+    except jwt.InvalidTokenError:
+        return JsonResponse({'error': 'Invalid token'}, status=401)
+    except User.DoesNotExist:
+        return JsonResponse({'error': 'User not found'}, status=404)
 
 def activate_2fa(request):
     if request.method == 'POST':
-        # Logic to activate 2FA with the provided activation code
-        # Return JSON response indicating success or failure
-        return JsonResponse({'success': True})
+        token = request.headers.get('Authorization', '').split('Bearer ')[-1]
+        try:
+            payload = jwt.decode(token, settings.SIGNING_KEY, algorithms=['HS256'])
+            user_id = payload['user_id']
+            user = User.objects.get(pk=user_id)
+            if user.two_factor_enabled:
+                return JsonResponse({'error': '2FA is already enabled'}, status=400)
+            user.two_factor_enabled = True
+            user.save()
+            return JsonResponse({'success': True})
+        except jwt.ExpiredSignatureError:
+            return JsonResponse({'error': 'Token has expired'}, status=401)
+        except jwt.InvalidTokenError:
+            return JsonResponse({'error': 'Invalid token'}, status=401)
+        except User.DoesNotExist:
+            return JsonResponse({'error': 'User not found'}, status=404)
     else:
         return JsonResponse({'error': 'Method not allowed'}, status=405)
-    

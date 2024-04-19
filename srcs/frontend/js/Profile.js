@@ -44,18 +44,22 @@ async function fetchAndDisplayProfile() {
             const jwtToken = localStorage.getItem('jwtToken');
             const formData = new FormData();
     
-            // Validate and append nickname if provided
             if (data.nickname) {
+                const maxNicknameLength = 50; 
+                if (data.nickname.length > maxNicknameLength) {
+                    throw new Error(`Nickname exceeds the maximum allowed length of ${maxNicknameLength} characters.`);
+                }
+            
                 const nicknameRegex = /^[a-zA-Z0-9_-]+$/;
                 if (!nicknameRegex.test(data.nickname)) {
                     throw new Error('Invalid nickname format. Only alphanumeric characters, underscore, and hyphen are allowed.');
                 }
+            
                 formData.append('nickname', data.nickname);
                 document.getElementById('nicknameadr').textContent = data.nickname;
                 localStorage.setItem('userNickname', data.nickname);
             }
     
-            // Append image if provided
             if (data.image) {
                 const imageFile = data.image;
                 const imageLink = await uploadImage(imageFile);

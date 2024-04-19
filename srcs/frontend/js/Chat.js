@@ -133,14 +133,14 @@ function displayMessage(message) {
     const senderName = message.name || 'Anonymous';
     const formattedCreatedAt = message.created_at ? formatDate(new Date(message.created_at)) : getCurrentTimestamp();
 
-    if (message.text.includes("joined the chat")) {
+    if (messageElement && message.text.includes("joined the chat")) {
         messageElement.innerHTML = `
             <div class="msg-info" style="text-align: ${alignRight};">
                 <span class="msg-info-name" style="color: green;">${escapeHTML(senderName)} has joined the chat</span>
                 <span class="msg-info-time">${formattedCreatedAt}</span>
             </div>
         `;
-    } else if (message.text.includes("left the chat")) {
+    } else if (messageElement && message.text.includes("left the chat")) {
         messageElement.innerHTML = `
             <div class="msg-info" style="text-align: ${alignRight};">
                 <span class="msg-info-name" style="color: red;">${escapeHTML(senderName)} has left the chat</span>
