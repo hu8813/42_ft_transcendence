@@ -194,7 +194,7 @@ function playNotificationSound() {
 
 function openChat() {
     messageInput = document.getElementById('message-input');
-    recipientSelect = document.getElementById('recipient-select');
+    //recipientSelect = document.getElementById('recipient-select');
     onlineUsersList = document.getElementById('online-users-list'); // Reference to online users list
     const sendBtn = document.getElementById('msgSend');
     const msgDisconnect = document.getElementById('msgDisconnect');
@@ -254,7 +254,7 @@ function sendMessageFromInput() {
 
     lastMessageSentTime = currentTime;
 
-    const recipientName = recipientSelect.value;
+    //const recipientName = recipientSelect.value;
     const recipient = recipientName ? recipientName : '#CHANNEL';
 
     const newMessage = {
@@ -278,6 +278,7 @@ function sendMessageFromInput() {
         }, MESSAGE_SEND_INTERVAL);
     }
 }
+
 async function updateOnlineUsers() {
     try {
         const jwtToken = localStorage.getItem('jwtToken');
@@ -345,7 +346,7 @@ async function updateOnlineUsers() {
             // Block Link
             const blockLink = document.createElement('a');
             blockLink.href = `/block/${user.username}`;
-            blockLink.classList.add('btn', 'btn-danger', 'btn-sm');
+            blockLink.classList.add('btn', 'btn-danger', 'btn-sm', 'mr-1');
             blockLink.innerHTML = '<i class="bi bi-dash"></i> Block';
             blockLink.addEventListener('click', (event) => {
                 event.preventDefault();
@@ -354,10 +355,23 @@ async function updateOnlineUsers() {
             });
             linksContainer.appendChild(blockLink);
 
+            // Send Message Button
+            const sendMessageBtn = document.createElement('button');
+            sendMessageBtn.innerHTML = '<i class="bi bi-envelope"></i> Send Message';
+            sendMessageBtn.classList.add('btn', 'btn-primary', 'btn-sm');
+            sendMessageBtn.addEventListener('click', (event) => {
+                event.stopPropagation(); // Prevent the click event from reaching the listItem
+                const message = prompt('Enter your message:');
+                if (message) {
+                    sendMessageToUser(user.username, message);
+                }
+            });
+            linksContainer.appendChild(sendMessageBtn);
+
             listItem.appendChild(linksContainer);
 
             listItem.addEventListener('click', () => {
-                recipientSelect.value = user.username;
+                //recipientSelect.value = user.username;
                 // Toggle the visibility of buttons
                 linksContainer.classList.toggle('d-none');
             });
@@ -366,6 +380,16 @@ async function updateOnlineUsers() {
     } catch (error) {
         console.error('Error fetching online users:', error);
     }
+}
+
+// Function to send a private message to a user
+function sendMessageToUser(username, message) {
+    const newMessage = {
+        name: localStorage.getItem('userNickname') || localStorage.getItem('userLogin') || "user42",
+        recipient: username,
+        text: message,
+    };
+    sendMessage(newMessage);
 }
 
 
