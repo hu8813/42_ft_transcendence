@@ -526,10 +526,8 @@ def leaderboard(request):
         user_id = payload['user_id']
         user = User.objects.get(pk=user_id)
         
-        # Retrieve the top 100 users ordered by score
         leaderboard_users = User.objects.order_by('-score')[:100]  
 
-        # Use Case/When expressions to dynamically annotate online status
         leaderboard_data = []
         for user in leaderboard_users:
             user_data = {

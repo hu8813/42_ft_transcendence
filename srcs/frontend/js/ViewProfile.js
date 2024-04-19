@@ -29,10 +29,10 @@ async function fetchAndDisplayViewProfile(username) {
             document.getElementById('nicknameadr2').textContent = login;
             document.getElementById('scoreadr').textContent = score;
             
-            // Update status indicator
             const statusIndicator = document.getElementById('statusIndicator');
             statusIndicator.classList.toggle('online', isOnline);
             statusIndicator.classList.toggle('offline', !isOnline);
+            statusIndicator.title = isOnline ? 'Online' : 'Offline';
             
             document.getElementById('addFriend').addEventListener('click', function() {
                 console.log('Adding as friend...');
