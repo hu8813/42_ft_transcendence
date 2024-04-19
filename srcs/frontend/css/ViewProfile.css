@@ -79,3 +79,10 @@
 .offline {
     background-color: rgb(34, 29, 29);
 }
+
+.back-button-container {
+    position: absolute;
+    top: 30%; 
+    left: 5%; 
+  }
+ 

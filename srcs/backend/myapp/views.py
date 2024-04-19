@@ -834,6 +834,8 @@ def generate_qr_code(request):
         secret_key = pyotp.random_base32()
         qr_url = pyotp.totp.TOTP(secret_key).provisioning_uri(user.email, issuer_name='Pong42')
         user.activation_code = secret_key
+        user.save()
+        #print(secret_key)
         qr = qrcode.QRCode(
             version=1,
             error_correction=qrcode.constants.ERROR_CORRECT_L,

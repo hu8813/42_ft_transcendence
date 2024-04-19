@@ -54,11 +54,8 @@ function getWebSocket() {
                 text: 'joined the chat',
                 name: userNickname
             };
-            if (isCurrentUser) {
-                displayMessage(joinMessage);
-            } else {
-                sendMessage(joinMessage);
-            }
+            sendMessage(joinMessage);
+            
             retryCount = 0;
         });
 
