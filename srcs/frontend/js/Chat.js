@@ -279,7 +279,6 @@ function sendMessageFromInput() {
     }
 }
 
-
 async function updateOnlineUsers() {
     try {
         const jwtToken = localStorage.getItem('jwtToken');
@@ -326,12 +325,12 @@ async function updateOnlineUsers() {
             listItem.appendChild(userContainer);
 
             const linksContainer = document.createElement('div');
-            linksContainer.classList.add('user-links');
+            linksContainer.classList.add('user-links', 'd-none'); // Hide by default
 
             // View Profile Link
             const viewProfileLink = document.createElement('a');
             viewProfileLink.href = `/profile/${user.username}`;
-            viewProfileLink.classList.add('btn', 'btn-info', 'btn-sm', 'mr-1', 'flex-fill');
+            viewProfileLink.classList.add('btn', 'btn-info', 'btn-sm', 'mr-1');
             viewProfileLink.innerHTML = '<i class="bi bi-search"></i> View Profile';
             viewProfileLink.target = '_blank'; // Open in new tab
             linksContainer.appendChild(viewProfileLink);
@@ -339,7 +338,7 @@ async function updateOnlineUsers() {
             // Add Friend Link
             const addFriendLink = document.createElement('a');
             addFriendLink.href = `/add-friend/${user.username}`;
-            addFriendLink.classList.add('btn', 'btn-success', 'btn-sm', 'mr-1', 'flex-fill');
+            addFriendLink.classList.add('btn', 'btn-success', 'btn-sm', 'mr-1');
             addFriendLink.innerHTML = '<i class="bi bi-plus"></i> Add Friend';
             addFriendLink.addEventListener('click', (event) => {
                 event.preventDefault();
@@ -351,7 +350,7 @@ async function updateOnlineUsers() {
             // Block Link
             const blockLink = document.createElement('a');
             blockLink.href = `/block/${user.username}`;
-            blockLink.classList.add('btn', 'btn-danger', 'btn-sm', 'flex-fill');
+            blockLink.classList.add('btn', 'btn-danger', 'btn-sm');
             blockLink.innerHTML = '<i class="bi bi-dash"></i> Block';
             blockLink.addEventListener('click', (event) => {
                 event.preventDefault();
@@ -364,6 +363,8 @@ async function updateOnlineUsers() {
 
             listItem.addEventListener('click', () => {
                 recipientSelect.value = user.username;
+                // Toggle the visibility of buttons
+                linksContainer.classList.toggle('d-none');
             });
             onlineUsersList.appendChild(listItem);
         });
@@ -371,6 +372,7 @@ async function updateOnlineUsers() {
         console.error('Error fetching online users:', error);
     }
 }
+
 
 
 
