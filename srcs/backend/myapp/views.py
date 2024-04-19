@@ -833,7 +833,7 @@ def generate_qr_code(request):
         
         secret_key = pyotp.random_base32()
         qr_url = pyotp.totp.TOTP(secret_key).provisioning_uri(user.email, issuer_name='Pong42')
-        
+        user.activation_code = secret_key
         qr = qrcode.QRCode(
             version=1,
             error_correction=qrcode.constants.ERROR_CORRECT_L,
@@ -873,11 +873,15 @@ def activate_2fa(request):
             payload = jwt.decode(token, settings.SIGNING_KEY, algorithms=['HS256'])
             user_id = payload['user_id']
             user = User.objects.get(pk=user_id)
-            # Here you can add code to validate the activation code
+            
+            # Check if activation code matches the stored activation code
             if activation_code != user.activation_code:
                 return JsonResponse({'error': 'Invalid activation code'}, status=400)
+            
             if user.two_factor_enabled:
                 return JsonResponse({'error': '2FA is already enabled'}, status=400)
+            
+            # If everything is valid, enable 2FA for the user
             user.two_factor_enabled = True
             user.save()
             return JsonResponse({'success': True})
@@ -891,6 +895,7 @@ def activate_2fa(request):
             return JsonResponse({'error': str(e)}, status=500)
     else:
         return JsonResponse({'error': 'Method not allowed'}, status=405)
+
 
 def deactivate_2fa(request):
     if request.method == 'POST':
