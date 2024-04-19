@@ -211,6 +211,8 @@ function openChat() {
     if (socket.readyState === WebSocket.OPEN) {
     socket.send(JSON.stringify({ type: 'requestOnlineUsers' }));
     }
+    updateOnlineUsers();
+
 }
 
 // Function to send a message from input
@@ -258,18 +260,47 @@ function sendMessageFromInput() {
 }
 
 // Function to update the list of online users
-function updateOnlineUsers(users) {
-    onlineUsersList.innerHTML = ''; // Clear the existing list
-    users.forEach(user => {
-        const listItem = document.createElement('li');
-        listItem.textContent = user;
-        listItem.classList.add('online-user');
-        listItem.addEventListener('click', () => {
-            // Send a message to the selected user
-            recipientSelect.value = user;
+async function updateOnlineUsers() {
+    try {
+        const jwtToken = localStorage.getItem('jwtToken');
+        let csrfToken = await getCSRFCookie();
+    
+        const response = await fetch('/api/get-online-users', {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${jwtToken}`,
+                'X-CSRFToken': csrfToken
+            }
         });
-        onlineUsersList.appendChild(listItem);
-    });
+        if (!response.ok) {
+            throw new Error('Failed to fetch online users');
+        }
+        const { online_users } = await response.json();
+
+        onlineUsersList.innerHTML = ''; 
+        online_users.forEach(user => {
+            const listItem = document.createElement('li');
+            const userImage = document.createElement('img');
+            userImage.src = user.image_link || './src/emptyavatar.jpeg'; 
+            userImage.alt = user.username;
+            userImage.width = 32;
+            userImage.height = 32;
+            listItem.appendChild(userImage);
+
+            const username = document.createElement('span');
+            username.textContent = user.username;
+            listItem.appendChild(username);
+
+            listItem.classList.add('online-user');
+            listItem.addEventListener('click', () => {
+                // Send a message to the selected user
+                recipientSelect.value = user.username;
+            });
+            onlineUsersList.appendChild(listItem);
+        });
+    } catch (error) {
+        console.error('Error fetching online users:', error);
+    }
 }
 
 
