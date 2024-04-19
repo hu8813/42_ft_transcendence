@@ -23,6 +23,7 @@ const routes = {
   "#pong4": "/views/pong4.html",
   "#tic1": "/views/tic1.html",
   "#tic2": "/views/tic2.html",
+  "#pong4": "/views/tournament.html",
   "#viewprofile": "/views/viewprofile.html",
   "#rps" : "/views/rps.html",
   "#manage2fa" : "/views/manage2fa.html",
@@ -327,8 +328,7 @@ const handleLocation = async () => {
     case "#player3d1":
       showPlayer3d1Page();
       break;
-    
-      case "#aboutus":
+    case "#aboutus":
       showAboutUsPage();
       break;
     case '#play!':
@@ -343,11 +343,14 @@ const handleLocation = async () => {
     case '#pong4':
       showPong4();
       break;
-    case '#tic1':
-      showTic1();
-      break;
-    case '#tic2':
-      showTic2();
+      case '#tic1':
+        showTic1();
+        break;
+        case '#tic2':
+          showTic2();
+          break;
+    case '#xoxo3':
+      showTournament();
       break;
     case '#contact':
       showImprint();
