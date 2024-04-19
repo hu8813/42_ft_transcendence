@@ -123,11 +123,13 @@ async function fetchAndDisplayProfile() {
             if (emailElement) {
                 emailElement.textContent = email;
             }
-
+            if (document.getElementById('changePhoto')) {
             document.getElementById('changePhoto').addEventListener('click', function () {
                 document.getElementById('uploadPhoto').click();
             });
+            }
 
+            if (document.getElementById('uploadPhoto')) {
             document.getElementById('uploadPhoto').addEventListener('change', async function () {
                 const imageFile = this.files[0];
                 try {
@@ -140,7 +142,9 @@ async function fetchAndDisplayProfile() {
                     console.error('Error updating profile photo:', error);
                 }
             });
-
+            }
+            
+            if (document.getElementById('changeNick')) {
             document.getElementById('changeNick').addEventListener('click', async function () {
                 const newNickname = prompt("Enter new nickname");
                 if (newNickname !== null && newNickname.trim() !== "") {
@@ -153,7 +157,9 @@ async function fetchAndDisplayProfile() {
                     }
                 }
             });
+        }
 
+            if (document.getElementById('deleteProfile')) {
             document.getElementById('deleteProfile').addEventListener('click', async function () {
                 const confirmDelete = confirm("Are you sure you want to delete your profile?");
                 if (confirmDelete) {
@@ -169,11 +175,12 @@ async function fetchAndDisplayProfile() {
                         console.error('Error deleting profile:', error);
                     }
                 }
-            });
+            });}
         } else {
             displayErrorMessage('Profile not found');
             throw new Error('Profile not found');
         }
+    
     } catch (error) {
         console.error('Error fetching and displaying profile:', error);
         if (error.message)

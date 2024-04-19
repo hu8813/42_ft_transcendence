@@ -51,5 +51,6 @@ function showHome() {
     rightPaddle.classList.add("paddle-right");
     pongTable.appendChild(rightPaddle);
     pongTable.appendChild(pongBall);
-    welcomePage.appendChild(pongTable);
+    if (welcomePage)
+        welcomePage.appendChild(pongTable);
 };

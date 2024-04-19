@@ -133,7 +133,7 @@ function displayMessage(message) {
     const senderName = message.name || 'Anonymous';
     const formattedCreatedAt = message.created_at ? formatDate(new Date(message.created_at)) : getCurrentTimestamp();
 
-    if (messageElement && message.text.includes("joined the chat")) {
+    if (messageElement && message && message.text.includes("joined the chat")) {
         messageElement.innerHTML = `
             <div class="msg-info" style="text-align: ${alignRight};">
                 <span class="msg-info-name" style="color: green;">${escapeHTML(senderName)} has joined the chat</span>
@@ -310,6 +310,7 @@ function showNotification(message, isSuccess) {
     notification.textContent = message;
     notification.style.color = isSuccess ? 'green' : 'red';
     setTimeout(() => {
-        notification.textContent = '';
+        if (notification)
+            notification.textContent = '';
     }, NOTIFICATION_DURATION);
 }
