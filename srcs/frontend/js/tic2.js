@@ -5,6 +5,7 @@ function showTic2() {
         const canvasSize = 500;
         const sectionSize = canvasSize / 3;
         let player = 1;
+        let isProcessingMove = false;
         const lineColor = "#8f957d";
         const board = Array(3).fill(null).map(() => Array(3).fill(null));
 
@@ -74,67 +75,66 @@ function showTic2() {
     } 
     
     function addPlayingPiece(mouse) {
-            for (let x = 0; x < 3; x++) {
-                for (let y = 0; y < 3; y++) {
-                    const xCordinate = x * sectionSize;
-                    const yCordinate = y * sectionSize;
+        if (isProcessingMove) return;
+        isProcessingMove = true;
 
-                    if (mouse.x >= xCordinate && mouse.x <= xCordinate + sectionSize &&
-                        mouse.y >= yCordinate && mouse.y <= yCordinate + sectionSize) {
+        for (let x = 0; x < 3; x++) {
+            for (let y = 0; y < 3; y++) {
+                const xCordinate = x * sectionSize;
+                const yCordinate = y * sectionSize;
 
-                        if (board[x][y] !== null) {
-                            return;
-                        }
+                if (mouse.x >= xCordinate && mouse.x <= xCordinate + sectionSize &&
+                    mouse.y >= yCordinate && mouse.y <= yCordinate + sectionSize) {
 
-                        if (player === 1) {
-                            drawX(xCordinate, yCordinate);
-                            board[x][y] = 'X';
-                        } else {
-                            drawO(xCordinate, yCordinate);
-                            board[x][y] = 'O';
-                        }
-
-                        drawLines(10, lineColor);
-
-                        setTimeout(() => {
-                            let winner = checkWinner();
-                            if (winner) {
-                                //canvas.removeEventListener('mouseup', handleMouseUp);
-                                canvas.addEventListener('mouseup', handleRelease);
-                                showGameOverMessage(winner);
-                            } else {
-                                player = 3 - player;
-                            }
-                        }, 10);                        
+                    if (board[x][y] !== null) {
+                        isProcessingMove = false;
                         return;
                     }
+
+                    board[x][y] = player === 1 ? 'X' : 'O';
+                    const drawFunc = player === 1 ? drawX : drawO;
+                    drawFunc(xCordinate, yCordinate);
+                    drawLines(10, lineColor);
+
+                    setTimeout(() => {
+                        let winner = checkWinner();
+                        if (winner) {
+                            showGameOverMessage(winner);
+                            canvas.removeEventListener('mouseup', handleRelease);
+                            canvas.removeEventListener('touchend', handleRelease);
+                        } else {
+                            player = 3 - player;
+                        }
+                        isProcessingMove = false;
+                    }, 10);
+                    return;
                 }
             }
         }
+    }
+    function drawO(xCordinate, yCordinate) {
+        const halfSectionSize = 0.5 * sectionSize;
+        const centerX = xCordinate + halfSectionSize;
+        const centerY = yCordinate + halfSectionSize;
+        const radius = (sectionSize - 100) / 2;
 
-        function drawO(xCordinate, yCordinate) {
-            const halfSectionSize = 0.5 * sectionSize;
-            const centerX = xCordinate + halfSectionSize;
-            const centerY = yCordinate + halfSectionSize;
-            const radius = (sectionSize - 100) / 2;
+        context.lineWidth = 10;
+        context.strokeStyle = "#a32c08";
+        context.beginPath();
+        context.arc(centerX, centerY, radius, 0, 2 * Math.PI);
+        context.stroke();
+    }
 
-            context.lineWidth = 10;
-            context.strokeStyle = "#a32c08";
-            context.beginPath();
-            context.arc(centerX, centerY, radius, 0, 2 * Math.PI);
-            context.stroke();
-        }
-
-        function drawX(xCordinate, yCordinate) {
-            const offset = 50;
-            context.strokeStyle = "#667c21";
-            context.beginPath();
-            context.moveTo(xCordinate + offset, yCordinate + offset);
-            context.lineTo(xCordinate + sectionSize - offset, yCordinate + sectionSize - offset);
-            context.moveTo(xCordinate + offset, yCordinate + sectionSize - offset);
-            context.lineTo(xCordinate + sectionSize - offset, yCordinate + offset);
-            context.stroke();
-        }
+    function drawX(xCordinate, yCordinate) {
+        const offset = 50;
+        context.strokeStyle = "#667c21";
+        context.beginPath();
+        context.moveTo(xCordinate + offset, yCordinate + offset);
+        context.lineTo(xCordinate + sectionSize - offset, yCordinate + sectionSize - offset);
+        context.moveTo(xCordinate + offset, yCordinate + sectionSize - offset);
+        context.lineTo(xCordinate + sectionSize - offset, yCordinate + offset);
+        context.stroke();
+    }
 
         function drawLines(lineWidth, strokeStyle) {
             context.lineWidth = lineWidth;
@@ -191,8 +191,9 @@ function showTic2() {
 
         function handleRelease(event) {
             event.preventDefault();
+            if (event.type === 'touchend' && event.changedTouches.length > 1) return;
+            
             let position;
-
             if (event.changedTouches) {
                 position = getCanvasMousePosition(event.changedTouches[0]);
             } else {
@@ -202,7 +203,6 @@ function showTic2() {
             addPlayingPiece(position);
         }
 
-        //canvas.addEventListener('mouseup', handleMouseUp);
         canvas.addEventListener('mouseup', handleRelease);
         canvas.addEventListener('touchend', handleRelease);
 
