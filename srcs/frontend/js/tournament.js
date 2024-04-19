@@ -5,12 +5,10 @@ function showTournament() {
         const ctx = canvas.getContext('2d');
         canvas.width = 800;
         canvas.height = 600;
-
         console.log("Canvas-Element gefunden.");
 
         let gameOver = false;
         let isGamePaused = false;
-
         const players = [];
         const matches = [];
 
@@ -45,14 +43,38 @@ function showTournament() {
             });
         }
 
+        /* function drawPairings(matches) {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = 'black';
+        
+            matches.forEach((match, index) => {
+                ctx.fillText(`Match ${index + 1}: ${match[0].name} vs ${match[1].name}`, 10, 30 + index * 30);
+            });
+        } */
+        function drawPairings() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height); // Bereinige das Canvas
+            ctx.font = '16px Arial';
+            ctx.fillStyle = 'black';
+
+            matches.forEach((match, index) => {
+                const text = `Match ${index + 1}: ${match[0].name} vs ${match[1].name}`;
+                ctx.fillText(text, 10, 30 + index * 30);
+            });
+        }
+
         function createPairings() {
             const shuffledPlayers = players.sort(() => Math.random() - 0.5);
-            const pairings = [];
+            matches.length = 0;
             for (let i = 0; i < shuffledPlayers.length; i += 2) {
-                const match = [shuffledPlayers[i], shuffledPlayers[i + 1]];
-                matches.push(match);
+                if (shuffledPlayers[i + 1]) {
+                    const match = [shuffledPlayers[i], shuffledPlayers[i + 1]];
+                    matches.push(match);
+                }
+                drawPairings();
             }
         }
+
+        
 
         function startRound() {
             if (players.length >= 2) {
