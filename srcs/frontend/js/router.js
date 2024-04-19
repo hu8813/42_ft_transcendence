@@ -23,7 +23,7 @@ const routes = {
   "#pong4": "/views/pong4.html",
   "#tic1": "/views/tic1.html",
   "#tic2": "/views/tic2.html",
-  "#pong4": "/views/tournament.html",
+  "#xoxo3": "/views/tournament.html",
   "#viewprofile": "/views/viewprofile.html",
   "#rps" : "/views/rps.html",
   "#manage2fa" : "/views/manage2fa.html",

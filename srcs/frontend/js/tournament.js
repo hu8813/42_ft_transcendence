@@ -29,9 +29,9 @@ function showTournament() {
             }
         });
 
-        function getPlayerNames() {
+        function getPlayerNames(numPlayers) {
             const playerNames = [];
-            for (let i = 0; i < players.length; i++) {
+            for (let i = 0; i < numPlayers; i++) {
                 const playerName = prompt(`Please provide name for player ${i + 1} ein:`);
                 playerNames.push(playerName);
             }
@@ -86,7 +86,7 @@ function showTournament() {
         if (![4, 8, 16].includes(numPlayers)) {
             alert('Invalid number of players. The tournament can only be held with 4, 8 or 16 players.');
         } else {
-            const playerNames = getPlayerNames();
+            const playerNames = getPlayerNames(numPlayers);
             registerPlayers(playerNames);
             startRound();
         }
