@@ -44,7 +44,7 @@ function handleLogin() {
                   setTimeout(() => {
                       if (submitButton)
                           submitButton.disabled = false;
-                      window.location.href = "/#profile";
+                      window.location.href = "/";
                   }, 2000);
 
               } else {

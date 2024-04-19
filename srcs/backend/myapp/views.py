@@ -183,7 +183,7 @@ def get_profile_info(request):
         payload = jwt.decode(token, settings.SIGNING_KEY, algorithms=['HS256'])
         user_id = payload['user_id']
         user_requester = User.objects.get(pk=user_id)
-        user = User.objects.get(nickname=username)
+        user = User.objects.get(username=username)
         csrf_token = get_token(request)
         
         # Check if the user has an active session
@@ -533,7 +533,8 @@ def leaderboard(request):
         leaderboard_data = []
         for user in leaderboard_users:
             user_data = {
-                'username': user.nickname if user.nickname else user.username,
+                'username': user.username,
+                'nickname': user.nickname,
                 'date_joined': user.date_joined,
                 'image_link': user.image_link,
                 'score': user.score,
