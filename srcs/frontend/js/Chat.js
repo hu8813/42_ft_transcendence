@@ -254,8 +254,8 @@ function sendMessageFromInput() {
 
     lastMessageSentTime = currentTime;
 
-    //const recipientName = recipientSelect.value;
-    const recipient = recipientName ? recipientName : '#CHANNEL';
+    let recipientName;
+    let recipient = recipientName ? recipientName : '#CHANNEL';
 
     const newMessage = {
         name: localStorage.getItem('userNickname') || localStorage.getItem('userLogin') || "user42",
@@ -325,7 +325,7 @@ async function updateOnlineUsers() {
 
             // View Profile Link
             const viewProfileLink = document.createElement('a');
-            viewProfileLink.href = `/profile/${user.username}`;
+            viewProfileLink.href = `/#profile?u=${user.username}`;
             viewProfileLink.classList.add('btn', 'btn-info', 'btn-sm', 'mr-1');
             viewProfileLink.innerHTML = '<i class="bi bi-search"></i> View Profile';
             viewProfileLink.target = '_blank'; // Open in new tab
@@ -333,7 +333,7 @@ async function updateOnlineUsers() {
 
             // Add Friend Link
             const addFriendLink = document.createElement('a');
-            addFriendLink.href = `/add-friend/${user.username}`;
+            addFriendLink.href = `/#add-friend?u=${user.username}`;
             addFriendLink.classList.add('btn', 'btn-success', 'btn-sm', 'mr-1');
             addFriendLink.innerHTML = '<i class="bi bi-plus"></i> Add Friend';
             addFriendLink.addEventListener('click', (event) => {
@@ -345,13 +345,13 @@ async function updateOnlineUsers() {
 
             // Block Link
             const blockLink = document.createElement('a');
-            blockLink.href = `/block/${user.username}`;
+            blockLink.href = `/block/${user.nickname}`;
             blockLink.classList.add('btn', 'btn-danger', 'btn-sm', 'mr-1');
             blockLink.innerHTML = '<i class="bi bi-dash"></i> Block';
             blockLink.addEventListener('click', (event) => {
                 event.preventDefault();
                 // Call function to block user
-                blockUser(user.username);
+                blockUser(user.nickname);
             });
             linksContainer.appendChild(blockLink);
 
@@ -363,9 +363,10 @@ async function updateOnlineUsers() {
                 event.stopPropagation(); // Prevent the click event from reaching the listItem
                 const message = prompt('Enter your message:');
                 if (message) {
-                    sendMessageToUser(user.username, message);
+                    sendMessageToUser(user.nickname, message);
                 }
             });
+            recipientName = user.nickname;
             linksContainer.appendChild(sendMessageBtn);
 
             listItem.appendChild(linksContainer);
@@ -383,10 +384,10 @@ async function updateOnlineUsers() {
 }
 
 // Function to send a private message to a user
-function sendMessageToUser(username, message) {
+function sendMessageToUser(nickname, message) {
     const newMessage = {
         name: localStorage.getItem('userNickname') || localStorage.getItem('userLogin') || "user42",
-        recipient: username,
+        recipient: nickname,
         text: message,
     };
     sendMessage(newMessage);
