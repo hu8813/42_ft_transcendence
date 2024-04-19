@@ -50,8 +50,7 @@ def get_online_users(request):
         active_sessions = Session.objects.filter(expire_date__gte=time_threshold)
         
         user_ids = [session.get_decoded().get('_auth_user_id') for session in active_sessions]
-        print(user_ids)
-        print(Session.objects.all())    
+         
         online_user_ids = list(set(user_ids))
         
         online_users = []
@@ -184,7 +183,7 @@ def get_profile_info(request):
         payload = jwt.decode(token, settings.SIGNING_KEY, algorithms=['HS256'])
         user_id = payload['user_id']
         user_requester = User.objects.get(pk=user_id)
-        user = User.objects.get(username=username)
+        user = User.objects.get(nickname=username)
         csrf_token = get_token(request)
         
         # Check if the user has an active session
@@ -228,7 +227,6 @@ def signin42c(request):
     if referral_url:
         referral_url = quote(referral_url)  
     
-    print(referral_url)
     authorization_url = f'https://pong42.vercel.app/callback.html?client_id={client_id}&referral_url={referral_url}'
     return HttpResponseRedirect(authorization_url)
 
@@ -535,7 +533,7 @@ def leaderboard(request):
         leaderboard_data = []
         for user in leaderboard_users:
             user_data = {
-                'username': user.username if user.username else user.nickname,
+                'username': user.nickname if user.nickname else user.username,
                 'date_joined': user.date_joined,
                 'image_link': user.image_link,
                 'score': user.score,

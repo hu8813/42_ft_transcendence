@@ -14,7 +14,7 @@ async function uploadImage(imageFile) {
         const formData = new FormData();
         formData.append('image', imageFile);
 
-        const response = await fetch(`${getBackendURL()}/upload-image/`, {
+        const response = await fetch(`${getBackendURL()}/upload-avatar/`, {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${jwtToken}`,
