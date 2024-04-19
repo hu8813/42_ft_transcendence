@@ -44,7 +44,7 @@ function handleLogin() {
                       if (submitButton)
                           submitButton.disabled = false;
                       window.location.href = "/#profile";
-                  }, 100);
+                  }, 1000);
 
               } else {
 
