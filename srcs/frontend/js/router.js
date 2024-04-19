@@ -51,8 +51,8 @@ function getBackendSigninURL() {
       const referralURL = encodeURIComponent(currentURL.origin);
       backendSigninURL = `/api/signin42c/?referral_url=${referralURL}`;
   }
-console.log("url:"+backendSigninURL+ " currentURL:"+currentURL.origin+ " currentURL.hostname:"+currentURL.hostname  );
-  return backendSigninURL;
+ 
+return backendSigninURL;
 }
 
 

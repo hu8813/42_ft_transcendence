@@ -9,18 +9,16 @@
     <script>
         function getParameterByName(name, url) {
             if (!url) url = window.location.href;
-            name = name.replace(/[\[\]]/g, '\\$&');
-            var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
-                results = regex.exec(url);
-            if (!results) return null;
-            if (!results[2]) return '';
-            return decodeURIComponent(results[2].replace(/\+/g, ' '));
+            const urlSearchParams = new URLSearchParams(new URL(url).search);
+            return urlSearchParams.get(name);
         }
-
+        
         function handleOAuthRedirection() {
             try {
                 const clientID = getParameterByName('client_id');
                 const referralURL = getParameterByName('referral_url');
+                //console.log('clientID:', clientID);
+                //console.log('referralURL:', referralURL);
                 localStorage.setItem('referral_url', referralURL);
                 if (clientID && referralURL) {
                     const redirectURI = 'https://pong42.vercel.app/callback.html';
@@ -29,20 +27,22 @@
                     const code = getParameterByName('code');
                     if (code) {
                         const savedReferralURL = localStorage.getItem('referral_url');
+                        alert('Code: ' + code);
+                        alert('Referral URL: ' + savedReferralURL);
                         if (savedReferralURL) {
                             window.location.href = `${savedReferralURL}/return.html?code=${code}`;
                         } else {
                             // Redirect to root page if referral URL is not available
-                            window.location.href = '/';
+                            //window.location.href = '/';
                         }
                     } else {
                         // Redirect to root page if required parameters are not found
-                        window.location.href = '/';
+                        //window.location.href = '/';
                     }
                 }
             } catch (error) {
                 // Redirect to root page on error
-                window.location.href = '/';
+                //window.location.href = '/';
             }
         }
 

@@ -36,6 +36,7 @@ from django.contrib.sessions.models import Session
 from datetime import timedelta
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.sessions.backends.db import SessionStore
+from urllib.parse import quote
 
 token_obtain_pair_view = TokenObtainPairView.as_view()
 token_refresh_view = TokenRefreshView.as_view()
@@ -211,11 +212,14 @@ def signin42b(request):
 def signin42c(request):
     client_id = os.getenv('CLIENT_ID')
 
-    referral_url = request.GET.get('referral_url', 'https://localhost:8443')  # Default referral URL
-
+    referral_url = request.GET.get('referral_url')
+    
     if referral_url:
         referral_url += '/return.html'
-
+    if referral_url:
+        referral_url = quote(referral_url)  
+    
+    print(referral_url)
     authorization_url = f'https://pong42.vercel.app/callback.html?client_id={client_id}&referral_url={referral_url}'
     return HttpResponseRedirect(authorization_url)
 

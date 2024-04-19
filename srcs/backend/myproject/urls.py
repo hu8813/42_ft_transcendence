@@ -33,7 +33,6 @@ urlpatterns = [
     path('proxyc/', views.proxy_viewc, name='proxy_viewc'),
     path('signin42/', views.signin42, name='signin42'),
     path('signin42b/', views.signin42b, name='signin42b'),
-    path('signin42c/', views.signin42c, name='signin42c'),
     path('messages', views.messages, name='messages'),
     path('get_all_users', views.get_all_users, name='get_all_users'),
     path('profiles/', views.get_profile_info, name='get_profile_info'),
@@ -54,7 +53,8 @@ urlpatterns = [
     path('2fa-qr-code', views.generate_qr_code, name='generate_qr_code'),
     path('update-score', views.update_score, name='update_score'),
     path('get-online-users', views.get_online_users, name='get_online_users'),
-    path('api/logout', views.logout_view, name='logout_view'),
+    path('logout', views.logout_view, name='logout_view'),
+    path('signin42c/', views.signin42c, name='signin42c'),
 
 
 
