@@ -30,7 +30,6 @@ async function uploadImage(imageFile) {
         const responseData = await response.json();
         return responseData.image_link;
     } catch (error) {
-        // Handle upload errors
         console.error('Error uploading image:', error);
         throw new Error('Failed to upload image');
     }
@@ -83,7 +82,6 @@ async function fetchAndDisplayProfile() {
             const responseData = await response.json();
             return responseData;
         } catch (error) {
-            // Handle update errors
             console.error('Error updating profile:', error);
             throw new Error('Failed to update profile');
         }
