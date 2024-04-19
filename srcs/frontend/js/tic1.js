@@ -348,7 +348,7 @@ function showTic1() {
                     computerMove();
                     currentPlayer = 'X';
                     isProcessingMove = false;
-                }, 100);
+                }, 200);
             }
         }
         canvas.addEventListener('mouseup', handleRelease);
