@@ -137,13 +137,24 @@ function showTic1() {
             context.stroke();
         }
         
-        function getCanvasMousePosition(event) {
+        /* function getCanvasMousePosition(event) {
             const rect = canvas.getBoundingClientRect();
             return {
                 x: event.clientX - rect.left,
                 y: event.clientY - rect.top
             }
+        } */
+        function getCanvasMousePosition(event) {
+            const rect = canvas.getBoundingClientRect();
+            const scaleX = canvas.width / rect.width;
+            const scaleY = canvas.height / rect.height;
+        
+            return {
+                x: (event.clientX - rect.left) * scaleX,
+                y: (event.clientY - rect.top) * scaleY
+            }
         }
+        
 
         function isMoveLeft(board) {
             return board.some(row => row.includes(null));
