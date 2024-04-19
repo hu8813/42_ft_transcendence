@@ -44,18 +44,17 @@ function getBackendURL() {
 }
 
 function getBackendSigninURL() {
-  const currentURL = window.location.href;
-  const privateIPRegex = /^(10\.|192\.168\.|172\.(1[6-9]|2[0-9]|3[0-1])\.)/;
-  let backendSigninURL = "";
+  const currentURL = new URL(window.location.href);
+  let backendSigninURL = "/api/signin42b/"; 
   
-  if (currentURL.includes("localhost") || currentURL.includes("127.0.0.1") || privateIPRegex.test(currentURL)) {
-      backendSigninURL = "https://localhost:8443/api/signin42c/";
-  } else {
-      backendSigninURL = "https://pong42.azurewebsites.net/api/signin42b/";
+  if ((currentURL.hostname === "localhost" || currentURL.hostname === "127.0.0.1" || currentURL.hostname.match(/^10\.|192\.168\.|172\.(1[6-9]|2[0-9]|3[0-1])\./))) {
+      const referralURL = encodeURIComponent(currentURL.origin);
+      backendSigninURL = `/api/signin42c/?referral_url=${referralURL}`;
   }
-  
+console.log("url:"+backendSigninURL+ " currentURL:"+currentURL.origin+ " currentURL.hostname:"+currentURL.hostname  );
   return backendSigninURL;
 }
+
 
 function showPopup() {
   feedbackPopup = document.getElementById("feedback-popup");

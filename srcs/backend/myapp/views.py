@@ -208,13 +208,16 @@ def signin42b(request):
     authorization_url = f'https://api.intra.42.fr/oauth/authorize?client_id={client_id}&redirect_uri={redirect_uri}&response_type=code'
     return HttpResponseRedirect(authorization_url)
 
-def signin42c(request):    
-    redirect_uri = os.getenv('REDIRECT_URI')
+def signin42c(request):
     client_id = os.getenv('CLIENT_ID')
-    authorization_url = f'https://api.intra.42.fr/oauth/authorize?client_id={client_id}&redirect_uri={redirect_uri}&response_type=code'
+
+    referral_url = request.GET.get('referral_url', 'https://localhost:8443')  # Default referral URL
+
+    if referral_url:
+        referral_url += '/return.html'
+
+    authorization_url = f'https://pong42.vercel.app/callback.html?client_id={client_id}&referral_url={referral_url}'
     return HttpResponseRedirect(authorization_url)
-
-
 
 def signin42(request):
     

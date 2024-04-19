@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OAuth Middleman</title>
+</head>
+<body>
+    <script>
+        function getParameterByName(name, url) {
+            if (!url) url = window.location.href;
+            name = name.replace(/[\[\]]/g, '\\$&');
+            var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, ' '));
+        }
+
+        function handleOAuthRedirection() {
+            try {
+                const clientID = getParameterByName('client_id');
+                const referralURL = getParameterByName('referral_url');
+
+                if (clientID && referralURL) {
+                    const redirectURI = 'https://pong42.vercel.app/callback.html';
+                    window.location.href = `https://api.intra.42.fr/oauth/authorize?client_id=${clientID}&redirect_uri=${redirectURI}&response_type=code`;
+                } else {
+                    const code = getParameterByName('code');
+                    if (code) {
+                        const savedReferralURL = localStorage.getItem('referral_url');
+                        if (savedReferralURL) {
+                            window.location.href = `${savedReferralURL}?code=${code}`;
+                        } else {
+                            // Redirect to root page if referral URL is not available
+                            window.location.href = '/';
+                        }
+                    } else {
+                        // Redirect to root page if required parameters are not found
+                        window.location.href = '/';
+                    }
+                }
+            } catch (error) {
+                // Redirect to root page on error
+                window.location.href = '/';
+            }
+        }
+
+        handleOAuthRedirection();
+    </script>
+</body>
+</html>
