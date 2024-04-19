@@ -31,9 +31,9 @@
                 } else {
                     const code = getParameterByName('code');
                     if (code) {
-                        const savedReferralURL = localStorage.getItem('referral_url');
-                        if (savedReferralURL) {
-                            window.location.href = `${savedReferralURL}/api/proxyc/?code=${code}`;
+                        //const savedReferralURL = localStorage.getItem('referral_url');
+                        if (referralURL) {
+                            window.location.href = `${referralURL}/api/proxyc/?code=${code}`;
                         } else {
                             // Redirect to root page if referral URL is not available
                             window.location.href = '/';

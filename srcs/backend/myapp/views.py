@@ -215,8 +215,6 @@ def signin42c(request):
     referral_url = request.GET.get('referral_url')
     
     if referral_url:
-        referral_url += '/return.html'
-    if referral_url:
         referral_url = quote(referral_url)  
     
     print(referral_url)
