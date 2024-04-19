@@ -6,6 +6,7 @@ function showTic1() {
         const sectionSize = canvasSize / 3;
         let currentPlayer = 'X';
         const lineColor = "#8f957d";
+        let isProcessingMove = false;
         const board = Array(3).fill(null).map(() => Array(3).fill(null));
 
         canvas.width = canvasSize;
@@ -320,13 +321,15 @@ function showTic1() {
         
         function handleRelease(event) {
             event.preventDefault();
-            if (currentPlayer === 'O')
+            if (currentPlayer === 'O' || isProcessingMove)
                 return;
+            isProcessingMove = true;
             let position = getCanvasMousePosition(event.changedTouches ? event.changedTouches[0] : event);
             const x = Math.floor(position.x / sectionSize);
             const y = Math.floor(position.y / sectionSize);
 
             if (board[x][y] !== null) {
+                isProcessingMove = false;
                 return;
             }
 
@@ -341,8 +344,11 @@ function showTic1() {
                 showGameOverMessage(winner);
             } else {
                 currentPlayer = 'O';
-                computerMove();
-                currentPlayer = 'X';
+                setTimeout(() => {
+                    computerMove();
+                    currentPlayer = 'X';
+                    isProcessingMove = false;
+                }, 100);
             }
         }
         canvas.addEventListener('mouseup', handleRelease);
