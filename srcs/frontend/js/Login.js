@@ -43,8 +43,8 @@ function handleLogin() {
                   setTimeout(() => {
                       if (submitButton)
                           submitButton.disabled = false;
-                      window.location.href = "/";
-                  }, 1000);
+                      window.location.href = "/#profile";
+                  }, 100);
 
               } else {
 

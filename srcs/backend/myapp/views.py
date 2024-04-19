@@ -37,6 +37,7 @@ from datetime import timedelta
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.sessions.backends.db import SessionStore
 from urllib.parse import quote
+from django.db.models import Case, When
 
 token_obtain_pair_view = TokenObtainPairView.as_view()
 token_refresh_view = TokenRefreshView.as_view()
@@ -527,11 +528,20 @@ def leaderboard(request):
         user_id = payload['user_id']
         user = User.objects.get(pk=user_id)
         
+        # Retrieve the top 100 users ordered by score
         leaderboard_users = User.objects.order_by('-score')[:100]  
-        leaderboard_data = [{'username': user.username if user.username else user.nickname,
-                     'date_joined': user.date_joined,
-                     'image_link': user.image_link,
-                     'score': user.score} for user in leaderboard_users]
+
+        # Use Case/When expressions to dynamically annotate online status
+        leaderboard_data = []
+        for user in leaderboard_users:
+            user_data = {
+                'username': user.username if user.username else user.nickname,
+                'date_joined': user.date_joined,
+                'image_link': user.image_link,
+                'score': user.score,
+                'is_online': user.is_authenticated  # Assuming user has an 'is_authenticated' property
+            }
+            leaderboard_data.append(user_data)
         
         return JsonResponse(leaderboard_data, safe=False, status=200)
     
@@ -541,7 +551,6 @@ def leaderboard(request):
         return JsonResponse({'error': 'Invalid token'}, status=401)
     except User.DoesNotExist:
         return JsonResponse({'error': 'User not found'}, status=404)
-    
 
 def fetch_messages(request):
     if request.method != 'GET':

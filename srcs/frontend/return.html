@@ -82,8 +82,8 @@ document.addEventListener("DOMContentLoaded", async function() {
       localStorage.setItem("userNickname", userData.login);
 
       setTimeout(() => {
-        window.location.href = "/";
-    }, 1000);
+        window.location.href = "/#profile";
+    }, 100);
     } catch (error) {
       console.error("Error fetching user info:", error);
       window.location.href = "/#logout";

@@ -68,7 +68,7 @@ async function handleRegister() {
                     document.getElementById("register-status").style.color = "green";
                     setTimeout(() => {
                         window.location.href = "/#login";
-                    }, 2000);
+                    }, 1000);
                 }  
             })
             .catch(error => {
