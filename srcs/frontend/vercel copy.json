@@ -1,0 +1,12 @@
+  {
+    "rewrites": [
+      {
+        "source": "/api/:path*",
+        "destination": "https://pong42.azurewebsites.net/:path*"
+      },
+      {
+        "source": "/api/:path*/",
+        "destination": "https://pong42.azurewebsites.net/:path*/"
+      }
+    ]
+  }
