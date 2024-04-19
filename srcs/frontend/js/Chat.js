@@ -279,6 +279,7 @@ function sendMessageFromInput() {
     }
 }
 
+
 async function updateOnlineUsers() {
     try {
         const jwtToken = localStorage.getItem('jwtToken');
@@ -299,18 +300,68 @@ async function updateOnlineUsers() {
         onlineUsersList.innerHTML = ''; 
         online_users.forEach(user => {
             const listItem = document.createElement('li');
+            listItem.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-center');
+
+            const userContainer = document.createElement('div');
+            userContainer.classList.add('d-flex', 'align-items-center');
+
             const userImage = document.createElement('img');
             userImage.src = user.image_link || './src/emptyavatar.jpeg'; 
-            userImage.alt = user.username;
+            userImage.alt = user.nickname;
             userImage.width = 32;
             userImage.height = 32;
-            listItem.appendChild(userImage);
+            userImage.classList.add('rounded-circle', 'mr-3');
+            userContainer.appendChild(userImage);
+
+            const userInfo = document.createElement('div');
+            const nickname = document.createElement('span');
+            nickname.textContent = user.nickname;
+            userInfo.appendChild(nickname);
 
             const username = document.createElement('span');
-            username.textContent = user.username;
-            listItem.appendChild(username);
+            username.textContent = `@${user.username}`;
+            userInfo.appendChild(username);
 
-            listItem.classList.add('online-user');
+            userContainer.appendChild(userInfo);
+            listItem.appendChild(userContainer);
+
+            const linksContainer = document.createElement('div');
+            linksContainer.classList.add('user-links');
+
+            // View Profile Link
+            const viewProfileLink = document.createElement('a');
+            viewProfileLink.href = `/profile/${user.username}`;
+            viewProfileLink.classList.add('btn', 'btn-info', 'btn-sm', 'mr-1', 'flex-fill');
+            viewProfileLink.innerHTML = '<i class="bi bi-search"></i> View Profile';
+            viewProfileLink.target = '_blank'; // Open in new tab
+            linksContainer.appendChild(viewProfileLink);
+
+            // Add Friend Link
+            const addFriendLink = document.createElement('a');
+            addFriendLink.href = `/add-friend/${user.username}`;
+            addFriendLink.classList.add('btn', 'btn-success', 'btn-sm', 'mr-1', 'flex-fill');
+            addFriendLink.innerHTML = '<i class="bi bi-plus"></i> Add Friend';
+            addFriendLink.addEventListener('click', (event) => {
+                event.preventDefault();
+                // Call function to add user as friend
+                addFriend(user.username);
+            });
+            linksContainer.appendChild(addFriendLink);
+
+            // Block Link
+            const blockLink = document.createElement('a');
+            blockLink.href = `/block/${user.username}`;
+            blockLink.classList.add('btn', 'btn-danger', 'btn-sm', 'flex-fill');
+            blockLink.innerHTML = '<i class="bi bi-dash"></i> Block';
+            blockLink.addEventListener('click', (event) => {
+                event.preventDefault();
+                // Call function to block user
+                blockUser(user.username);
+            });
+            linksContainer.appendChild(blockLink);
+
+            listItem.appendChild(linksContainer);
+
             listItem.addEventListener('click', () => {
                 recipientSelect.value = user.username;
             });
@@ -320,7 +371,6 @@ async function updateOnlineUsers() {
         console.error('Error fetching online users:', error);
     }
 }
-
 
 
 
