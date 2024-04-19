@@ -1,81 +1,42 @@
-
 .profile-container {
-  background: #333841;
+  width: 100%;
+  height: 100%;
   display: flex;
-  left: 0;
-  right: 0;
-  max-height: 80vh;
-  overflow-y: auto;
+  justify-content: center;
+  flex-wrap: wrap;
+  background: #333841;
+  overflow: auto;
+  color: wheat;
+  gap: 150px;
+  font-size: large;
 }
 
 .category {
   text-align: center;
   animation: lights 2s linear infinite;
-  border-style: dotted;
+  border-bottom-style: solid;
+  border-bottom-color: wheat;
   border-radius: 50px;
   margin-bottom: 25px;
+  padding: 10px;
+  font-size: xx-large;
 }
 
-@keyframes lights {
-  0% {
-    color: hsl(230, 40%, 80%);
-    text-shadow:
-      0 0 1em hsla(320, 100%, 50%, 0.2),
-      0 0 0.125em hsla(320, 100%, 60%, 0.3),
-      -1em -0.125em 0.5em hsla(40, 100%, 60%, 0),
-      1em 0.125em 0.5em hsla(200, 100%, 60%, 0);
-  }
-  
-  30% { 
-    color: hsl(230, 80%, 90%);
-    text-shadow:
-      0 0 1em hsla(320, 100%, 50%, 0.5),
-      0 0 0.125em hsla(320, 100%, 60%, 0.5),
-      -0.5em -0.125em 0.25em hsla(40, 100%, 60%, 0.2),
-      0.5em 0.125em 0.25em hsla(200, 100%, 60%, 0.4);
-  }
-  
-  40% { 
-    color: hsl(230, 100%, 95%);
-    text-shadow:
-      0 0 1em hsla(320, 100%, 50%, 0.5),
-      0 0 0.125em hsla(320, 100%, 90%, 0.5),
-      -0.25em -0.125em 0.125em hsla(40, 100%, 60%, 0.2),
-      0.25em 0.125em 0.125em hsla(200, 100%, 60%, 0.4);
-  }
-  
-  70% {
-    color: hsl(230, 80%, 90%);
-    text-shadow:
-      0 0 1em hsla(320, 100%, 50%, 0.5),
-      0 0 0.125em hsla(320, 100%, 60%, 0.5),
-      0.5em -0.125em 0.25em hsla(40, 100%, 60%, 0.2),
-      -0.5em 0.125em 0.25em hsla(200, 100%, 60%, 0.4);
-  }
-  
-  100% {
-    color: hsl(230, 40%, 80%);
-    text-shadow:
-      0 0 1em hsla(320, 100%, 50%, 0.2),
-      0 0 0.125em hsla(320, 100%, 60%, 0.3),
-      1em -0.125em 0.5em hsla(40, 100%, 60%, 0),
-      -1em 0.125em 0.5em hsla(200, 100%, 60%, 0);
-  }
-}
-
-.friends, .achievements, .profile {
-  text-align: center;
+.friends, .achievments, .profile {
   flex: 1;
 }
+.friends{
+  text-align: center;
+}
+
+.profile {
+  text-align: center;
+}
+
 
 .friend-list {
   overflow-y: auto;
-  max-height: 80vh;
-}
-
-.friends {
-  height: 100%;
-  flex: 25%;
+  max-height: 75vh;
 }
 
 .friend-list::-webkit-scrollbar {
@@ -91,12 +52,14 @@
   border-radius: 6px; 
 }
 
-.achievements {
-  flex: 35%; /* Adjust width for achievements */
+#total-draw, #pong-lost, #ttt-lost, #rps-lost {
+  margin-bottom: 30px;
 }
 
-.achievements ul {
+
+.achievments ul {
   list-style-type: none;
+  text-align: left;
 }
 
 li {
@@ -114,7 +77,7 @@ li {
   display: block; 
   margin: 0 auto;
   max-width: 100%;
-  height: auto; /* Adjusted to maintain aspect ratio */
+  height: auto;
   border-radius: 10px;
 }
 
@@ -161,30 +124,60 @@ li {
 .profile-pic:hover {
   animation: zoom 0.1s linear forwards;
   transform-origin: center;
-  box-shadow: 0 0 15px rgba(33, 212, 253, 0.6), 
-              0 0 25px rgba(183, 33, 255, 0.6);
+  box-shadow: 0 0 15px wheat, 
+  0 0 25px wheat;
 }
 
 @keyframes zoom {
   0%   { transform: scale(1); }
-  100% { transform: scale(1.2); }
-}
-
-@media (max-width: 768px) {
-  .profile-container {
-    flex-direction: column; /* Vertical layout for smaller screens */
-    align-items: center; /* Center align items */
-  }
-
-  .category {
-    font-size: 2vw; 
-  }
-
-  .profile-title {
-    font-size: 1rem;
-  }
+  100% { transform: scale(1.1); }
 }
 
 
 
-
+@keyframes lights {
+  0% {
+    color: wheat;
+    text-shadow:
+      0 0 1em hsla(320, 100%, 50%, 0.2),
+      0 0 0.125em hsla(320, 100%, 60%, 0.3),
+      -1em -0.125em 0.5em hsla(40, 100%, 60%, 0),
+      1em 0.125em 0.5em hsla(200, 100%, 60%, 0);
+  }
+  
+  30% { 
+    color: wheat;
+    text-shadow:
+      0 0 1em hsla(320, 100%, 50%, 0.5),
+      0 0 0.125em hsla(320, 100%, 60%, 0.5),
+      -0.5em -0.125em 0.25em hsla(40, 100%, 60%, 0.2),
+      0.5em 0.125em 0.25em hsla(200, 100%, 60%, 0.4);
+  }
+  
+  40% { 
+    color: wheat;
+    text-shadow:
+      0 0 1em hsla(320, 100%, 50%, 0.5),
+      0 0 0.125em hsla(320, 100%, 90%, 0.5),
+      -0.25em -0.125em 0.125em hsla(40, 100%, 60%, 0.2),
+      0.25em 0.125em 0.125em hsla(200, 100%, 60%, 0.4);
+  }
+  
+  70% {
+    color: wheat;
+    text-shadow:
+      0 0 1em hsla(320, 100%, 50%, 0.5),
+      0 0 0.125em hsla(320, 100%, 60%, 0.5),
+      0.5em -0.125em 0.25em hsla(40, 100%, 60%, 0.2),
+      -0.5em 0.125em 0.25em hsla(200, 100%, 60%, 0.4);
+  }
+  
+  100% {
+    color: wheat;
+    text-shadow:
+      0 0 1em hsla(320, 100%, 50%, 0.2),
+      0 0 0.125em hsla(320, 100%, 60%, 0.3),
+      1em -0.125em 0.5em hsla(40, 100%, 60%, 0),
+      -1em 0.125em 0.5em hsla(200, 100%, 60%, 0);
+  }
+}
