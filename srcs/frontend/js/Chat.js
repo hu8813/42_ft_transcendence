@@ -325,7 +325,7 @@ async function updateOnlineUsers() {
 
             // View Profile Link
             const viewProfileLink = document.createElement('a');
-            viewProfileLink.href = `/#profile?u=${user.username}`;
+            viewProfileLink.href = `/#viewprofile?u=${user.username}`;
             viewProfileLink.classList.add('btn', 'btn-info', 'btn-sm', 'mr-1');
             viewProfileLink.innerHTML = '<i class="bi bi-search"></i> View Profile';
             viewProfileLink.target = '_blank'; // Open in new tab
