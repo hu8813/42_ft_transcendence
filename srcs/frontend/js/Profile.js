@@ -131,7 +131,6 @@ async function fetchAndDisplayProfile() {
             });
 
             document.getElementById('uploadPhoto').addEventListener('change', async function () {
-                // Handle file upload here
                 const imageFile = this.files[0];
                 try {
                     const responseData = await uploadImage(imageFile);
