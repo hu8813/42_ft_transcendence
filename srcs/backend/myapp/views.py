@@ -832,7 +832,7 @@ def generate_qr_code(request):
             return JsonResponse({'error': '2FA is already enabled'}, status=400)
         
         secret_key = pyotp.random_base32()
-        qr_url = pyotp.totp.TOTP(secret_key).provisioning_uri(user.email, issuer_name='YourApp')
+        qr_url = pyotp.totp.TOTP(secret_key).provisioning_uri(user.email, issuer_name='Pong42')
         
         qr = qrcode.QRCode(
             version=1,
@@ -863,14 +863,45 @@ def generate_qr_code(request):
 
 def activate_2fa(request):
     if request.method == 'POST':
+        try:
+            body = json.loads(request.body.decode('utf-8'))
+            activation_code = body.get('activationCode', None)
+            if not activation_code:
+                return JsonResponse({'error': 'Activation code is missing'}, status=400)
+            
+            token = request.headers.get('Authorization', '').split('Bearer ')[-1]
+            payload = jwt.decode(token, settings.SIGNING_KEY, algorithms=['HS256'])
+            user_id = payload['user_id']
+            user = User.objects.get(pk=user_id)
+            # Here you can add code to validate the activation code
+            if activation_code != user.activation_code:
+                return JsonResponse({'error': 'Invalid activation code'}, status=400)
+            if user.two_factor_enabled:
+                return JsonResponse({'error': '2FA is already enabled'}, status=400)
+            user.two_factor_enabled = True
+            user.save()
+            return JsonResponse({'success': True})
+        except jwt.ExpiredSignatureError:
+            return JsonResponse({'error': 'Token has expired'}, status=401)
+        except jwt.InvalidTokenError:
+            return JsonResponse({'error': 'Invalid token'}, status=401)
+        except User.DoesNotExist:
+            return JsonResponse({'error': 'User not found'}, status=404)
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=500)
+    else:
+        return JsonResponse({'error': 'Method not allowed'}, status=405)
+
+def deactivate_2fa(request):
+    if request.method == 'POST':
         token = request.headers.get('Authorization', '').split('Bearer ')[-1]
         try:
             payload = jwt.decode(token, settings.SIGNING_KEY, algorithms=['HS256'])
             user_id = payload['user_id']
             user = User.objects.get(pk=user_id)
-            if user.two_factor_enabled:
-                return JsonResponse({'error': '2FA is already enabled'}, status=400)
-            user.two_factor_enabled = True
+            if not user.two_factor_enabled:
+                return JsonResponse({'error': '2FA is not enabled for this user'}, status=400)
+            user.two_factor_enabled = False  # Update the field to deactivate 2FA
             user.save()
             return JsonResponse({'success': True})
         except jwt.ExpiredSignatureError:

@@ -1,56 +1,153 @@
-function display2faPage() {
-    function check2FAStatus() {
-        // Call backend API to get 2FA status
-        fetch(`${getBackendURL()}/2fa-status`)
-            .then(response => response.json())
-            .then(data => {
-                const statusElement = document.getElementById('status');
-                statusElement.textContent = data.enabled ? 'Enabled' : 'Not enabled';
-            })
-            .catch(error => console.error('Error checking 2FA status:', error));
+async function display2faPage() {
+    async function check2FAStatus() {
+        try {
+            // Call backend API to get 2FA status
+            const jwtToken = localStorage.getItem('jwtToken');
+            const csrfToken = await getCSRFCookie();
+
+            const response = await fetch(`${getBackendURL()}/2fa-status`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${jwtToken}`,
+                    'X-CSRFToken': csrfToken
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to fetch 2FA status');
+            }
+
+            const data = await response.json();
+
+            const statusElement = document.getElementById('status');
+            statusElement.textContent = data.enabled ? 'Enabled' : 'Not enabled';
+
+            // Update the button text based on 2FA status
+            const enable2FAButton = document.getElementById('enable2FA');
+            if (data.enabled) {
+                enable2FAButton.textContent = 'Disable 2FA';
+            } else {
+                enable2FAButton.textContent = 'Enable 2FA';
+            }
+        } catch (error) {
+            console.error('Error checking 2FA status:', error);
+        }
     }
+ 
 
     function enable2FA() {
         document.getElementById('qrCodeSection').style.display = 'block';
         generateQRCode();
     }
-
-    function activate2FA() {
-        const activationCode = document.getElementById('activationCode').value;
-        // Call backend API to activate 2FA with the provided activation code
-        fetch(`${getBackendURL()}/2fa-activate`, {
-            method: 'POST',
-            body: JSON.stringify({ activationCode }),
-            headers: {
-                'Content-Type': 'application/json'
+    async function disable2FA() {
+        try {
+            const jwtToken = localStorage.getItem('jwtToken');
+            const csrfToken = await getCSRFCookie();
+    
+            const response = await fetch(`${getBackendURL()}/2fa-deactivate`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${jwtToken}`,
+                    'X-CSRFToken': csrfToken
+                }
+            });
+    
+            if (response.ok) {
+                const statusElement = document.getElementById('status');
+                if (statusElement) {
+                    statusElement.textContent = 'Not enabled';
+                }
+                showNotification("2FA deactivated successfully.", true);
+                document.getElementById('errorLabel').textContent = '';  
+            } else {
+                const responseData = await response.json();
+                throw new Error(responseData.error || 'Failed to deactivate 2FA');
             }
-        })
-        .then(response => {
+        } catch (error) {
+            console.error('Error deactivating 2FA:', error);
+            showNotification("Failed to deactivate 2FA. Please try again later.", false);
+            displayError(error.message);
+        }
+    }
+    
+    async function activate2FA() {
+        try {
+            const jwtToken = localStorage.getItem('jwtToken');
+            const csrfToken = await getCSRFCookie();
+    
+            const activationCode = document.getElementById('activationCode').value;
+            console.log(activationCode)
+            const response = await fetch(`${getBackendURL()}/2fa-activate`, {
+                method: 'POST',
+                body: JSON.stringify({ activationCode }),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${jwtToken}`,
+                    'X-CSRFToken': csrfToken
+                }
+            });
+    
             if (response.ok) {
                 // Reload the page to reflect the updated 2FA status
                 location.reload();
             } else {
-                throw new Error('Failed to activate 2FA');
+                const responseData = await response.json();
+                throw new Error(responseData.error || 'Failed to activate 2FA');
             }
-        })
-        .catch(error => console.error('Error activating 2FA:', error));
+        } catch (error) {
+            console.error('Error activating 2FA:', error);
+            displayError(error.message);
+        }
     }
     
-
-    function generateQRCode() {
-        // Call backend API to generate QR code
-        fetch(`${getBackendURL()}/2fa-qr-code`)
-            .then(response => response.blob())
-            .then(data => {
+    async function generateQRCode() {
+        try {
+            const jwtToken = localStorage.getItem('jwtToken');
+            const csrfToken = await getCSRFCookie();
+    
+            const response = await fetch(`${getBackendURL()}/2fa-qr-code`, {
+                headers: {
+                    'Authorization': `Bearer ${jwtToken}`,
+                    'X-CSRFToken': csrfToken
+                }
+            });
+    
+            if (response.ok) {
+                const data = await response.blob();
                 const qrCodeElement = document.getElementById('qrCode');
                 const qrCodeURL = URL.createObjectURL(data);
                 qrCodeElement.innerHTML = `<img src="${qrCodeURL}" alt="QR Code">`;
-            })
-            .catch(error => console.error('Error generating QR code:', error));
+            } else {
+                const responseData = await response.json();
+                throw new Error(responseData.error || 'Failed to generate QR code');
+            }
+        } catch (error) {
+            console.error('Error generating QR code:', error);
+            displayError(error.message);
+        }
     }
-
+    
+    async function enableOrDisable2FA() {
+        const button = document.getElementById('enable2FA');
+        if (button.textContent === 'Enable 2FA') {
+            await enable2FA();
+            button.textContent = 'Disable 2FA';
+        } else {
+            await disable2FA();
+            button.textContent = 'Enable 2FA';
+        }
+    }
+    
+    function displayError(message) {
+        const errorLabel = document.getElementById('errorLabel');
+        if (errorLabel) {
+            errorLabel.textContent = message;
+            errorLabel.style.color = 'red'; // Set error label color to red
+        }
+    }
+    
     check2FAStatus();
 
-    document.getElementById('enable2FA').addEventListener('click', enable2FA);
+    document.getElementById('enable2FA').addEventListener('click', enableOrDisable2FA);
     document.getElementById('activate2FA').addEventListener('click', activate2FA);
 }

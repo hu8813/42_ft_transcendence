@@ -50,6 +50,8 @@ urlpatterns = [
     path('manage-profile/', views.manage_profile, name='manage_profile'),
     path('2fa-status', views.get_2fa_status, name='get_2fa_status'),
     path('2fa-activate', views.activate_2fa, name='activate_2fa'),
+    path('2fa-deactivate', views.deactivate_2fa, name='deactivate_2fa'),
+
     path('2fa-qr-code', views.generate_qr_code, name='generate_qr_code'),
     path('update-score', views.update_score, name='update_score'),
     path('get-online-users', views.get_online_users, name='get_online_users'),
@@ -92,6 +94,8 @@ urlpatterns = [
     path('api/2fa-status', views.get_2fa_status, name='get_2fa_status'),
     path('api/2fa-activate', views.activate_2fa, name='activate_2fa'),
     path('api/2fa-qr-code', views.generate_qr_code, name='generate_qr_code'),
+    path('api/2fa-deactivate', views.deactivate_2fa, name='deactivate_2fa'),
+
     path('api/update-score', views.update_score, name='update_score'),
     path('api/get-online-users', views.get_online_users, name='get_online_users'),
     path('api/logout', views.logout_view, name='logout_view'),

@@ -10,6 +10,7 @@ class User(AbstractUser):
     friends = models.ManyToManyField('self', symmetrical=True, blank=True)  
     blocked_users = models.ManyToManyField('self', symmetrical=False, related_name='blocked_by', blank=True) 
     two_factor_enabled = models.BooleanField(default=False)
+    activation_code = models.CharField(max_length=255, blank=True, null=True)
     
     class Meta:
         managed = False

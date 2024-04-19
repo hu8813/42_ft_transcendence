@@ -1,7 +1,7 @@
 let socket;
 let messageInput;
 let recipientSelect;
-let onlineUsersList; // Variable to store online users list
+let onlineUsersList; 
 let NOTIFICATION_DURATION = 2000;
 let MAX_RETRIES = 3;
 let retryCount = 0;
@@ -12,7 +12,6 @@ const MAX_MESSAGE_LENGTH = 200;
 let storedMessages;
 let msgerChat;
 
-// Function to toggle WebSocket connection
 function toggleSocketConnection() {
     if (isDisconnected) {
         socket = getWebSocket();
@@ -50,11 +49,16 @@ function getWebSocket() {
 
         socket.addEventListener('open', () => {
             console.log('WebSocket connection established.');
+            const userNickname = localStorage.getItem('userNickname') || localStorage.getItem('userLogin') || "user42";
             const joinMessage = {
                 text: 'joined the chat',
-                name: localStorage.getItem('userNickname') || localStorage.getItem('userLogin') || "user42"
+                name: userNickname
             };
-            sendMessage(joinMessage);
+            if (isCurrentUser) {
+                displayMessage(joinMessage);
+            } else {
+                sendMessage(joinMessage);
+            }
             retryCount = 0;
         });
 
@@ -121,7 +125,6 @@ function saveMessageToLocal(message) {
     }
 }
 
-// Function to display a message
 function displayMessage(message) {
     msgerChat = document.getElementById('msger-chat');
     const messageElement = document.createElement('div');
@@ -142,8 +145,10 @@ function displayMessage(message) {
             </div>
         `;
         updateOnlineUsers();
-        playNotificationSound();
-        document.title = "New user joined the chat!";
+        if (!isCurrentUser) {
+            playNotificationSound();
+            document.title = "New user joined the chat!";
+        }
     } else if (messageElement && message.text.includes("left the chat")) {
         messageElement.innerHTML = `
             <div class="msg-info" style="text-align: ${alignRight};">
@@ -152,9 +157,10 @@ function displayMessage(message) {
             </div>
         `;
         updateOnlineUsers();
-        
-        playNotificationSound(); 
-        document.title = "User left the chat!";
+        if (!isCurrentUser) {
+            playNotificationSound();
+            document.title = "User left the chat!";
+        }
     } else {
         const messageBubble = document.createElement('div');
         messageBubble.classList.add('msg', isCurrentUser ? 'right-msg' : 'left-msg', 'msg-bubble');
@@ -429,6 +435,7 @@ function scrollToBottom() {
 
 function showNotification(message, isSuccess) {
     const notification = document.getElementById('notification');
+    if (!notification) return;
     notification.textContent = message;
     notification.style.color = isSuccess ? 'green' : 'red';
     setTimeout(() => {
