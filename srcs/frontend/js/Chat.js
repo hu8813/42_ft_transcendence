@@ -84,6 +84,7 @@ function getWebSocket() {
 
 // Function to send a message
 function sendMessage(message) {
+    message.created_at = new Date(); // Add the current timestamp to the message
     if (socket.readyState === WebSocket.OPEN) {
         socket.send(JSON.stringify(message));
         showNotification("Message sent successfully.", true);
@@ -108,7 +109,7 @@ function sendMessage(message) {
     }
 }
 
-// Function to save a message locally
+
 function saveMessageToLocal(message) {
     const storedMessages = JSON.parse(localStorage.getItem('chatMessages')) || [];
     const isMessageExists = storedMessages.some(msg => {
@@ -133,7 +134,7 @@ function displayMessage(message) {
     const senderName = message.name || 'Anonymous';
     const formattedCreatedAt = message.created_at ? formatDate(new Date(message.created_at)) : getCurrentTimestamp();
 
-    if (messageElement && message && message.text.includes("joined the chat")) {
+    if (messageElement && message && message.text && message.text.includes("joined the chat")) {
         messageElement.innerHTML = `
             <div class="msg-info" style="text-align: ${alignRight};">
                 <span class="msg-info-name" style="color: green;">${escapeHTML(senderName)} has joined the chat</span>

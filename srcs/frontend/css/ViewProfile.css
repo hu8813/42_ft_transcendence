@@ -16,7 +16,7 @@
     color: #21d4fd;
     text-transform: uppercase;
     margin-bottom: 10px;
-    margin-top: 0;
+    margin-top: 25px; /* Adjusted margin */
     font-size: 2rem;
     text-shadow: 0 0 10px #21d4fd;
 }
@@ -61,4 +61,21 @@
 .viewprofile-button:active {
     transform: translateY(2px);
     box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+}
+
+.status-indicator {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    position: absolute; /* Position the indicator */
+    top: 0; /* Adjust the position */
+    right: 0; /* Adjust the position */
+}
+
+.online {
+    background-color: green;
+}
+
+.offline {
+    background-color: red;
 }

@@ -49,7 +49,8 @@ def get_online_users(request):
         active_sessions = Session.objects.filter(expire_date__gte=time_threshold)
         
         user_ids = [session.get_decoded().get('_auth_user_id') for session in active_sessions]
-        
+        print(user_ids)
+        print(Session.objects.all())    
         online_user_ids = list(set(user_ids))
         
         online_users = []
@@ -169,6 +170,7 @@ def messages(request):
 def chat(request):
     return render(request, 'chatpage.html')
 
+from django.contrib.sessions.models import Session
 
 def get_profile_info(request):
     username = request.GET.get('username')
@@ -183,21 +185,29 @@ def get_profile_info(request):
         user_requester = User.objects.get(pk=user_id)
         user = User.objects.get(username=username)
         csrf_token = get_token(request)
+        
+        # Check if the user has an active session
+        is_online = False
+        active_sessions = Session.objects.filter(expire_date__gte=timezone.now())
+        for session in active_sessions:
+            session_data = session.get_decoded()
+            if '_auth_user_id' in session_data and str(user.id) == session_data['_auth_user_id']:
+                is_online = True
+                break
+        
         user_info = {
             'nickname': user.nickname,
             'login': user.username,
             'score': user.score,
             'image_link': user.image_link,
             'csrfToken': csrf_token,
-
+            'is_online': is_online
         }
         return JsonResponse({'user': user_info})
     except jwt.ExpiredSignatureError:
         return JsonResponse({'error': 'Token has expired'}, status=401)
     except jwt.InvalidTokenError:
         return JsonResponse({'error': 'Invalid token'}, status=401)
-    except User.DoesNotExist:
-        return JsonResponse({'error': 'User not found'}, status=404)
     except User.DoesNotExist:
         return JsonResponse({'error': 'User not found'}, status=404)
     except Exception as e:
@@ -624,6 +634,9 @@ def login_view(request):
             if user is not None:
                 login(request, user)
                 token = AccessToken.for_user(user)
+                session = SessionStore()
+                session['user_id'] = user.id
+                session.create()
                 encoded_token = str(token)
                 csrf_token = get_token(request)
 
