@@ -54,8 +54,10 @@ async function displayLeaderboard() {
     }
 }
 
-  translate(currentLanguage);
-
+translate(currentLanguage);
+function openProfile(username) {
+    window.location.href = `#viewprofile?u=${username}`;
+}
   const leaderboardBody = document.getElementById('leaderboard-body');
 
   if (!leaderboardData || leaderboardData.length === 0) {
