@@ -6,8 +6,8 @@
 while true; do
     if nc -z -w 2 $POSTGRES_HOST $POSTGRES_PORT; then
         echo "Postgres is up!"
-        python manage.py makemigrations >> /dev/null
-        python manage.py migrate >> /dev/null
+        python manage.py makemigrations > /dev/null 2>&1
+        python manage.py migrate > /dev/null 2>&1
         
         echo "
 
@@ -97,7 +97,7 @@ VALUES
     ('user12', 'user12@example.com', 'password12', 'Oliver', 'Wright', FALSE, FALSE, TRUE, NOW(), 0, 'Ollie', 'https://pong42.vercel.app/src/logo.png'),
     ('user15', 'user15@example.com', 'password15', 'Ava', 'Young', FALSE, FALSE, TRUE, NOW(), 0, 'Avie', 'https://pong42.vercel.app/src/logo.png');
 
-" | psql -h $POSTGRES_HOST -U $POSTGRES_USER -d $POSTGRES_DB -p $POSTGRES_PORT >> /dev/null
+" | psql -h $POSTGRES_HOST -U $POSTGRES_USER -d $POSTGRES_DB -p $POSTGRES_PORT > /dev/null 2>&1
 
         break
     else
@@ -108,9 +108,9 @@ done
 
 # Start Gunicorn with SSL certificate and key
 echo "Starting backend with Gunicorn!"
-python3 manage.py makemigrations >> /dev/null
-python3 manage.py migrate >> /dev/null
-python manage.py collectstatic
+python3 manage.py makemigrations > /dev/null 2>&1
+python3 manage.py migrate > /dev/null 2>&1
+python manage.py collectstatic > /dev/null 2>&1
 
 #daphne -b 0.0.0.0 -p 8001 myproject.asgi:application &
 #gunicorn myproject.wsgi:application --bind 0.0.0.0:8000 --certfile "/etc/ssl/certs/localhost.crt" --keyfile "/etc/ssl/certs/localhost.key" --workers 4 --timeout 300 

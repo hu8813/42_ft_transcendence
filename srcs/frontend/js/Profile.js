@@ -57,17 +57,34 @@ async function fetchAndDisplayProfile() {
             });
             if (response.ok) {
                 const achievementsData = await response.json();
-                // Populate the achievements onto the profile page
-                document.getElementById('total-played').textContent = `Total Games Played: ${achievementsData.games_played || 0}`;
-                document.getElementById('total-won').textContent = `Total Wins: ${achievementsData.games_won || 0}`;
-                document.getElementById('total-lost').textContent = `Total Losses: ${achievementsData.games_lost || 0}`;
-                document.getElementById('total-draw').textContent = `Tournaments Won: ${achievementsData.tournaments_won || 0}`;
-                //document.getElementById('favorite-game').textContent = `Favorite Game: ${achievementsData.favorite_game || 'None'}`;
-            } else {
+            
+                const gamesPlayed = achievementsData.games_played || 0;
+                const gamesWon = achievementsData.games_won || 0;
+                const winningRate = gamesPlayed > 0 ? ((gamesWon / gamesPlayed) * 100).toFixed(2) : 0;
+            
+                const totalPlayedElement = document.getElementById('total-played');
+                if (totalPlayedElement) {
+                    totalPlayedElement.textContent = `Total Games Played: ${gamesPlayed}`;
+                }
+            
+                const winningRateElement = document.getElementById('winning-rate');
+                if (winningRateElement) {
+                    winningRateElement.textContent = `Winning Rate: ${winningRate}%`;
+                }
+            
+                const totalWonElement = document.getElementById('total-won');
+                if (totalWonElement) {
+                    totalWonElement.textContent = `Total Wins: ${gamesWon}`;
+                }
+            
+                const totalLostElement = document.getElementById('total-lost');
+                if (totalLostElement) {
+                    totalLostElement.textContent = `Total Losses: ${achievementsData.games_lost || 0}`;
+                }
+            } 
+            else {
                 const achievementsNotFound = await response.json();
-                // Check if the response contains an error message
                 if (achievementsNotFound.error) {
-                    // Populate default values onto the profile page
                     if (document.getElementById('total-played'))
                         document.getElementById('total-played').textContent = 'Total Games Played: 0';
                     if (document.getElementById('total-won'))
