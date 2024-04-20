@@ -15,7 +15,7 @@ import uuid
 import os
 import json
 from .forms import UserRegistrationForm
-from .models import Tournament, User, Player, WaitingPlayer, Message, UserProfile, Feedback, Achievement, MyAppUserGroups, MyAppUserPermissions, UserAchievements
+from .models import Tournament, User, Player, WaitingPlayer, Message, UserProfile, Feedback, Achievement, MyAppUserGroups, MyAppUserPermissions
 from django.utils import timezone
 from django.db import IntegrityError
 from django.utils.html import escape
@@ -94,6 +94,7 @@ def add_friend(request):
         return JsonResponse({'message': "Invalid or missing user_id in JWT token."}, status=401)
     except Exception as e:
         return JsonResponse({'message': str(e)}, status=401)
+    
 def get_friends(request):
     try:
         
@@ -653,7 +654,7 @@ def update_score(request):
         user.score += 1
         user.save()
 
-        achievements = UserAchievements.objects.get(user=user)
+        achievements = Achievement.objects.get(user=user)
 
         achievements.games_played += 1
 
@@ -671,7 +672,7 @@ def update_score(request):
         return JsonResponse({'error': 'Invalid JWT token'}, status=401)
     except User.DoesNotExist:
         return JsonResponse({'error': 'User not found'}, status=404)
-    except UserAchievements.DoesNotExist:
+    except Achievement.DoesNotExist:
         return JsonResponse({'error': 'User achievements not found'}, status=404)
     
 def get_score(request):
