@@ -162,8 +162,8 @@ if (!currentLanguage) {
 
 
 
-const apiUrl = `${getBackendURL()}/messages`;
-const signinUrl = `${getBackendURL()}/signin42c/`;
+const apiUrl = `/api/messages`;
+const signinUrl = `/api/signin42c/`;
 
 
 

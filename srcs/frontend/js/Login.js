@@ -4,7 +4,7 @@ async function check2FACode(username, code) {
     try {
         const csrfToken = await getCSRFCookie();
 
-        const response = await fetch(`${getBackendURL()}/check-2fa-code?username=${username}&code=${code}`, {
+        const response = await fetch(`/api/check-2fa-code?username=${username}&code=${code}`, {
             method: 'GET',
             headers: {
                 'X-CSRFToken': csrfToken
@@ -29,7 +29,7 @@ async function check2FACode(username, code) {
             
             const csrfToken = await getCSRFCookie();
     
-            const response = await fetch(`${getBackendURL()}/2fa-status?username=${username}`, {
+            const response = await fetch(`/api/2fa-status?username=${username}`, {
                 method: 'GET',
                 headers: {
                     'X-CSRFToken': csrfToken
@@ -88,7 +88,7 @@ async function check2FACode(username, code) {
                 submitButton.disabled = true;
             let csrfToken = await getCSRFCookie();
             try {
-                const response = await fetch(`${getBackendURL()}/login/`, {
+                const response = await fetch(`/api/login/`, {
                     method: "POST",
                     body: formData,
                     headers: {

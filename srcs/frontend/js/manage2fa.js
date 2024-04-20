@@ -5,7 +5,7 @@ async function display2faPage() {
             const jwtToken = localStorage.getItem('jwtToken');
             const csrfToken = await getCSRFCookie();
             let username = localStorage.getItem('userLogin');
-            const response = await fetch(`${getBackendURL()}/2fa-status?username=${username}`, {
+            const response = await fetch(`/api/2fa-status?username=${username}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${jwtToken}`,
@@ -44,7 +44,7 @@ async function display2faPage() {
             const jwtToken = localStorage.getItem('jwtToken');
             const csrfToken = await getCSRFCookie();
     
-            const response = await fetch(`${getBackendURL()}/2fa-deactivate`, {
+            const response = await fetch(`/api/2fa-deactivate`, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${jwtToken}`,
@@ -77,7 +77,7 @@ async function display2faPage() {
     
             const activationCode = document.getElementById('activationCode').value;
             console.log(activationCode)
-            const response = await fetch(`${getBackendURL()}/2fa-activate`, {
+            const response = await fetch(`/api/2fa-activate`, {
                 method: 'POST',
                 body: JSON.stringify({ activationCode }),
                 headers: {
@@ -105,7 +105,7 @@ async function display2faPage() {
             const jwtToken = localStorage.getItem('jwtToken');
             const csrfToken = await getCSRFCookie();
     
-            const response = await fetch(`${getBackendURL()}/2fa-qr-code`, {
+            const response = await fetch(`/api/2fa-qr-code`, {
                 headers: {
                     'Authorization': `Bearer ${jwtToken}`,
                     'X-CSRFToken': csrfToken

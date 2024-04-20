@@ -70,7 +70,29 @@ function showTic1() {
             const jwtToken = localStorage.getItem('jwtToken');
             const csrfToken = await getCSRFCookie(); 
             try {
-            const response = await fetch(`${getBackendURL()}/update-score`, {
+            const response = await fetch(`/api/update-score?result=win`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${jwtToken}`,
+                    'X-CSRFToken': csrfToken
+                },
+            });
+            if (response.ok) {
+                await fetchLeaderboardData();
+                console.log('User score updated successfully');
+            } else {
+                console.error('Failed to update user score');
+            }
+            } catch (error) {
+            console.error('Failed to update user score:', error);
+            }
+        }
+        else if (winner === 'O')
+        {
+            const jwtToken = localStorage.getItem('jwtToken');
+            const csrfToken = await getCSRFCookie(); 
+            try {
+            const response = await fetch(`/api/update-score?result=lost`, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${jwtToken}`,

@@ -48,7 +48,7 @@ async function handleRegister() {
             formData.append("password", password);
             formData.append("confirm_password", confirmPassword);
 
-            fetch(`${getBackendURL()}/register/`, {
+            fetch(`/api/register/`, {
                 method: "POST",
                 headers: {
                     'Authorization': `Bearer ${jwtToken}`,

@@ -7,7 +7,7 @@ async function fetchLeaderboardData() {
       const jwtToken = localStorage.getItem('jwtToken');
       let csrfToken = await getCSRFCookie();
   
-      const response = await fetch(`${getBackendURL()}/leaderboard/`, {
+      const response = await fetch(`/api/leaderboard/`, {
           headers: {
             'Authorization': `Bearer ${jwtToken}`,
             'X-CSRFToken': csrfToken

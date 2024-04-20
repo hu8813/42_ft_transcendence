@@ -365,19 +365,40 @@ function showPlayer3d1Page() {
     }
     var bounceTime = 0;
     async function matchScoreCheck() {
+        let gameResult;
+        let message;
         if (score1 >= maxScore) {
             ballSpeed = 0;
-            if (scores3dElement)
-                scores3dElement.innerHTML = "Player wins!";
-
-            if (winnerBoardElement)
-                winnerBoardElement.innerHTML = "Refresh to play again";
+            gameResult = 'win';
+            message = "Player wins!";
             bounceTime++;
             paddle1.position.z = Math.sin(bounceTime * 0.1) * 10;
+        } else if (score2 >= maxScore) {
+            ballSpeed = 0;
+            gameResult = 'lost';
+            message = "CPU wins!";
+            bounceTime++;
+            paddle2.position.z = Math.sin(bounceTime * 0.1) * 10;
+        }
+    
+        if (gameResult) {
+            if (scores3dElement)
+                scores3dElement.innerHTML = message;
+    
+            if (winnerBoardElement) {   
+                winnerBoardElement.style.display = "block";
+                winnerBoardElement.innerHTML = "Refresh to play again";
+                startGameButton.style.display = "block";
+                startGameButton.innerHTML = "Play Again";
+                startGameButton.addEventListener("click", function () {
+                    location.reload();
+                });
+            }
+    
             const jwtToken = localStorage.getItem('jwtToken');
             const csrfToken = await getCSRFCookie(); 
             try {
-                const response = await fetch(`${getBackendURL()}/update-score`, {
+                const response = await fetch(`/api/update-score?result=${gameResult}`, {
                     method: 'POST',
                     headers: {
                         'Authorization': `Bearer ${jwtToken}`,
@@ -394,26 +415,8 @@ function showPlayer3d1Page() {
                 console.error('Failed to update user score:', error);
             }
         }
-        else if (score2 >= maxScore) {
-            ballSpeed = 0;
-            if (scores3dElement)
-            {
-                scores3dElement.innerHTML = "CPU wins!";
-            }
-            if (winnerBoardElement)
-            {   
-                winnerBoardElement.style.display = "block";
-                winnerBoardElement.innerHTML = "Refresh to play again";
-                startGameButton.style.display = "block";
-                startGameButton.innerHTML = "Play Again";
-                startGameButton.addEventListener("click", function () {
-                    location.reload();});
-                        }
-            bounceTime++;
-            paddle2.position.z = Math.sin(bounceTime * 0.1) * 10;
-            
-        }
     }
+    
     window.addEventListener('keydown', function (event) {
         if (event.key === 'ArrowLeft') {
             Key.onKeydown(Key.LEFT_ARROW);

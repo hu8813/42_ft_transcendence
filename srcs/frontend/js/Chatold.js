@@ -5,7 +5,7 @@ function fetchMessages() {
     const path = window.location.hash || '#'; 
 
     
-    apiUrl = `${getBackendURL()}/messages`;
+    apiUrl = `/api/messages`;
     
     if (path === '#chat' && apiUrl) {
         fetch(apiUrl)
@@ -23,7 +23,7 @@ function fetchUsersAndTranslations(recipientSelect) {
     return Promise.all([
         translateKey('selectRecipient'),
         translateKey('channel'),
-        fetch(`${getBackendURL()}/get_all_users`).then(response => response.json())
+        fetch(`/api/get_all_users`).then(response => response.json())
     ]);
 }
 
@@ -67,7 +67,7 @@ function fetchAndDisplayUsers(recipientSelect) {
 
 function openChat() {
     let PERSON_NAME = localStorage.getItem('userLogin') || "user42";
-    const apiUrl = `${getBackendURL()}/messages`;
+    const apiUrl = `/api/messages`;
     const onlineUsersElement = document.getElementById('recipient-select');
     const msgerChat = document.getElementById('msger-chat'); 
     const messageInput = document.getElementById('message-input');

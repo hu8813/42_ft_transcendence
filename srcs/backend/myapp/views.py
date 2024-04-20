@@ -15,7 +15,7 @@ import uuid
 import os
 import json
 from .forms import UserRegistrationForm
-from .models import Tournament, User, Player, WaitingPlayer, Message, UserProfile, Feedback, Achievement, MyAppUserGroups, MyAppUserPermissions
+from .models import Tournament, User, Player, WaitingPlayer, Message, UserProfile, Feedback, Achievement, MyAppUserGroups, MyAppUserPermissions, UserAchievements
 from django.utils import timezone
 from django.db import IntegrityError
 from django.utils.html import escape
@@ -171,13 +171,13 @@ def block_user(request):
 def fetch_achievements(request):
     try:
         token = request.headers.get('Authorization', '').split('Bearer ')[-1]
-        payload = jwt.decode(token, settings.SECRET_KEY, algorithms=['HS256'])
+        payload = jwt.decode(token, settings.SIGNING_KEY, algorithms=['HS256'])
         user_id = payload['user_id']
         
         achievements = Achievement.objects.filter(user_id=user_id).first()
 
         if not achievements:
-            return JsonResponse({'error': 'Achievements not found'}, status=404)
+            return JsonResponse({'error': 'Achievements not found'}, status=200)
 
         data = {
             'games_played': achievements.games_played,
@@ -641,22 +641,38 @@ def upload_avatar(request):
     except Exception as e:
         print(f"An error occurred: {str(e)}")
         return Response({"message": "An error occurred while uploading the avatar."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-    
+
 def update_score(request):
     token = request.headers.get('Authorization', '').split('Bearer ')[-1]
     try:
         payload = jwt.decode(token, settings.SIGNING_KEY, algorithms=['HS256'])
         user_id = payload['user_id']
         user = User.objects.get(pk=user_id)
+        
+        result = request.GET.get('result') 
         user.score += 1
         user.save()
-        return JsonResponse({'message': 'Score updated successfully'})
+
+        achievements = UserAchievements.objects.get(user=user)
+
+        achievements.games_played += 1
+
+        if result == 'won':
+            achievements.games_won += 1
+        elif result == 'lost':
+            achievements.games_lost += 1
+
+        achievements.save()
+
+        return JsonResponse({'message': 'Score and achievements updated successfully'})
     except jwt.ExpiredSignatureError:
         return JsonResponse({'error': 'JWT signature has expired'}, status=401)
     except jwt.InvalidTokenError:
         return JsonResponse({'error': 'Invalid JWT token'}, status=401)
     except User.DoesNotExist:
         return JsonResponse({'error': 'User not found'}, status=404)
+    except UserAchievements.DoesNotExist:
+        return JsonResponse({'error': 'User achievements not found'}, status=404)
     
 def get_score(request):
     
