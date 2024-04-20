@@ -297,7 +297,7 @@ async function updateOnlineUsers() {
         if (!response.ok ) {
             throw new Error('Failed to fetch online users');
         }
-
+        const responseData = await response.json();
         if (responseData.error && responseData.error === "User matching query does not exist.") {
             console.log("No users are currently online.");
             return; 
