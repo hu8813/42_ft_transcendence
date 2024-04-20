@@ -38,6 +38,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.sessions.backends.db import SessionStore
 from urllib.parse import quote
 from django.db.models import Case, When
+from pyotp import TOTP
 
 token_obtain_pair_view = TokenObtainPairView.as_view()
 token_refresh_view = TokenRefreshView.as_view()
@@ -443,8 +444,8 @@ def update_nickname(request):
 
 @api_view(['POST'])
 def upload_avatar(request):
-    if request.method == 'POST' and request.FILES.get('avatar'):
-        avatar_file = request.FILES['avatar']
+    if request.method == 'POST' and request.FILES.get('image'):
+        avatar_file = request.FILES['image']
         
         
         if not avatar_file.name.lower().endswith(('.png', '.jpg', '.jpeg', '.gif')):
@@ -832,10 +833,15 @@ def generate_qr_code(request):
             return JsonResponse({'error': '2FA is already enabled'}, status=400)
         
         secret_key = pyotp.random_base32()
-        qr_url = pyotp.totp.TOTP(secret_key).provisioning_uri(user.email, issuer_name='Pong42')
         user.activation_code = secret_key
         user.save()
-        #print(secret_key)
+        totp = TOTP(secret_key)
+        print(secret_key)
+        
+        # Save the secret key as the activation code in the user model
+        
+        qr_url = totp.provisioning_uri(user.email, issuer_name='Pong42')
+        
         qr = qrcode.QRCode(
             version=1,
             error_correction=qrcode.constants.ERROR_CORRECT_L,
@@ -862,6 +868,7 @@ def generate_qr_code(request):
         return JsonResponse({'error': 'Invalid token'}, status=401)
     except User.DoesNotExist:
         return JsonResponse({'error': 'User not found'}, status=404)
+    
 
 def activate_2fa(request):
     if request.method == 'POST':
@@ -876,14 +883,20 @@ def activate_2fa(request):
             user_id = payload['user_id']
             user = User.objects.get(pk=user_id)
             
-            # Check if activation code matches the stored activation code
-            if activation_code != user.activation_code:
-                return JsonResponse({'error': 'Invalid activation code'}, status=400)
+            # Retrieve the activation code from the user model
+            saved_activation_code = user.activation_code
             
+            # Validate the entered 2FA code
+            totp = TOTP(saved_activation_code)
+            print(totp.verify(activation_code))
+            print(saved_activation_code)
+            print(activation_code)
+            if not totp.verify(activation_code):
+                return JsonResponse({'error': 'Invalid activation code'}, status=400)
+                
             if user.two_factor_enabled:
                 return JsonResponse({'error': '2FA is already enabled'}, status=400)
-            
-            # If everything is valid, enable 2FA for the user
+                
             user.two_factor_enabled = True
             user.save()
             return JsonResponse({'success': True})
@@ -897,8 +910,8 @@ def activate_2fa(request):
             return JsonResponse({'error': str(e)}, status=500)
     else:
         return JsonResponse({'error': 'Method not allowed'}, status=405)
-
-
+    
+    
 def deactivate_2fa(request):
     if request.method == 'POST':
         token = request.headers.get('Authorization', '').split('Bearer ')[-1]
