@@ -654,7 +654,12 @@ def update_score(request):
         user.score += 1
         user.save()
 
-        achievements = Achievement.objects.get(user=user)
+        # Try to retrieve the Achievement object for the user
+        try:
+            achievements = Achievement.objects.get(user=user)
+        except Achievement.DoesNotExist:
+            # If Achievement object does not exist, create a new one
+            achievements = Achievement.objects.create(user=user)
 
         achievements.games_played += 1
 
@@ -672,9 +677,7 @@ def update_score(request):
         return JsonResponse({'error': 'Invalid JWT token'}, status=401)
     except User.DoesNotExist:
         return JsonResponse({'error': 'User not found'}, status=404)
-    except Achievement.DoesNotExist:
-        return JsonResponse({'error': 'User achievements not found'}, status=404)
-    
+
 def get_score(request):
     
     users = User.objects.all()
