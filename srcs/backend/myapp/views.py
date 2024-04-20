@@ -663,7 +663,7 @@ def update_score(request):
 
         achievements.games_played += 1
 
-        if result == 'won':
+        if result == 'win':
             achievements.games_won += 1
         elif result == 'lost':
             achievements.games_lost += 1

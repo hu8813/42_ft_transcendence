@@ -61,19 +61,20 @@ async function fetchAndDisplayProfile() {
                 document.getElementById('total-played').textContent = `Total Games Played: ${achievementsData.games_played || 0}`;
                 document.getElementById('total-won').textContent = `Total Wins: ${achievementsData.games_won || 0}`;
                 document.getElementById('total-lost').textContent = `Total Losses: ${achievementsData.games_lost || 0}`;
-                document.getElementById('total-draw').textContent = `Total Draws: ${achievementsData.tournaments_won || 0}`;
-                document.getElementById('favorite-game').textContent = `Favorite Game: ${achievementsData.favorite_game || 'None'}`;
+                document.getElementById('total-draw').textContent = `Tournaments Won: ${achievementsData.tournaments_won || 0}`;
+                //document.getElementById('favorite-game').textContent = `Favorite Game: ${achievementsData.favorite_game || 'None'}`;
             } else {
                 const achievementsNotFound = await response.json();
                 // Check if the response contains an error message
                 if (achievementsNotFound.error) {
                     // Populate default values onto the profile page
-                    document.getElementById('total-played').textContent = 'Total Games Played: 0';
-                    document.getElementById('total-won').textContent = 'Total Wins: 0';
-                    document.getElementById('total-lost').textContent = 'Total Losses: 0';
-                    document.getElementById('total-draw').textContent = 'Total Draws: 0';
-                    document.getElementById('favorite-game').textContent = 'Favorite Game: None';
-                } else {
+                    if (document.getElementById('total-played'))
+                        document.getElementById('total-played').textContent = 'Total Games Played: 0';
+                    if (document.getElementById('total-won'))
+                        document.getElementById('total-won').textContent = 'Total Wins: 0';
+                    if (document.getElementById('total-lost'))
+                        document.getElementById('total-lost').textContent = 'Total Losses: 0';
+                   } else {
                     throw new Error('Failed to fetch achievements');
                 }
             }
