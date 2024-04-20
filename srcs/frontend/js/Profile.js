@@ -69,7 +69,7 @@ async function fetchAndDisplayProfile() {
                     friends.forEach(friend => {
                         const friendElement = document.createElement('div');
                         friendElement.classList.add('friend');
-                        
+                        friendElement.style.marginBottom = '10px'; 
                         const friendLink = document.createElement('a');
                         friendLink.href = `/#viewprofile?u=${friend.username}`;
                         friendLink.textContent = friend.username; 
@@ -77,10 +77,11 @@ async function fetchAndDisplayProfile() {
                         friendElement.appendChild(friendLink);
                         
                         const profileImage = document.createElement('img');
-                        profileImage.src = friend.image_link; 
+                        profileImage.src = friend.image_link ? friend.image_link : './src/emptyavatar.jpeg'; 
                         profileImage.alt = `${friend.username}'s profile image`;
-                        profileImage.width = 25;
-                        profileImage.height = 25;
+                        profileImage.width = 50;  
+                        profileImage.height = 50;  
+                        profileImage.style.marginRight = '10px';  
                         profileImage.classList.add('profile-image');
                         friendElement.appendChild(profileImage);
                         
