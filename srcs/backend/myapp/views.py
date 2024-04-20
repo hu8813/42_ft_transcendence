@@ -43,39 +43,6 @@ from pyotp import TOTP
 token_obtain_pair_view = TokenObtainPairView.as_view()
 token_refresh_view = TokenRefreshView.as_view()
 
-@csrf_exempt
-def get_online_users(request):
-    try:
-        time_threshold = timezone.now() - timedelta(minutes=42)
-        
-        active_sessions = Session.objects.filter(expire_date__gte=time_threshold)
-        
-        online_user_ids = []
-        for session in active_sessions:
-            decoded_data = session.get_decoded()
-            user_id = decoded_data.get('_auth_user_id')
-            online_user_ids.append(user_id)
-        
-        online_users = []
-        for user_id in online_user_ids:
-            try:
-                user = User.objects.get(id=user_id)
-                online_users.append({
-                    'username': user.username,
-                    'nickname': user.nickname,
-                    'image_link': user.image_link if hasattr(user, 'image_link') else None
-                })
-            except ObjectDoesNotExist:
-                pass
-        
-        if not online_users:
-            return JsonResponse({'online_users': []})  # Return an empty JSON response if no online users
-        
-        return JsonResponse({'online_users': online_users})
-    
-    except Exception as e:
-        return JsonResponse({'error': str(e)}, status=400)
-
     
 def logout_view(request):
     token = request.headers.get('Authorization', '').split('Bearer ')[-1]
@@ -127,6 +94,38 @@ def submit_feedback(request):
         return JsonResponse({'error': 'Invalid request method'}, status=400)
 
 
+@csrf_exempt
+def get_online_users(request):
+    try:
+        time_threshold = timezone.now() - timedelta(minutes=42)
+        
+        active_sessions = Session.objects.filter(expire_date__gte=time_threshold)
+        
+        online_user_ids = set()  # Use a set to store unique user IDs
+        for session in active_sessions:
+            decoded_data = session.get_decoded()
+            user_id = decoded_data.get('_auth_user_id')
+            online_user_ids.add(user_id)  # Add user ID to the set
+        
+        online_users = []
+        for user_id in online_user_ids:
+            try:
+                user = User.objects.get(id=user_id)
+                online_users.append({
+                    'username': user.username,
+                    'nickname': user.nickname,
+                    'image_link': user.image_link if hasattr(user, 'image_link') else None
+                })
+            except ObjectDoesNotExist:
+                pass
+        
+        if not online_users:
+            return JsonResponse({'online_users': []})  # Return an empty JSON response if no online users
+        
+        return JsonResponse({'online_users': online_users})
+    
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=400)
 
 def show_feedbacks(request):
     if request.method == 'GET':
