@@ -139,6 +139,9 @@ async function fetchAndDisplayProfile() {
             if (document.getElementById('uploadPhoto')) {
             document.getElementById('uploadPhoto').addEventListener('change', async function () {
                 if (isLocalDeployment()) {
+                    alert("Image uploads are only supported on local deployments. They are not supported on Azure (yet).");
+                    return;
+                }
                 const imageFile = this.files[0];
                 try {
                     const imageLink = await uploadImage(imageFile);
@@ -151,7 +154,7 @@ async function fetchAndDisplayProfile() {
                         displayErrorMessage(error.message);
                     console.error('Error updating profile photo:', error);
                 }
-                }
+                
             });
             }
             
