@@ -94,7 +94,6 @@ def add_friend(request):
         return JsonResponse({'message': "Invalid or missing user_id in JWT token."}, status=401)
     except Exception as e:
         return JsonResponse({'message': str(e)}, status=401)
-
 def get_friends(request):
     try:
         # Extract user_id from JWT payload
@@ -117,7 +116,7 @@ def get_friends(request):
             friends = user.friends.all()
         
         # Serialize the friend data
-        friend_list = [{'username': friend.username, 'nickname': friend.nickname} for friend in friends]
+        friend_list = [{'username': friend.username, 'nickname': friend.nickname, 'image_link': friend.image_link} for friend in friends]
         
         return JsonResponse({'friends': friend_list})
     except jwt.ExpiredSignatureError:

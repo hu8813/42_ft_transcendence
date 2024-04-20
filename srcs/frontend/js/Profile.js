@@ -78,6 +78,16 @@ async function fetchAndDisplayProfile() {
                         // Append the anchor tag to the friend element
                         friendElement.appendChild(friendLink);
                         
+                        // Create an img element for the friend's profile image
+                        const profileImage = document.createElement('img');
+                        profileImage.src = friend.image_link; // Assuming 'image_link' contains the URL of the profile image
+                        profileImage.alt = `${friend.username}'s profile image`;
+                        profileImage.width = 25;
+                        profileImage.height = 25;
+                        profileImage.classList.add('profile-image');
+                        // Append the profile image to the friend element
+                        friendElement.appendChild(profileImage);
+                        
                         // Append the friend element to the friend list
                         friendListElement.appendChild(friendElement);
                     });
