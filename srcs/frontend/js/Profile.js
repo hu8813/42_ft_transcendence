@@ -7,9 +7,16 @@ function displayErrorMessage(message) {
         errorMessageElement.style.fontSize = '0.6em';
     }
 }
+function isLocalDeployment() {
+    return window.location.href.includes("pong42");
+}
 
 async function uploadImage(imageFile) {
     try {
+        if (!isLocalDeployment()) {
+            displayWarningMessage("Image uploads are only supported on local deployments. They are not supported on Azure (yet).");
+        }
+
         const jwtToken = localStorage.getItem('jwtToken');
         const formData = new FormData();
         formData.append('image', imageFile);
