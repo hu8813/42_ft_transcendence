@@ -11,6 +11,7 @@ function isLocalDeployment() {
     return window.location.href.includes("pong42");
 }
 
+
 async function uploadImage(imageFile) {
     try {
         if (isLocalDeployment()) {
@@ -44,7 +45,54 @@ async function uploadImage(imageFile) {
 
 async function fetchAndDisplayProfile() {
     const errorMessageElement = document.getElementById('errorMessage');
-
+    csrfToken = await getCSRFCookie();
+    async function fetchAndDisplayFriends() {
+        try {
+            const jwtToken = localStorage.getItem('jwtToken');
+            const response = await fetch(`/api/friends`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${jwtToken}`,
+                    'X-CSRFToken': csrfToken
+                }
+            });
+            
+            if (response.ok) {
+                const responseData = await response.json();
+                const friends = responseData.friends; // Access the 'friends' array from the response data
+    
+                const friendListElement = document.querySelector('.friend-list');
+                
+                if (friendListElement) {
+                    friendListElement.innerHTML = ''; // Clear the existing friend list
+                    
+                    friends.forEach(friend => {
+                        const friendElement = document.createElement('div');
+                        friendElement.classList.add('friend');
+                        
+                        // Create an anchor tag and set its href attribute to the viewprofile page with the username
+                        const friendLink = document.createElement('a');
+                        friendLink.href = `/#viewprofile?u=${friend.username}`;
+                        friendLink.textContent = friend.username; // Assuming each friend object has a 'username' property
+                        friendLink.classList.add('bn');
+                        // Append the anchor tag to the friend element
+                        friendElement.appendChild(friendLink);
+                        
+                        // Append the friend element to the friend list
+                        friendListElement.appendChild(friendElement);
+                    });
+                    
+                }
+            } else {
+                throw new Error('Failed to fetch friends');
+            }
+        } catch (error) {
+            console.error('Error fetching and displaying friends:', error);
+            displayErrorMessage('Failed to fetch friends');
+        }
+    }
+    
+    fetchAndDisplayFriends();
     async function updateProfile(data) {
         try {
             const jwtToken = localStorage.getItem('jwtToken');
@@ -94,7 +142,6 @@ async function fetchAndDisplayProfile() {
         }
     }
 
-    csrfToken = await getCSRFCookie();
 
     try {
         const jwtToken = localStorage.getItem('jwtToken');

@@ -43,6 +43,130 @@ from pyotp import TOTP
 token_obtain_pair_view = TokenObtainPairView.as_view()
 token_refresh_view = TokenRefreshView.as_view()
 
+
+def is_valid_username(username):
+    """
+    Validates the username according to the given criteria:
+    - Length is not greater than 50 characters
+    - Contains only alphanumeric characters, underscores, and hyphens
+    """
+    if len(username) > 50:
+        return False
+    if not re.match(r'^[a-zA-Z0-9_-]+$', username):
+        return False
+    return True
+
+def add_friend(request):
+    try:
+        token = request.headers.get('Authorization', '').split('Bearer ')[-1]
+        payload = jwt.decode(token, settings.SIGNING_KEY, algorithms=['HS256'])
+        user_id = payload['user_id']
+        user_requester = User.objects.get(pk=user_id)
+        
+        username = request.GET.get('username')
+        
+        if not username:
+            return JsonResponse({'message': "Username parameter is missing."}, status=400)
+        
+        if not is_valid_username(username):
+            return JsonResponse({'message': "Invalid username format. Only alphanumeric characters, underscore, and hyphen are allowed, and the length should not exceed 50 characters."}, status=400)
+        
+        friend = User.objects.get(username=username)
+        
+        if friend == user_requester:
+            return JsonResponse({'message': "You cannot add yourself as a friend."}, status=400)
+        
+        if friend in user_requester.friends.all():
+            return JsonResponse({'message': f"{friend.username} is already your friend."}, status=400)
+        
+        user_requester.friends.add(friend)
+        user_requester.save()
+        
+        return JsonResponse({'message': f"{friend.username} added as a friend successfully."})
+    
+    except User.DoesNotExist:
+        return JsonResponse({'message': "Friend not found."}, status=404)
+    except jwt.ExpiredSignatureError:
+        return JsonResponse({'message': "JWT token has expired."}, status=401)
+    except jwt.InvalidTokenError:
+        return JsonResponse({'message': "Invalid JWT token."}, status=401)
+    except KeyError:
+        return JsonResponse({'message': "Invalid or missing user_id in JWT token."}, status=401)
+    except Exception as e:
+        return JsonResponse({'message': str(e)}, status=401)
+
+def get_friends(request):
+    try:
+        # Extract user_id from JWT payload
+        token = request.headers.get('Authorization', '').split('Bearer ')[-1]
+        payload = jwt.decode(token, settings.SIGNING_KEY, algorithms=['HS256'])
+        user_id = payload['user_id']
+        
+        # Retrieve user object using user_id
+        user = User.objects.get(pk=user_id)
+        
+        # Retrieve the username from the query parameters, if provided
+        requested_username = request.GET.get('username')
+        
+        # If a specific username is provided, get friends for that user
+        if requested_username:
+            requested_user = User.objects.get(username=requested_username)
+            friends = requested_user.friends.all()
+        else:
+            # If no specific username is provided, get friends for the authenticated user
+            friends = user.friends.all()
+        
+        # Serialize the friend data
+        friend_list = [{'username': friend.username, 'nickname': friend.nickname} for friend in friends]
+        
+        return JsonResponse({'friends': friend_list})
+    except jwt.ExpiredSignatureError:
+        return JsonResponse({'error': 'JWT token expired'}, status=401)
+    except jwt.InvalidTokenError:
+        return JsonResponse({'error': 'Invalid JWT token'}, status=401)
+    except User.DoesNotExist:
+        return JsonResponse({'error': 'User not found'}, status=404)
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=400)
+
+def block_user(request):
+    try:
+        token = request.headers.get('Authorization', '').split('Bearer ')[-1]
+        payload = jwt.decode(token, settings.SIGNING_KEY, algorithms=['HS256'])
+        user_id = payload['user_id']
+        user_requester = User.objects.get(pk=user_id)
+        
+        username = request.GET.get('username')
+        
+        if not username:
+            return JsonResponse({'message': "Username parameter is missing."}, status=400)
+        
+        if not is_valid_username(username):
+            return JsonResponse({'message': "Invalid username format. Only alphanumeric characters, underscore, and hyphen are allowed, and the length should not exceed 50 characters."}, status=400)
+        
+        user_to_block = User.objects.get(username=username)
+        
+        if user_to_block == user_requester:
+            return JsonResponse({'message': "You cannot block yourself."}, status=400)
+        
+        if user_to_block in user_requester.blocked_users.all():
+            return JsonResponse({'message': f"{user_to_block.username} is already blocked."}, status=400)
+        
+        user_requester.blocked_users.add(user_to_block)
+        user_requester.save()
+        
+        return JsonResponse({'message': f"{user_to_block.username} blocked successfully."})
+    
+    except User.DoesNotExist:
+        return JsonResponse({'message': "User to block not found."}, status=404)
+    except jwt.ExpiredSignatureError:
+        return JsonResponse({'message': "JWT token has expired."}, status=401)
+    except jwt.InvalidTokenError:
+        return JsonResponse({'message': "Invalid JWT token."}, status=401)
+    except KeyError:
+        return JsonResponse({'message': "Invalid or missing user_id in JWT token."}, status=401)
+    except Exception as e:
+        return JsonResponse({'message': str(e)}, status=401)
     
 def logout_view(request):
     token = request.headers.get('Authorization', '').split('Bearer ')[-1]
@@ -945,7 +1069,7 @@ def activate_2fa(request):
         except User.DoesNotExist:
             return JsonResponse({'error': 'User not found'}, status=404)
         except Exception as e:
-            return JsonResponse({'error': str(e)}, status=500)
+            return JsonResponse({'error': str(e)}, status=401)
     else:
         return JsonResponse({'error': 'Method not allowed'}, status=405)
     
