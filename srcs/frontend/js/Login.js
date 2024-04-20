@@ -26,7 +26,7 @@ async function check2FACode(username, code) {
 
     async function check2FAStatus(username) {
         try {
-            // Call backend API to get 2FA status
+            
             const csrfToken = await getCSRFCookie();
     
             const response = await fetch(`${getBackendURL()}/2fa-status?username=${username}`, {

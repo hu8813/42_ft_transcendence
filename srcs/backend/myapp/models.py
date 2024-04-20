@@ -82,7 +82,7 @@ class WaitingPlayer(models.Model):
 class Message(models.Model):
     name = models.CharField(max_length=100)
     text = models.TextField()
-    recipient = models.CharField(max_length=100, blank=True, null=True)  # New field to store recipient
+    recipient = models.CharField(max_length=100, blank=True, null=True)  
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

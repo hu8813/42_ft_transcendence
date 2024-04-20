@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", async function() {
   const csrfToken = await getCSRFCookie();
 
   if (jwtToken) {
-    localStorage.setItem("jwtToken", jwtToken); // Fixed typo here
+    localStorage.setItem("jwtToken", jwtToken); 
   }
   
   if (code) {

@@ -172,8 +172,8 @@ function showGameModes() {
     title.classList.add('animated-title');
 
     container.style.overflowY = "auto";
-    container.style.maxHeight = "calc(100vh - 200px)"; // Adjust max height as needed
-    container.style.paddingRight = "20px"; // Compensate for scrollbar width
+    container.style.maxHeight = "calc(100vh - 200px)"; 
+    container.style.paddingRight = "20px"; 
     
     cardsContainer.style.display = "grid";
     cardsContainer.style.gridTemplateColumns = "repeat(2, 2fr)";

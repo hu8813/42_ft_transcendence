@@ -59,36 +59,31 @@ async function fetchAndDisplayProfile() {
             
             if (response.ok) {
                 const responseData = await response.json();
-                const friends = responseData.friends; // Access the 'friends' array from the response data
+                const friends = responseData.friends; 
     
                 const friendListElement = document.querySelector('.friend-list');
                 
                 if (friendListElement) {
-                    friendListElement.innerHTML = ''; // Clear the existing friend list
+                    friendListElement.innerHTML = '';
                     
                     friends.forEach(friend => {
                         const friendElement = document.createElement('div');
                         friendElement.classList.add('friend');
                         
-                        // Create an anchor tag and set its href attribute to the viewprofile page with the username
                         const friendLink = document.createElement('a');
                         friendLink.href = `/#viewprofile?u=${friend.username}`;
-                        friendLink.textContent = friend.username; // Assuming each friend object has a 'username' property
+                        friendLink.textContent = friend.username; 
                         friendLink.classList.add('bn');
-                        // Append the anchor tag to the friend element
                         friendElement.appendChild(friendLink);
                         
-                        // Create an img element for the friend's profile image
                         const profileImage = document.createElement('img');
-                        profileImage.src = friend.image_link; // Assuming 'image_link' contains the URL of the profile image
+                        profileImage.src = friend.image_link; 
                         profileImage.alt = `${friend.username}'s profile image`;
                         profileImage.width = 25;
                         profileImage.height = 25;
                         profileImage.classList.add('profile-image');
-                        // Append the profile image to the friend element
                         friendElement.appendChild(profileImage);
                         
-                        // Append the friend element to the friend list
                         friendListElement.appendChild(friendElement);
                     });
                     
@@ -128,7 +123,7 @@ async function fetchAndDisplayProfile() {
                 const imageFile = data.image;
                 const imageLink = await uploadImage(imageFile);
                 formData.append('image_link', imageLink);
-                document.querySelector('.profile-pic').src = imageLink; // Update image source
+                document.querySelector('.profile-pic').src = imageLink; 
             }
     
             const response = await fetch(`${getBackendURL()}/manage-profile/`, {
@@ -202,9 +197,9 @@ async function fetchAndDisplayProfile() {
                 const imageFile = this.files[0];
                 try {
                     const imageLink = await uploadImage(imageFile);
-                    const timestamp = new Date().getTime(); // Generate a timestamp
-                    const updatedImageLink = `${imageLink}?t=${timestamp}`; // Append timestamp as a query parameter
-                    document.querySelector('.profile-pic').src = updatedImageLink; // Update image source
+                    const timestamp = new Date().getTime(); 
+                    const updatedImageLink = `${imageLink}?t=${timestamp}`; 
+                    document.querySelector('.profile-pic').src = updatedImageLink; 
     
                 } catch (error) {
                     if (error.message)

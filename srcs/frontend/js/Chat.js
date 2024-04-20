@@ -35,7 +35,7 @@ function toggleSocketConnection() {
     isDisconnected = !isDisconnected;
 }
 
-// Function to get WebSocket instance
+
 function getWebSocket() {
     let websocketUrl;
     if (window.location.href.includes("pong42") || window.location.hostname.includes("vercel"))
@@ -83,9 +83,9 @@ function getWebSocket() {
     }
 }
 
-// Function to send a message
+
 function sendMessage(message) {
-    message.created_at = new Date(); // Add the current timestamp to the message
+    message.created_at = new Date(); 
     if (socket.readyState === WebSocket.OPEN) {
         socket.send(JSON.stringify(message));
         showNotification("Message sent successfully.", true);
@@ -198,7 +198,7 @@ function playNotificationSound() {
 function openChat() {
     messageInput = document.getElementById('message-input');
     //recipientSelect = document.getElementById('recipient-select');
-    onlineUsersList = document.getElementById('online-users-list'); // Reference to online users list
+    onlineUsersList = document.getElementById('online-users-list'); 
     const sendBtn = document.getElementById('msgSend');
     const msgDisconnect = document.getElementById('msgDisconnect');
     msgerChat = document.getElementById('msger-chat');
@@ -238,7 +238,7 @@ function openChat() {
 
 }
 
-// Function to send a message from input
+
 function sendMessageFromInput() {
     const inputText = messageInput.value.trim();
     if (!inputText) return;
@@ -329,46 +329,46 @@ async function updateOnlineUsers() {
             listItem.appendChild(userContainer);
 
             const linksContainer = document.createElement('div');
-            linksContainer.classList.add('user-links', 'd-none'); // Hide by default
+            linksContainer.classList.add('user-links', 'd-none'); 
 
-            // View Profile Link
+            
             const viewProfileLink = document.createElement('a');
             viewProfileLink.href = `/#viewprofile?u=${user.username}`;
             viewProfileLink.classList.add('btn', 'btn-info', 'btn-sm', 'mr-1');
             viewProfileLink.innerHTML = '<i class="bi bi-search"></i> View Profile';
-            viewProfileLink.target = '_blank'; // Open in new tab
+            viewProfileLink.target = '_blank'; 
             linksContainer.appendChild(viewProfileLink);
 
-            // Add Friend Link
+            
             const addFriendLink = document.createElement('a');
             addFriendLink.href = `/#add-friend?u=${user.username}`;
             addFriendLink.classList.add('btn', 'btn-success', 'btn-sm', 'mr-1');
             addFriendLink.innerHTML = '<i class="bi bi-plus"></i> Add Friend';
             addFriendLink.addEventListener('click', (event) => {
                 event.preventDefault();
-                // Call function to add user as friend
+                
                 addFriend(user.username);
             });
             linksContainer.appendChild(addFriendLink);
 
-            // Block Link
+            
             const blockLink = document.createElement('a');
             blockLink.href = `/block/${user.nickname}`;
             blockLink.classList.add('btn', 'btn-danger', 'btn-sm', 'mr-1');
             blockLink.innerHTML = '<i class="bi bi-dash"></i> Block';
             blockLink.addEventListener('click', (event) => {
                 event.preventDefault();
-                // Call function to block user
+                
                 blockUser(user.nickname);
             });
             linksContainer.appendChild(blockLink);
 
-            // Send Message Button
+            
             const sendMessageBtn = document.createElement('button');
             sendMessageBtn.innerHTML = '<i class="bi bi-envelope"></i> Send Message';
             sendMessageBtn.classList.add('btn', 'btn-primary', 'btn-sm');
             sendMessageBtn.addEventListener('click', (event) => {
-                event.stopPropagation(); // Prevent the click event from reaching the listItem
+                event.stopPropagation(); 
                 const message = prompt('Enter your message:');
                 if (message) {
                     sendMessageToUser(user.nickname, message);
@@ -381,7 +381,7 @@ async function updateOnlineUsers() {
 
             listItem.addEventListener('click', () => {
                 //recipientSelect.value = user.username;
-                // Toggle the visibility of buttons
+                
                 linksContainer.classList.toggle('d-none');
             });
             onlineUsersList.appendChild(listItem);
@@ -391,7 +391,7 @@ async function updateOnlineUsers() {
     }
 }
 
-// Function to send a private message to a user
+
 function sendMessageToUser(nickname, message) {
     const newMessage = {
         name: localStorage.getItem('userNickname') || localStorage.getItem('userLogin') || "user42",

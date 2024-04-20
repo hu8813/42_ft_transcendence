@@ -35,16 +35,16 @@
                         if (referralURL) {
                             window.location.href = `${referralURL}/api/proxyc/?code=${code}`;
                         } else {
-                            // Redirect to root page if referral URL is not available
+                            
                             window.location.href = '/';
                         }
                     } else {
-                        // Redirect to root page if required parameters are not found
+                        
                         window.location.href = '/';
                     }
                 }
             } catch (error) {
-                // Redirect to root page on error
+                
                 window.location.href = '/';
             }
         }

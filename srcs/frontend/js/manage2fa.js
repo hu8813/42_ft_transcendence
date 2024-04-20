@@ -1,7 +1,7 @@
 async function display2faPage() {
     async function check2FAStatus() {
         try {
-            // Call backend API to get 2FA status
+            
             const jwtToken = localStorage.getItem('jwtToken');
             const csrfToken = await getCSRFCookie();
             let username = localStorage.getItem('userLogin');
@@ -22,7 +22,7 @@ async function display2faPage() {
             const statusElement = document.getElementById('status');
             statusElement.textContent = data.enabled ? 'Enabled' : 'Not enabled';
 
-            // Update the button text based on 2FA status
+            
             const enable2FAButton = document.getElementById('enable2FA');
             if (data.enabled) {
                 enable2FAButton.textContent = 'Disable 2FA';
@@ -88,7 +88,7 @@ async function display2faPage() {
             });
     
             if (response.ok) {
-                // Reload the page to reflect the updated 2FA status
+                
                 location.reload();
             } else {
                 const responseData = await response.json();
@@ -142,7 +142,7 @@ async function display2faPage() {
         const errorLabel = document.getElementById('errorLabel');
         if (errorLabel) {
             errorLabel.textContent = message;
-            errorLabel.style.color = 'red'; // Set error label color to red
+            errorLabel.style.color = 'red'; 
         }
     }
     

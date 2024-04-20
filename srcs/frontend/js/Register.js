@@ -28,7 +28,7 @@ async function handleRegister() {
             const password = document.getElementById("enterPassword").value;
             const confirmPassword = document.getElementById("confirmPasswordP").value;
             
-            // Check if inputs exceed the maximum allowed length
+            
             if (username.length > 50 || email.length > 50 || password.length > 50 || confirmPassword.length > 50) {
                 alert('One or more input values exceed the maximum allowed length of 50 characters.');
                 return;

@@ -277,12 +277,12 @@ function showPlayer3d1Page() {
     }
 
     function opponentPaddleMovement() {
-        const opponentSpeedFactor = 0.5; // Adjust as needed, lower value for slower movement
+        const opponentSpeedFactor = 0.5; 
         const targetPosition = ball.position.y;
         const distanceToTarget = targetPosition - paddle2.position.y;
         const maxMovement = paddleSpeed * opponentSpeedFactor;
         let actualMovement = Math.min(Math.abs(distanceToTarget), maxMovement);
-        actualMovement *= (Math.random() * 0.5 + 0.75); // Adjust the range of randomness as needed
+        actualMovement *= (Math.random() * 0.5 + 0.75); 
         const direction = Math.sign(distanceToTarget);
         paddle2.position.y += actualMovement * direction;
         paddle2.scale.y += (1 - paddle2.scale.y) * 0.2;

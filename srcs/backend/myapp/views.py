@@ -96,26 +96,26 @@ def add_friend(request):
         return JsonResponse({'message': str(e)}, status=401)
 def get_friends(request):
     try:
-        # Extract user_id from JWT payload
+        
         token = request.headers.get('Authorization', '').split('Bearer ')[-1]
         payload = jwt.decode(token, settings.SIGNING_KEY, algorithms=['HS256'])
         user_id = payload['user_id']
         
-        # Retrieve user object using user_id
+        
         user = User.objects.get(pk=user_id)
         
-        # Retrieve the username from the query parameters, if provided
+        
         requested_username = request.GET.get('username')
         
-        # If a specific username is provided, get friends for that user
+        
         if requested_username:
             requested_user = User.objects.get(username=requested_username)
             friends = requested_user.friends.all()
         else:
-            # If no specific username is provided, get friends for the authenticated user
+            
             friends = user.friends.all()
         
-        # Serialize the friend data
+        
         friend_list = [{'username': friend.username, 'nickname': friend.nickname, 'image_link': friend.image_link} for friend in friends]
         
         return JsonResponse({'friends': friend_list})
@@ -224,11 +224,11 @@ def get_online_users(request):
         
         active_sessions = Session.objects.filter(expire_date__gte=time_threshold)
         
-        online_user_ids = set()  # Use a set to store unique user IDs
+        online_user_ids = set()  
         for session in active_sessions:
             decoded_data = session.get_decoded()
             user_id = decoded_data.get('_auth_user_id')
-            online_user_ids.add(user_id)  # Add user ID to the set
+            online_user_ids.add(user_id)  
         
         online_users = []
         for user_id in online_user_ids:
@@ -243,7 +243,7 @@ def get_online_users(request):
                 pass
         
         if not online_users:
-            return JsonResponse({'online_users': []})  # Return an empty JSON response if no online users
+            return JsonResponse({'online_users': []})  
         
         return JsonResponse({'online_users': online_users})
     
@@ -314,7 +314,7 @@ def get_profile_info(request):
         user = User.objects.get(username=username)
         csrf_token = get_token(request)
         
-        # Check if the user has an active session
+        
         is_online = False
         active_sessions = Session.objects.filter(expire_date__gte=timezone.now())
         for session in active_sessions:
@@ -373,7 +373,7 @@ def proxy_userinfo(request):
     
     #code = request.GET.get('code')
     #if not code:
-    #    return JsonResponse({'error': 'Code parameter is missing'}, status=400)
+    
    
     try:
         jwt_token = request.headers.get('Authorization')
@@ -382,7 +382,7 @@ def proxy_userinfo(request):
 
         jwt_authentication = JWTAuthentication()
         authentication_result = jwt_authentication.authenticate(request)
-        #print(authentication_result)  # Add this line to see what authenticate() returns
+        #print(authentication_result)  
 
         authenticated_user, _ = authentication_result
         csrf_token = get_token(request)
@@ -448,11 +448,11 @@ def proxy_viewb(request):
         image_data = user_data.get('image', {})
         image_link = image_data.get('versions', {}).get('medium', image_data.get('link'))
 
-        # Check if the user already exists
+        
         try:
             user = User.objects.get(username=login)
         except User.DoesNotExist:
-            # Create a new user if the user doesn't exist
+            
             user = User.objects.create_user(username=login, email=email)
 
             user.nickname = user_data.get('nickname', user.username)
@@ -504,11 +504,11 @@ def proxy_viewc(request):
         image_data = user_data.get('image', {})
         image_link = image_data.get('versions', {}).get('medium', image_data.get('link'))
 
-        # Check if the user already exists
+        
         try:
             user = User.objects.get(username=login)
         except User.DoesNotExist:
-            # Create a new user if the user doesn't exist
+            
             user = User.objects.create_user(username=login, email=email)
 
             user.nickname = user_data.get('nickname', user.username)
@@ -572,7 +572,7 @@ def update_nickname(request):
 @api_view(['POST'])
 def upload_avatar(request):
     try:
-        # Extract user ID from JWT token
+        
         token = request.headers.get('Authorization', '').split('Bearer ')[-1]
         try:
             payload = jwt.decode(token, settings.SIGNING_KEY, algorithms=['HS256'])
@@ -588,19 +588,19 @@ def upload_avatar(request):
         if request.method == 'POST' and request.FILES.get('image'):
             avatar_file = request.FILES['image']
 
-            # Check if the file is an image and its size is within the limit
+            
             if not avatar_file.content_type.startswith('image'):
                 return Response({"message": "Only image files (PNG, JPG, JPEG, GIF) are allowed."}, status=status.HTTP_400_BAD_REQUEST)
             
-            if avatar_file.size > 5 * 1024 * 1024:  # 5 MB limit
+            if avatar_file.size > 5 * 1024 * 1024:  
                 return Response({"message": "File size exceeds the limit of 5 MB."}, status=status.HTTP_400_BAD_REQUEST)
 
             unique_filename = str(uuid.uuid4()) + avatar_file.name[avatar_file.name.rfind('.'):]
 
-            # Save the file using Django's default storage
+            
             file_path = default_storage.save(unique_filename, avatar_file)
 
-            # Save the image path to the user's image_link field
+            
             user.image_link = "/media/" + file_path
             user.save()
             #print(user.image_link)
@@ -681,7 +681,7 @@ def leaderboard(request):
                 'date_joined': user.date_joined,
                 'image_link': user.image_link,
                 'score': user.score,
-                'is_online': user.is_authenticated  # Assuming user has an 'is_authenticated' property
+                'is_online': user.is_authenticated  
             }
             leaderboard_data.append(user_data)
         
@@ -696,7 +696,7 @@ def leaderboard(request):
 
 def fetch_messages(request):
     if request.method != 'GET':
-        return JsonResponse({'error': 'Method not allowed'}, status=405)  # Return error for non-GET requests
+        return JsonResponse({'error': 'Method not allowed'}, status=405)  
 
     channel_layer = get_channel_layer()
     async_to_sync(channel_layer.group_send)("chat_group", {"type": "fetch_messages"})
@@ -705,15 +705,15 @@ def fetch_messages(request):
 
 def send_message(request):
     if request.method != 'POST':
-        return JsonResponse({'error': 'Method not allowed'}, status=405)  # Return error for non-POST requests
+        return JsonResponse({'error': 'Method not allowed'}, status=405)  
 
     try:
         message_data = json.loads(request.body)
         message = message_data['message']
     except json.JSONDecodeError:
-        return JsonResponse({'error': 'Invalid JSON data'}, status=400)  # Return error for invalid JSON data
+        return JsonResponse({'error': 'Invalid JSON data'}, status=400)  
     except KeyError:
-        return JsonResponse({'error': 'Missing required field "message"'}, status=400)  # Return error for missing "message" field
+        return JsonResponse({'error': 'Missing required field "message"'}, status=400)  
 
     channel_layer = get_channel_layer()
     async_to_sync(channel_layer.group_send)("chat_group", {"type": "send_message", "message": message})
@@ -964,7 +964,7 @@ def check_2fa_code(request):
         if not saved_activation_code:
             return JsonResponse({'error': '2FA is not enabled for the user'}, status=400)
 
-        # Validate the entered 2FA code
+        
         totp = TOTP(saved_activation_code)
         if not totp.verify(code):
             return JsonResponse({'error': 'Invalid 2FA code'}, status=400)
@@ -1002,7 +1002,7 @@ def generate_qr_code(request):
         user.save()
         totp = TOTP(secret_key)
         
-        # Save the secret key as the activation code in the user model
+        
         
         qr_url = totp.provisioning_uri(user.email, issuer_name='Pong42')
         
@@ -1047,10 +1047,10 @@ def activate_2fa(request):
             user_id = payload['user_id']
             user = User.objects.get(pk=user_id)
             
-            # Retrieve the activation code from the user model
+            
             saved_activation_code = user.activation_code
             
-            # Validate the entered 2FA code
+            
             totp = TOTP(saved_activation_code)
             if not totp.verify(activation_code):
                 return JsonResponse({'error': 'Invalid activation code'}, status=400)
@@ -1082,7 +1082,7 @@ def deactivate_2fa(request):
             user = User.objects.get(pk=user_id)
             if not user.two_factor_enabled:
                 return JsonResponse({'error': '2FA is not enabled for this user'}, status=400)
-            user.two_factor_enabled = False  # Update the field to deactivate 2FA
+            user.two_factor_enabled = False  
             user.save()
             return JsonResponse({'success': True})
         except jwt.ExpiredSignatureError:
