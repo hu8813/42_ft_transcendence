@@ -47,12 +47,17 @@ token_refresh_view = TokenRefreshView.as_view()
 def get_online_users(request):
     try:
         time_threshold = timezone.now() - timedelta(minutes=42)
+        last_login_threshold = timezone.now() - timedelta(hours=12)
         
         active_sessions = Session.objects.filter(expire_date__gte=time_threshold)
         
-        user_ids = [session.get_decoded().get('_auth_user_id') for session in active_sessions]
-         
-        online_user_ids = list(set(user_ids))
+        online_user_ids = []
+        for session in active_sessions:
+            decoded_data = session.get_decoded()
+            user_id = decoded_data.get('_auth_user_id')
+            last_login = User.objects.get(id=user_id).last_login
+            if last_login and last_login > last_login_threshold:
+                online_user_ids.append(user_id)
         
         online_users = []
         for user_id in online_user_ids:
@@ -70,6 +75,7 @@ def get_online_users(request):
     
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=400)
+
     
 @csrf_exempt
 def logout_view(request):
@@ -440,34 +446,51 @@ def update_nickname(request):
             return JsonResponse({'error': 'User is not authenticated'}, status=401)
     else:
         return JsonResponse({"message": "Invalid request method."}, status=400)
-       
+
 
 @api_view(['POST'])
 def upload_avatar(request):
-    if request.method == 'POST' and request.FILES.get('image'):
-        avatar_file = request.FILES['image']
-        
-        
-        if not avatar_file.name.lower().endswith(('.png', '.jpg', '.jpeg', '.gif')):
-            return Response({"message": "Only image files (PNG, JPG, JPEG, GIF) are allowed."}, status=status.HTTP_400_BAD_REQUEST)
-        
-        user_profile, _ = UserProfile.objects.get_or_create(user=request.user)
-        
-        
-        unique_filename = str(uuid.uuid4()) + avatar_file.name[avatar_file.name.rfind('.'):]
-        
-        file_path = os.path.join(settings.MEDIA_ROOT, unique_filename)
-        with open(file_path, 'wb') as f:
-            for chunk in avatar_file.chunks():
-                f.write(chunk)
-        
-        user_profile.avatar = unique_filename
-        user_profile.save()
+    try:
+        # Extract user ID from JWT token
+        token = request.headers.get('Authorization', '').split('Bearer ')[-1]
+        try:
+            payload = jwt.decode(token, settings.SIGNING_KEY, algorithms=['HS256'])
+            user_id = payload['user_id']
+            user = User.objects.get(pk=user_id)
+        except jwt.ExpiredSignatureError:
+            return Response({"message": "JWT token has expired."}, status=status.HTTP_401_UNAUTHORIZED)
+        except jwt.InvalidTokenError:
+            return Response({"message": "Invalid JWT token."}, status=status.HTTP_401_UNAUTHORIZED)
+        except User.DoesNotExist:
+            return Response({"message": "User does not exist."}, status=status.HTTP_401_UNAUTHORIZED)
 
-        return Response({"message": "Avatar uploaded successfully."})
-    else:
-        return Response({"message": "No avatar file provided."}, status=status.HTTP_400_BAD_REQUEST)
+        if request.method == 'POST' and request.FILES.get('image'):
+            avatar_file = request.FILES['image']
 
+            # Check if the file is an image and its size is within the limit
+            if not avatar_file.content_type.startswith('image'):
+                return Response({"message": "Only image files (PNG, JPG, JPEG, GIF) are allowed."}, status=status.HTTP_400_BAD_REQUEST)
+            
+            if avatar_file.size > 5 * 1024 * 1024:  # 5 MB limit
+                return Response({"message": "File size exceeds the limit of 5 MB."}, status=status.HTTP_400_BAD_REQUEST)
+
+            unique_filename = str(uuid.uuid4()) + avatar_file.name[avatar_file.name.rfind('.'):]
+
+            # Save the file using Django's default storage
+            file_path = default_storage.save(unique_filename, avatar_file)
+
+            # Save the image path to the user's image_link field
+            user.image_link = "/media/" + file_path
+            user.save()
+            #print(user.image_link)
+
+            return Response({"message": "Avatar uploaded successfully.", "image_link": user.image_link})
+        else:
+            return Response({"message": "No avatar file provided."}, status=status.HTTP_400_BAD_REQUEST)
+    except Exception as e:
+        print(f"An error occurred: {str(e)}")
+        return Response({"message": "An error occurred while uploading the avatar."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    
 def update_score(request):
     token = request.headers.get('Authorization', '').split('Bearer ')[-1]
     try:

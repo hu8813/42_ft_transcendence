@@ -110,6 +110,8 @@ done
 echo "Starting backend with Gunicorn!"
 python3 manage.py makemigrations >> /dev/null
 python3 manage.py migrate >> /dev/null
+python manage.py collectstatic
+
 #daphne -b 0.0.0.0 -p 8001 myproject.asgi:application &
 #gunicorn myproject.wsgi:application --bind 0.0.0.0:8000 --certfile "/etc/ssl/certs/localhost.crt" --keyfile "/etc/ssl/certs/localhost.key" --workers 4 --timeout 300 
 #-e ssl:443:privateKey=/etc/ssl/certs/localhost.crt:certKey=/etc/ssl/certs/localhost.key

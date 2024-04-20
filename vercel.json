@@ -1,12 +1,16 @@
-  {
-    "rewrites": [
-      {
-        "source": "/api/:path*",
-        "destination": "https://pong42.azurewebsites.net/:path*"
-      },
-      {
-        "source": "/api/:path*/",
-        "destination": "https://pong42.azurewebsites.net/:path*/"
-      }
-    ]
-  }
+{
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "https://pong42.azurewebsites.net/:path*"
+    },
+    {
+      "source": "/api/:path*/",
+      "destination": "https://pong42.azurewebsites.net/:path*/"
+    },
+    {
+      "source": "/media/:path*",
+      "destination": "https://backend:8000/media/:path*"
+    }
+  ]
+}

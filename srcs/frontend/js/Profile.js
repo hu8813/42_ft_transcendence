@@ -133,9 +133,11 @@ async function fetchAndDisplayProfile() {
             document.getElementById('uploadPhoto').addEventListener('change', async function () {
                 const imageFile = this.files[0];
                 try {
-                    const responseData = await uploadImage(imageFile);
-                    const imageLink = responseData.image_link || '../src/emptyavatar.jpeg'; // Use default if image_link is not provided
-                    document.querySelector('.profile-pic').src = imageLink; // Update image source
+                    const imageLink = await uploadImage(imageFile);
+                    const timestamp = new Date().getTime(); // Generate a timestamp
+                    const updatedImageLink = `${imageLink}?t=${timestamp}`; // Append timestamp as a query parameter
+                    document.querySelector('.profile-pic').src = updatedImageLink; // Update image source
+    
                 } catch (error) {
                     if (error.message)
                         displayErrorMessage(error.message);
