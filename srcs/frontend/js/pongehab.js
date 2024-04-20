@@ -204,9 +204,6 @@ function showPongEhab() {
             ball.x += ball.velocityX;
             ball.y += ball.velocityY;
   
-            /* if (ball.y - ball.radius < 0 || ball.y + ball.radius > canvas.height) {
-                ball.velocityY = -ball.velocityY;
-            } */
             if (ball.y - ball.radius < 0) {
               ball.velocityY = Math.abs(ball.velocityY);
             } else if (ball.y + ball.radius > canvas.height) {
@@ -237,13 +234,6 @@ function showPongEhab() {
             if (collisionDetect(player2, ball)) handlePaddleBallCollision(player2, ball);
         }
   
-        /* function resetBall() {
-            ball.x = canvas.width / 2;
-            ball.y = canvas.height / 2;
-            ball.velocityX = (Math.random() > 0.5 ? 1 : -1) * ball.speed;
-            ball.velocityY = (Math.random() * 2 - 1) * ball.speed;
-            ball.speed = 7;
-        } */
         function resetBall() {
           ball.x = canvas.width / 2;
           ball.y = Math.random() * (canvas.height - ball.radius * 2) + ball.radius;
@@ -292,4 +282,3 @@ function showPongEhab() {
         }
     }
   }
-  
