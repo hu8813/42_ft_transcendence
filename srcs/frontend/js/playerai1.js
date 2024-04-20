@@ -220,6 +220,7 @@ function showPlayerAi1Page() {
                         },
                     });
                     if (response.ok) {
+                        await fetchLeaderboardData();
                         console.log('User score updated successfully');
                     } else {
                         console.error('Failed to update user score');
