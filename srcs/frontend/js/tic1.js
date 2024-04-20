@@ -79,7 +79,7 @@ function showTic1() {
             });
             if (response.ok) {
                 await fetchLeaderboardData();
-                console.log('User score updated successfully');
+                //console.log('User score updated successfully');
             } else {
                 console.error('Failed to update user score');
             }
@@ -101,7 +101,7 @@ function showTic1() {
             });
             if (response.ok) {
                 await fetchLeaderboardData();
-                console.log('User score updated successfully');
+                //console.log('User score updated successfully');
             } else {
                 console.error('Failed to update user score');
             }

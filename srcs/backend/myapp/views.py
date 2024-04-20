@@ -39,6 +39,7 @@ from django.contrib.sessions.backends.db import SessionStore
 from urllib.parse import quote
 from django.db.models import Case, When
 from pyotp import TOTP
+from django.db.models import F, ExpressionWrapper, FloatField
 
 token_obtain_pair_view = TokenObtainPairView.as_view()
 token_refresh_view = TokenRefreshView.as_view()
@@ -725,13 +726,26 @@ def leaderboard(request):
 
         leaderboard_data = []
         for user in leaderboard_users:
+            try:
+                achievements = Achievement.objects.get(user=user)
+                total_games_played = achievements.games_played
+                total_games_won = achievements.games_won
+            except Achievement.DoesNotExist:
+                total_games_played = 0
+                total_games_won = 0
+
+            winning_rate = 0
+            if total_games_played > 0:
+                winning_rate = (total_games_won / total_games_played) * 100
+
             user_data = {
                 'username': user.username,
                 'nickname': user.nickname,
                 'date_joined': user.date_joined,
                 'image_link': user.image_link,
                 'score': user.score,
-                'is_online': user.is_authenticated  
+                'is_online': user.is_authenticated,
+                'winning_rate': round(winning_rate/100, 2)  # Round to 2 decimal places
             }
             leaderboard_data.append(user_data)
         
@@ -743,7 +757,7 @@ def leaderboard(request):
         return JsonResponse({'error': 'Invalid token'}, status=401)
     except User.DoesNotExist:
         return JsonResponse({'error': 'User not found'}, status=404)
-
+    
 def fetch_messages(request):
     if request.method != 'GET':
         return JsonResponse({'error': 'Method not allowed'}, status=405)  
