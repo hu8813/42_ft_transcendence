@@ -86,8 +86,8 @@ function openProfile(username) {
                   </div>
               </td>
               <td>${member.score || 0}</td>
-              <td>${await calculateDaysSinceJoining(member.date_joined)}</td>
               <td>${await calculateWinningRateProgressBar(member.winning_rate)}</td>
+              <td>${await calculateDaysSinceJoining(member.date_joined)}</td>
           `;
           leaderboardBody.appendChild(row);
 
