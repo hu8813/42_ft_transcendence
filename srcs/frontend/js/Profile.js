@@ -13,7 +13,7 @@ function isLocalDeployment() {
 
 async function uploadImage(imageFile) {
     try {
-        if (!isLocalDeployment()) {
+        if (isLocalDeployment()) {
             displayWarningMessage("Image uploads are only supported on local deployments. They are not supported on Azure (yet).");
         }
 

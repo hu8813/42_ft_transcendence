@@ -47,7 +47,6 @@ token_refresh_view = TokenRefreshView.as_view()
 def get_online_users(request):
     try:
         time_threshold = timezone.now() - timedelta(minutes=42)
-        #last_login_threshold = timezone.now() - timedelta(hours=24)
         
         active_sessions = Session.objects.filter(expire_date__gte=time_threshold)
         
@@ -55,8 +54,6 @@ def get_online_users(request):
         for session in active_sessions:
             decoded_data = session.get_decoded()
             user_id = decoded_data.get('_auth_user_id')
-            #last_login = User.objects.get(id=user_id).last_login
-            #if last_login and last_login > last_login_threshold:
             online_user_ids.append(user_id)
         
         online_users = []
@@ -71,13 +68,15 @@ def get_online_users(request):
             except ObjectDoesNotExist:
                 pass
         
+        if not online_users:
+            return JsonResponse({'online_users': []})  # Return an empty JSON response if no online users
+        
         return JsonResponse({'online_users': online_users})
     
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=400)
 
     
-@csrf_exempt
 def logout_view(request):
     token = request.headers.get('Authorization', '').split('Bearer ')[-1]
 
