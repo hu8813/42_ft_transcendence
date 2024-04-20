@@ -132,5 +132,24 @@
   "username": "Username",
   "viewprofile": "View Profile",
   "welcome": "Welcome to the Pong Game!",
-  "yes": "Yes"
+  "yes": "Yes",
+
+  
+
+  "winningrate": "Winning Rate",
+  "backbutton": "Back",
+  "nicknamelbl": "Nickname",
+  "scorelbl": "Score",
+  "addfriend": "Add Friend",
+  "removefriend": "Remove Friend",
+  "blockuser": "Block User",
+  "unblockuser": "Unblock User",
+  "friendsTitle": "Friends",
+  "achievementsTitle": "Achievements",
+  "playerProfileTtile": "Player Profile",
+  "enabledisable2fa": "Enable/Disable 2FA",
+  "totalgames": "Total Games played",
+  "totalwins": "Total Wins",
+  "totalloses": "Total Loses",
+  "WinningRatelbl": "Winning Rate"
 }

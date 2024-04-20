@@ -404,7 +404,6 @@ function sendMessageToUser(nickname, message) {
 
 
 
-
 function escapeHTML(text) {
     const escapeChars = {
         '&': '&amp;',
@@ -413,6 +412,9 @@ function escapeHTML(text) {
         '"': '&quot;',
         "'": '&#039;'
     };
+    if (typeof text !== 'string' || text === undefined || text === null) {
+        return text;
+    }
     return text.replace(/[&<>"']/g, match => escapeChars[match]);
 }
 
