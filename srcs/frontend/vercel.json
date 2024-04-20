@@ -10,7 +10,7 @@
     },
     {
       "source": "/media/:path*",
-      "destination": "https://backend:8000/media/:path*"
+      "destination": "https://pong42.azurewebsites.net/media/:path*"
     }
   ]
 }

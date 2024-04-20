@@ -294,8 +294,13 @@ async function updateOnlineUsers() {
                 'X-CSRFToken': csrfToken
             }
         });
-        if (!response.ok) {
+        if (!response.ok ) {
             throw new Error('Failed to fetch online users');
+        }
+
+        if (responseData.error && responseData.error === "User matching query does not exist.") {
+            console.log("No users are currently online.");
+            return; 
         }
         const { online_users } = await response.json();
 
