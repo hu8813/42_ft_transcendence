@@ -166,6 +166,36 @@ def block_user(request):
         return JsonResponse({'message': "Invalid or missing user_id in JWT token."}, status=401)
     except Exception as e:
         return JsonResponse({'message': str(e)}, status=401)
+
+
+def fetch_achievements(request):
+    try:
+        token = request.headers.get('Authorization', '').split('Bearer ')[-1]
+        payload = jwt.decode(token, settings.SECRET_KEY, algorithms=['HS256'])
+        user_id = payload['user_id']
+        
+        achievements = Achievement.objects.filter(user_id=user_id).first()
+
+        if not achievements:
+            return JsonResponse({'error': 'Achievements not found'}, status=404)
+
+        data = {
+            'games_played': achievements.games_played,
+            'games_won': achievements.games_won,
+            'games_lost': achievements.games_lost,
+            'tournaments_won': achievements.tournaments_won,
+            'favorite_game': achievements.favorite_game,
+        }
+
+        return JsonResponse(data)
+    except jwt.ExpiredSignatureError:
+        return JsonResponse({'error': 'JWT token expired'}, status=401)
+    except jwt.InvalidTokenError:
+        return JsonResponse({'error': 'Invalid JWT token'}, status=401)
+    except KeyError:
+        return JsonResponse({'error': 'User ID not found in token'}, status=400)
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=400)
     
 def logout_view(request):
     token = request.headers.get('Authorization', '').split('Bearer ')[-1]

@@ -46,6 +46,31 @@ async function uploadImage(imageFile) {
 async function fetchAndDisplayProfile() {
     const errorMessageElement = document.getElementById('errorMessage');
     csrfToken = await getCSRFCookie();
+    async function fetchAndDisplayAchievements() {
+        try {
+            const jwtToken = localStorage.getItem('jwtToken');
+            const response = await fetch('/api/user-achievements', {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${jwtToken}`
+                }
+            });
+            if (response.ok) {
+                const achievementsData = await response.json();
+                // Populate the achievements onto the profile page
+                document.getElementById('total-played').textContent = `Total Games Played: ${achievementsData.games_played}`;
+                document.getElementById('total-won').textContent = `Total Wins: ${achievementsData.games_won}`;
+                document.getElementById('total-lost').textContent = `Total Losses: ${achievementsData.games_lost}`;
+                document.getElementById('total-draw').textContent = `Total Draws: ${achievementsData.tournaments_won}`;
+                document.getElementById('favorite-game').textContent = `Favorite Game: ${achievementsData.favorite_game}`;
+            } else {
+                throw new Error('Failed to fetch achievements');
+            }
+        } catch (error) {
+            console.error('Error fetching and displaying achievements:', error);
+            // Display error message if needed
+        }
+    }
     async function fetchAndDisplayFriends() {
         try {
             const jwtToken = localStorage.getItem('jwtToken');
@@ -99,6 +124,7 @@ async function fetchAndDisplayProfile() {
     }
     
     fetchAndDisplayFriends();
+    fetchAndDisplayAchievements();
     async function updateProfile(data) {
         try {
             const jwtToken = localStorage.getItem('jwtToken');

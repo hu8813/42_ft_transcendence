@@ -146,7 +146,7 @@ function displayMessage(message) {
             playNotificationSound();
             document.title = "New user joined the chat!";
         }
-    } else if (messageElement && message.text.includes("left the chat")) {
+    } else if (messageElement && message && message.text && message.text.includes("left the chat")) {
         messageElement.innerHTML = `
             <div class="msg-info" style="text-align: ${alignRight};">
                 <span class="msg-info-name" style="color: red;">${escapeHTML(senderName)} has left the chat</span>
