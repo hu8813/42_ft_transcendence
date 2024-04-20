@@ -14,7 +14,7 @@ function isLocalDeployment() {
 async function uploadImage(imageFile) {
     try {
         if (isLocalDeployment()) {
-            displayWarningMessage("Image uploads are only supported on local deployments. They are not supported on Azure (yet).");
+            alert("Image uploads are only supported on local deployments. They are not supported on Azure (yet).");
         }
 
         const jwtToken = localStorage.getItem('jwtToken');
@@ -138,6 +138,7 @@ async function fetchAndDisplayProfile() {
 
             if (document.getElementById('uploadPhoto')) {
             document.getElementById('uploadPhoto').addEventListener('change', async function () {
+                if (isLocalDeployment()) {
                 const imageFile = this.files[0];
                 try {
                     const imageLink = await uploadImage(imageFile);
@@ -149,6 +150,7 @@ async function fetchAndDisplayProfile() {
                     if (error.message)
                         displayErrorMessage(error.message);
                     console.error('Error updating profile photo:', error);
+                }
                 }
             });
             }

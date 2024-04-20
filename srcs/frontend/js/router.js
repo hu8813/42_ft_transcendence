@@ -75,7 +75,7 @@ function closePopup() {
     feedbackPopup.style.display = "none";
   }
 }
-showPopup();
+//showPopup();
 const csrfCookieName = 'csrftoken';
 
 function setCSRFCookie(csrfToken) {
