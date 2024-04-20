@@ -4,8 +4,8 @@ async function display2faPage() {
             // Call backend API to get 2FA status
             const jwtToken = localStorage.getItem('jwtToken');
             const csrfToken = await getCSRFCookie();
-
-            const response = await fetch(`${getBackendURL()}/2fa-status`, {
+            let username = localStorage.getItem('userLogin');
+            const response = await fetch(`${getBackendURL()}/2fa-status?username=${username}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${jwtToken}`,

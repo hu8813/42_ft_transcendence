@@ -57,10 +57,8 @@ urlpatterns = [
     path('get-online-users', views.get_online_users, name='get_online_users'),
     path('logout', views.logout_view, name='logout_view'),
     path('signin42c/', views.signin42c, name='signin42c'),
+    path('check-2fa-code', views.check_2fa_code, name='check_2fa_code'),
 
-
-
-    
     path('api/login/', views.login_view, name='api_login'),
     path('api/ping/', views.login_view, name='api_ping'),
     path('api/register/', views.register, name='api_register'),
@@ -95,6 +93,7 @@ urlpatterns = [
     path('api/2fa-activate', views.activate_2fa, name='activate_2fa'),
     path('api/2fa-qr-code', views.generate_qr_code, name='generate_qr_code'),
     path('api/2fa-deactivate', views.deactivate_2fa, name='deactivate_2fa'),
+    path('api/check-2fa-code', views.check_2fa_code, name='check_2fa_code'),
 
     path('api/update-score', views.update_score, name='update_score'),
     path('api/get-online-users', views.get_online_users, name='get_online_users'),

@@ -805,22 +805,43 @@ def manage_profile(request):
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=400)
 
-def get_2fa_status(request):
-    token = request.headers.get('Authorization', '').split('Bearer ')[-1]
+
+def check_2fa_code(request):
+    username = request.GET.get('username', None)
+    code = request.GET.get('code', None)
+
+    if not username or not code:
+        return JsonResponse({'error': 'Username or code parameter is missing'}, status=400)
 
     try:
-        payload = jwt.decode(token, settings.SIGNING_KEY, algorithms=['HS256'])
-        user_id = payload['user_id']
-        user = User.objects.get(pk=user_id)
-        is_2fa_enabled = user.two_factor_enabled if hasattr(user, 'two_factor_enabled') else False
-        return JsonResponse({'enabled': is_2fa_enabled})
-    except jwt.ExpiredSignatureError:
-        return JsonResponse({'error': 'Token has expired'}, status=401)
-    except jwt.InvalidTokenError:
-        return JsonResponse({'error': 'Invalid token'}, status=401)
+        user = User.objects.get(username=username)
+        saved_activation_code = user.activation_code
+
+        if not saved_activation_code:
+            return JsonResponse({'error': '2FA is not enabled for the user'}, status=400)
+
+        # Validate the entered 2FA code
+        totp = TOTP(saved_activation_code)
+        if not totp.verify(code):
+            return JsonResponse({'error': 'Invalid 2FA code'}, status=400)
+
+        return JsonResponse({'valid': True})
     except User.DoesNotExist:
         return JsonResponse({'error': 'User not found'}, status=404)
+    
+def get_2fa_status(request):
+    username = request.GET.get('username', None)
 
+    if not username:
+        return JsonResponse({'error': 'Username parameter is missing'}, status=400)
+
+    try:
+        user = User.objects.get(username=username)
+        is_2fa_enabled = user.two_factor_enabled if hasattr(user, 'two_factor_enabled') else False
+        return JsonResponse({'enabled': is_2fa_enabled})
+    except User.DoesNotExist:
+        return JsonResponse({'error': 'User not found'}, status=404)
+    
 def generate_qr_code(request):
     token = request.headers.get('Authorization', '').split('Bearer ')[-1]
     
@@ -836,7 +857,6 @@ def generate_qr_code(request):
         user.activation_code = secret_key
         user.save()
         totp = TOTP(secret_key)
-        print(secret_key)
         
         # Save the secret key as the activation code in the user model
         
@@ -888,9 +908,6 @@ def activate_2fa(request):
             
             # Validate the entered 2FA code
             totp = TOTP(saved_activation_code)
-            print(totp.verify(activation_code))
-            print(saved_activation_code)
-            print(activation_code)
             if not totp.verify(activation_code):
                 return JsonResponse({'error': 'Invalid activation code'}, status=400)
                 
