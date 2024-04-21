@@ -174,9 +174,11 @@ function showPongTour(player1Id, player2Id, isFinal, handleWinner) {
                 break;
             case 38:
                 upArrowPressed = false;
+                //event.preventDefault();
                 break;
             case 40:
                 downArrowPressed = false;
+                //event.preventDefault();
                 break;
         }
     }
