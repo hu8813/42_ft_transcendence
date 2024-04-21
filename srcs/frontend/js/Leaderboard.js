@@ -69,27 +69,27 @@ function openProfile(username) {
       const startIndex = (currentPage - 1) * entriesPerPage;
       const endIndex = Math.min(startIndex + entriesPerPage, leaderboardData.length);
       for (let index = startIndex; index < endIndex; index++) {
-          const member = leaderboardData[index];
-          const row = document.createElement('tr');
-          row.innerHTML = `
-              <td>${index + 1}  &nbsp; ${index < 3 ? `<i class="bi bi-trophy-fill" style="color: ${index === 0 ? 'gold' : (index === 1 ? '#A7A7AD ' : '#A77044')}"></i>` : ''}</td>
-              <td>
-                  <div class="c-media">
-                      <div class="c-avatar c-media__img" style="background-color: ${getRandomColor()}">
-                          ${member.image_link ? `<img style="width: 55px; height: 55px; max-width: 55px; max-height: 55px;" src="${member.image_link}" alt="${member.username}" data-username="${member.username}" />` : `<img style="width: 55px; height: 55px; max-width: 55px; max-height: 55px;" src="../src/emptyavatar.jpeg" alt="${member.username}" data-username="${member.username}" />`}
-                      </div>
-                      <div class="c-media__content">
-                          <div class="c-media__title">
-                              <button class="button bn view-profile-btn" data-username="${member.username}" style="background-color:#333333;" title="View Profile"><span class="bi bi-person"></span></button> ${member.nickname}
-                          </div>
-                      </div>
-                  </div>
-              </td>
-              <td>${member.score || 0}</td>
-              <td>${await calculateWinningRateProgressBar(member.winning_rate)}</td>
-              <td>${await calculateDaysSinceJoining(member.date_joined)}</td>
-          `;
-          leaderboardBody.appendChild(row);
+        const member = leaderboardData[index];
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${index + 1}  &nbsp; ${index < 3 ? `<i class="bi bi-trophy-fill" style="color: ${index === 0 ? 'gold' : (index === 1 ? '#A7A7AD ' : '#A77044')}"></i>` : ''}</td>
+            <td>
+                <div class="c-media">
+                    <div class="c-avatar c-media__img" style="background-color: ${getRandomColor()}">
+                        ${member.image_link ? `<img style="width: 55px; height: 55px; max-width: 55px; max-height: 55px;" src="${member.image_link}" alt="${member.username}" data-username="${member.username}" />` : `<img style="width: 55px; height: 55px; max-width: 55px; max-height: 55px;" src="../src/emptyavatar.jpeg" alt="${member.username}" data-username="${member.username}" />`}
+                    </div>
+                    <div class="c-media__content">
+                        <div class="c-media__title">
+                            <button class="button bn view-profile-btn" data-username="${member.username}" style="background-color:#333333;" title="View Profile"><span class="bi bi-person"></span></button> ${member.nickname}
+                        </div>
+                    </div>
+                </div>
+            </td>
+            <td>${await calculatePointsProgressBar(member.score)}</td> 
+            <td>${await calculateWinningRateProgressBar(member.winning_rate)}</td>
+            <td>${await calculateDaysSinceJoining(member.date_joined)}</td>
+        `;
+        leaderboardBody.appendChild(row);
 
             
             const viewProfileButton = row.querySelector('.view-profile-btn');
@@ -125,10 +125,10 @@ function openProfile(username) {
 }
 
 async function calculateWinningRateProgressBar(winningRate) {
-    const percentage = winningRate * 100; // Assuming winning rate is in decimal form (0.0 to 1.0)
+    const percentage = winningRate  * 50; // Assuming winning rate is in decimal form (0.0 to 1.0)
     const progressBar = `
         <div class="progress" style="height: 20px;width: 50%">
-            <div class="progress-bar" role="progressbar" style="width: ${percentage/2}%; background-color: #28a745;" aria-valuenow="${percentage}" aria-valuemin="0" aria-valuemax="100" title="Winning Rate: ${percentage.toFixed(2)}%">
+            <div class="progress-bar" role="progressbar" style="width: ${percentage}%; background-color: #28a745;" aria-valuenow="${percentage}" aria-valuemin="0" aria-valuemax="100" title="Winning Rate: ${percentage.toFixed(2)}%">
                 &nbsp;
             </div>
         </div>
@@ -143,6 +143,18 @@ function getRandomColor() {
   return '#' + Math.floor(Math.random() * 16777215).toString(16);
 }
 
+async function calculatePointsProgressBar(points) {
+    // Assuming maximum points is 100
+    const percentage = (points / 100) * 100;
+    const progressBar = `
+        <div class="progress" style="height: 20px;width: 50%">
+            <div class="progress-bar" role="progressbar" style="width: ${percentage}%; background-color: #ffc107;" aria-valuenow="${percentage}" aria-valuemin="0" aria-valuemax="100" title="Points: ${points}">
+                &nbsp;
+            </div>
+        </div>
+    `;
+    return progressBar;
+}
 
 async function calculateDaysSinceJoining(dateString) {
   const dateJoined = new Date(dateString);
