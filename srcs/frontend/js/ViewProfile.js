@@ -20,7 +20,6 @@ async function fetchAndDisplayViewProfile(username) {
             const user = profileData.user || {}; 
             const imageLink = user.image_link || '../src/emptyavatar.jpeg';
             const nickname = user.nickname || 'Not available';
-            const login = user.login || 'Not available';
             const score = user.score || '0';
             const isOnline = user.is_online || false;
             const gamesPlayed = profileData.games_played || '0';
@@ -30,7 +29,7 @@ async function fetchAndDisplayViewProfile(username) {
             document.getElementById('nicknameadr2').textContent = nickname;
             document.getElementById('scoreadr').textContent = score;
             document.getElementById('gamesPlayed').textContent = gamesPlayed;
-           document.getElementById('winningRate').textContent = winningRate;
+            document.getElementById('winningRate').textContent = winningRate;
             
             const statusIndicator = document.getElementById('statusIndicator');
             statusIndicator.classList.toggle('online', isOnline);
@@ -43,7 +42,6 @@ async function fetchAndDisplayViewProfile(username) {
                     let jwtToken = localStorage.getItem('jwtToken');
                     let csrfToken = await getCSRFCookie();
 
-                    const username = document.getElementById('nicknameadr2').textContent;
                     
                     const response = await fetch(`/api/add-friend?username=${username}`, {
                         method: 'POST',
@@ -55,13 +53,14 @@ async function fetchAndDisplayViewProfile(username) {
                     
                     const responseData = await response.json();
                     if (response.ok) {
-                        alert(responseData.message);
+                        messageContainer.textContent = responseData.message;
                     } else {
                         throw new Error('Failed to add friend '+responseData.message);
                     }
                 } catch (error) {
                     console.error('Error adding friend:', error);
-                    alert('Opps '+error.message);
+                    messageContainer.textContent = 'Opps '+error.message;
+                    messageContainer.style.color = 'red';
                 }
             });
             
@@ -71,7 +70,6 @@ async function fetchAndDisplayViewProfile(username) {
                     let csrfToken = await getCSRFCookie();
 
             
-                    const username = document.getElementById('nicknameadr2').textContent;
                     
                     const response = await fetch(`/api/block-user?username=${username}`, {
                         method: 'POST',
@@ -83,13 +81,14 @@ async function fetchAndDisplayViewProfile(username) {
                     
                     const responseData = await response.json();
                     if (response.ok) {
-                        alert(responseData.message);
+                        messageContainer.textContent = responseData.message;
                     } else {
                         throw new Error('Failed to block user '+responseData.message);
                     }
                 } catch (error) {
                     console.error('Error blocking user:', error);
-                    alert('Opps '+error.message);
+                    messageContainer.textContent = 'Opps '+error.message;
+                    messageContainer.style.color = 'red';
                 }
             });
             document.getElementById('removeFriend').addEventListener('click', async function() {
@@ -98,7 +97,6 @@ async function fetchAndDisplayViewProfile(username) {
                     let csrfToken = await getCSRFCookie();
 
                     
-                    const username = document.getElementById('nicknameadr2').textContent;
                     
                     const response = await fetch(`/api/remove-friend?username=${username}`, {
                         method: 'POST',
@@ -110,13 +108,14 @@ async function fetchAndDisplayViewProfile(username) {
                     
                     const responseData = await response.json();
                     if (response.ok) {
-                        alert(responseData.message);
+                        messageContainer.textContent = responseData.message;
                     } else {
                         throw new Error('Failed to remove friend ' + responseData.message);
                     }
                 } catch (error) {
                     console.error('Error removing friend:', error);
-                    alert('Opps '+error.message);
+                    messageContainer.textContent = 'Opps '+error.message;
+                    messageContainer.style.color = 'red';
                 }
             });
             
@@ -126,7 +125,6 @@ async function fetchAndDisplayViewProfile(username) {
                     let csrfToken = await getCSRFCookie();
 
                     
-                    const username = document.getElementById('nicknameadr2').textContent;
                     
                     const response = await fetch(`/api/unblock-user?username=${username}`, {
                         method: 'POST',
@@ -138,13 +136,14 @@ async function fetchAndDisplayViewProfile(username) {
                     
                     const responseData = await response.json();
                     if (response.ok) {
-                        alert(responseData.message);
+                        messageContainer.textContent = responseData.message;
                     } else {
                         throw new Error('Failed to unblock user '+responseData.message);
                     }
                 } catch (error) {
                     console.error('Error unblocking user:', error);
-                    alert('Opps '+error.message);
+                    messageContainer.textContent = 'Opps '+error.message;
+                    messageContainer.style.color = 'red';
                 }
             });
             
