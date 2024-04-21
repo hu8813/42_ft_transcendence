@@ -59,7 +59,9 @@ urlpatterns = [
     path('signin42c/', views.signin42c, name='signin42c'),
     path('check-2fa-code', views.check_2fa_code, name='check_2fa_code'),
     path('add-friend', views.add_friend, name='add_friend'),
+    path('remove-friend', views.remove_friend, name='remove_friend'),
     path('block-user', views.block_user, name='block_user'),
+    path('unblock-user', views.unblock_user, name='unblock_user'),
     path('friends', views.get_friends, name='get_friends'),
     path('user-achievements', views.fetch_achievements, name='fetch_achievements'),
 
@@ -104,6 +106,8 @@ urlpatterns = [
     path('api/logout', views.logout_view, name='logout_view'),
     path('api/add-friend', views.add_friend, name='add_friend'),
     path('api/block-user', views.block_user, name='block_user'),
+    path('api/unblock-user', views.unblock_user, name='unblock_user'),
+    path('api/remove-friend', views.remove_friend, name='remove_friend'),
 
     path('api/friends', views.get_friends, name='get_friends'),
     path('api/user-achievements', views.fetch_achievements, name='fetch_achievements'),

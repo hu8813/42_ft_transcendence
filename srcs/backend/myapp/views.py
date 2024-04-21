@@ -57,6 +57,46 @@ def is_valid_username(username):
         return False
     return True
 
+def remove_friend(request):
+    try:
+        token = request.headers.get('Authorization', '').split('Bearer ')[-1]
+        payload = jwt.decode(token, settings.SIGNING_KEY, algorithms=['HS256'])
+        user_id = payload['user_id']
+        user_requester = User.objects.get(pk=user_id)
+        
+        username = request.GET.get('username')
+        
+        if not username:
+            return JsonResponse({'message': "Username parameter is missing."}, status=400)
+        
+        if not is_valid_username(username):
+            return JsonResponse({'message': "Invalid username format. Only alphanumeric characters, underscore, and hyphen are allowed, and the length should not exceed 50 characters."}, status=400)
+        
+        friend = User.objects.get(username=username)
+        
+        if friend == user_requester:
+            return JsonResponse({'message': "You cannot remove yourself as a friend."}, status=400)
+        
+        if friend not in user_requester.friends.all():
+            return JsonResponse({'message': f"{friend.username} is not your friend."}, status=400)
+        
+        user_requester.friends.remove(friend)
+        user_requester.save()
+        
+        return JsonResponse({'message': f"{friend.username} removed from friends successfully."})
+    
+    except User.DoesNotExist:
+        return JsonResponse({'message': "Friend not found."}, status=404)
+    except jwt.ExpiredSignatureError:
+        return JsonResponse({'message': "JWT token has expired."}, status=401)
+    except jwt.InvalidTokenError:
+        return JsonResponse({'message': "Invalid JWT token."}, status=401)
+    except KeyError:
+        return JsonResponse({'message': "Invalid or missing user_id in JWT token."}, status=401)
+    except Exception as e:
+        return JsonResponse({'message': str(e)}, status=500)
+
+
 def add_friend(request):
     try:
         token = request.headers.get('Authorization', '').split('Bearer ')[-1]
@@ -129,6 +169,45 @@ def get_friends(request):
         return JsonResponse({'error': 'User not found'}, status=404)
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=400)
+
+def unblock_user(request):
+    try:
+        token = request.headers.get('Authorization', '').split('Bearer ')[-1]
+        payload = jwt.decode(token, settings.SIGNING_KEY, algorithms=['HS256'])
+        user_id = payload['user_id']
+        user_requester = User.objects.get(pk=user_id)
+        
+        username = request.GET.get('username')
+        
+        if not username:
+            return JsonResponse({'message': "Username parameter is missing."}, status=400)
+        
+        if not is_valid_username(username):
+            return JsonResponse({'message': "Invalid username format. Only alphanumeric characters, underscore, and hyphen are allowed, and the length should not exceed 50 characters."}, status=400)
+        
+        user_to_unblock = User.objects.get(username=username)
+        
+        if user_to_unblock == user_requester:
+            return JsonResponse({'message': "You cannot unblock yourself."}, status=400)
+        
+        if user_to_unblock not in user_requester.blocked_users.all():
+            return JsonResponse({'message': f"{user_to_unblock.username} is not blocked."}, status=400)
+        
+        user_requester.blocked_users.remove(user_to_unblock)
+        user_requester.save()
+        
+        return JsonResponse({'message': f"{user_to_unblock.username} unblocked successfully."})
+    
+    except User.DoesNotExist:
+        return JsonResponse({'message': "User to unblock not found."}, status=404)
+    except jwt.ExpiredSignatureError:
+        return JsonResponse({'message': "JWT token has expired."}, status=401)
+    except jwt.InvalidTokenError:
+        return JsonResponse({'message': "Invalid JWT token."}, status=401)
+    except KeyError:
+        return JsonResponse({'message': "Invalid or missing user_id in JWT token."}, status=401)
+    except Exception as e:
+        return JsonResponse({'message': str(e)}, status=500)
 
 def block_user(request):
     try:
@@ -346,7 +425,6 @@ def get_profile_info(request):
         user = User.objects.get(username=username)
         csrf_token = get_token(request)
         
-        
         is_online = False
         active_sessions = Session.objects.filter(expire_date__gte=timezone.now())
         for session in active_sessions:
@@ -355,14 +433,28 @@ def get_profile_info(request):
                 is_online = True
                 break
         
+        # Query achievements for the user
+        achievements = Achievement.objects.filter(user_id=user.id).first()
+
+        # Calculate winning rate
+        games_played = achievements.games_played if achievements else 0
+        games_won = achievements.games_won if achievements else 0
+        games_lost = achievements.games_lost if achievements else 0
+        winning_rate = round((games_won / games_played) * 100, 2) if games_played > 0 else 0
+        
         user_info = {
             'nickname': user.nickname,
             'login': user.username,
             'score': user.score,
             'image_link': user.image_link,
             'csrfToken': csrf_token,
-            'is_online': is_online
+            'is_online': is_online,
+            'games_played': games_played,
+            'games_won': games_won,
+            'games_lost': games_lost,
+            'winning_rate': winning_rate
         }
+        
         return JsonResponse({'user': user_info})
     except jwt.ExpiredSignatureError:
         return JsonResponse({'error': 'Token has expired'}, status=401)

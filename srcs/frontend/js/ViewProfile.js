@@ -1,7 +1,7 @@
 async function fetchAndDisplayViewProfile(username) {
     try {
-        const jwtToken = localStorage.getItem('jwtToken');
-        const csrfToken = await getCSRFCookie();
+        let jwtToken = localStorage.getItem('jwtToken');
+        let csrfToken = await getCSRFCookie();
 
         const response = await fetch(`/api/profiles/?username=${username}`, {
             headers: {
@@ -23,22 +23,26 @@ async function fetchAndDisplayViewProfile(username) {
             const login = user.login || 'Not available';
             const score = user.score || '0';
             const isOnline = user.is_online || false;
+            const gamesPlayed = profileData.games_played || '0';
+            const winningRate = profileData.winning_rate || '0';
 
             document.querySelector('.profile-pic').src = imageLink;
-            document.getElementById('nicknameadr').textContent = nickname;
-            document.getElementById('nicknameadr2').textContent = login;
+            document.getElementById('nicknameadr2').textContent = nickname;
             document.getElementById('scoreadr').textContent = score;
+            document.getElementById('gamesPlayed').textContent = gamesPlayed;
+           document.getElementById('winningRate').textContent = winningRate;
             
             const statusIndicator = document.getElementById('statusIndicator');
             statusIndicator.classList.toggle('online', isOnline);
             statusIndicator.classList.toggle('offline', !isOnline);
             statusIndicator.title = isOnline ? 'Online' : 'Offline';
             
+            
             document.getElementById('addFriend').addEventListener('click', async function() {
                 try {
-                    const jwtToken = localStorage.getItem('jwtToken');
-                    const csrfToken = await getCSRFCookie();
-                    
+                    let jwtToken = localStorage.getItem('jwtToken');
+                    let csrfToken = await getCSRFCookie();
+
                     const username = document.getElementById('nicknameadr2').textContent;
                     
                     const response = await fetch(`/api/add-friend?username=${username}`, {
@@ -49,23 +53,24 @@ async function fetchAndDisplayViewProfile(username) {
                         }
                     });
                     
+                    const responseData = await response.json();
                     if (response.ok) {
-                        const responseData = await response.json();
                         alert(responseData.message);
                     } else {
-                        throw new Error('Failed to add friend');
+                        throw new Error('Failed to add friend '+responseData.message);
                     }
                 } catch (error) {
                     console.error('Error adding friend:', error);
-                    alert('Failed to add friend');
+                    alert('Opps '+error.message);
                 }
             });
             
             document.getElementById('blockUser').addEventListener('click', async function() {
                 try {
-                    const jwtToken = localStorage.getItem('jwtToken');
-                    const csrfToken = await getCSRFCookie();
-                    
+                    let jwtToken = localStorage.getItem('jwtToken');
+                    let csrfToken = await getCSRFCookie();
+
+            
                     const username = document.getElementById('nicknameadr2').textContent;
                     
                     const response = await fetch(`/api/block-user?username=${username}`, {
@@ -76,21 +81,22 @@ async function fetchAndDisplayViewProfile(username) {
                         }
                     });
                     
+                    const responseData = await response.json();
                     if (response.ok) {
-                        const responseData = await response.json();
                         alert(responseData.message);
                     } else {
-                        throw new Error('Failed to block user');
+                        throw new Error('Failed to block user '+responseData.message);
                     }
                 } catch (error) {
                     console.error('Error blocking user:', error);
-                    alert('Failed to block user');
+                    alert('Opps '+error.message);
                 }
             });
             document.getElementById('removeFriend').addEventListener('click', async function() {
                 try {
-                    const jwtToken = localStorage.getItem('jwtToken');
-                    const csrfToken = await getCSRFCookie();
+                    let jwtToken = localStorage.getItem('jwtToken');
+                    let csrfToken = await getCSRFCookie();
+
                     
                     const username = document.getElementById('nicknameadr2').textContent;
                     
@@ -102,22 +108,23 @@ async function fetchAndDisplayViewProfile(username) {
                         }
                     });
                     
+                    const responseData = await response.json();
                     if (response.ok) {
-                        const responseData = await response.json();
                         alert(responseData.message);
                     } else {
-                        throw new Error('Failed to remove friend');
+                        throw new Error('Failed to remove friend ' + responseData.message);
                     }
                 } catch (error) {
                     console.error('Error removing friend:', error);
-                    alert('Failed to remove friend');
+                    alert('Opps '+error.message);
                 }
             });
             
             document.getElementById('unblockUser').addEventListener('click', async function() {
                 try {
-                    const jwtToken = localStorage.getItem('jwtToken');
-                    const csrfToken = await getCSRFCookie();
+                    let jwtToken = localStorage.getItem('jwtToken');
+                    let csrfToken = await getCSRFCookie();
+
                     
                     const username = document.getElementById('nicknameadr2').textContent;
                     
@@ -129,15 +136,15 @@ async function fetchAndDisplayViewProfile(username) {
                         }
                     });
                     
+                    const responseData = await response.json();
                     if (response.ok) {
-                        const responseData = await response.json();
                         alert(responseData.message);
                     } else {
-                        throw new Error('Failed to unblock user');
+                        throw new Error('Failed to unblock user '+responseData.message);
                     }
                 } catch (error) {
                     console.error('Error unblocking user:', error);
-                    alert('Failed to unblock user');
+                    alert('Opps '+error.message);
                 }
             });
             
@@ -147,6 +154,12 @@ async function fetchAndDisplayViewProfile(username) {
 
     } catch (error) {
         console.error('Error fetching and displaying profile:', error);
-        window.location.href = "/";
+        const messageContainer = document.getElementById('messageContainer');
+        if (messageContainer)
+            {
+                messageContainer.textContent = error.message;
+        messageContainer.style.color = 'red';
+            }
+        //window.location.href = "/";
     }
 }

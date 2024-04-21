@@ -139,10 +139,9 @@ async function fetchAndDisplayFriends() {
                     friendElement.style.marginBottom = '10px';
                     const friendLink = document.createElement('a');
                     friendLink.href = `/#viewprofile?u=${friend.username}`;
-                    friendLink.textContent = friend.username;
+                    friendLink.textContent = friend.nickname ;
                     friendLink.classList.add('bn');
-                    friendElement.appendChild(friendLink);
-
+                    
                     const profileImage = document.createElement('img');
                     profileImage.src = friend.image_link ? friend.image_link : './src/emptyavatar.jpeg';
                     profileImage.alt = `${friend.username}'s profile image`;
@@ -151,6 +150,8 @@ async function fetchAndDisplayFriends() {
                     profileImage.style.marginRight = '10px';
                     profileImage.classList.add('profile-image');
                     friendElement.appendChild(profileImage);
+                    friendElement.appendChild(friendLink);
+                    friendListElement.style.justifyContent = 'center';
 
                     friendListElement.appendChild(friendElement);
                 });

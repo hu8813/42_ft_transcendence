@@ -1,26 +1,43 @@
 <div class="viewprofile-container">
+  <!-- Back Button -->
   <button id="goBackButton" class="viewprofile-button back-button" onclick="window.history.back()">
     <i class="bi bi-arrow-left"></i> Back
   </button>
+  
+  <!-- Profile Title -->
   <h1 class="viewprofile-title">
-    <span id="profile-title">Pong Master</span><br/>
+    <span id="profile-title">Pong Master</span>
     <span id="nicknameadr2"></span>  
+    <div id="statusIndicator" class="status-indicator"></div> 
     <div class="avatar-preview">
-      <div id="statusIndicator" class="status-indicator"></div> 
-      <img class="profile-pic" src="" width="200px" height="200px" alt="Profile Picture" style="display: block; margin: 0 auto; max-width: 100%; height: 200px; border-radius: 10px;">
+      <img class="profile-pic" src="" width="200px" height="200px" alt="Profile Picture">
     </div>
   </h1>
 
-  <div class="view-info-section">
-      <h2 class="view-info-header"><span id="nickname">Nickname</span>: <span id="nicknameadr">Loading...</span></h2>
-  </div>
-
-  <div class="view-info-section">
+  <!-- Info Sections -->
+  <div class="info-sections">
+    
+    <div class="view-info-section">
+   
       <h2 class="view-info-header"><span id="scorelbl">Score</span>: <span id="scoreadr"></span></h2>
+    </div>
+    
+    <!-- New Info Sections -->
+    <div class="view-info-section">
+      <h3 class="view-info-header">Games Played: <span id="gamesPlayed">0</span></h3>
+       <h3 class="view-info-header">Winning Rate: <span id="winningRate">0</span></h3>
+    </div>
+    
   </div>
 
-  <button id="addFriend" class="viewprofile-button">Add as friend</button>
-  <button id="removeFriend" class="viewprofile-button">Remove from friends</button>
-  <button id="blockUser" class="viewprofile-button">Block user</button>
-  <button id="unblockUser" class="viewprofile-button">Unblock user</button>
+  <!-- Buttons -->
+  <div class="buttons">
+    <button id="addFriend" class="viewprofile-button">Add as friend</button>
+    <button id="removeFriend" class="viewprofile-button">Remove from friends</button>
+    <button id="blockUser" class="viewprofile-button">Block user</button>
+    <button id="unblockUser" class="viewprofile-button">Unblock user</button>
+  </div>
+  
+  <!-- Error/Message Container -->
+  <div id="messageContainer" class="message-container"></div>
 </div>
