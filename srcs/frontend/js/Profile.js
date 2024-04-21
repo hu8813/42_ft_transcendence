@@ -185,32 +185,32 @@ async function fetchAndDisplayAchievements() {
 
             const totalPlayedElement = document.getElementById('total-played');
             if (totalPlayedElement) {
-                totalPlayedElement.textContent = `Total Games Played: ${gamesPlayed}`;
+                totalPlayedElement.textContent = `${gamesPlayed}`;
             }
 
             const winningRateElement = document.getElementById('winning-rate');
             if (winningRateElement) {
-                winningRateElement.textContent = `Winning Rate: ${winningRate}%`;
+                winningRateElement.textContent = `${winningRate}%`;
             }
 
             const totalWonElement = document.getElementById('total-won');
             if (totalWonElement) {
-                totalWonElement.textContent = `Total Wins: ${gamesWon}`;
+                totalWonElement.textContent = `${gamesWon}`;
             }
 
             const totalLostElement = document.getElementById('total-lost');
             if (totalLostElement) {
-                totalLostElement.textContent = `Total Losses: ${achievementsData.games_lost || 0}`;
+                totalLostElement.textContent = `${achievementsData.games_lost || 0}`;
             }
         } else {
             const achievementsNotFound = await response.json();
             if (achievementsNotFound.error) {
                 if (document.getElementById('total-played'))
-                    document.getElementById('total-played').textContent = 'Total Games Played: 0';
+                    document.getElementById('total-played').textContent = '0';
                 if (document.getElementById('total-won'))
-                    document.getElementById('total-won').textContent = 'Total Wins: 0';
+                    document.getElementById('total-won').textContent = '0';
                 if (document.getElementById('total-lost'))
-                    document.getElementById('total-lost').textContent = 'Total Losses: 0';
+                    document.getElementById('total-lost').textContent = '0';
             } else {
                 throw new Error('Failed to fetch achievements');
             }

@@ -368,7 +368,7 @@ const handleLocation = async () => {
       translate(currentLanguage);
       break;
   }
-  
+  translate(currentLanguage);
 };
 
 

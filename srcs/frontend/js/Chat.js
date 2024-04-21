@@ -142,10 +142,9 @@ function displayMessage(message) {
             </div>
         `;
         updateOnlineUsers();
-        if (!isCurrentUser) {
-            playNotificationSound();
-            document.title = "New user joined the chat!";
-        }
+        // if (!isCurrentUser) {
+        //     playNotificationSound();
+        //}
     } else if (messageElement && message && message.text && message.text.includes("left the chat")) {
         messageElement.innerHTML = `
             <div class="msg-info" style="text-align: ${alignRight};">
@@ -154,10 +153,9 @@ function displayMessage(message) {
             </div>
         `;
         updateOnlineUsers();
-        if (!isCurrentUser) {
-            playNotificationSound();
-            document.title = "User left the chat!";
-        }
+        // if (!isCurrentUser) {
+        //     playNotificationSound();
+        // }
     } else {
         const messageBubble = document.createElement('div');
         messageBubble.classList.add('msg', isCurrentUser ? 'right-msg' : 'left-msg', 'msg-bubble');

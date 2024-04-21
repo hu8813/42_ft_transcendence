@@ -79,7 +79,7 @@ document.addEventListener("DOMContentLoaded", async function() {
       const userData = responseData.user; 
      
       localStorage.setItem("isLoggedIn", true);
-      localStorage.setItem("userNickname", userData.login);
+      localStorage.setItem("userNickname", userData.nickname);
 
       setTimeout(() => {
         window.location.href = "/";
