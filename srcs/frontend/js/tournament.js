@@ -1,5 +1,5 @@
 
-function startTournament(playerCount) {
+/*function startTournament(playerCount) {
     const players = [];
     for (let i = 1; i <= playerCount; i++) {
         players.push(i);
@@ -19,7 +19,7 @@ function letsStart() {
         alert("Invalid number of players. Please refresh and enter either 4 or 8.");
     }
 
-}
+}*/
 
 function showTournament() {
 
