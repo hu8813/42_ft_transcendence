@@ -97,7 +97,6 @@ async function fetchAndDisplayProfile() {
             }
         } catch (error) {
             console.error('Error fetching and displaying achievements:', error);
-            // Display error message if needed
         }
     }
     

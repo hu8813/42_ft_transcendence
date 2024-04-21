@@ -131,5 +131,22 @@
   "unblock": "Разблокировать пользователя",
   "username": "Имя пользователя",
   "viewprofile": "Просмотр профиля",
-  "welcome": "Добро пожаловать в игру в Понг!"
+  "welcome": "Добро пожаловать в игру в Понг!",
+  "winningrate": "Процент выигрышей",
+  "backbutton": "Назад",
+  "nicknamelbl": "Никнейм",
+  "scorelbl": "Счет",
+  "addfriend": "Добавить друга",
+  "removefriend": "Удалить друга",
+  "blockuser": "Заблокировать пользователя",
+  "unblockuser": "Разблокировать пользователя",
+  "friendsTitle": "Друзья",
+  "achievementsTitle": "Достижения",
+  "playerProfileTtile": "Профиль игрока",
+  "enabledisable2fa": "Включить/отключить 2FA",
+  "totalgames": "Всего сыгранных игр",
+  "totalwins": "Всего побед",
+  "totalloses": "Всего поражений",
+  "WinningRatelbl": "Процент выигрышей"
+  
 }

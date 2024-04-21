@@ -132,5 +132,21 @@
   "username": "اسم المستخدم",
   "viewprofile": "عرض الملف الشخصي",
   "welcome": "مرحبًا بك في لعبة البينغ بونغ!",
-  "yes": "نعم"
+  "yes": "نعم",
+  "winningrate": "نسبة الفوز",
+  "backbutton": "رجوع",
+  "nicknamelbl": "اللقب",
+  "scorelbl": "النقاط",
+  "addfriend": "إضافة صديق",
+  "removefriend": "إزالة الصديق",
+  "blockuser": "حظر المستخدم",
+  "unblockuser": "إلغاء حظر المستخدم",
+  "friendsTitle": "الأصدقاء",
+  "achievementsTitle": "الإنجازات",
+  "playerProfileTtile": "ملف اللاعب",
+  "enabledisable2fa": "تمكين/تعطيل 2FA",
+  "totalgames": "إجمالي الألعاب الملعوبة",
+  "totalwins": "إجمالي الانتصارات",
+  "totalloses": "إجمالي الهزائم",
+  "WinningRatelbl": "نسبة الفوز"
 }

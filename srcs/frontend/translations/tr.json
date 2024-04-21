@@ -132,5 +132,21 @@
   "username": "Kullanıcı Adı",
   "viewprofile": "Profili Görüntüle",
   "welcome": "Pong Oyununa Hoş Geldiniz!",
-  "yes": "Evet"
+  "yes": "Evet",
+  "winningrate": "Kazanma Oranı",
+  "backbutton": "Geri",
+  "nicknamelbl": "Takma Ad",
+  "scorelbl": "Skor",
+  "addfriend": "Arkadaş Ekle",
+  "removefriend": "Arkadaşı Kaldır",
+  "blockuser": "Kullanıcı Engelle",
+  "unblockuser": "Kullanıcı Engelini Kaldır",
+  "friendsTitle": "Arkadaşlar",
+  "achievementsTitle": "Başarılar",
+  "playerProfileTtile": "Oyuncu Profili",
+  "enabledisable2fa": "2FA Etkinleştir/Devre Dışı Bırak",
+  "totalgames": "Oynanan Toplam Oyun",
+  "totalwins": "Toplam Kazanç",
+  "totalloses": "Toplam Kayıp",
+  "WinningRatelbl": "Kazanma Oranı"
 }

@@ -131,5 +131,21 @@
   "unblock": "Розблокувати користувача",
   "username": "Ім'я користувача",
   "viewprofile": "Переглянути профіль",
-  "welcome": "Ласкаво просимо до гри у пінг-понг!"
+  "welcome": "Ласкаво просимо до гри у пінг-понг!",
+  "winningrate": "Відсоток перемог",
+  "backbutton": "Назад",
+  "nicknamelbl": "Псевдонім",
+  "scorelbl": "Рахунок",
+  "addfriend": "Додати друга",
+  "removefriend": "Видалити друга",
+  "blockuser": "Заблокувати користувача",
+  "unblockuser": "Розблокувати користувача",
+  "friendsTitle": "Друзі",
+  "achievementsTitle": "Досягнення",
+  "playerProfileTtile": "Профіль гравця",
+  "enabledisable2fa": "Увімкнути/вимкнути 2FA",
+  "totalgames": "Загальна кількість ігор",
+  "totalwins": "Загальна кількість перемог",
+  "totalloses": "Загальна кількість поразок",
+  "WinningRatelbl": "Відсоток перемог"
 }

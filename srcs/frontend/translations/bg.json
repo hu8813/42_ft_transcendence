@@ -132,5 +132,21 @@
   "username": "Потребителско име",
   "viewprofile": "Преглед на профил",
   "welcome": "Добре дошли в играта Понг!",
-  "yes": "Да"
+  "yes": "Да",
+  "winningrate": "Съотношение на печалбите",
+  "backbutton": "Назад",
+  "nicknamelbl": "Псевдоним",
+  "scorelbl": "Резултат",
+  "addfriend": "Добави приятел",
+  "removefriend": "Премахни приятел",
+  "blockuser": "Блокиране на потребителя",
+  "unblockuser": "Отблокиране на потребителя",
+  "friendsTitle": "Приятели",
+  "achievementsTitle": "Постижения",
+  "playerProfileTtile": "Профил на играча",
+  "enabledisable2fa": "Активиране/деактивиране на 2FA",
+  "totalgames": "Играни общо игри",
+  "totalwins": "Общо победи",
+  "totalloses": "Общо загуби",
+  "WinningRatelbl": "Съотношение на печалбите"
 }

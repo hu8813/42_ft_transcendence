@@ -132,6 +132,22 @@
     "username": "Nombre de usuario",
     "viewprofile": "Ver perfil",
     "welcome": "¡Bienvenido al juego de Pong!",
-    "yes": "Sí"
+    "yes": "Sí",
+    "winningrate": "Tasa de Ganancia",
+  "backbutton": "Atrás",
+  "nicknamelbl": "Apodo",
+  "scorelbl": "Puntuación",
+  "addfriend": "Agregar Amigo",
+  "removefriend": "Eliminar Amigo",
+  "blockuser": "Bloquear Usuario",
+  "unblockuser": "Desbloquear Usuario",
+  "friendsTitle": "Amigos",
+  "achievementsTitle": "Logros",
+  "playerProfileTtile": "Perfil de Jugador",
+  "enabledisable2fa": "Activar/Desactivar 2FA",
+  "totalgames": "Total de Juegos Jugados",
+  "totalwins": "Total de Victorias",
+  "totalloses": "Total de Derrotas",
+  "WinningRatelbl": "Tasa de Ganancia"
   }
   

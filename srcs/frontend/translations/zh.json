@@ -132,6 +132,22 @@
     "username": "用戶名",
     "viewprofile": "查看個人檔案",
     "welcome": "歡迎來到乒乓球遊戲！",
-    "yes": "是"
+    "yes": "是",
+    "winningrate": "胜率",
+    "backbutton": "返回",
+    "nicknamelbl": "昵称",
+    "scorelbl": "得分",
+    "addfriend": "添加好友",
+    "removefriend": "移除好友",
+    "blockuser": "屏蔽用户",
+    "unblockuser": "解除屏蔽用户",
+    "friendsTitle": "好友",
+    "achievementsTitle": "成就",
+    "playerProfileTtile": "玩家资料",
+    "enabledisable2fa": "启用/禁用两步验证",
+    "totalgames": "总游戏数",
+    "totalwins": "总胜利数",
+    "totalloses": "总失败数",
+    "WinningRatelbl": "胜率"
   }
   
