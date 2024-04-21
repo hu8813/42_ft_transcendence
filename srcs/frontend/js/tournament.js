@@ -35,7 +35,7 @@ function showTournament() {
     let currentMatch = 0;
     let winners = [];
     
-    letsStart();
+    //letsStart();
     function nextMatch() {
         if (currentMatch >= 2) {
             console.log(`Final Match: Player ${winners[0]} vs Player ${winners[1]}`);
