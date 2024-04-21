@@ -54,6 +54,7 @@ async function fetchAndDisplayViewProfile(username) {
                     const responseData = await response.json();
                     if (response.ok) {
                         messageContainer.textContent = responseData.message;
+                        messageContainer.style.color = 'green';
                     } else {
                         throw new Error('Failed to add friend '+responseData.message);
                     }
@@ -82,6 +83,7 @@ async function fetchAndDisplayViewProfile(username) {
                     const responseData = await response.json();
                     if (response.ok) {
                         messageContainer.textContent = responseData.message;
+                        messageContainer.style.color = 'green';
                     } else {
                         throw new Error('Failed to block user '+responseData.message);
                     }
@@ -109,6 +111,7 @@ async function fetchAndDisplayViewProfile(username) {
                     const responseData = await response.json();
                     if (response.ok) {
                         messageContainer.textContent = responseData.message;
+                        messageContainer.style.color = 'green';
                     } else {
                         throw new Error('Failed to remove friend ' + responseData.message);
                     }
@@ -137,6 +140,7 @@ async function fetchAndDisplayViewProfile(username) {
                     const responseData = await response.json();
                     if (response.ok) {
                         messageContainer.textContent = responseData.message;
+                        messageContainer.style.color = 'green';
                     } else {
                         throw new Error('Failed to unblock user '+responseData.message);
                     }
