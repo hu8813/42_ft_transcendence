@@ -1,13 +1,3 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const playerCount = prompt("How many players will there be in the tournament? Enter 4 or 8:", "4");
-    const validCounts = ["4", "8"];
-    
-    if (validCounts.includes(playerCount)) {
-        startTournament(parseInt(playerCount, 10));
-    } else {
-        alert("Invalid number of players. Please refresh and enter either 4 or 8.");
-    }
-});
 
 function startTournament(playerCount) {
     const players = [];
@@ -18,7 +8,21 @@ function startTournament(playerCount) {
     showTournament(players);
 }
 
+
+function letsStart() {
+    //const playerCount = prompt("How many players will there be in the tournament? Enter 4 or 8:", "4");
+    const validCounts = ["4", "8"];
+    playerCount = "4";
+    if (validCounts.includes(playerCount)) {
+        startTournament(parseInt(playerCount, 10));
+    } else {
+        alert("Invalid number of players. Please refresh and enter either 4 or 8.");
+    }
+
+}
+
 function showTournament() {
+
     const canvas = document.getElementById('canvastour');
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
@@ -30,7 +34,8 @@ function showTournament() {
 
     let currentMatch = 0;
     let winners = [];
-
+    
+    letsStart();
     function nextMatch() {
         if (currentMatch >= 2) {
             console.log(`Final Match: Player ${winners[0]} vs Player ${winners[1]}`);
