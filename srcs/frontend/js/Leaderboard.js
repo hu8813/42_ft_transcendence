@@ -147,7 +147,7 @@ async function calculatePointsProgressBar(points) {
     // Assuming maximum points is 100
     const percentage = (points / 100) * 100;
     const progressBar = `
-        <div class="progress" style="height: 20px;width: 50%">
+        <div class="progress" style="height: 20px;width: 100%">
             <div class="progress-bar" role="progressbar" style="width: ${percentage}%; background-color: #ffc107;" aria-valuenow="${percentage}" aria-valuemin="0" aria-valuemax="100" title="Points: ${points}">
                 &nbsp;
             </div>
@@ -155,6 +155,7 @@ async function calculatePointsProgressBar(points) {
     `;
     return progressBar;
 }
+
 
 async function calculateDaysSinceJoining(dateString) {
   const dateJoined = new Date(dateString);
