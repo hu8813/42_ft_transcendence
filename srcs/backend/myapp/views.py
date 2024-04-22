@@ -600,7 +600,7 @@ def proxy_viewb(request):
         email = user_data.get('email')
         image_data = user_data.get('image', {})
         image_link = image_data.get('versions', {}).get('medium', image_data.get('link'))
-
+        
         
         try:
             user = User.objects.get(username=login)
