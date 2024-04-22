@@ -44,7 +44,7 @@
 }
 
 .aucard > .img :hover{
-	width: 100%;
+	width: 80%;
 	transform: rotate(360deg);
 }
 
@@ -56,7 +56,7 @@
 .icon-container {
 	display: flex;
 	justify-content: center;
-	gap: 20px; /* Adjust this value as needed */
+	gap: 20px;
   }
 
 .icon {
