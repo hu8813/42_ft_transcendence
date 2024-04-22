@@ -152,8 +152,10 @@ async function check2FACode(username, code) {
             loginStatus.textContent = msgReg;
         else if (loginStatus && msg)
             loginStatus.textContent = msg;
-        msgReg = null;
-        msg = null;
+        setTimeout(() => {
+            msgReg = null;
+            msg = null;
+        }, 5000);
     } else {
         //console.error("Login form not found.");
     }

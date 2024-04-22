@@ -77,10 +77,10 @@ document.addEventListener("DOMContentLoaded", async function() {
       }
       const responseData = await response.json();
       const userData = responseData.user; 
-     
+      const userNickname = userData.userNickname || userData.nickname;
       localStorage.setItem("isLoggedIn", true);
-      localStorage.setItem("userNickname", userData.userNickname || userData.nickname );
-
+      localStorage.setItem("userNickname", userNickname );
+      
       setTimeout(() => {
         window.location.href = "/";
     }, 2000);

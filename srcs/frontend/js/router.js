@@ -6,7 +6,7 @@ const routes = {
   "#login": "/views/login.html",
   "#register": "/views/register.html",
   "#play!": "/views/selectgame.html",
-  "#chat": "/views/chatselect.html",
+  "#chat": "/views/chat.html",
   "#leaderboard": "/views/leaderboard.html",
   "#profile": "/views/profile.html",
   "#privacy-policy": "/views/privacy.html",
@@ -26,7 +26,7 @@ const routes = {
   "#tournament": "/views/tournament.html",
   "#viewprofile": "/views/viewprofile.html",
   "#rps" : "/views/rps.html",
-  "#chatselect" : "/views/chat.html",
+  "#chatselect" : "/views/chatselect.html",
   "#manage2fa" : "/views/manage2fa.html",
 };
 
@@ -317,10 +317,10 @@ const handleLocation = async () => {
       doLogout();
       break;
     case "#chat":
-      chatSelect();
+      openChat();
       break;
     case '#chatselect':
-      openChat();
+      chatSelect();
       break;
     case "#":
     case "#home":
