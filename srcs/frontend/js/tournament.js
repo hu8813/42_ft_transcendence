@@ -1,66 +1,49 @@
 
-/*function startTournament(playerCount) {
+function startTournament(playerCount) {
     const players = [];
     for (let i = 1; i <= playerCount; i++) {
         players.push(i);
     }
     shuffleArray(players);
-    showTournament(players);
+    showTournament(players, playerCount);
 }
 
-
-function letsStart() {
-    //const playerCount = prompt("How many players will there be in the tournament? Enter 4 or 8:", "4");
-    const validCounts = ["4", "8"];
-    playerCount = "4";
-    if (validCounts.includes(playerCount)) {
-        startTournament(parseInt(playerCount, 10));
-    } else {
-        alert("Invalid number of players. Please refresh and enter either 4 or 8.");
-    }
-
-}*/
-
-function showTournament() {
-
+function showTournament(players, playerCount) {
     const canvas = document.getElementById('canvastour');
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
     canvas.width = 800;
     canvas.height = 600;
 
-    const players = [1, 2, 3, 4];
     shuffleArray(players);
 
     let currentMatch = 0;
+    let roundMatches = Math.floor(playerCount / 2);
     let winners = [];
-    
-    //letsStart();
+
     function nextMatch() {
-        if (currentMatch >= 2) {
-            console.log(`Final Match: Player ${winners[0]} vs Player ${winners[1]}`);
-            showPongTour(winners[0], winners[1], true, handleWinner);
-        } else {
-            let matchPlayers = [players[currentMatch * 2], players[currentMatch * 2 + 1]];
-            console.log(`Match ${currentMatch + 1}: Player ${matchPlayers[0]} vs Player ${matchPlayers[1]}`);
-            showPongTour(matchPlayers[0], matchPlayers[1], false, handleWinner);
+        if (currentMatch >= roundMatches) { 
+            players.splice(0, players.length, ...winners);
+            winners = [];
+            roundMatches /= 2;
+            currentMatch = 0;
+            if (roundMatches < 1) {
+                console.log(`The winner of the tournament is Player ${players[0]}! Congratulations!`);
+                return;
+            }
         }
+        let matchPlayers = [players[currentMatch * 2], players[currentMatch * 2 + 1]];
+        console.log(`Match ${currentMatch + 1}: Player ${matchPlayers[0]} vs Player ${matchPlayers[1]}`);
+        showPongTour(matchPlayers[0], matchPlayers[1], roundMatches === 1, handleWinner);
     }
 
     function handleWinner(winner) {
         winners.push(winner);
         currentMatch++;
-        if (currentMatch < 2 || (currentMatch === 2 && winners.length === 2)) {
-            nextMatch();
-        } else {
-            console.log(`The winner of the tournament is Player ${winner}! Congratulations!`);
-        }
+        nextMatch();
     }
 
     console.log("Tournament starts now. Here is the schedule:");
-    console.log(`Match 1: Player ${players[0]} vs Player ${players[1]}`);
-    console.log(`Match 2: Player ${players[2]} vs Player ${players[3]}`);
-
     nextMatch();
 }
 
@@ -179,11 +162,9 @@ function showPongTour(player1Id, player2Id, isFinal, handleWinner) {
                 break;
             case 38:
                 upArrowPressed = false;
-                //event.preventDefault();
                 break;
             case 40:
                 downArrowPressed = false;
-                //event.preventDefault();
                 break;
         }
     }
@@ -291,7 +272,3 @@ function showPongTour(player1Id, player2Id, isFinal, handleWinner) {
 
     gameLoop();
 }
-
-document.addEventListener('DOMContentLoaded', () => {
-    showTournament();
-});

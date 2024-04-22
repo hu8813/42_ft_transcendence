@@ -343,14 +343,22 @@ const handleLocation = async () => {
     case '#pong4':
       showPong4();
       break;
-      case '#tic1':
-        showTic1();
-        break;
-        case '#tic2':
-          showTic2();
-          break;
+    case '#tic1':
+      showTic1();
+      break;
+    case '#tic2':
+      showTic2();
+      break;
     case '#xoxo3':
-      showTournament();
+      const tournamentHtml = await fetch(routes[path]).then((data) => data.text());
+      document.getElementById("app").innerHTML = tournamentHtml;
+      const playerCount = prompt("How many players will there be in the tournament? Enter 4 or 8:", "4");
+      const validCounts = ["4", "8"];
+      if (validCounts.includes(playerCount)) {
+          startTournament(parseInt(playerCount, 10));
+      } else {
+          alert("Invalid number of players. Please refresh and enter either 4 or 8.");
+      }
       break;
     case '#contact':
       showImprint();
@@ -371,7 +379,7 @@ const handleLocation = async () => {
   translate(currentLanguage);
 };
 
-
+window.addEventListener('hashchange', handleLocation);
 handleLocation();
 
 const navToggle = document.getElementById('nav-toggle');
