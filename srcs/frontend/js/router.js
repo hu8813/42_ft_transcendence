@@ -356,7 +356,13 @@ const handleLocation = async () => {
     case '#tournament':
       const tournamentHtml = await fetch(routes[path]).then((data) => data.text());
       document.getElementById("app").innerHTML = tournamentHtml;
-      askPlayerCount();
+      const playerCount = prompt("How many players will there be in the tournament? Enter 4 or 8:", "4");
+      const validCounts = ["4", "8"];
+      if (validCounts.includes(playerCount)) {
+          startTournament(parseInt(playerCount, 10));
+      } else {
+          alert("Invalid number of players. Please refresh and enter either 4 or 8.");
+      }
       break;
     case '#contact':
       showImprint();
