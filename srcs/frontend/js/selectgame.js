@@ -4,13 +4,13 @@ function showGameModes() {
             text: "Pong42",
             imgPlaceholder: './src/pong42.png',
             href: "#pong42",
-            associatedCards: ["#player3d1", "#playerai1", "#pongMultiplayer"] 
+            associatedCards: ["#player3d1", "#playerai1", "#pongMultiplayer", "#tournament"] 
         },
         {
             text: "Tic Tac Toe",
             imgPlaceholder: './src/tictactoe.png',
             href: "#tictactoe",
-            associatedCards: ["#tic1", "#tic2", "#xoxo3"] 
+            associatedCards: ["#tic1", "#tic2"] 
         },
         {
             text: "Rock Paper Scissors",
@@ -52,6 +52,11 @@ function showGameModes() {
             href: "#pong4",
         },
         {
+            text: "Tournament",
+            imgPlaceholder: './src/multiplayer.jpeg',
+            href: "#tournament",
+        },
+        {
             text: "Single Player (CPU)",
             imgPlaceholder: './src/multiplayer.jpeg',
             href: "#tic1",
@@ -60,11 +65,6 @@ function showGameModes() {
             text: "2 Players (local)",
             imgPlaceholder: './src/multiplayer.jpeg',
             href: "#tic2",
-        },
-        {
-            text: "Tournament",
-            imgPlaceholder: './src/multiplayer.jpeg',
-            href: "#xoxo3",
         }
         
         

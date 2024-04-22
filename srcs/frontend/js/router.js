@@ -23,7 +23,7 @@ const routes = {
   "#pong4": "/views/pong4.html",
   "#tic1": "/views/tic1.html",
   "#tic2": "/views/tic2.html",
-  "#xoxo3": "/views/tournament.html",
+  "#tournament": "/views/tournament.html",
   "#viewprofile": "/views/viewprofile.html",
   "#rps" : "/views/rps.html",
   "#manage2fa" : "/views/manage2fa.html",
@@ -349,7 +349,7 @@ const handleLocation = async () => {
     case '#tic2':
       showTic2();
       break;
-    case '#xoxo3':
+    case '#tournament':
       const tournamentHtml = await fetch(routes[path]).then((data) => data.text());
       document.getElementById("app").innerHTML = tournamentHtml;
       const playerCount = prompt("How many players will there be in the tournament? Enter 4 or 8:", "4");
