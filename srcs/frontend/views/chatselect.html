@@ -1,0 +1,17 @@
+<h1>Welcome to the Chat</h1>
+  <div id="nicknameInput">
+    <label for="nickname">Nickname:</label>
+    <input type="text" id="nickname" placeholder="Enter your nickname">
+    <button onclick="setNickname()">Set Nickname</button>
+  </div>
+  <div id="channels">
+    <h2>Available Channels</h2>
+    <ul id="channelList"></ul>
+    <div id="createChannelForm">
+      <label for="channelName">New Channel Name:</label>
+      <input type="text" id="channelName" placeholder="Enter channel name">
+      <label for="channelPassword">Channel Password (optional):</label>
+      <input type="password" id="channelPassword" placeholder="Enter channel password">
+      <button onclick="createChannel()">Create Channel</button>
+    </div>
+  </div>

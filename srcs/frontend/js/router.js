@@ -26,6 +26,7 @@ const routes = {
   "#tournament": "/views/tournament.html",
   "#viewprofile": "/views/viewprofile.html",
   "#rps" : "/views/rps.html",
+  "#chatselect" : "/views/chatselect.html",
   "#manage2fa" : "/views/manage2fa.html",
 };
 
@@ -369,6 +370,9 @@ const handleLocation = async () => {
     case '#rps':
       playRPS();
       break;
+    case '#chatselect':
+        chatSelect();
+        break;
     case '#manage2fa':
       display2faPage();
       break;

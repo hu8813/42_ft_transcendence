@@ -12,6 +12,34 @@ const MAX_MESSAGE_LENGTH = 200;
 let storedMessages;
 let msgerChat;
 
+async function addfriend(username) {  
+    try {
+        let jwtToken = localStorage.getItem('jwtToken');
+        let csrfToken = await getCSRFCookie();
+
+        
+        const response = await fetch(`/api/add-friend?username=${username}`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${jwtToken}`,
+                'X-CSRFToken': csrfToken
+            }
+        });
+        
+        const responseData = await response.json();
+        if (response.ok) {
+            messageContainer.textContent = responseData.message;
+            messageContainer.style.color = 'green';
+        } else {
+            throw new Error('Failed to add friend '+responseData.message);
+        }
+    } catch (error) {
+        console.error('Error adding friend:', error);
+        messageContainer.textContent = 'Opps '+error.message;
+        messageContainer.style.color = 'red';
+    }
+}
+
 function toggleSocketConnection() {
     if (isDisconnected) {
         socket = getWebSocket();
