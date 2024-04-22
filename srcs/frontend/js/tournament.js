@@ -1,4 +1,3 @@
-
 function startTournament(playerCount) {
     const players = [];
     for (let i = 1; i <= playerCount; i++) {
@@ -21,6 +20,27 @@ function showTournament(players, playerCount) {
     let roundMatches = Math.floor(playerCount / 2);
     let winners = [];
 
+    function displayMessage(message, duration) {
+        ctx.fillStyle = "rgba(0, 0, 0, 0.75)";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+        ctx.font = "24px Arial";
+        ctx.fillStyle = "white";
+        ctx.textAlign = "center";
+    
+        const lines = message.split('\n');
+        const lineHeight = 30;
+        const startingHeight = (canvas.height - (lines.length * lineHeight)) / 2;
+
+        lines.forEach((line, index) => {
+            ctx.fillText(line, canvas.width / 2, startingHeight + index * lineHeight);
+        });
+        setTimeout(function() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }, duration);
+    }
+    
+
     function nextMatch() {
         if (currentMatch >= roundMatches) { 
             players.splice(0, players.length, ...winners);
@@ -34,8 +54,11 @@ function showTournament(players, playerCount) {
         }
         let matchPlayers = [players[currentMatch * 2], players[currentMatch * 2 + 1]];
         console.log(`Match ${currentMatch + 1}: Player ${matchPlayers[0]} vs Player ${matchPlayers[1]}`);
-        showPongTour(matchPlayers[0], matchPlayers[1], roundMatches === 1, handleWinner);
-    }
+        displayMessage(`Player ${matchPlayers[0]} vs Player ${matchPlayers[1]}`, 3000);
+        setTimeout(function() {
+            showPongTour(matchPlayers[0], matchPlayers[1], roundMatches === 1, handleWinner);
+        }, 3000); 
+    }    
 
     function handleWinner(winner) {
         winners.push(winner);
@@ -44,7 +67,14 @@ function showTournament(players, playerCount) {
     }
 
     console.log("Tournament starts now. Here is the schedule:");
-    nextMatch();
+    let initialMessage = "Tournament starts now.\n";
+    for (let i = 0; i < roundMatches; i++) {
+        let matchPlayers = [players[i * 2], players[i * 2 + 1]];
+        initialMessage += `Match ${i + 1}: Player ${matchPlayers[0]} vs Player ${matchPlayers[1]}\n`;
+    }
+    displayMessage(initialMessage, 3000);
+
+    setTimeout(nextMatch, 3000);
 }
 
 function shuffleArray(array) {
@@ -106,6 +136,40 @@ function showPongTour(player1Id, player2Id, isFinal, handleWinner) {
         player2.score = 0;
         resetBall();
     }
+
+    showStartMessageWithCountdown(5);
+
+    function showStartMessageWithCountdown(seconds) {
+        if (seconds > 0) {
+            ctx.fillStyle = "rgba(0, 0, 0, 0.7)";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+            ctx.fillStyle = "#FFF";
+            ctx.font = "20px Arial";
+            ctx.textAlign = "left";
+    
+            
+            ctx.fillText("Use (W / S)", 20, canvas.height / 2 + 10);
+    
+            
+            ctx.fillText("Use (↑ / ↓)", canvas.width - 100, canvas.height / 2 + 10);
+            ctx.font = "bold 30px Arial";
+            ctx.fillText("Whoever scores 7 goals first wins", canvas.width / 2 - 220, canvas.height / 2 - 20);
+    
+            
+    
+            
+            ctx.font = "bold 30px Arial";
+            ctx.fillText("Starting in: " + seconds, canvas.width / 2 - 100, canvas.height / 2 + 50);
+    
+            setTimeout(function () {
+                showStartMessageWithCountdown(seconds - 1);
+            }, 1000);
+        } else {
+            gameLoop();
+        }
+    }
+
 
     function resetBall() {
         ball.x = canvas.width / 2;
@@ -254,21 +318,22 @@ function showPongTour(player1Id, player2Id, isFinal, handleWinner) {
     function drawScore() {
         ctx.fillStyle = "#FFF";
         ctx.font = "32px Arial";
-        ctx.fillText(`${player1.id} Score: ${player1.score}`, 20, 50);
-        ctx.fillText(`${player2.id} Score: ${player2.score}`, canvas.width - 200, 50);
+        ctx.fillText(`P${player1.id} : ${player1.score}`, 20, 50);
+        ctx.fillText(`P${player2.id} : ${player2.score}`, canvas.width - 200, 50);
     }
 
     function showGameOverModal(winner) {
-        ctx.fillStyle = "rgba(0, 0, 0, 0.7)";
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        ctx.fillStyle = "white";
-        ctx.font = "48px Arial";
-        ctx.textAlign = "center";
-        ctx.fillText(`Player ${winner} won the match!`, canvas.width / 2, canvas.height / 2);
-        setTimeout(() => {
+        gameOverMessage = `${winner} Won!`;
+          showGameOverModal2(winner);
+          setTimeout(function() {
             handleWinner(winner);
         }, 3000);
     }
 
-    gameLoop();
+    function showGameOverModal2(winner) {
+        ctx.fillStyle = "white";
+        ctx.font = "48px Arial";
+        ctx.fillText(`${winner} Won!`, canvas.width / 4, canvas.height / 2 );
+    }
+
 }
