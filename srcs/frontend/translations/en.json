@@ -149,5 +149,8 @@
   "totalgames": "Total Games played",
   "totalwins": "Total Wins",
   "totalloses": "Total Loses",
-  "WinningRatelbl": "Winning Rate"
+  "WinningRatelbl": "Winning Rate",
+  
+  "wontext": "YOU WON\nPLAY AGAIN",
+  "losetext": "CPU WON\nPLAY AGAIN"
 }

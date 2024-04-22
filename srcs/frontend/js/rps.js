@@ -41,7 +41,7 @@ async function playRPS() {
                 document.getElementById('c-scissors').style.backgroundColor = "red";
             const result = playRound(playerSelection, computerSelection);
             if (result === 'won') {
-                document.getElementById('playerscore').textContent = `Score: ${++won}`;
+                document.getElementById('playerscore').textContent = `${++won}`;
                 if (won === 7) {
                     on("You");
                     const jwtToken = localStorage.getItem('jwtToken');
@@ -65,7 +65,7 @@ async function playRPS() {
                     }
                 }
             } else if (result === 'lost') {
-                document.getElementById('computerscore').textContent = `Score: ${++lost}`;
+                document.getElementById('computerscore').textContent = `${++lost}`;
                 if (lost === 7) {
                     on("CPU");
                     const jwtToken = localStorage.getItem('jwtToken');
@@ -93,20 +93,27 @@ async function playRPS() {
     });
 }
 
-function on(winner) {
+async function on(winner) {
     const overlay = document.getElementById("overlay");
     overlay.style.display = "block";
 
     const overtext = document.getElementById("overtext");
-    overtext.textContent = winner + " WON\nPLAY AGAIN";
+    let wontext = await translateKey("wontext");
+    let losetext = await translateKey("losetext");
+
+
+    if (winner === "You") 
+        overtext.textContent = wontext;
+    else if (winner === "CPU")        
+        overtext.textContent = losetext;
 }
 
 
 function off() {
     won = 0;
     lost = 0;
-    document.getElementById('playerscore').textContent = 'Score: 0';
-    document.getElementById('computerscore').textContent = 'Score: 0';
+    document.getElementById('playerscore').textContent = '0';
+    document.getElementById('computerscore').textContent = '0';
     document.getElementById("overlay").style.display = "none";
     document.getElementById('c-rock').style.backgroundColor = "black";
     document.getElementById('c-paper').style.backgroundColor = "black";
