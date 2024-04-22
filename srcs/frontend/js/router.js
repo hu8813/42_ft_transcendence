@@ -268,10 +268,8 @@ const handleLocation = async () => {
       }
       break;
     
-      case "#viewprofile":
+    case "#viewprofile":
     const hashParamsString = window.location.hash.substring(1);
-
-    
     const paramsIndex = hashParamsString.indexOf('?');
     if (paramsIndex !== -1) {
         const paramsString = hashParamsString.substring(paramsIndex + 1);
@@ -350,6 +348,21 @@ const handleLocation = async () => {
     case '#tic1':
       showTic1();
       break;
+    case '#login':
+      const hashParamsString2 = window.location.hash.substring(1);
+      const paramsIndex2 = hashParamsString2.indexOf('?');
+      let msg = null;
+      if (paramsIndex2 !== -1) {
+          const paramsString = hashParamsString2.substring(paramsIndex + 1);
+          const hashParams = new URLSearchParams(paramsString);
+
+          if (hashParams && hashParams.has('msg')) {
+              msg = hashParams.get('msg');
+          }
+        }
+          await handleLogin(msg);
+          
+        break;
     case '#tic2':
       showTic2();
       break;

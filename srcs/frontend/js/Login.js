@@ -1,5 +1,5 @@
-async function handleLogin() {
-
+async function handleLogin(msg) {
+    translate(currentLanguage);
 async function check2FACode(username, code) {
     try {
         const csrfToken = await getCSRFCookie();
@@ -139,6 +139,8 @@ async function check2FACode(username, code) {
         };
 
         loginForm.addEventListener("submit", handleSubmit);
+        if (loginStatus && msg)
+            loginStatus.textContent = msg;
     } else {
         console.error("Login form not found.");
     }

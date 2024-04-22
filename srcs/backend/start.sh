@@ -74,6 +74,7 @@ ALTER TABLE auth_user ADD COLUMN IF NOT EXISTS image_link VARCHAR(255);
 ALTER TABLE auth_user ADD COLUMN IF NOT EXISTS access_token VARCHAR(255);
 ALTER TABLE auth_user ADD COLUMN IF NOT EXISTS authorization_code VARCHAR(255) UNIQUE;
 ALTER TABLE auth_user ADD COLUMN activation_code VARCHAR(255);
+ALTER TABLE auth_user ADD COLUMN is_oauth_user BOOLEAN DEFAULT TRUE;
 
 ALTER TABLE auth_user_friends ADD COLUMN IF NOT EXISTS from_user_id INTEGER REFERENCES auth_user(id);
 ALTER TABLE auth_user_friends ADD COLUMN IF NOT EXISTS to_user_id INTEGER REFERENCES auth_user(id);
