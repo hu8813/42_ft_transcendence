@@ -120,7 +120,8 @@ function openProfile(username) {
 
         renderPaginationControls();
     } else {
-        leaderboardBody.innerHTML = '<tr><td colspan="7"><span id="">No data available</span></td></tr>';
+        if (leaderboardBody)
+            leaderboardBody.innerHTML = '<tr><td colspan="7"><span id="">No data available</span></td></tr>';
     }
 }
 
