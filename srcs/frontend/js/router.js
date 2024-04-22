@@ -425,20 +425,21 @@ window.onpopstate = () => {
 
 
 function translate(lang) {
-  let currentLanguagetmp = localStorage.getItem('language');
-  if (!currentLanguagetmp) {
-    currentLanguagetmp = lang || 'en';
-    localStorage.setItem('language', currentLanguagetmp);
-    currentLanguage = currentLanguagetmp;
+  let currentLanguage = localStorage.getItem('language');
+  if (!currentLanguage) {
+    currentLanguage = lang || 'en';
+    localStorage.setItem('language', currentLanguage);
   }
 
   fetch(`translations/${lang}.json`)
     .then(response => response.json())
     .then(translations => {
       Object.keys(translations).forEach(key => {
-        const element = document.getElementById(key);
-        if (element) {
-          element.innerHTML = translations[key];
+        const elements = document.getElementsByClassName(key);
+        if (elements.length > 0) {
+          Array.from(elements).forEach(element => {
+            element.innerHTML = translations[key];
+          });
         }
       });
     })
