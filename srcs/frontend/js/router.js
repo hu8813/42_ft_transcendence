@@ -30,6 +30,20 @@ const routes = {
   "#manage2fa" : "/views/manage2fa.html",
 };
 
+
+let msgReg ;
+const hashParamsString2 = window.location.hash.substring(1); // Remove the leading #
+const paramsIndex2 = hashParamsString2.indexOf('?');
+
+if (paramsIndex2 !== -1) {
+    const paramsString2 = hashParamsString2.substring(paramsIndex2 + 1);
+    const hashParams = new URLSearchParams(paramsString2);
+
+    if (hashParams && hashParams.has('m')) {
+        msgReg = hashParams.get('m');
+    }
+}
+
 let csrfToken;
 function getBackendURL() {
   const currentURL = window.location.href;
@@ -215,16 +229,13 @@ function translateKey(key) {
           translation = translation[part];
         } else {
           
-          //reject(new Error(`Translation for key '${key}' not found`));
           return;
         }
       }
-  
-      
+
       resolve(translation);
     } else {
       
-      //reject(new Error(`Translations for language '${lang}' not found in the cache`));
       return;
     }
   });
@@ -349,18 +360,8 @@ const handleLocation = async () => {
       showTic1();
       break;
     case '#login':
-      const hashParamsString2 = window.location.hash.substring(1);
-      const paramsIndex2 = hashParamsString2.indexOf('?');
-      let msg = null;
-      if (paramsIndex2 !== -1) {
-          const paramsString = hashParamsString2.substring(paramsIndex + 1);
-          const hashParams = new URLSearchParams(paramsString);
-
-          if (hashParams && hashParams.has('msg')) {
-              msg = hashParams.get('msg');
-          }
-        }
-          await handleLogin(msg);
+      
+          await handleLogin(msgReg);
           
         break;
     case '#tic2':
