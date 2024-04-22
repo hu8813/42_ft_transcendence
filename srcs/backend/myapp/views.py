@@ -15,7 +15,7 @@ import uuid
 import os
 import json
 from .forms import UserRegistrationForm
-from .models import Tournament, User, Player, WaitingPlayer, Message, UserProfile, Feedback, Achievement, MyAppUserGroups, MyAppUserPermissions
+from .models import Tournament, User, Player, WaitingPlayer, Message, UserProfile, Feedback, Achievement, MyAppUserGroups, MyAppUserPermissions, Channel
 from django.utils import timezone
 from django.db import IntegrityError
 from django.utils.html import escape
@@ -56,6 +56,33 @@ def is_valid_username(username):
     if not re.match(r'^[a-zA-Z0-9_-]+$', username):
         return False
     return True
+
+def create_channel(name, owner, password=None):
+    channel = Channel.objects.create(name=name, owner=owner, password=password)
+    return channel
+
+def get_channels():
+    channels = Channel.objects.all()
+    return channels
+
+def check_channel_password(channel_id, password):
+    try:
+        channel = Channel.objects.get(id=channel_id)
+        return channel.password == password
+    except Channel.DoesNotExist:
+        return False
+
+def kick_or_block_user(channel_id, user_to_kick_or_block):
+    try:
+        channel = Channel.objects.get(id=channel_id)
+        if user_to_kick_or_block == channel.owner:
+            return False  
+        if user_to_kick_or_block == channel.moderator:
+            channel.moderator = None  
+            channel.save()
+        return True
+    except Channel.DoesNotExist:
+        return False
 
 def remove_friend(request):
     try:

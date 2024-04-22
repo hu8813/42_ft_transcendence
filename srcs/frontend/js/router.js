@@ -6,7 +6,7 @@ const routes = {
   "#login": "/views/login.html",
   "#register": "/views/register.html",
   "#play!": "/views/selectgame.html",
-  "#chat": "/views/chat.html",
+  "#chat": "/views/chatselect.html",
   "#leaderboard": "/views/leaderboard.html",
   "#profile": "/views/profile.html",
   "#privacy-policy": "/views/privacy.html",
@@ -26,7 +26,7 @@ const routes = {
   "#tournament": "/views/tournament.html",
   "#viewprofile": "/views/viewprofile.html",
   "#rps" : "/views/rps.html",
-  "#chatselect" : "/views/chatselect.html",
+  "#chatselect" : "/views/chat.html",
   "#manage2fa" : "/views/manage2fa.html",
 };
 
@@ -308,6 +308,9 @@ const handleLocation = async () => {
       doLogout();
       break;
     case "#chat":
+      chatSelect();
+      break;
+    case '#chatselect':
       openChat();
       break;
     case "#":
@@ -370,9 +373,7 @@ const handleLocation = async () => {
     case '#rps':
       playRPS();
       break;
-    case '#chatselect':
-        chatSelect();
-        break;
+    
     case '#manage2fa':
       display2faPage();
       break;
@@ -386,6 +387,10 @@ const handleLocation = async () => {
 window.addEventListener('hashchange', handleLocation);
 handleLocation();
 
+let chatChannel;
+if (!chatChannel) {
+  chatChannel = "#General";
+}
 const navToggle = document.getElementById('nav-toggle');
 const navMenu = document.querySelector('nav');
 

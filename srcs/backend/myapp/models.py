@@ -5,8 +5,6 @@ class User(AbstractUser):
     score = models.IntegerField(default=0)
     nickname = models.CharField(max_length=50, blank=True, null=True)
     image_link = models.URLField(null=True, blank=True)
-    #access_token = models.CharField(max_length=255, blank=True, null=True)
-    #authorization_code = models.CharField(max_length=255, unique=True, blank=True, null=True)
     friends = models.ManyToManyField('self', symmetrical=True, blank=True)  
     blocked_users = models.ManyToManyField('self', symmetrical=False, related_name='blocked_by', blank=True) 
     two_factor_enabled = models.BooleanField(default=False)
@@ -94,3 +92,13 @@ class Feedback(models.Model):
 
     def __str__(self):
         return self.feedback_text
+
+
+class Channel(models.Model):
+    name = models.CharField(max_length=100)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    moderator = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='moderator_channels')
+    password = models.CharField(max_length=100, blank=True)
+
+    def __str__(self):
+        return self.name

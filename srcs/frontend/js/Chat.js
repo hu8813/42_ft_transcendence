@@ -45,7 +45,7 @@ function toggleSocketConnection() {
         socket = getWebSocket();
         document.getElementById('msgDisconnect').textContent = 'Disconnect';
     } else {
-        if (socket) {
+        if (socket && socket.readyState === WebSocket.CLOSED) {
             console.log('WebSocket disconnected.');
             const leftMessage = {
                 text: 'left the chat',
@@ -114,7 +114,7 @@ function getWebSocket() {
 
 function sendMessage(message) {
     message.created_at = new Date(); 
-    if (socket.readyState === WebSocket.OPEN) {
+    if (socket && socket.readyState === WebSocket.OPEN) {
         socket.send(JSON.stringify(message));
         showNotification("Message sent successfully.", true);
     } else {
@@ -122,7 +122,7 @@ function sendMessage(message) {
         showNotification("You are disconnected. Trying to reconnect...", false);
         toggleSocketConnection();
         setTimeout(() => {
-            if (socket.readyState === WebSocket.OPEN) {
+            if (socket && socket.readyState === WebSocket.OPEN) {
                 showNotification("Reconnected. Message sent successfully.", true);
                 const joinMessage3 = {
                     text: 'joined the chat',
@@ -222,6 +222,8 @@ function playNotificationSound() {
 
 
 function openChat() {
+    if (!chatChannel)
+        chatChannel = '#General';
     messageInput = document.getElementById('message-input');
     //recipientSelect = document.getElementById('recipient-select');
     onlineUsersList = document.getElementById('online-users-list'); 
@@ -257,7 +259,7 @@ function openChat() {
         storedMessages.forEach(message => displayMessage(message));
     }
 
-    if (socket.readyState === WebSocket.OPEN) {
+    if (socket && socket.readyState === WebSocket.OPEN) {
     socket.send(JSON.stringify({ type: 'requestOnlineUsers' }));
     }
     updateOnlineUsers();
@@ -284,7 +286,7 @@ function sendMessageFromInput() {
     lastMessageSentTime = currentTime;
 
     let recipientName;
-    let recipient = recipientName ? recipientName : '#CHANNEL';
+    let recipient = recipientName ? recipientName : '#General';
 
     const newMessage = {
         name: localStorage.getItem('userNickname') || localStorage.getItem('userLogin') || "user42",
