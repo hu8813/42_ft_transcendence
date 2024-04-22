@@ -37,7 +37,7 @@ async function fetchAndDisplayViewProfile(username) {
             statusIndicator.title = isOnline ? 'Online' : 'Offline';
             
             
-            document.getElementById('addFriend').addEventListener('click', async function() {
+            document.getElementById('addfriend').addEventListener('click', async function() {
                 try {
                     let jwtToken = localStorage.getItem('jwtToken');
                     let csrfToken = await getCSRFCookie();
@@ -65,7 +65,7 @@ async function fetchAndDisplayViewProfile(username) {
                 }
             });
             
-            document.getElementById('blockUser').addEventListener('click', async function() {
+            document.getElementById('blockuser').addEventListener('click', async function() {
                 try {
                     let jwtToken = localStorage.getItem('jwtToken');
                     let csrfToken = await getCSRFCookie();
@@ -93,7 +93,7 @@ async function fetchAndDisplayViewProfile(username) {
                     messageContainer.style.color = 'red';
                 }
             });
-            document.getElementById('removeFriend').addEventListener('click', async function() {
+            document.getElementById('removefriend').addEventListener('click', async function() {
                 try {
                     let jwtToken = localStorage.getItem('jwtToken');
                     let csrfToken = await getCSRFCookie();
@@ -122,7 +122,7 @@ async function fetchAndDisplayViewProfile(username) {
                 }
             });
             
-            document.getElementById('unblockUser').addEventListener('click', async function() {
+            document.getElementById('unblockuser').addEventListener('click', async function() {
                 try {
                     let jwtToken = localStorage.getItem('jwtToken');
                     let csrfToken = await getCSRFCookie();
