@@ -124,6 +124,7 @@ function chatSelect() {
   const updateNicknameButton = document.getElementById('updateNicknameButton');
   if (userInfo.nickname && nicknameInput) {
     nicknameInput.value = userInfo.nickname;
+    
   }
 
   if (dropdown) {

@@ -83,8 +83,7 @@ async function updateProfile(data) {
             }
 
             formData.append('nickname', data.nickname);
-            document.getElementById('nicknameadr').textContent = data.nickname;
-            localStorage.setItem('userNickname', data.nickname);
+            
         }
 
         if (data.image) {
@@ -314,6 +313,10 @@ async function fetchAndDisplayProfile() {
                 if (newNickname !== null && newNickname.trim() !== "") {
                     try {
                         await updateProfile({ nickname: newNickname });
+                        userNickname = newNickname;
+                        if (document.getElementById('nicknameadr'))
+                            document.getElementById('nicknameadr').textContent = newNickname;
+                        localStorage.setItem('userNickname', newNickname);
                         await fetchLeaderboardData();
                     } catch (error) {
                         if (error && error.message)

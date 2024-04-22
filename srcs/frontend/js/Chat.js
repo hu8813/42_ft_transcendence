@@ -49,7 +49,7 @@ function toggleSocketConnection() {
             console.log('WebSocket disconnected.');
             const leftMessage = {
                 text: 'left the chat',
-                name: localStorage.getItem('userNickname') || localStorage.getItem('userLogin') || "user42"
+                name: userNickname || localStorage.getItem('userNickname') || localStorage.getItem('userLogin') || "user42"
             };
             sendMessage(leftMessage);
             setTimeout(function () {
@@ -77,7 +77,8 @@ function getWebSocket() {
 
         socket.addEventListener('open', () => {
             console.log('WebSocket connection established.');
-            const userNickname = localStorage.getItem('userNickname') || localStorage.getItem('userLogin') || "user42";
+            if (!userNickname || userNickname === 'null' || userNickname === 'undefined' || userNickname === 'Anonymous')
+                userNickname = localStorage.getItem('userNickname') || localStorage.getItem('userLogin') || "user42";
             const joinMessage = {
                 text: 'joined the chat',
                 name: userNickname
@@ -126,7 +127,7 @@ function sendMessage(message) {
                 showNotification("Reconnected. Message sent successfully.", true);
                 const joinMessage3 = {
                     text: 'joined the chat',
-                    name: localStorage.getItem('userNickname') || localStorage.getItem('userLogin') || "user42"
+                    name: userNickname || localStorage.getItem('userNickname') || localStorage.getItem('userLogin') || "user42"
                 };
                 socket.send(JSON.stringify(joinMessage3));
                 socket.send(JSON.stringify(message));
@@ -155,7 +156,7 @@ function displayMessage(message) {
     const messageElement = document.createElement('div');
     messageElement.classList.add('msg');
 
-    const isCurrentUser = message.name === (localStorage.getItem('userNickname') || localStorage.getItem('userLogin') || "user42");
+    const isCurrentUser = message.name === (userNickname || localStorage.getItem('userNickname') || localStorage.getItem('userLogin') || "user42");
     const alignRight = isCurrentUser ? 'right' : 'left';
     messageElement.classList.add(isCurrentUser ? 'right-msg' : 'left-msg');
     messageElement.classList.add('msg-bubble');
@@ -239,6 +240,8 @@ function openChat() {
         msgDisconnect.addEventListener('click', toggleSocketConnection);
     }
 
+    if (messageInput)
+    {
     messageInput.addEventListener('keypress', function (e) {
         if (e.key === "Enter") {
             e.preventDefault();
@@ -252,7 +255,7 @@ function openChat() {
             sendMessageFromInput();
         }
     });
-
+}
     socket = getWebSocket();
     if (msgerChat.childElementCount === 0) {
         storedMessages = JSON.parse(localStorage.getItem('chatMessages')) || [];
@@ -289,7 +292,7 @@ function sendMessageFromInput() {
     let recipient = recipientName ? recipientName : '#General';
 
     const newMessage = {
-        name: localStorage.getItem('userNickname') || localStorage.getItem('userLogin') || "user42",
+        name: userNickname || localStorage.getItem('userNickname') || localStorage.getItem('userLogin') || "user42",
         recipient: recipient,
         text: inputText,
     };
@@ -422,7 +425,7 @@ async function updateOnlineUsers() {
 
 function sendMessageToUser(nickname, message) {
     const newMessage = {
-        name: localStorage.getItem('userNickname') || localStorage.getItem('userLogin') || "user42",
+        name: userNickname || localStorage.getItem('userNickname') || localStorage.getItem('userLogin') || "user42",
         recipient: nickname,
         text: message,
     };

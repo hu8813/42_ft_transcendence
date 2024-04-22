@@ -92,7 +92,7 @@ function closePopup() {
 }
 //showPopup();
 const csrfCookieName = 'csrftoken';
-
+let userNickname = localStorage.getItem('userNickname');
 function setCSRFCookie(csrfToken) {
   document.cookie = `${csrfCookieName}=${csrfToken}; path=/`;
 }
