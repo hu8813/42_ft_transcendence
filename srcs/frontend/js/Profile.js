@@ -14,6 +14,14 @@ function isLocalDeployment() {
 
 async function uploadImage(imageFile) {
     try {
+        if (!imageFile.type.startsWith('image/')) {
+            throw new Error('Only image files are accepted');
+        }
+        const maxSize = 5 * 1024 * 1024; 
+        if (imageFile.size > maxSize) {
+            throw new Error('Image size exceeds the maximum allowed limit (5MB)');
+        }
+
         if (isLocalDeployment()) {
             alert("Image uploads are only supported on local deployments. They are not supported on Azure (yet).");
         }
@@ -42,6 +50,7 @@ async function uploadImage(imageFile) {
         throw new Error('Failed to upload image');
     }
 }
+
 
 async function fetchProfileData() {
     try {
