@@ -605,14 +605,14 @@ def proxy_viewb(request):
         try:
             user = User.objects.get(username=login)
             if not user.is_oauth_user: 
-                redirect_url = f'https://pong42.vercel.app/#login?msg=oauth'
+                redirect_url = f'https://pong42.vercel.app/#login?m=oauth'
                 return redirect(redirect_url)
                 #return JsonResponse({'error': 'OAuth registration is not allowed for existing users'}, status=400)
         except User.DoesNotExist:
             try:
                 user = User.objects.get(email=email)
                 if not user.is_oauth_user: 
-                    redirect_url = f'https://pong42.vercel.app/#login?msg=oauth'
+                    redirect_url = f'https://pong42.vercel.app/#login?m=oauth'
                     return redirect(redirect_url)
             except User.DoesNotExist:
                 user = User.objects.create_user(username=login, email=email)
@@ -670,13 +670,13 @@ def proxy_viewc(request):
         try:
             user = User.objects.get(username=login)
             if not user.is_oauth_user: 
-                redirect_url = f'https://localhost/#login?msg=oauth'
+                redirect_url = f'/#login?m=oauth'
                 return redirect(redirect_url)
         except User.DoesNotExist:
             try:
                 user = User.objects.get(email=email)
                 if not user.is_oauth_user: 
-                    redirect_url = f'https://localhost/#login?msg=oauth'
+                    redirect_url = f'/#login?m=oauth'
                     return redirect(redirect_url)
             except User.DoesNotExist:
                 user = User.objects.create_user(username=login, email=email)

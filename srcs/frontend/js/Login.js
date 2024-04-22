@@ -1,5 +1,14 @@
 async function handleLogin(msg) {
     translate(currentLanguage);
+if (msgReg &&msgReg === "oauth")
+    msgReg = "Error: User already exists. Oauth login is not allowed.";
+if (msgReg &&msgReg === "success")
+    msgReg = "Registration successful. You can now login.";
+if (msg && msg === "oauth")
+    msg = "Error: User already exists. Oauth login is not allowed.";
+if (msg && msg === "success")
+    msg = "Registration successful. You can now login.";
+
 async function check2FACode(username, code) {
     try {
         const csrfToken = await getCSRFCookie();
@@ -139,9 +148,11 @@ async function check2FACode(username, code) {
         };
 
         loginForm.addEventListener("submit", handleSubmit);
-        if (loginStatus && msg)
+        if (loginStatus && msgReg && msgReg !== null)
+            loginStatus.textContent = msgReg;
+        else if (loginStatus && msg)
             loginStatus.textContent = msg;
     } else {
-        console.error("Login form not found.");
+        //console.error("Login form not found.");
     }
 }

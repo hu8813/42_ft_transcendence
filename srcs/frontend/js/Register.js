@@ -66,7 +66,7 @@ async function handleRegister() {
                     document.getElementById("register-status").textContent = data.message;  
                     document.getElementById("register-status").style.color = "green";
                     setTimeout(() => {
-                        window.location.href = "/#login?msg=success";
+                        window.location.href = "/#login?m=success";
                     }, 1000);
                 }  
             })
