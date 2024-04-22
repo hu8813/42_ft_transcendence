@@ -7,9 +7,8 @@ async function handleRegister() {
         translateKey('username'),
         translateKey('password'),
         translateKey('confirmPassword'),
-        translateKey('passwordMismatch'),
         translateKey('register-status'), 
-    ]).then(([emailPlaceholderTranslation, usernamePlaceholderTranslation, passwordPlaceholderTranslation, confirmPasswordPlaceholderTranslation, passwordMismatchTranslation, registerStatusTranslation]) => {
+    ]).then(([emailPlaceholderTranslation, usernamePlaceholderTranslation, passwordPlaceholderTranslation, confirmPasswordPlaceholderTranslation, registerStatusTranslation]) => {
         document.getElementById("enterEmail").setAttribute('placeholder', emailPlaceholderTranslation);
         document.getElementById("enterUsername").setAttribute('placeholder', usernamePlaceholderTranslation);
         document.getElementById("enterPassword").setAttribute('placeholder', passwordPlaceholderTranslation);
@@ -67,7 +66,7 @@ async function handleRegister() {
                     document.getElementById("register-status").textContent = data.message;  
                     document.getElementById("register-status").style.color = "green";
                     setTimeout(() => {
-                        window.location.href = "/#login";
+                        window.location.href = "/#login?m=success";
                     }, 1000);
                 }  
             })

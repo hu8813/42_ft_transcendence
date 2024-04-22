@@ -23,6 +23,11 @@ if os.environ.get('DEBUG') in ['1', 'true']:
     #CSRF_COOKIE_SECURE = True
     DEBUG = True
 
+PASSWORD_HASHERS = [
+    'django.contrib.auth.hashers.PBKDF2PasswordHasher',  # Default PBKDF2 algorithm
+    'django.contrib.auth.hashers.Argon2PasswordHasher',  # Argon2 algorithm (recommended for newer projects)
+    'django.contrib.auth.hashers.BCryptSHA256PasswordHasher',  # BCrypt algorithm with SHA-256 hash
+]
 
 ALLOWED_HOSTS = [
     'localhost',

@@ -9,6 +9,7 @@ class User(AbstractUser):
     blocked_users = models.ManyToManyField('self', symmetrical=False, related_name='blocked_by', blank=True) 
     two_factor_enabled = models.BooleanField(default=False)
     activation_code = models.CharField(max_length=255, blank=True, null=True)
+    is_oauth_user = models.BooleanField(default=True)
     
     class Meta:
         managed = False
