@@ -1,8 +1,6 @@
 .table-container {
   overflow-x: auto;
   overflow-y: auto;
-  border: solid;
-  border-color: red;
 }
 
 table {

@@ -93,3 +93,19 @@ display: inline-block;
   .message-container {
     color: red;
   }
+
+  @media only screen and (max-width: 600px) {
+    .buttons {
+        display: flex;
+        flex-wrap: wrap; /* Allow buttons to wrap to the next line */
+        justify-content: center; /* Center the buttons horizontally */
+        gap: 5px; /* Add a small gap between buttons */
+    }
+
+    .viewprofile-button {
+        flex: 0 0 calc(50% - 10px); /* Each button takes up 50% of the container width minus margin */
+        margin: 5px; /* Add smaller margin around each button */
+        padding: 8px 12px; /* Adjust padding for a more compact size */
+    }
+}
+
