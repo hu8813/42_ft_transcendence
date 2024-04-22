@@ -115,7 +115,7 @@ function joinChat() {
 }
 
 function chatSelect() {
-  const userInfo = { nickname: localStorage.getItem('userNickname') || 'Anonym'+Math.floor(Math.random()*1000) };
+  const userInfo = { nickname: localStorage.getItem('userNickname') || 'random'+Math.floor(Math.random()*1000) };
   const channelsInfo = ['#General'];
   const dropdown = document.getElementById('channelDropdown');
   const createChannelForm = document.getElementById('createChannelForm');

@@ -152,5 +152,8 @@
   "WinningRatelbl": "Winning Rate",
   
   "wontext": "YOU WON\nPLAY AGAIN",
-  "losetext": "CPU WON\nPLAY AGAIN"
+  "losetext": "CPU WON\nPLAY AGAIN",
+  "useWS":"use",
+  "whoevergets":"Whoever gets 7 goals loses",
+  "starting": "Starting in"
 }

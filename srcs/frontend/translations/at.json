@@ -148,5 +148,9 @@
   "totalgames": "Gespielte Spiele insgesamt",
   "totalwins": "Gesamtsiege",
   "totalloses": "Gesamtniederlagen",
-  "WinningRatelbl": "Gewinnquote"
+  "WinningRatelbl": "Gewinnquote",
+
+  "useWS":"verwende",
+  "whoevergets":"Wer 7 Tore kassiert verliert",
+  "starting": "Fängt an in"
 }

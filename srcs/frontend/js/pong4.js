@@ -179,9 +179,9 @@ function showPong4()
       }
     }
 
-    showStartMessageWithCountdown(7);
+    showStartMessageWithCountdown(15);
 
-    function showStartMessageWithCountdown(seconds) {
+    async function showStartMessageWithCountdown(seconds) {
         if (seconds > 0) {
             ctx.fillStyle = "rgba(0, 0, 0, 0.7)";
             ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -192,27 +192,30 @@ function showPong4()
     
             
             ctx.fillText("Player 1", 20, canvas.height / 2 - 10);
-            ctx.fillText("Use (W / S)", 20, canvas.height / 2 + 10);
+            let useWS = await translateKey("useWS");
+            ctx.fillText(useWS+" (W / S)", 20, canvas.height / 2 + 10);
     
             
             ctx.fillText("Player 2", canvas.width - 100, canvas.height / 2 - 10);
-            ctx.fillText("Use (↑ / ↓)", canvas.width - 100, canvas.height / 2 + 10);
+            ctx.fillText(useWS+" (↑ / ↓)", canvas.width - 150, canvas.height / 2 + 10);
     
             
             ctx.fillText("Player 3", canvas.width / 2 - 50, canvas.height - 50);
-            ctx.fillText("Use (Mouse)", canvas.width / 2 - 65, canvas.height - 30);
+            ctx.fillText(useWS+" (Mouse)", canvas.width / 2 - 65, canvas.height - 30);
     
             ctx.fillText("Player 4", canvas.width / 2 - 50, canvas.height / 2 - 250);
-            ctx.fillText("Use (J / K)", canvas.width / 2 - 60, canvas.height / 2 - 230);
+            ctx.fillText(useWS+" (J / K)", canvas.width / 2 - 60, canvas.height / 2 - 230);
             
             ctx.font = "bold 30px Arial";
-            ctx.fillText("Whoever gets 7 goals loses", canvas.width / 2 - 190, canvas.height / 2 - 20);
+            let whoevergets = await translateKey("whoevergets");
+            ctx.fillText(whoevergets, canvas.width / 2 - 190, canvas.height / 2 - 20);
     
             
     
             
             ctx.font = "bold 30px Arial";
-            ctx.fillText("Starting in: " + seconds, canvas.width / 2 - 100, canvas.height / 2 + 50);
+            let starting = await translateKey("starting");
+            ctx.fillText(starting +" "+ seconds, canvas.width / 2 - 100, canvas.height / 2 + 50);
     
             setTimeout(function () {
                 showStartMessageWithCountdown(seconds - 1);

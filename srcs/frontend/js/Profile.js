@@ -69,7 +69,7 @@ async function updateProfile(data) {
     try {
         const jwtToken = localStorage.getItem('jwtToken');
         const formData = new FormData();
-
+        let res;
         if (data.nickname) {
             const maxNicknameLength = 50;
             if (data.nickname.length > maxNicknameLength) {
@@ -78,6 +78,7 @@ async function updateProfile(data) {
 
             const nicknameRegex = /^[a-zA-Z0-9_-]+$/;
             if (!nicknameRegex.test(data.nickname)) {
+                displayErrorMessage('Invalid nickname format. Only alphanumeric characters, underscore, and hyphen are allowed.');
                 throw new Error('Invalid nickname format. Only alphanumeric characters, underscore, and hyphen are allowed.');
             }
 
@@ -103,12 +104,15 @@ async function updateProfile(data) {
         });
 
         if (!response.ok) {
+            //displayErrorMessage(response.message);
             throw new Error('Failed to update profile');
         }
-
-        return await response.json();
+        res = await response.json();
+        return res;
     } catch (error) {
+        
         console.error('Error updating profile:', error);
+        displayErrorMessage(error);
         throw new Error('Failed to update profile');
     }
 }
@@ -162,7 +166,8 @@ async function fetchAndDisplayFriends() {
         }
     } catch (error) {
         console.error('Error fetching and displaying friends:', error);
-        displayErrorMessage('Failed to fetch friends');
+        if (response && response.message)
+            displayErrorMessage(response.message);
     }
 }
 
@@ -216,6 +221,9 @@ async function fetchAndDisplayAchievements() {
             }
         }
     } catch (error) {
+        if (response && response.message)
+        displayErrorMessage(response.message);
+
         console.error('Error fetching and displaying achievements:', error);
     }
 }
@@ -236,6 +244,8 @@ async function deleteProfile() {
         }
     } catch (error) {
         console.error('Error deleting profile:', error);
+        if (response && response.message)
+        displayErrorMessage(response.message);
         throw new Error('Failed to delete profile');
     }
 }
@@ -288,7 +298,7 @@ async function fetchAndDisplayProfile() {
                     const timestamp = new Date().getTime();
                     const updatedImageLink = `${imageLink}?t=${timestamp}`;
                     document.querySelector('.profile-pic').src = updatedImageLink;
-
+                    await fetchLeaderboardData();
                 } catch (error) {
                     if (error.message)
                         displayErrorMessage(error.message);
@@ -304,8 +314,9 @@ async function fetchAndDisplayProfile() {
                 if (newNickname !== null && newNickname.trim() !== "") {
                     try {
                         await updateProfile({ nickname: newNickname });
+                        await fetchLeaderboardData();
                     } catch (error) {
-                        if (error.message)
+                        if (error && error.message)
                             displayErrorMessage(error.message);
                         console.error('Error updating nickname:', error);
                     }
@@ -322,9 +333,10 @@ async function fetchAndDisplayProfile() {
                         let tmplang = localStorage.getItem('language');
                         localStorage.clear();
                         localStorage.setItem('language', tmplang);
+
                         window.location.reload();
                     } catch (error) {
-                        if (error.message)
+                        if (error && error.message)
                             displayErrorMessage(error.message);
                         console.error('Error deleting profile:', error);
                     }
@@ -337,7 +349,7 @@ async function fetchAndDisplayProfile() {
 
     } catch (error) {
         console.error('Error fetching and displaying profile:', error);
-        if (error.message)
+        if (error && error.message)
             displayErrorMessage(error.message);
         //window.location.href = "/#logout";
     }
