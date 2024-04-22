@@ -1,6 +1,12 @@
+.table-container {
+  overflow-x: auto;
+  overflow-y: auto;
+  border: solid;
+  border-color: red;
+}
+
 table {
   border-collapse: collapse;
-  overflow-y: auto;
   width: 100%;
 }
 
@@ -57,3 +63,11 @@ th span {
 .progress-content {
   margin-left: 1rem; /* Adjust as needed to create space between content and progress bar */
 }
+
+@media only screen and (max-width: 600px) {
+  table th, table td {
+    padding: 0.5em;
+    font-size: 0.8em;
+  }
+}
+
