@@ -74,6 +74,45 @@ async function fetchProfileData() {
     }
 }
 
+
+async function selectAvatar(imageLink) {
+    try {
+       
+        const jwtToken = localStorage.getItem('jwtToken');
+        const formData = new FormData();
+        
+        formData.append('image_link', imageLink);
+
+        const response = await fetch(`/api/manage-profile/`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${jwtToken}`,
+                'X-CSRFToken': csrfToken
+            },
+            body: formData
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to update profile');
+        }
+
+        const profilePicElement = document.querySelector('.profile-pic');
+        if (profilePicElement) {
+            profilePicElement.src = imageLink;
+        }
+        const errorMessageElement = document.getElementById('errorMessage');   
+        if (errorMessageElement) {
+            errorMessageElement.textContent = 'Avatar changed successfully';
+        }
+    } catch (error) {
+        // Handle errors
+        console.error('Error updating profile:', error);
+        displayErrorMessage(error.message);
+        throw new Error('Failed to update profile');
+    }
+}
+
+
 async function updateProfile(data) {
     try {
         const jwtToken = localStorage.getItem('jwtToken');
@@ -94,12 +133,16 @@ async function updateProfile(data) {
             formData.append('nickname', data.nickname);
             
         }
+        if (data.image_link) {
+            formData.append('image_link', data.img_link);
+        }
 
         if (data.image) {
             const imageFile = data.image;
             const imageLink = await uploadImage(imageFile);
             formData.append('image_link', imageLink);
             document.querySelector('.profile-pic').src = imageLink;
+            document.getElementById('avatar0').src = imageLink;
         }
 
         const response = await fetch(`/api/manage-profile/`, {
@@ -266,6 +309,7 @@ async function deleteProfile() {
     }
 }
 
+
 async function fetchAndDisplayProfile() {
     const errorMessageElement = document.getElementById('errorMessage');
     csrfToken = await getCSRFCookie();
@@ -285,6 +329,11 @@ async function fetchAndDisplayProfile() {
         if (profilePicElement) {
             profilePicElement.src = imageLink;
         }
+
+        const avatar0 = document.getElementById('avatar0');
+        if (avatar0) {
+            avatar0.src = imageLink;
+        }   
 
         const nicknameElement = document.getElementById('nicknameadr');
         if (nicknameElement) {

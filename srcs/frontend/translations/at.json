@@ -14,7 +14,6 @@
   "blockSuccess": "Benutzer erfolgreich blockiert",
   "cancel": "Abbrechen",
   "changeNickname": "Spitznamen ändern",
-  "changePhoto": "Foto ändern",
   "channel": "#KANAL",
   "chattitle": "Chat",
   "chatUsers": "Online-Benutzer",
@@ -149,8 +148,10 @@
   "totalwins": "Gesamtsiege",
   "totalloses": "Gesamtniederlagen",
   "WinningRatelbl": "Gewinnquote",
-
-  "useWS":"verwende",
-  "whoevergets":"Wer 7 Tore kassiert verliert",
-  "starting": "Fängt an in"
+  "wontext": "SIE HABEN GEWONNEN\nSPIELEN SIE WIEDER",
+  "losetext": "CPU GEWONNEN\nSPIELEN SIE WIEDER",
+  "useWS": "verwenden",
+  "whoevergets": "Wer 7 Tore erzielt, verliert",
+  "starting": "Beginn in",
+  "changePhoto": "Foto hochladen"
 }

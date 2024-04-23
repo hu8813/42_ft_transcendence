@@ -14,7 +14,6 @@
   "blockSuccess": "User blocked successfully",
   "cancel": "Cancel",
   "changeNickname": "Change Nickname",
-  "changePhoto": "Change Photo",
   "channel": "#CHANNEL",
   "chattitle": "Chat",
   "chatUsers": "Online Users",
@@ -149,11 +148,12 @@
   "totalgames": "Total Games played",
   "totalwins": "Total Wins",
   "totalloses": "Total Loses",
-  "WinningRatelbl": "Winning Rate",
-  
+  "WinningRatelbl": "Winning Rate",  
   "wontext": "YOU WON\nPLAY AGAIN",
   "losetext": "CPU WON\nPLAY AGAIN",
   "useWS":"use",
   "whoevergets":"Whoever gets 7 goals loses",
-  "starting": "Starting in"
+  "starting": "Starting in",
+  "changePhoto": "Upload Photo"
+
 }

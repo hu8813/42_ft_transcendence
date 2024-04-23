@@ -14,7 +14,6 @@
   "blockSuccess": "Kullanıcı başarıyla engellendi",
   "cancel": "İptal",
   "changeNickname": "Takma Ad Değiştir",
-  "changePhoto": "Fotoğrafı Değiştir",
   "channel": "#KANAL",
   "chattitle": "Sohbet",
   "chatUsers": "Çevrimiçi Kullanıcılar",
@@ -148,5 +147,11 @@
   "totalgames": "Oynanan Toplam Oyun",
   "totalwins": "Toplam Kazanç",
   "totalloses": "Toplam Kayıp",
-  "WinningRatelbl": "Kazanma Oranı"
+  "WinningRatelbl": "Kazanma Oranı",
+  "wontext": "KAZANDINIZ\nTEKRAR OYNA",
+  "losetext": "CPU KAZANDI\nTEKRAR OYNA",
+  "useWS": "kullan",
+  "whoevergets": "7 golü atan kaybeder",
+  "starting": "Başlama",
+  "changePhoto": "Fotoğraf Yükle"
 }

@@ -14,7 +14,6 @@
   "blockSuccess": "Utilizador bloqueado com sucesso",
   "cancel": "Cancelar",
   "changeNickname": "Alterar Nome de Utilizador",
-  "changePhoto": "Alterar Foto",
   "channel": "#CANAL",
   "chattitle": "Chat",
   "chatUsers": "Utilizadores Online",
@@ -148,5 +147,11 @@
   "totalgames": "Total de Jogos Jogados",
   "totalwins": "Total de Vitórias",
   "totalloses": "Total de Derrotas",
-  "WinningRatelbl": "Taxa de Vitória"
+  "WinningRatelbl": "Taxa de Vitória",
+  "wontext": "VOCÊ VENCEU\nJOGAR NOVAMENTE",
+  "losetext": "CPU VENCEU\nJOGAR NOVAMENTE",
+  "useWS": "usar",
+  "whoevergets": "Quem conseguir 7 gols perde",
+  "starting": "Começando em",
+  "changePhoto": "Enviar Foto"
 }

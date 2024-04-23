@@ -14,7 +14,6 @@
   "blockSuccess": "تم حظر المستخدم بنجاح",
   "cancel": "إلغاء",
   "changeNickname": "تغيير الاسم المستعار",
-  "changePhoto": "تغيير الصورة",
   "channel": "#القناة",
   "chattitle": "الدردشة",
   "chatUsers": "المستخدمون عبر الإنترنت",
@@ -148,5 +147,11 @@
   "totalgames": "إجمالي الألعاب الملعوبة",
   "totalwins": "إجمالي الانتصارات",
   "totalloses": "إجمالي الهزائم",
-  "WinningRatelbl": "نسبة الفوز"
+  "WinningRatelbl": "نسبة الفوز",
+  "wontext": "لقد فزت\nالعب مرة أخرى",
+    "losetext": "فاز الكمبيوتر\nالعب مرة أخرى",
+    "useWS": "استخدم",
+    "whoevergets": "من يحصل على 7 أهداف يخسر",
+    "starting": "البدء في",
+    "changePhoto": "تحميل الصورة"
 }

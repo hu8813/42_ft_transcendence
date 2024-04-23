@@ -14,7 +14,6 @@
     "blockSuccess": "用戶封鎖成功",
     "cancel": "取消",
     "changeNickname": "更改暱稱",
-    "changePhoto": "更改照片",
     "channel": "#頻道",
     "chattitle": "聊天",
     "chatUsers": "在線用戶",
@@ -148,6 +147,12 @@
     "totalgames": "总游戏数",
     "totalwins": "总胜利数",
     "totalloses": "总失败数",
-    "WinningRatelbl": "胜率"
+    "WinningRatelbl": "胜率",
+    "wontext": "你赢了\n再玩一次",
+    "losetext": "CPU赢了\n再玩一次",
+    "useWS": "使用",
+    "whoevergets": "谁得到7个进球谁输",
+    "starting": "开始于",
+    "changePhoto": "上传照片"
   }
   

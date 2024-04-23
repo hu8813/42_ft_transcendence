@@ -10,7 +10,16 @@
     <div class="profile-info-section">
       <div id="avatar-preview">
         <img class="profile-pic" src="" width="250px" height="250px" alt="Profile Picture">
-        <button id="changePhoto" class="profile-button">Change Photo</button>
+        <div class="error-message" id="errorMessage">&nbsp;</div>
+        <div class="avatar-options">
+          <img class="avatar" id="avatar0" onclick="selectAvatar(this.src)" width="40px" height="40px" alt="Avatar">
+          <img class="avatar" onclick="selectAvatar(this.src)" src="../src/avatar1.png" width="40px" height="40px" alt="Avatar 1">
+          <img class="avatar" onclick="selectAvatar(this.src)"  src="../src/avatar2.png" width="40px" height="40px" alt="Avatar 2">
+          <img class="avatar" onclick="selectAvatar(this.src)"  src="../src/avatar3.png" width="40px" height="40px" alt="Avatar 3">
+          <img class="avatar" onclick="selectAvatar(this.src)"  src="../src/avatar4.png" width="40px" height="40px" alt="Avatar 4">
+        </div> 
+          <div class="error-message" id="errorMessage"></div>
+        <button id="changePhoto" class="profile-button">Upload Photo</button>
         <input type="file" id="uploadPhoto" style="display: none;">
       </div>
       <div class="info-header"><span id="nickname">Nickname</span>: <span id="nicknameadr">Loading...</span></div>
@@ -25,7 +34,7 @@
         <button id="deleteProfile" class="bn" style="width: calc(100% - 20px);">Delete Profile</button>
       </div>
     </div>
-  <div class="error-message" id="errorMessage"></div>
+
 
 </div>
 
