@@ -180,14 +180,17 @@ def get_friends(request):
             friends = requested_user.friends.all()
         else:
             friends = user.friends.all()
-        
-        active_sessions = Session.objects.filter(expire_date__gte=timezone.now() - timedelta(minutes=42))
+        time_threshold = timezone.now() - timedelta(seconds=settings.SESSION_COOKIE_AGE) + timedelta(minutes=42)
+
+        active_sessions = Session.objects.filter(expire_date__gte=time_threshold)
         online_user_ids = set()
         
         for session in active_sessions:
             user_id = session.get_decoded().get('_auth_user_id')
             if user_id:
                 online_user_ids.add(user_id)
+                #expire_date = session.expire_date
+                #print(f"User ID: {user_id}, Session Expiry Date: {expire_date}")
         friend_list = []
         
         for friend in friends:
