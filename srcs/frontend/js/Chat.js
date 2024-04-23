@@ -48,7 +48,7 @@ function toggleSocketConnection() {
         socket = getWebSocket();
         document.getElementById('msgDisconnect').textContent = 'Disconnect';
     } else {
-        if (socket && socket.readyState === WebSocket.CLOSED) {
+        if (socket && socket.readyState === WebSocket.OPEN) {
             console.log('WebSocket disconnected.');
             const leftMessage = {
                 text: 'left the chat',
