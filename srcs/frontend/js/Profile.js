@@ -352,7 +352,9 @@ async function fetchAndDisplayProfile() {
         if (scorelement) {
             scorelement.textContent = score;
         }
-
+        if (document.getElementById('playerProfileTtile')) {
+            document.getElementById('playerProfileTtile').textContent = nickname;
+        }
         if (document.getElementById('changePhoto')) {
             document.getElementById('changePhoto').addEventListener('click', function () {
                 document.getElementById('uploadPhoto').click();
