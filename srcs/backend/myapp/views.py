@@ -15,7 +15,7 @@ import uuid
 import os
 import json
 from .forms import UserRegistrationForm
-from .models import Tournament, User, Player, WaitingPlayer, Message, UserProfile, Feedback, Achievement, MyAppUserGroups, MyAppUserPermissions, Channel
+from .models import Tournament, User, Player, WaitingPlayer, Message, UserProfile, Feedback, Achievement, MyAppUserGroups, MyAppUserPermissions, Channel, GameStats
 from django.utils import timezone
 from django.db import IntegrityError
 from django.utils.html import escape
@@ -1133,6 +1133,7 @@ def manage_profile(request):
             MyAppUserPermissions.objects.filter(user=user).delete()
             UserProfile.objects.filter(user=user).delete()
             WaitingPlayer.objects.filter(user=user).delete()
+            GameStats.objects.filter(user=user).delete()
 
             user.delete()
             return JsonResponse({'message': 'Profile deleted successfully'})
