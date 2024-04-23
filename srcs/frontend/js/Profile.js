@@ -144,7 +144,7 @@ async function fetchAndDisplayFriends() {
 
             if (friendListElement) {
                 friendListElement.innerHTML = '';
-
+                
                 friends.forEach(friend => {
                     const friendElement = document.createElement('div');
                     friendElement.classList.add('friend');

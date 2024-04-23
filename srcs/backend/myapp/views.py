@@ -188,11 +188,10 @@ def get_friends(request):
             user_id = session.get_decoded().get('_auth_user_id')
             if user_id:
                 online_user_ids.add(user_id)
-        
         friend_list = []
         
         for friend in friends:
-            is_online = friend.id in online_user_ids
+            is_online = str(friend.id) in online_user_ids
             friend_info = {
                 'username': friend.username,
                 'nickname': friend.nickname,
@@ -200,7 +199,6 @@ def get_friends(request):
                 'status': 'online' if is_online else 'offline'
             }
             friend_list.append(friend_info)
-        
         return JsonResponse({'friends': friend_list})
     
     except jwt.ExpiredSignatureError:
@@ -211,8 +209,6 @@ def get_friends(request):
         return JsonResponse({'error': 'User not found'}, status=404)
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=400)
-
-
 def unblock_user(request):
     try:
         token = request.headers.get('Authorization', '').split('Bearer ')[-1]
