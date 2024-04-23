@@ -112,22 +112,7 @@
     </div>
     
   </header>
-  <script>
-    window.addEventListener('beforeunload', function (e) {
-      sessionStorage.setItem('isSubPageRefreshed', 'true');
-    });
 
-    window.addEventListener('load', function (e) {
-      const isSubPageRefreshed = sessionStorage.getItem('isSubPageRefreshed');
-      if (isSubPageRefreshed === 'true') {
-        sessionStorage.removeItem('isSubPageRefreshed');
-        const currentPath = window.location.pathname;
-        if (currentPath !== '/') {
-          window.location.href = '/';
-        }
-      }
-    });
-  </script>
   <div class="app" id="app"></div>
 
   <div id="feedback-popup" class="feedback-popup">

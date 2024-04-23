@@ -122,7 +122,7 @@ async function check2FACode(username, code) {
                     setTimeout(() => {
                         if (submitButton)
                             submitButton.disabled = false;
-                        window.location.href = "/";
+                        window.location.href = "/#profile";
                     }, 2000);
 
                 } else {
