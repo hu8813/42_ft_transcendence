@@ -12,8 +12,9 @@ const MAX_MESSAGE_LENGTH = 200;
 let storedMessages;
 let msgerChat;
 
-if (!userNickname)
-    userNickname = localStorage.getItem('userNickname') || "user42";
+let userNickname2 = localStorage.getItem('userNickname') || "user42";
+
+
 async function addfriend(username) {  
     try {
         let jwtToken = localStorage.getItem('jwtToken');
@@ -51,7 +52,7 @@ function toggleSocketConnection() {
             console.log('WebSocket disconnected.');
             const leftMessage = {
                 text: 'left the chat',
-                name: userNickname || localStorage.getItem('userNickname')  || "user42"
+                name: userNickname2 || localStorage.getItem('userNickname')  || "user42"
             };
             sendMessage(leftMessage);
             setTimeout(function () {
@@ -79,11 +80,11 @@ function getWebSocket() {
 
         socket.addEventListener('open', () => {
             console.log('WebSocket connection established.');
-            if (!userNickname || userNickname === 'null' || userNickname === 'undefined' || userNickname === 'Anonymous')
-                userNickname = localStorage.getItem('userNickname')  || "user42";
+            if (!userNickname2 || userNickname2 === 'null' || userNickname2 === 'undefined' || userNickname2 === 'Anonymous')
+                userNickname2 = localStorage.getItem('userNickname')  || "user42";
             const joinMessage = {
                 text: 'joined the chat',
-                name: userNickname
+                name: userNickname2
             };
             sendMessage(joinMessage);
             
@@ -129,7 +130,7 @@ function sendMessage(message) {
                 showNotification("Reconnected. Message sent successfully.", true);
                 const joinMessage3 = {
                     text: 'joined the chat',
-                    name: userNickname || localStorage.getItem('userNickname')  || "user42"
+                    name: userNickname2 || localStorage.getItem('userNickname')  || "user42"
                 };
                 socket.send(JSON.stringify(joinMessage3));
                 socket.send(JSON.stringify(message));
@@ -158,7 +159,7 @@ function displayMessage(message) {
     const messageElement = document.createElement('div');
     messageElement.classList.add('msg');
 
-    const isCurrentUser = message.name === (userNickname || localStorage.getItem('userNickname')  || "user42");
+    const isCurrentUser = message.name === (userNickname2 || localStorage.getItem('userNickname')  || "user42");
     const alignRight = isCurrentUser ? 'right' : 'left';
     messageElement.classList.add(isCurrentUser ? 'right-msg' : 'left-msg');
     messageElement.classList.add('msg-bubble');
@@ -184,7 +185,7 @@ function displayMessage(message) {
     } else {
         const recipient = message.recipient || '#General';
         // Check if the message is for general chat or the user's nickname
-        if (recipient === '#General' || recipient === null || recipient === undefined || recipient === userNickname) {
+        if (recipient === '#General' || recipient === null || recipient === undefined || recipient === userNickname2) {
             const messageBubble = document.createElement('div');
             messageBubble.classList.add('msg', isCurrentUser ? 'right-msg' : 'left-msg', 'msg-bubble');
             messageBubble.textContent = escapeHTML(message.text);
@@ -199,7 +200,7 @@ function displayMessage(message) {
 
             messageElement.appendChild(messageInfo);
             messageElement.appendChild(messageBubble);
-        } else if (recipient !== userNickname) {
+        } else if (recipient !== userNickname2) {
             // Ignore private messages intended for other recipients
             return;
         }
@@ -294,7 +295,7 @@ function sendMessageFromInput() {
     let recipient = recipientName ? recipientName : '#General';
 
     const newMessage = {
-        name: userNickname || localStorage.getItem('userNickname') || "user42",
+        name: userNickname2 || localStorage.getItem('userNickname') || "user42",
         recipient: recipient,
         text: inputText,
     };
@@ -427,7 +428,7 @@ async function updateOnlineUsers() {
 
 function sendMessageToUser(nickname, message) {
     const newMessage = {
-        name: userNickname || localStorage.getItem('userNickname')  || "user42",
+        name: userNickname2 || localStorage.getItem('userNickname')  || "user42",
         recipient: nickname,
         text: message,
     };
