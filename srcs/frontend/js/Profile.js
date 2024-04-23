@@ -149,11 +149,19 @@ async function fetchAndDisplayFriends() {
                     const friendElement = document.createElement('div');
                     friendElement.classList.add('friend');
                     friendElement.style.marginBottom = '10px';
+
+                    // Create an element to display friend's online status
+                    const statusIndicator = document.createElement('div');
+                    statusIndicator.classList.add('status-indicator');
+                    statusIndicator.style.backgroundColor = friend.status === 'online' ? 'green' : 'gray';
+                    statusIndicator.title = friend.status === 'online' ? 'Online' : 'Offline';
+                    friendElement.appendChild(statusIndicator);
+
                     const friendLink = document.createElement('a');
                     friendLink.href = `/#viewprofile?u=${friend.username}`;
                     friendLink.textContent = friend.nickname ;
                     friendLink.classList.add('bn');
-                    
+
                     const profileImage = document.createElement('img');
                     profileImage.src = friend.image_link ? friend.image_link : './src/emptyavatar.jpeg';
                     profileImage.alt = `${friend.username}'s profile image`;
@@ -178,6 +186,7 @@ async function fetchAndDisplayFriends() {
             displayErrorMessage(response.message);
     }
 }
+
 
 async function fetchAndDisplayAchievements() {
     try {

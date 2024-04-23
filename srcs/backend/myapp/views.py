@@ -165,31 +165,42 @@ def add_friend(request):
     except Exception as e:
         return JsonResponse({'message': str(e)}, status=401)
     
+
 def get_friends(request):
     try:
-        
         token = request.headers.get('Authorization', '').split('Bearer ')[-1]
         payload = jwt.decode(token, settings.SIGNING_KEY, algorithms=['HS256'])
         user_id = payload['user_id']
         
-        
         user = User.objects.get(pk=user_id)
         
-        
         requested_username = request.GET.get('username')
-        
         
         if requested_username:
             requested_user = User.objects.get(username=requested_username)
             friends = requested_user.friends.all()
         else:
-            
             friends = user.friends.all()
         
+        friend_list = []
         
-        friend_list = [{'username': friend.username, 'nickname': friend.nickname, 'image_link': friend.image_link} for friend in friends]
+        for friend in friends:
+            # Check if friend is online using session data
+            is_online = Session.objects.filter(
+                expire_date__gte=timezone.now() - timedelta(minutes=42),
+                session_key__contains=f'_auth_user_id|i:{friend.id};'
+            ).exists()
+            
+            friend_info = {
+                'username': friend.username,
+                'nickname': friend.nickname,
+                'image_link': friend.image_link,
+                'status': 'online' if is_online else 'offline'
+            }
+            friend_list.append(friend_info)
         
         return JsonResponse({'friends': friend_list})
+    
     except jwt.ExpiredSignatureError:
         return JsonResponse({'error': 'JWT token expired'}, status=401)
     except jwt.InvalidTokenError:
