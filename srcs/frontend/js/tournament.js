@@ -41,14 +41,16 @@ function askPlayerCount() {
 
 
 function startTournament(playerCount) {
-    console.log(`Turnier mit ${playerCount} Spielern wird gestartet.`); // Zum Debuggen hinzugefügt
+    console.log(`Tournament with ${playerCount} players is starting.`);
     const players = [];
     for (let i = 1; i <= playerCount; i++) {
-        players.push(i);
+        let playerName = prompt(`Enter name for Player ${i}:`);
+        players.push(playerName || `Player ${i}`);
     }
     shuffleArray(players);
     showTournament(players, playerCount);
 }
+
 
 function showTournament(players, playerCount) {
     const canvas = document.getElementById('canvastour');
@@ -103,8 +105,8 @@ function showTournament(players, playerCount) {
         }, 3000); 
     }    
 
-    function handleWinner(winner) {
-        winners.push(winner);
+    function handleWinner(winnerName) {
+        winners.push(winnerName);
         currentMatch++;
         nextMatch();
     }
@@ -127,7 +129,7 @@ function shuffleArray(array) {
     }
 }
 
-function showPongTour(player1Id, player2Id, isFinal, handleWinner) {
+function showPongTour(player1Name, player2Name, isFinal, handleWinner) {
     const canvas = document.getElementById('canvastour');
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
@@ -145,7 +147,8 @@ function showPongTour(player1Id, player2Id, isFinal, handleWinner) {
     const paddleHeight = 100;
 
     const player1 = {
-        id: player1Id,
+
+        name: player1Name,
         x: 10,
         y: canvas.height / 2 - paddleHeight / 2,
         width: paddleWidth,
@@ -155,7 +158,7 @@ function showPongTour(player1Id, player2Id, isFinal, handleWinner) {
     };
 
     const player2 = {
-        id: player2Id,
+        name: player2Name,
         x: canvas.width - paddleWidth - 10,
         y: canvas.height / 2 - paddleHeight / 2,
         width: paddleWidth,
@@ -301,7 +304,7 @@ function showPongTour(player1Id, player2Id, isFinal, handleWinner) {
     function checkGameOver() {
         if (player1.score >= 7 || player2.score >= 7) {
             gameOver = true;
-            showGameOverModal(player1.score > player2.score ? player1.id : player2.id);
+            showGameOverModal(player1.score > player2.score ? player1.name : player2.name);
             removeControls();
         } else {
             resetBall();
@@ -356,19 +359,19 @@ function showPongTour(player1Id, player2Id, isFinal, handleWinner) {
     function drawScore() {
         ctx.fillStyle = "#FFF";
         ctx.font = "32px Arial";
-        ctx.fillText(`P${player1.id} : ${player1.score}`, 20, 50);
-        ctx.fillText(`P${player2.id} : ${player2.score}`, canvas.width - 200, 50);
+        ctx.fillText(`${player1Name} : ${player1.score}`, 20, 50);
+        ctx.fillText(`${player2Name} : ${player2.score}`, canvas.width - 200, 50);
     }
 
-    function showGameOverModal(winner) {
-        gameOverMessage = `${winner} Won!`;
-          showGameOverModal2(winner);
-          setTimeout(function() {
-            handleWinner(winner);
+    function showGameOverModal(winnerName) {
+        console.log(`${winnerName} won!`);
+        showGameOverModal2(winnerName);
+        setTimeout(function() {
+            handleWinner(winnerName);
         }, 3000);
     }
 
-    function showGameOverModal2(winner) {
+    function showGameOverModal2(winnerName) {
     ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -377,8 +380,9 @@ function showPongTour(player1Id, player2Id, isFinal, handleWinner) {
     ctx.textAlign = "center";
     
     setTimeout(function() {
-        ctx.fillText(`${winner} Won!`, canvas.width / 2, canvas.height / 2);
+        ctx.fillText(`${winnerName} Won!`, canvas.width / 2, canvas.height / 2);
     }, 1000);
-    console.log(`${winner} Won!`);
+    console.log(`${winnerName} Won!`);
     }
 }
+
