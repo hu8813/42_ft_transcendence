@@ -1,7 +1,10 @@
 function askPlayerCount() {
     const canvas = document.getElementById('canvastour');
     if (!canvas) return;
+
     const ctx = canvas.getContext('2d');
+    canvas.width = 800;
+    canvas.height = 600;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     ctx.fillStyle = "rgba(0, 0, 0, 0.75)";
@@ -27,7 +30,7 @@ function askPlayerCount() {
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
 
-        if (x < canvas.width / 3) {
+        if (x < canvas.width / 3.4) {
             startTournament(4);
         } else {
             startTournament(8);
@@ -36,7 +39,9 @@ function askPlayerCount() {
     });
 }
 
+
 function startTournament(playerCount) {
+    console.log(`Turnier mit ${playerCount} Spielern wird gestartet.`); // Zum Debuggen hinzugefügt
     const players = [];
     for (let i = 1; i <= playerCount; i++) {
         players.push(i);
