@@ -12,6 +12,8 @@ const MAX_MESSAGE_LENGTH = 200;
 let storedMessages;
 let msgerChat;
 
+if (!userNickname)
+    userNickname = localStorage.getItem('userNickname') || "user42";
 async function addfriend(username) {  
     try {
         let jwtToken = localStorage.getItem('jwtToken');
@@ -49,7 +51,7 @@ function toggleSocketConnection() {
             console.log('WebSocket disconnected.');
             const leftMessage = {
                 text: 'left the chat',
-                name: userNickname || localStorage.getItem('userNickname') || localStorage.getItem('userLogin') || "user42"
+                name: userNickname || localStorage.getItem('userNickname')  || "user42"
             };
             sendMessage(leftMessage);
             setTimeout(function () {
@@ -78,7 +80,7 @@ function getWebSocket() {
         socket.addEventListener('open', () => {
             console.log('WebSocket connection established.');
             if (!userNickname || userNickname === 'null' || userNickname === 'undefined' || userNickname === 'Anonymous')
-                userNickname = localStorage.getItem('userNickname') || localStorage.getItem('userLogin') || "user42";
+                userNickname = localStorage.getItem('userNickname')  || "user42";
             const joinMessage = {
                 text: 'joined the chat',
                 name: userNickname
@@ -127,7 +129,7 @@ function sendMessage(message) {
                 showNotification("Reconnected. Message sent successfully.", true);
                 const joinMessage3 = {
                     text: 'joined the chat',
-                    name: userNickname || localStorage.getItem('userNickname') || localStorage.getItem('userLogin') || "user42"
+                    name: userNickname || localStorage.getItem('userNickname')  || "user42"
                 };
                 socket.send(JSON.stringify(joinMessage3));
                 socket.send(JSON.stringify(message));
@@ -156,7 +158,7 @@ function displayMessage(message) {
     const messageElement = document.createElement('div');
     messageElement.classList.add('msg');
 
-    const isCurrentUser = message.name === (userNickname || localStorage.getItem('userNickname') || localStorage.getItem('userLogin') || "user42");
+    const isCurrentUser = message.name === (userNickname || localStorage.getItem('userNickname')  || "user42");
     const alignRight = isCurrentUser ? 'right' : 'left';
     messageElement.classList.add(isCurrentUser ? 'right-msg' : 'left-msg');
     messageElement.classList.add('msg-bubble');
@@ -292,7 +294,7 @@ function sendMessageFromInput() {
     let recipient = recipientName ? recipientName : '#General';
 
     const newMessage = {
-        name: userNickname || localStorage.getItem('userNickname') || localStorage.getItem('userLogin') || "user42",
+        name: userNickname || localStorage.getItem('userNickname') || "user42",
         recipient: recipient,
         text: inputText,
     };
@@ -425,7 +427,7 @@ async function updateOnlineUsers() {
 
 function sendMessageToUser(nickname, message) {
     const newMessage = {
-        name: userNickname || localStorage.getItem('userNickname') || localStorage.getItem('userLogin') || "user42",
+        name: userNickname || localStorage.getItem('userNickname')  || "user42",
         recipient: nickname,
         text: message,
     };

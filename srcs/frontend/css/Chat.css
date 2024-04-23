@@ -29,7 +29,7 @@
 }
 .msger-chat {
   flex-grow: 1;
-  padding: 20px; 
+  padding: 5px; 
   margin-top: 10%; 
   margin-bottom: 20px; 
   height: calc(100% - 40px); 
@@ -126,7 +126,7 @@
   width: 250px; 
   background: #2f3136;
   color: #ffffff;
-  overflow-y: auto; /* Make the list scrollable */
+  overflow-y: auto !important; 
 }
 
 .msger-users h2 {
