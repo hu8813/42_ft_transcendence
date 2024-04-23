@@ -115,6 +115,9 @@ async function check2FACode(username, code) {
                     if ('userLogin' in data) {
                         localStorage.setItem("userLogin", data.userLogin);
                     }
+                    if ('userNickname' in data) {
+                        localStorage.setItem("userNickname", data.userLogin);                       
+                    }
 
                     setTimeout(() => {
                         if (submitButton)

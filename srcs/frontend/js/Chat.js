@@ -264,9 +264,7 @@ function openChat() {
         storedMessages.forEach(message => displayMessage(message));
     }
 
-    if (socket && socket.readyState === WebSocket.OPEN) {
-    socket.send(JSON.stringify({ type: 'requestOnlineUsers' }));
-    }
+    
     updateOnlineUsers();
 
 }
