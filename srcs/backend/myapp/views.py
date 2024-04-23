@@ -339,6 +339,7 @@ def logout_view(request):
                 pass
 
         request.session.flush()
+        
 
         return JsonResponse({'success': 'Logged out successfully'})
     

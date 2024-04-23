@@ -83,7 +83,7 @@ function showAboutUsPage() {
     linkedinIcon.classList.add('bi', 'bi-linkedin');
     linkedinBtn.appendChild(linkedinIcon);
     linkedinBtn.addEventListener('click', () => {
-      window.open(data.githubLink, '_blank');
+      window.open(data.linkedinLink, '_blank');
     });
     iconDiv.appendChild(linkedinBtn);
 
