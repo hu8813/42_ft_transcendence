@@ -12,7 +12,7 @@ const MAX_MESSAGE_LENGTH = 200;
 let storedMessages;
 let msgerChat;
 
-let userNickname2 = localStorage.getItem('userNickname') || "user42";
+let userNickname2; 
 
 
 async function addfriend(username) {  
@@ -52,7 +52,7 @@ function toggleSocketConnection() {
             console.log('WebSocket disconnected.');
             const leftMessage = {
                 text: 'left the chat',
-                name: userNickname2 || localStorage.getItem('userNickname')  || "user42"
+                name: localStorage.getItem('userNickname')  || "user42"
             };
             sendMessage(leftMessage);
             setTimeout(function () {
@@ -130,7 +130,7 @@ function sendMessage(message) {
                 showNotification("Reconnected. Message sent successfully.", true);
                 const joinMessage3 = {
                     text: 'joined the chat',
-                    name: userNickname2 || localStorage.getItem('userNickname')  || "user42"
+                    name:  localStorage.getItem('userNickname')  || "user42"
                 };
                 socket.send(JSON.stringify(joinMessage3));
                 socket.send(JSON.stringify(message));
@@ -159,7 +159,7 @@ function displayMessage(message) {
     const messageElement = document.createElement('div');
     messageElement.classList.add('msg');
 
-    const isCurrentUser = message.name === (userNickname2 || localStorage.getItem('userNickname')  || "user42");
+    const isCurrentUser = message.name === ( localStorage.getItem('userNickname')  || "user42");
     const alignRight = isCurrentUser ? 'right' : 'left';
     messageElement.classList.add(isCurrentUser ? 'right-msg' : 'left-msg');
     messageElement.classList.add('msg-bubble');
@@ -230,6 +230,7 @@ function playNotificationSound() {
 function openChat() {
     if (!chatChannel)
         chatChannel = '#General';
+    userNickname2= localStorage.getItem('userNickname') || "user42";
     messageInput = document.getElementById('message-input');
     //recipientSelect = document.getElementById('recipient-select');
     onlineUsersList = document.getElementById('online-users-list'); 
@@ -295,7 +296,7 @@ function sendMessageFromInput() {
     let recipient = recipientName ? recipientName : '#General';
 
     const newMessage = {
-        name: userNickname2 || localStorage.getItem('userNickname') || "user42",
+        name:  localStorage.getItem('userNickname') || "user42",
         recipient: recipient,
         text: inputText,
     };
@@ -337,7 +338,7 @@ async function updateOnlineUsers() {
             return; 
         }
         const { online_users } = responseData;
-
+        
         onlineUsersList.innerHTML = ''; 
         online_users.forEach(user => {
             const listItem = document.createElement('li');
@@ -428,7 +429,7 @@ async function updateOnlineUsers() {
 
 function sendMessageToUser(nickname, message) {
     const newMessage = {
-        name: userNickname2 || localStorage.getItem('userNickname')  || "user42",
+        name:   localStorage.getItem('userNickname')  || "user42",
         recipient: nickname,
         text: message,
     };

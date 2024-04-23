@@ -142,7 +142,13 @@ async function updateProfile(data) {
             }
             document.getElementById('playerProfileTtile').textContent = data.nickname;
             formData.append('nickname', data.nickname);
-            
+            userNickname = data.nickname;
+            localStorage.setItem('userNickname', data.nickname);
+            document.getElementById('nicknameadr').textContent = data.nickname;
+            if (userNickname2)
+                userNickname2 = data.nickname;
+            //await updateOnlineUsers();
+            await fetchLeaderboardData();
         }
         if (data.image_link) {
             formData.append('image_link', data.img_link);
@@ -397,7 +403,7 @@ async function fetchAndDisplayProfile() {
                 if (newNickname !== null && newNickname.trim() !== "") {
                     try {
                         await updateProfile({ nickname: newNickname });
-                        userNickname = newNickname;
+                        
                         // if (document.getElementById('nicknameadr'))
                         //     document.getElementById('nicknameadr').textContent = newNickname;
                         // if (document.getElementById('playerProfileTtile'))
