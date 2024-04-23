@@ -212,6 +212,7 @@ def get_friends(request):
         return JsonResponse({'error': 'User not found'}, status=404)
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=400)
+    
 def unblock_user(request):
     try:
         token = request.headers.get('Authorization', '').split('Bearer ')[-1]
@@ -308,6 +309,7 @@ def fetch_achievements(request):
             'games_lost': achievements.games_lost,
             'tournaments_won': achievements.tournaments_won,
             'favorite_game': achievements.favorite_game,
+            
         }
 
         return JsonResponse(data)
@@ -373,8 +375,8 @@ def submit_feedback(request):
 @csrf_exempt
 def get_online_users(request):
     try:
-        time_threshold = timezone.now() - timedelta(minutes=42)
-        
+        time_threshold = timezone.now() - timedelta(seconds=settings.SESSION_COOKIE_AGE) + timedelta(minutes=42)
+
         active_sessions = Session.objects.filter(expire_date__gte=time_threshold)
         
         online_user_ids = set()  

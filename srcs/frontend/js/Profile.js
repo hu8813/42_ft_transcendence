@@ -150,7 +150,6 @@ async function fetchAndDisplayFriends() {
                     friendElement.classList.add('friend');
                     friendElement.style.marginBottom = '10px';
 
-                    // Create an element to display friend's online status
                     const statusIndicator = document.createElement('div');
                     statusIndicator.classList.add('status-indicator');
                     statusIndicator.style.backgroundColor = friend.status === 'online' ? 'green' : 'gray';
@@ -295,6 +294,10 @@ async function fetchAndDisplayProfile() {
         const emailElement = document.getElementById('emailadr');
         if (emailElement) {
             emailElement.textContent = email;
+        }
+        const scorelement = document.getElementById('scorerate');
+        if (scorelement) {
+            scorelement.textContent = score;
         }
 
         if (document.getElementById('changePhoto')) {
