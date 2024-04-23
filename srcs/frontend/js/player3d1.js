@@ -65,18 +65,18 @@ function showPlayer3d1Page() {
     });
     
     instructionsModal.style.display = "block";
-    document.getElementById("instructions3d").style.display = "block";
+    document.getElementById("instructions3d").style.display = "block !important";
     function showInstructions() {
-        instructionsModal.style.display = "block";
-        document.getElementById("instructions3d").style.display = "none";
+        instructionsModal.style.display = "block !important" ;
+        document.getElementById("instructions3d").style.display = "bloc! important";
         const closeBtn = instructionsModal.querySelector(".close");
         closeBtn.addEventListener("click", function () {
-            instructionsModal.style.display = "none";
+            instructionsModal.style.display = "block";
             setup();
         });
         window.onclick = function(event) {
             if (event.target == instructionsModal) {
-                instructionsModal.style.display = "none";
+                instructionsModal.style.display = "block !important";
                 setup();
             }
         };

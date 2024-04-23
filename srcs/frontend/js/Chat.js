@@ -171,9 +171,6 @@ function displayMessage(message) {
             </div>
         `;
         updateOnlineUsers();
-        // if (!isCurrentUser) {
-        //     playNotificationSound();
-        //}
     } else if (messageElement && message && message.text && message.text.includes("left the chat")) {
         messageElement.innerHTML = `
             <div class="msg-info" style="text-align: ${alignRight};">
@@ -182,24 +179,28 @@ function displayMessage(message) {
             </div>
         `;
         updateOnlineUsers();
-        // if (!isCurrentUser) {
-        //     playNotificationSound();
-        // }
     } else {
-        const messageBubble = document.createElement('div');
-        messageBubble.classList.add('msg', isCurrentUser ? 'right-msg' : 'left-msg', 'msg-bubble');
-        messageBubble.textContent = escapeHTML(message.text);
+        const recipient = message.recipient || '#General';
+        // Check if the message is for general chat or the user's nickname
+        if (recipient === '#General' || recipient === null || recipient === undefined || recipient === userNickname) {
+            const messageBubble = document.createElement('div');
+            messageBubble.classList.add('msg', isCurrentUser ? 'right-msg' : 'left-msg', 'msg-bubble');
+            messageBubble.textContent = escapeHTML(message.text);
 
-        const messageInfo = document.createElement('div');
-        messageInfo.classList.add('msg-info');
-        messageInfo.style.textAlign = alignRight;
-        messageInfo.innerHTML = `
-            <span class="msg-info-name">${escapeHTML(senderName)}</span>
-            <span class="msg-info-time">${formattedCreatedAt}</span>
-        `;
+            const messageInfo = document.createElement('div');
+            messageInfo.classList.add('msg-info');
+            messageInfo.style.textAlign = alignRight;
+            messageInfo.innerHTML = `
+                <span class="msg-info-name">${escapeHTML(senderName)}</span>
+                <span class="msg-info-time">${formattedCreatedAt}</span>
+            `;
 
-        messageElement.appendChild(messageInfo);
-        messageElement.appendChild(messageBubble);
+            messageElement.appendChild(messageInfo);
+            messageElement.appendChild(messageBubble);
+        } else if (recipient !== userNickname) {
+            // Ignore private messages intended for other recipients
+            return;
+        }
     }
 
     if (msgerChat)
@@ -207,6 +208,7 @@ function displayMessage(message) {
 
     saveMessageToLocal(message);
 }
+
 
 function playNotificationSound() {
     if (Audio && typeof Audio === 'function') {
