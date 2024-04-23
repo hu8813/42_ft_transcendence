@@ -69,9 +69,13 @@ li {
 .profile-info-section {
   padding: 10px;
   margin: 10px 0;
-  background: rgba(255, 255, 255, 0.1);
+  background: #ffffff1a;
   border-radius: 10px;
+  height: 90%; /* Adjust the height as needed */
+  overflow-y: auto; 
 }
+
+
 
 .profile-pic {
   display: block; 
@@ -180,4 +184,28 @@ li {
       1em -0.125em 0.5em hsla(40, 100%, 60%, 0),
       -1em 0.125em 0.5em hsla(200, 100%, 60%, 0);
   }
+}
+.achievments {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Align children elements horizontally */
+  justify-content: center; /* Align children elements vertically */
+  text-align: center; /* Align text content */
+}
+
+/* Optional: Adjust spacing between elements */
+.achievments > * {
+  margin-bottom: 10px; /* Adjust as needed */
+}
+.friends {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Align children elements horizontally */
+  justify-content: center; /* Align children elements vertically */
+  text-align: center; /* Align text content */
+}
+
+/* Optional: Adjust spacing between elements */
+.friends > * {
+  margin-bottom: 10px; /* Adjust as needed */
 }

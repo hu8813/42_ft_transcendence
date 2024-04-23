@@ -8,6 +8,11 @@ function displayErrorMessage(message) {
     }
 }
 
+function showGameHistory() {
+
+    const gameHistory = document.getElementById('gameHistory');
+    const gameHistoryButton = document.getElementById('gameHistoryButton');
+}
 function isLocalDeployment() {
     return window.location.href.includes("pong42");
 }
