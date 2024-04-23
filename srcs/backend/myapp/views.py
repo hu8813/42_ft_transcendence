@@ -1142,16 +1142,17 @@ def manage_profile(request):
                 return JsonResponse({'message': 'Profile information updated successfully'})
             except Exception as e:
                 return JsonResponse({'error': str(e)}, status=400)
-        elif request.method == 'POST' and 'image_link' in request.POST:
+        elif request.method == 'POST':
             try:
-                new_imagelink = request.POST.get('image_link')
-                user.image_link = new_imagelink
-                
-                user.save()
-                return JsonResponse({'message': 'Profile information updated successfully'})
+                if 'image_link' in request.POST:
+                    new_imagelink = request.POST.get('image_link')
+                    user.image_link = new_imagelink
+
+                    user.save()
+                    return JsonResponse({'message': 'Profile information updated successfully'})                
+               
             except Exception as e:
                 return JsonResponse({'error': str(e)}, status=400)
-        
         elif request.method == 'DELETE':
             Achievement.objects.filter(user=user).delete()
             MyAppUserGroups.objects.filter(user=user).delete()

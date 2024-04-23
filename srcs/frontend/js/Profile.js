@@ -82,7 +82,6 @@ async function selectAvatar(imageLink) {
         const formData = new FormData();
         
         formData.append('image_link', imageLink);
-
         const response = await fetch(`/api/manage-profile/`, {
             method: 'POST',
             headers: {
