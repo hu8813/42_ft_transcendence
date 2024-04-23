@@ -107,11 +107,15 @@ async function selectAvatar(imageLink) {
         const errorMessageElement = document.getElementById('errorMessage');   
         if (errorMessageElement) {
             errorMessageElement.textContent = 'Avatar changed successfully';
+            errorMessageElement.style.color = 'green';
         }
         await fetchLeaderboardData();
     } catch (error) {
         console.error('Error updating profile:', error);
-        displayErrorMessage(error.message);
+        if (response && response.message)
+            displayErrorMessage(response.message);
+        else
+            displayErrorMessage(error.message);
         throw new Error('Failed to update profile');
     }
 }
@@ -125,15 +129,18 @@ async function updateProfile(data) {
         if (data.nickname) {
             const maxNicknameLength = 50;
             if (data.nickname.length > maxNicknameLength) {
-                throw new Error(`Nickname exceeds the maximum allowed length of ${maxNicknameLength} characters.`);
+                displayErrorMessage(`Nickname exceeds the maximum allowed length of ${maxNicknameLength} characters.`);
+                return;
+                //throw new Error(`Nickname exceeds the maximum allowed length of ${maxNicknameLength} characters.`);
             }
 
             const nicknameRegex = /^[a-zA-Z0-9_-]+$/;
             if (!nicknameRegex.test(data.nickname)) {
                 displayErrorMessage('Invalid nickname format. Only alphanumeric characters, underscore, and hyphen are allowed.');
-                throw new Error('Invalid nickname format. Only alphanumeric characters, underscore, and hyphen are allowed.');
+                return;
+                //throw new Error('Invalid nickname format. Only alphanumeric characters, underscore, and hyphen are allowed.');
             }
-
+            document.getElementById('playerProfileTtile').textContent = data.nickname;
             formData.append('nickname', data.nickname);
             
         }
@@ -147,6 +154,7 @@ async function updateProfile(data) {
             formData.append('image_link', imageLink);
             document.querySelector('.profile-pic').src = imageLink;
             document.getElementById('avatar0').src = imageLink;
+            
         }
 
         const response = await fetch(`/api/manage-profile/`, {
@@ -390,9 +398,13 @@ async function fetchAndDisplayProfile() {
                     try {
                         await updateProfile({ nickname: newNickname });
                         userNickname = newNickname;
-                        if (document.getElementById('nicknameadr'))
-                            document.getElementById('nicknameadr').textContent = newNickname;
-                        localStorage.setItem('userNickname', newNickname);
+                        // if (document.getElementById('nicknameadr'))
+                        //     document.getElementById('nicknameadr').textContent = newNickname;
+                        // if (document.getElementById('playerProfileTtile'))
+                        //     document.getElementById('playerProfileTtile').textContent = newNickname;
+                        // document.getElementById('nicknameadr').textContent = newNickname;
+                    
+                        // localStorage.setItem('userNickname', newNickname);
                         await fetchLeaderboardData();
                     } catch (error) {
                         if (error && error.message)
