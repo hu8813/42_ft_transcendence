@@ -73,7 +73,7 @@ function showAboutUsPage() {
     githubIcon.classList.add('bi', 'bi-github');
     githubBtn.appendChild(githubIcon);
     githubBtn.addEventListener('click', () => {
-      window.location.href = data.githubLink;
+      window.open(data.githubLink, '_blank');
     });
     iconDiv.appendChild(githubBtn);
 
@@ -83,7 +83,7 @@ function showAboutUsPage() {
     linkedinIcon.classList.add('bi', 'bi-linkedin');
     linkedinBtn.appendChild(linkedinIcon);
     linkedinBtn.addEventListener('click', () => {
-      window.location.href = data.linkedinLink;
+      window.open(data.githubLink, '_blank');
     });
     iconDiv.appendChild(linkedinBtn);
 
