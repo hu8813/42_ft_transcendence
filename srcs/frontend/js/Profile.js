@@ -103,8 +103,8 @@ async function selectAvatar(imageLink) {
         if (errorMessageElement) {
             errorMessageElement.textContent = 'Avatar changed successfully';
         }
+        await fetchLeaderboardData();
     } catch (error) {
-        // Handle errors
         console.error('Error updating profile:', error);
         displayErrorMessage(error.message);
         throw new Error('Failed to update profile');
