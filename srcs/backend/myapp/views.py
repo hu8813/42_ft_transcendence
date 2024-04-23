@@ -187,7 +187,7 @@ def get_friends(request):
         for friend in friends:
             is_online = Session.objects.filter(
                 expire_date__gte=timezone.now() - timedelta(minutes=42),
-                session_data__contains=f'_auth_user_id|i:{friend.id};'
+                session_data__contains=f'"_auth_user_id":{friend.id}'
             ).exists()
             
             friend_info = {
