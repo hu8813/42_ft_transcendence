@@ -69,7 +69,7 @@ function showTournament(players, playerCount) {
         ctx.fillStyle = "rgba(0, 0, 0, 0.75)";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
     
-        ctx.font = "30px Arial";
+        ctx.font = "bold 30px Arial";
         ctx.fillStyle = "white";
         ctx.textAlign = "center";
     
@@ -94,6 +94,16 @@ function showTournament(players, playerCount) {
             currentMatch = 0;
             if (roundMatches < 1) {
                 console.log(`The winner of the tournament is Player ${players[0]}! Congratulations!`);
+                ctx.fillStyle = "rgba(0, 0, 0, 0.7)";
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                ctx.fillStyle = "#FFF";        
+                ctx.font = "bold 30px Arial";
+                ctx.textAlign = "center";
+
+                ctx.fillText(`The winner of the tournament is`, canvas.width / 2 + 20 , canvas.height / 2 - 120);
+                ctx.fillText(`${players[0]}`, canvas.width / 2 , canvas.height / 2 - 50);
+                ctx.fillText(`! Congratulations!`, canvas.width / 2 , canvas.height / 2 - 2);
                 return;
             }
         }
@@ -357,6 +367,7 @@ function showPongTour(player1Name, player2Name, isFinal, handleWinner) {
     }
 
     function drawScore() {
+        ctx.textAlign = "start";
         ctx.fillStyle = "#FFF";
         ctx.font = "32px Arial";
         ctx.fillText(`${player1Name} : ${player1.score}`, 20, 50);
@@ -372,14 +383,14 @@ function showPongTour(player1Name, player2Name, isFinal, handleWinner) {
     }
 
     function showGameOverModal2(winnerName) {
-    ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
+    ctx.fillStyle = "rgba(0, 0, 0, 0.75)";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    ctx.fillStyle = "#FFF";
-    ctx.font = "bold 30px Arial";
-    ctx.textAlign = "center";
-    
     setTimeout(function() {
+        ctx.fillStyle = "#FFF";
+        ctx.font = "bold 30px Arial";
+        ctx.textAlign = "center";
+        
         ctx.fillText(`${winnerName} Won!`, canvas.width / 2, canvas.height / 2);
     }, 1000);
     console.log(`${winnerName} Won!`);
