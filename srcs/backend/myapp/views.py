@@ -14,7 +14,6 @@ import requests
 import uuid
 import os
 import json
-from .forms import UserRegistrationForm
 from .models import Tournament, User, Player, WaitingPlayer, Message, UserProfile, Feedback, Achievement, MyAppUserGroups, MyAppUserPermissions, Channel, GameStats
 from django.utils import timezone
 from django.db import IntegrityError
@@ -212,6 +211,23 @@ def get_friends(request):
         return JsonResponse({'error': 'User not found'}, status=404)
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=400)
+
+def get_blocked_users(request):
+    try:
+        token = request.headers.get('Authorization', '').split('Bearer ')[-1]
+        payload = jwt.decode(token, settings.SIGNING_KEY, algorithms=['HS256'])
+        user_id = payload['user_id']
+        
+        user_requester = User.objects.get(pk=user_id)
+        
+        blocked_users = user_requester.blocked_users.all()
+        
+        blocked_usernames = [user.username for user in blocked_users]
+        
+        return JsonResponse({'blocked_users': blocked_usernames})
+    
+    except Exception as e:
+        return JsonResponse({'message': str(e)}, status=400)
     
 def unblock_user(request):
     try:

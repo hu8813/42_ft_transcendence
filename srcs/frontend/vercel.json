@@ -2,11 +2,11 @@
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "https://pong42.azurewebsites.net/:path*"
+      "destination": "https://pong42.azurewebsites.net/api/:path*"
     },
     {
       "source": "/api/:path*/",
-      "destination": "https://pong42.azurewebsites.net/:path*/"
+      "destination": "https://pong42.azurewebsites.net/api/:path*/"
     },
     {
       "source": "/media/:path*",
