@@ -140,13 +140,9 @@ async function updateProfile(data) {
                 return;
                 //throw new Error('Invalid nickname format. Only alphanumeric characters, underscore, and hyphen are allowed.');
             }
-            document.getElementById('playerProfileTtile').textContent = data.nickname;
+            //document.getElementById('playerProfileTtile').textContent = data.nickname;
             formData.append('nickname', data.nickname);
-            userNickname = data.nickname;
-            localStorage.setItem('userNickname', data.nickname);
-            document.getElementById('nicknameadr').textContent = data.nickname;
-            if (userNickname2)
-                userNickname2 = data.nickname;
+            
             //await updateOnlineUsers();
             await fetchLeaderboardData();
         }
@@ -171,18 +167,27 @@ async function updateProfile(data) {
             },
             body: formData
         });
-
         if (!response.ok) {
-            //displayErrorMessage(response.message);
-            throw new Error('Failed to update profile');
+            const errorData = await response.json(); // Parse JSON response
+            const errorMessage = errorData.error; // Extract error message
+            throw new Error('Failed to update profile: ' + errorMessage);
         }
+        
         res = await response.json();
+        localStorage.setItem('userNickname', data.nickname);
+        userNickname = data.nickname;
+        document.getElementById('nicknameadr').textContent = data.nickname;
+        if (userNickname2)
+            userNickname2 = data.nickname;
+        if (document.getElementById('playerProfileTtile'))
+            document.getElementById('playerProfileTtile').textContent = data.nickname;
+        
         return res;
     } catch (error) {
         
         console.error('Error updating profile:', error);
         displayErrorMessage(error);
-        throw new Error('Failed to update profile');
+        //throw new Error('Failed to update profile');
     }
 }
 

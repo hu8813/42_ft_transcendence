@@ -743,17 +743,21 @@ def get_nickname(request):
 
 @api_view(['POST'])
 def update_nickname(request):
-    if request.method == 'POST':
-        new_nickname = request.data.get('nickname')  
-        user = request.user
-        if user.is_authenticated:
-            user.nickname = new_nickname
-            user.save()
-            return JsonResponse({"message": "Nickname updated successfully."})
-        else:
-            return JsonResponse({'error': 'User is not authenticated'}, status=401)
-    else:
-        return JsonResponse({"message": "Invalid request method."}, status=400)
+    if request.method == 'POST' and 'nickname' in request.POST:
+        try:
+            new_nickname = request.POST.get('nickname')
+            user = User.objects.filter(nickname=new_nickname).first()
+            if user is not None:
+                return JsonResponse({'error': 'Nickname is already used'}, status=400)
+            
+            if new_nickname:
+                if not re.match(r'^[a-zA-Z0-9_-]+$', new_nickname):
+                    return JsonResponse({'error': 'Invalid nickname format. Only alphanumeric characters, underscore, and hyphen are allowed.'}, status=400)
+                request.user.nickname = new_nickname
+                request.user.save()
+                return JsonResponse({'message': 'Profile information updated successfully'})
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=400)
 
 
 @api_view(['POST'])
@@ -797,7 +801,7 @@ def upload_avatar(request):
             return Response({"message": "No avatar file provided."}, status=status.HTTP_400_BAD_REQUEST)
     except Exception as e:
         print(f"An error occurred: {str(e)}")
-        return Response({"message": "An error occurred while uploading the avatar."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        return Response({"message": "An error occurred while uploading the avatar."}, status=401)
 
 def update_score(request):
     token = request.headers.get('Authorization', '').split('Bearer ')[-1]
@@ -1132,16 +1136,22 @@ def manage_profile(request):
         elif request.method == 'POST' and 'nickname' in request.POST:
             try:
                 new_nickname = request.POST.get('nickname')
-                
-                if new_nickname:
-                    if not re.match(r'^[a-zA-Z0-9_-]+$', new_nickname):
-                        return JsonResponse({'error': 'Invalid nickname format. Only alphanumeric characters, underscore, and hyphen are allowed.'}, status=400)
-                    user.nickname = new_nickname
-                
+                if new_nickname is None:
+                    return JsonResponse({'error': 'Nickname parameter is missing'}, status=400)
+                if not re.match(r'^[a-zA-Z0-9_-]+$', new_nickname):
+                    return JsonResponse({'error': 'Invalid nickname format. Only alphanumeric characters, underscore, and hyphen are allowed.'}, status=400)
+
+                user2 = User.objects.filter(nickname=new_nickname).first()
+                if user2 is not None:
+                    return JsonResponse({'error': 'Nickname already exists'}, status=400)
+
+                user.nickname = new_nickname
                 user.save()
                 return JsonResponse({'message': 'Profile information updated successfully'})
+
             except Exception as e:
                 return JsonResponse({'error': str(e)}, status=400)
+
         elif request.method == 'POST':
             try:
                 if 'image_link' in request.POST:
