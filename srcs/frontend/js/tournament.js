@@ -45,11 +45,13 @@ function startTournament(playerCount) {
     const players = [];
     for (let i = 1; i <= playerCount; i++) {
         let playerName = prompt(`Enter name for Player ${i}:`);
+        playerName = playerName.replace(/[^a-z0-9]/gi, '').substring(0, 7);
         players.push(playerName || `Player ${i}`);
     }
     shuffleArray(players);
     showTournament(players, playerCount);
 }
+
 
 
 function showTournament(players, playerCount) {
