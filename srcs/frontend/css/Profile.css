@@ -36,7 +36,9 @@
 
 .friend-list {
   overflow-y: auto;
+  overflow-x: auto;
   max-height: 75vh;
+  width: 100%;
 }
 
 .friend-list::-webkit-scrollbar {
