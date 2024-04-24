@@ -1,46 +1,83 @@
-const userLogin = localStorage.getItem('userLogin');
 function showPlayersRemote2() {
-    const websocketGameUrl = 'wss://localhost:8443/ws/pingpong/';
+    const websocketGameUrl = 'wss://free.blr2.piesocket.com/v3/1?api_key=pFCnmzaeF3MNOb99XM4dQtkBvXdR0nqlvatFMKKg&notify_self=1';
     const socketgame = new WebSocket(websocketGameUrl);
-
-    
+    const userLogin = localStorage.getItem('userNickname');
+    let waitingUsers = new Set(); // Updated to use a Set
+    waitingUsers.add(userLogin);
     let connected = false;
     let numberOfPlayers = 0;
-    let gameId = null;
+
+    // Define the isPlaying function
+    function isPlaying() {
+        return waitingUsers.size >= 2 && connected;
+    }
+
+    function sendScoreToServer() {
+        const message = JSON.stringify({ userLogin: userLogin, score: user.score });
+        socketgame.send(message);
+    }
+
+    function sendPaddlePositionToServer() {
+        const message = JSON.stringify({ userLogin: userLogin, paddleY: user.y });
+        socketgame.send(message);
+    }
+
+    socketgame.onopen = function(event) {
+        connected = true;
+        // Add the user to the waiting list
+        socketgame.send(JSON.stringify({ action: 'add_user', userLogin: userLogin }));
+    };
+
     socketgame.onerror = function(error) {
         console.error('WebSocket error:', error);
     };
 
     socketgame.onclose = function(event) {
-        console.log('WebSocket connection closed:', event);
-        connected = false; 
+        connected = false;
     };
 
     socketgame.onmessage = function(event) {
-        console.log('WebSocket message received:', event.data);
         const data = JSON.parse(event.data);
 
-        if (data.keycode !== null) {
-            
-            console.log('User:', data.userLogin, 'pressed key:', data.keycode);
-        }
-
-        
-        if (data.numberOfPlayers !== undefined) {
-            numberOfPlayers = data.numberOfPlayers;
-            if (numberOfPlayers >= 2 && connected) {
+        // Add user to waiting list
+        if (data.action === 'add_user') {
+            waitingUsers.add(data.userLogin);
+            if (!isPlaying()) {
+                socketgame.send(JSON.stringify({ action: 'response_userLogin', userLogin: userLogin }));
+            }
+            if (isPlaying()) {
                 startGame();
             } else {
-                console.log('Number of players:', numberOfPlayers);
-                console.log('WebSocket connected:', connected);
                 displayWaitingMessage();
             }
         }
 
-        
-        if (data.gameId !== undefined) {
-            gameId = data.gameId;
-            console.log('Game ID:', gameId);
+        // Remove user from waiting list
+        if (data.action === 'remove_user') {
+            waitingUsers.delete(data.userLogin);
+        }
+
+        // Handle response_userLogin
+        if (data.action === 'response_userLogin') {
+            if (!waitingUsers.has(data.userLogin)) {
+                waitingUsers.add(data.userLogin);
+                if (waitingUsers.size >= 2) {
+                    startGame();
+                }
+            }
+        }
+
+        // Update paddle position based on key presses from other player
+        if (data.paddleY && data.userLogin !== userLogin) {
+            user.y = data.paddleY;
+        }
+
+        // Sync scores
+        if (data.score) {
+            // Update the opponent's score
+            if (data.userLogin !== userLogin) {
+                ai.score = data.score;
+            }
         }
     };
 
@@ -52,30 +89,43 @@ function showPlayersRemote2() {
     }
 
     function startGame() {
-        console.log('Starting the game...');
         clearWaitingMessage();
-        gameLoop();
+        
+        // Check if there are at least two waiting users
+        if (waitingUsers.size >= 2) {
+            const playerArray = Array.from(waitingUsers);
+            const player1 = playerArray[0];
+            const player2 = playerArray[1];
+            
+            // Assign players to paddles
+            if (player1 === userLogin) {
+                // Player 1 controls the left paddle
+                user.color = '#00FF00'; // Example color change for differentiation
+                ai.color = '#FFF'; // Reset color for AI paddle
+            } else {
+                // Player 2 controls the left paddle
+                user.color = '#FFF'; // Reset color for user paddle
+                ai.color = '#00FF00'; // Example color change for differentiation
+            }
+
+            numberOfPlayers = 2;
+            connected = true;
+            gameLoop();
+        } else {
+            displayWaitingMessage();
+        }
     }
 
     function clearWaitingMessage() {
         const messageContainer = document.getElementById('waitingMessageContainer');
         if (messageContainer) {
-            messageContainer.innerText = ''; 
+            messageContainer.innerText = '';
         }
     }
 
-    
-    socketgame.onopen = function(event) {
-        console.log('WebSocket connection established.');
-        connected = true;
-        
-        socketgame.send(JSON.stringify({ action: 'check_number_of_players', userLogin: userLogin }));
-    };
-
     const canvas = document.getElementById('canvasremote2');
-
     if (!canvas) {
-        reject(new Error('Canvas element not found'));
+        console.error('Canvas element not found');
         return;
     }
 
@@ -119,7 +169,7 @@ function showPlayersRemote2() {
         x: canvas.width / 2,
         y: canvas.height / 2,
         radius: 7,
-        speed: 7,
+        speed: 3,
         velocityX: 5,
         velocityY: 5,
         color: '#ffffff'
@@ -148,33 +198,22 @@ function showPlayersRemote2() {
         ctx.closePath();
         ctx.fill();
     }
-
-    function sendKeycodeToServer(keycode) {
-        const message = JSON.stringify({ keycode: keycode });
-        socketgame.send(message);
-    }
-    
     
     window.addEventListener('keydown', event => {
         if (event.key === 'ArrowUp') {
             upArrowPressed = true;
-            sendKeycodeToServer('ArrowUp');
         } else if (event.key === 'ArrowDown') {
             downArrowPressed = true;
-            sendKeycodeToServer('ArrowDown');
         }
     });
     
     window.addEventListener('keyup', event => {
         if (event.key === 'ArrowUp') {
             upArrowPressed = false;
-            sendKeycodeToServer('ArrowUpRelease');
         } else if (event.key === 'ArrowDown') {
             downArrowPressed = false;
-            sendKeycodeToServer('ArrowDownRelease');
         }
     });
-    
 
     function collisionDetect(player, ball) {
         player.top = player.y;
@@ -198,43 +237,33 @@ function showPlayersRemote2() {
             ctx.font = '48px Arial';
             ctx.fillText(winner, canvas.width / 4, canvas.height / 2);
 
-            
             showNewGameButtonRemote2();
-
         }
     }
 
     let gameOver = false; 
 
-    
     function update() {
         if (!gameOver && numberOfPlayers === 2 && connected) {
-            
+            // Update user's paddle position based on keypresses
             if (upArrowPressed && user.y > 0) {
                 user.y -= 8;
             } else if (downArrowPressed && (user.y < canvas.height - user.height)) {
                 user.y += 8;
             }
+            // Send paddle movement to the server
+            sendPaddlePositionToServer();
+            
+            // Send the user's score to the server for synchronization
+            sendScoreToServer();
 
-            
-            if (ball.velocityX < 0) {
-                
-                if (ai.y + ai.height / 2 < ball.y) {
-                    ai.y += 6;
-                } else {
-                    ai.y -= 6;
-                }
-            }
-            
             ball.x += ball.velocityX;
             ball.y += ball.velocityY;
 
-            
             if (ball.y + ball.radius >= canvas.height || ball.y - ball.radius <= 0) {
                 ball.velocityY = -ball.velocityY;
             }
 
-            
             if (ball.x + ball.radius >= canvas.width) {
                 user.score += 1;
                 reset();
@@ -243,10 +272,8 @@ function showPlayersRemote2() {
                 reset();
             }
 
-            
             let player = (ball.x < canvas.width / 2) ? user : ai;
             if (collisionDetect(player, ball)) {
-                
                 let angle = 0;
                 if (ball.y < (player.y + player.height / 2)) {
                     angle = -1 * Math.PI / 4;
@@ -259,7 +286,6 @@ function showPlayersRemote2() {
                 ball.speed += 0.1; 
             }
 
-            
             checkGameOver();
         }
     }
@@ -271,10 +297,8 @@ function showPlayersRemote2() {
         ball.speed = 7;
     }
 
-    
     function gameLoop() {
         if (!gameOver) {
-            //updateGameFromServer();
             update();
             render(); 
         }
@@ -283,10 +307,9 @@ function showPlayersRemote2() {
 
     requestAnimationFrame(gameLoop);
 
-
     function render() {
         if (!canvas || !ctx) {
-            reject(new Error('Canvas element or 2D context not found'));
+            console.error('Canvas element or 2D context not found');
             return;
         }
         ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -303,9 +326,7 @@ function showPlayersRemote2() {
         button.style.display = 'block'; 
     }
 
-    
     document.getElementById('newGameButtonremote2').addEventListener('click', function() {
         location.reload(); 
     });
-
 }

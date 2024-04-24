@@ -11,9 +11,37 @@ const MESSAGE_SEND_INTERVAL = 5000;
 const MAX_MESSAGE_LENGTH = 200;
 let storedMessages;
 let msgerChat;
+let blockedUsers = [];
 
 let userNickname2; 
 
+async function getBlockedUsers() {
+    try {
+        const jwtToken = localStorage.getItem('jwtToken');
+        const csrfToken = await getCSRFCookie();
+
+        const response = await fetch('/api/get-blocked-users', {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${jwtToken}`,
+                'X-CSRFToken': csrfToken
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to fetch blocked users');
+        }
+
+        const responseData = await response.json();
+        blockedUsers = responseData.blocked_users || [];
+    } catch (error) {
+        console.error('Error fetching blocked users:', error);
+    }
+}
+
+function isUserBlocked(username) {
+    return blockedUsers.includes(username);
+}
 
 async function addfriend(username) {  
     try {
@@ -40,6 +68,35 @@ async function addfriend(username) {
         console.error('Error adding friend:', error);
         messageContainer.textContent = 'Opps '+error.message;
         messageContainer.style.color = 'red';
+    }
+}
+
+async function blockUser(username) {  
+    try {
+        let jwtToken = localStorage.getItem('jwtToken');
+        let csrfToken = await getCSRFCookie();
+
+        
+        const response = await fetch(`/api/block-user?username=${username}`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${jwtToken}`,
+                'X-CSRFToken': csrfToken
+            }
+        });
+        
+        const responseData = await response.json();
+        if (response.ok) {
+            messageContainer.textContent = responseData.message;
+            messageContainer.style.color = 'green';
+        } else {
+            throw new Error('Failed to block user '+responseData.message);
+        }
+    } catch (error) {
+        console.error('Error blocking user:', error);
+        messageContainer.textContent = 'Opps '+error.message;
+        messageContainer.style.color = 'red';
+        showToast('Oops, ' + error.message, false);
     }
 }
 
@@ -153,13 +210,12 @@ function saveMessageToLocal(message) {
         localStorage.setItem('chatMessages', JSON.stringify(storedMessages));
     }
 }
-
 function displayMessage(message) {
     msgerChat = document.getElementById('msger-chat');
     const messageElement = document.createElement('div');
     messageElement.classList.add('msg');
 
-    const isCurrentUser = message.name === ( localStorage.getItem('userNickname')  || "user42");
+    const isCurrentUser = message.name === (localStorage.getItem('userNickname') || "user42");
     const alignRight = isCurrentUser ? 'right' : 'left';
     messageElement.classList.add(isCurrentUser ? 'right-msg' : 'left-msg');
     messageElement.classList.add('msg-bubble');
@@ -186,20 +242,23 @@ function displayMessage(message) {
         const recipient = message.recipient || '#General';
         // Check if the message is for general chat or the user's nickname
         if (recipient === '#General' || recipient === null || recipient === undefined || recipient === userNickname2) {
-            const messageBubble = document.createElement('div');
-            messageBubble.classList.add('msg', isCurrentUser ? 'right-msg' : 'left-msg', 'msg-bubble');
-            messageBubble.textContent = escapeHTML(message.text);
+            // Check if the sender is blocked
+            if (!isUserBlocked(message.name)) {
+                const messageBubble = document.createElement('div');
+                messageBubble.classList.add('msg', isCurrentUser ? 'right-msg' : 'left-msg', 'msg-bubble');
+                messageBubble.textContent = escapeHTML(message.text);
 
-            const messageInfo = document.createElement('div');
-            messageInfo.classList.add('msg-info');
-            messageInfo.style.textAlign = alignRight;
-            messageInfo.innerHTML = `
-                <span class="msg-info-name">${escapeHTML(senderName)}</span>
-                <span class="msg-info-time">${formattedCreatedAt}</span>
-            `;
+                const messageInfo = document.createElement('div');
+                messageInfo.classList.add('msg-info');
+                messageInfo.style.textAlign = alignRight;
+                messageInfo.innerHTML = `
+                    <span class="msg-info-name">${escapeHTML(senderName)}</span>
+                    <span class="msg-info-time">${formattedCreatedAt}</span>
+                `;
 
-            messageElement.appendChild(messageInfo);
-            messageElement.appendChild(messageBubble);
+                messageElement.appendChild(messageInfo);
+                messageElement.appendChild(messageBubble);
+            }
         } else if (recipient !== userNickname2) {
             // Ignore private messages intended for other recipients
             return;
@@ -211,7 +270,155 @@ function displayMessage(message) {
 
     saveMessageToLocal(message);
 }
+ 
 
+async function updateOnlineUsers() {
+    try {
+        const jwtToken = localStorage.getItem('jwtToken');
+        let csrfToken = await getCSRFCookie();
+
+        const response = await fetch('/api/get-online-users', {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${jwtToken}`,
+                'X-CSRFToken': csrfToken
+            }
+        });
+        if (!response.ok) {
+            throw new Error('Failed to fetch online users');
+        }
+        const responseData = await response.json();
+        if (responseData.error) {
+            console.log("No users are currently online.");
+            return;
+        }
+        const { online_users } = responseData;
+
+        onlineUsersList.innerHTML = '';
+        online_users.forEach(user => {
+            const listItem = document.createElement('li');
+            listItem.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-center');
+
+            const userContainer = document.createElement('div');
+            userContainer.classList.add('d-flex', 'align-items-center');
+
+            const userImage = document.createElement('img');
+            userImage.src = user.image_link || './src/emptyavatar.jpeg';
+            userImage.alt = user.nickname;
+            userImage.width = 32;
+            userImage.height = 32;
+            userImage.classList.add('rounded-circle', 'mr-3');
+            userContainer.appendChild(userImage);
+
+            const userInfo = document.createElement('div');
+            const nickname = document.createElement('span');
+            nickname.textContent = user.nickname;
+            userInfo.appendChild(nickname);
+            userContainer.appendChild(userInfo);
+
+            listItem.appendChild(userContainer);
+
+            const linksContainer = document.createElement('div');
+            linksContainer.classList.add('user-links', 'd-none');
+
+            const viewProfileLink = document.createElement('a');
+            viewProfileLink.href = `/#viewprofile?u=${user.username}`;
+            viewProfileLink.classList.add('btn', 'btn-info', 'btn-sm', 'mr-1');
+            viewProfileLink.innerHTML = '<i class="bi bi-search"></i> View Profile';
+            viewProfileLink.target = '_blank';
+            linksContainer.appendChild(viewProfileLink);
+
+            const addFriendLink = document.createElement('a');
+            addFriendLink.href = `/#add-friend?u=${user.username}`;
+            addFriendLink.classList.add('btn', 'btn-success', 'btn-sm', 'mr-1');
+            addFriendLink.innerHTML = '<i class="bi bi-plus"></i> Add Friend';
+            addFriendLink.addEventListener('click', async (event) => {
+                event.preventDefault();
+                try {
+                    let jwtToken = localStorage.getItem('jwtToken');
+                    let csrfToken = await getCSRFCookie();
+            
+                    const response = await fetch(`/api/add-friend?username=${user.username}`, {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': `Bearer ${jwtToken}`,
+                            'X-CSRFToken': csrfToken
+                        }
+                    });
+            
+                    const responseData = await response.json();
+                    if (response.ok) {
+                        messageContainer.textContent = responseData.message;
+                        messageContainer.style.color = 'green';
+                    } else {
+                        throw new Error('Failed to add friend ' + responseData.message);
+                    }
+                } catch (error) {
+                    console.error('Error adding friend:', error);
+                    showNotification('Oops, ' + error.message, false);
+                }
+            });
+            linksContainer.appendChild(addFriendLink);
+
+            const blockLink = document.createElement('a');
+            blockLink.href = `/block/${user.nickname}`;
+            blockLink.classList.add('btn', 'btn-danger', 'btn-sm', 'mr-1');
+            blockLink.innerHTML = '<i class="bi bi-dash"></i> Block';
+            blockLink.addEventListener('click', async (event) => {
+                event.preventDefault();
+                try {
+                    let jwtToken = localStorage.getItem('jwtToken');
+                    let csrfToken = await getCSRFCookie();
+            
+                    const response = await fetch(`/api/block-user?username=${user.username}`, {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': `Bearer ${jwtToken}`,
+                            'X-CSRFToken': csrfToken
+                        }
+                    });
+            
+                    const responseData = await response.json();
+                    if (response.ok) {
+                        messageContainer.textContent = responseData.message;
+                        messageContainer.style.color = 'green';
+                    } else {
+                        throw new Error('Failed to block user ' + responseData.message);
+                    }
+                } catch (error) {
+                    console.error('Error blocking user:', error);
+                    showNotification('Oops, ' + error.message, false);
+                }
+            });
+            
+            linksContainer.appendChild(blockLink);
+
+            const sendMessageBtn = document.createElement('button');
+            sendMessageBtn.innerHTML = '<i class="bi bi-envelope"></i> Send Message';
+            sendMessageBtn.classList.add('btn', 'btn-primary', 'btn-sm');
+            sendMessageBtn.addEventListener('click', (event) => {
+                event.stopPropagation();
+                const message = prompt('Enter your message:');
+                if (message) {
+                    sendMessageToUser(user.nickname, message);
+                }
+            });
+            recipientName = user.nickname;
+            linksContainer.appendChild(sendMessageBtn);
+
+            listItem.appendChild(linksContainer);
+
+            listItem.addEventListener('click', () => {
+                //recipientSelect.value = user.username;
+
+                linksContainer.classList.toggle('d-none');
+            });
+            onlineUsersList.appendChild(listItem);
+        });
+    } catch (error) {
+        console.error('Error fetching online users:', error);
+    }
+}
 
 function playNotificationSound() {
     if (Audio && typeof Audio === 'function') {
@@ -314,115 +521,6 @@ function sendMessageFromInput() {
         setTimeout(() => {
             sendBtn.disabled = false;
         }, MESSAGE_SEND_INTERVAL);
-    }
-}
-
-async function updateOnlineUsers() {
-    try {
-        const jwtToken = localStorage.getItem('jwtToken');
-        let csrfToken = await getCSRFCookie();
-    
-        const response = await fetch('/api/get-online-users', {
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${jwtToken}`,
-                'X-CSRFToken': csrfToken
-            }
-        });
-        if (!response.ok ) {
-            throw new Error('Failed to fetch online users');
-        }
-        const responseData = await response.json();
-        if (responseData.error) {
-            console.log("No users are currently online.");
-            return; 
-        }
-        const { online_users } = responseData;
-        
-        onlineUsersList.innerHTML = ''; 
-        online_users.forEach(user => {
-            const listItem = document.createElement('li');
-            listItem.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-center');
-
-            const userContainer = document.createElement('div');
-            userContainer.classList.add('d-flex', 'align-items-center');
-
-            const userImage = document.createElement('img');
-            userImage.src = user.image_link || './src/emptyavatar.jpeg'; 
-            userImage.alt = user.nickname;
-            userImage.width = 32;
-            userImage.height = 32;
-            userImage.classList.add('rounded-circle', 'mr-3');
-            userContainer.appendChild(userImage);
-
-            const userInfo = document.createElement('div');
-            const nickname = document.createElement('span');
-            nickname.textContent = user.nickname;
-            userInfo.appendChild(nickname);
-            userContainer.appendChild(userInfo);
-
-            listItem.appendChild(userContainer);
-
-            const linksContainer = document.createElement('div');
-            linksContainer.classList.add('user-links', 'd-none'); 
-
-            
-            const viewProfileLink = document.createElement('a');
-            viewProfileLink.href = `/#viewprofile?u=${user.username}`;
-            viewProfileLink.classList.add('btn', 'btn-info', 'btn-sm', 'mr-1');
-            viewProfileLink.innerHTML = '<i class="bi bi-search"></i> View Profile';
-            viewProfileLink.target = '_blank'; 
-            linksContainer.appendChild(viewProfileLink);
-
-            
-            const addFriendLink = document.createElement('a');
-            addFriendLink.href = `/#add-friend?u=${user.username}`;
-            addFriendLink.classList.add('btn', 'btn-success', 'btn-sm', 'mr-1');
-            addFriendLink.innerHTML = '<i class="bi bi-plus"></i> Add Friend';
-            addFriendLink.addEventListener('click', (event) => {
-                event.preventDefault();
-                
-                addFriend(user.username);
-            });
-            linksContainer.appendChild(addFriendLink);
-
-            
-            const blockLink = document.createElement('a');
-            blockLink.href = `/block/${user.nickname}`;
-            blockLink.classList.add('btn', 'btn-danger', 'btn-sm', 'mr-1');
-            blockLink.innerHTML = '<i class="bi bi-dash"></i> Block';
-            blockLink.addEventListener('click', (event) => {
-                event.preventDefault();
-                
-                blockUser(user.nickname);
-            });
-            linksContainer.appendChild(blockLink);
-
-            
-            const sendMessageBtn = document.createElement('button');
-            sendMessageBtn.innerHTML = '<i class="bi bi-envelope"></i> Send Message';
-            sendMessageBtn.classList.add('btn', 'btn-primary', 'btn-sm');
-            sendMessageBtn.addEventListener('click', (event) => {
-                event.stopPropagation(); 
-                const message = prompt('Enter your message:');
-                if (message) {
-                    sendMessageToUser(user.nickname, message);
-                }
-            });
-            recipientName = user.nickname;
-            linksContainer.appendChild(sendMessageBtn);
-
-            listItem.appendChild(linksContainer);
-
-            listItem.addEventListener('click', () => {
-                //recipientSelect.value = user.username;
-                
-                linksContainer.classList.toggle('d-none');
-            });
-            onlineUsersList.appendChild(listItem);
-        });
-    } catch (error) {
-        console.error('Error fetching online users:', error);
     }
 }
 
