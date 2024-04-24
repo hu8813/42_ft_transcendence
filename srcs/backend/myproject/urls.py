@@ -65,6 +65,7 @@ urlpatterns = [
     # path('user-achievements', views.fetch_achievements, name='fetch_achievements'),
     # path('get-blocked-users/', views.get_blocked_users, name='get_blocked_users'),
 
+
     path('api/login/', views.login_view, name='api_login'),
     path('api/ping/', views.login_view, name='api_ping'),
     path('api/register/', views.register, name='api_register'),
