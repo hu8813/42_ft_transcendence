@@ -74,6 +74,23 @@ CREATE TABLE IF NOT EXISTS GameStats (
     date_time_played TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
+CREATE TABLE myapp_channel (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(100),
+    owner_id INTEGER REFERENCES auth_user(id) ON DELETE CASCADE,
+    moderator_id INTEGER REFERENCES auth_user(id) ON DELETE SET NULL,
+    password VARCHAR(100)
+);
+
+
+CREATE TABLE IF NOT EXISTS myapp_gamestats (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES auth_user(id) ON DELETE CASCADE,
+    opponent VARCHAR(100),
+    win BOOLEAN,
+    date_time_played TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
 -- Alter tables
 ALTER TABLE auth_user ADD COLUMN IF NOT EXISTS two_factor_enabled BOOLEAN DEFAULT FALSE;
 ALTER TABLE auth_user ADD COLUMN IF NOT EXISTS score INTEGER DEFAULT 0;
