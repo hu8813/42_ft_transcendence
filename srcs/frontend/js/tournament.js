@@ -13,7 +13,7 @@ function askPlayerCount() {
     ctx.font = "30px Arial";
     ctx.fillStyle = "white";
     ctx.textAlign = "center";
-    ctx.fillText("How many players will there be in the tournament?", canvas.width / 2, canvas.height / 2 - 20);
+    ctx.fillText("How many players will there be in the tournament?", canvas.width / 2, canvas.height / 2.3);
 
     ctx.fillStyle = "#4CAF50";
     ctx.fillRect(canvas.width / 4 - 50, canvas.height / 2, 100, 50);
@@ -30,7 +30,7 @@ function askPlayerCount() {
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
 
-        if (x < canvas.width / 3.4) {
+        if (x < canvas.width / 3) {
             startTournament(4);
         } else {
             startTournament(8);
@@ -103,9 +103,10 @@ function showTournament(players, playerCount) {
                 ctx.font = "bold 30px Arial";
                 ctx.textAlign = "center";
 
-                ctx.fillText(`The winner of the tournament is`, canvas.width / 2 + 20 , canvas.height / 2 - 120);
-                ctx.fillText(`${players[0]}`, canvas.width / 2 , canvas.height / 2 - 50);
-                ctx.fillText(`! Congratulations!`, canvas.width / 2 , canvas.height / 2 - 2);
+                ctx.fillText(`The winner of the tournament is`, canvas.width / 2.2 , canvas.height / 3);
+                //ctx.fillText(`🏆🏆   ${players[0]} !  🏆🏆`, canvas.width / 2 , canvas.height / 2.4);
+                ctx.fillText(`${players[0]} !`, canvas.width / 2 , canvas.height / 2.4);
+                ctx.fillText(`Congratulations!`, canvas.width / 2 , canvas.height / 2);
                 return;
             }
         }
