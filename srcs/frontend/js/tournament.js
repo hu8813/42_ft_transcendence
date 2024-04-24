@@ -39,12 +39,16 @@ function askPlayerCount() {
     });
 }
 
-
 function startTournament(playerCount) {
     console.log(`Tournament with ${playerCount} players is starting.`);
     const players = [];
     for (let i = 1; i <= playerCount; i++) {
         let playerName = prompt(`Enter name for Player ${i}:`);
+        if (playerName === null) {
+            window.location.reload();
+            return;
+        }
+
         if (playerName)
             playerName = playerName.replace(/[^a-z0-9]/gi, '').substring(0, 7);
         players.push(playerName || `X ${i}`);
@@ -52,8 +56,6 @@ function startTournament(playerCount) {
     shuffleArray(players);
     showTournament(players, playerCount);
 }
-
-
 
 function showTournament(players, playerCount) {
     const canvas = document.getElementById('canvastour');
