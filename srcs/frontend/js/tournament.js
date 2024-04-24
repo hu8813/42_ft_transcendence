@@ -30,13 +30,68 @@ function askPlayerCount() {
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
 
-        if (x < canvas.width / 3) {
-            startTournament(4);
-        } else {
-            startTournament(8);
-        }
+        const playerCount = x < canvas.width / 3 ? 4 : 8;
+        
         canvas.removeEventListener('click', handler);
+
+        getPlayerNames(playerCount, 1, []);
     });
+}
+
+function getPlayerNames(playerCount, currentPlayerIndex, players) {
+    const canvas = document.getElementById('canvastour');
+    const input = document.createElement('input');
+    if (!canvas) return;
+
+    input.type = 'text';
+    input.placeholder = `Enter name for Player ${currentPlayerIndex}`;
+    input.style.position = 'absolute';
+    input.style.zIndex = '10';
+    document.body.appendChild(input);
+
+    const updateInputPositionAndSize = () => {
+        const canvasRect = canvas.getBoundingClientRect();
+        const canvasWidth = canvasRect.width;
+        
+        const inputWidth = Math.max(250, Math.min(380, canvasWidth * 0.8));
+        input.style.width = `${inputWidth}px`;
+        const fontSize = Math.max(inputWidth / 25, 12);
+        input.style.fontSize = `${fontSize}px`;
+
+        input.style.left = `${canvasRect.left + canvasWidth / 2}px`;
+        input.style.top = `${canvasRect.top + canvasRect.height * 0.65}px`;
+        input.style.transform = 'translate(-50%, -50%)';
+    };
+
+    updateInputPositionAndSize();
+    window.addEventListener('resize', updateInputPositionAndSize);
+    
+    input.focus();
+
+    input.onkeydown = function(event) {
+        if (event.key === 'Enter') {
+            let playerName = input.value.replace(/[^a-z0-9]/gi, '').substring(0, 7);
+            if (!playerName) {
+                playerName = `Player${currentPlayerIndex}`;
+            } else {
+                let suffix = 1;
+                let originalPlayerName = playerName;
+                while (players.includes(playerName)) {
+                    playerName = `${originalPlayerName}${suffix}`;
+                    suffix++;
+                }
+            }
+            players.push(playerName);
+            document.body.removeChild(input);
+            window.removeEventListener('resize', updateInputPositionAndSize);
+            if (currentPlayerIndex < playerCount) {
+                getPlayerNames(playerCount, currentPlayerIndex + 1, players);
+            } else {
+                shuffleArray(players);
+                showTournament(players, playerCount);
+            }
+        }
+    };
 }
 
 function startTournament(playerCount) {
@@ -44,11 +99,11 @@ function startTournament(playerCount) {
     const players = [];
     for (let i = 1; i <= playerCount; i++) {
         let playerName = prompt(`Enter name for Player ${i}:`);
+
         if (playerName === null) {
             window.location.reload();
             return;
         }
-
         if (playerName)
             playerName = playerName.replace(/[^a-z0-9]/gi, '').substring(0, 7);
         players.push(playerName || `X ${i}`);
@@ -56,6 +111,7 @@ function startTournament(playerCount) {
     shuffleArray(players);
     showTournament(players, playerCount);
 }
+
 
 function showTournament(players, playerCount) {
     const canvas = document.getElementById('canvastour');
@@ -402,4 +458,3 @@ function showPongTour(player1Name, player2Name, isFinal, handleWinner) {
     console.log(`${winnerName} Won!`);
     }
 }
-
