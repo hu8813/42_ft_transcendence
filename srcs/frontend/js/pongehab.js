@@ -127,9 +127,9 @@ function showPongEhab() {
         }
       }
   
-      showStartMessageWithCountdown(5);
+    showStartMessageWithCountdown(5);
   
-      function showStartMessageWithCountdown(seconds) {
+    async function showStartMessageWithCountdown(seconds) {
         if (seconds > 0) {
             ctx.fillStyle = "rgba(0, 0, 0, 0.7)";
             ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -137,18 +137,22 @@ function showPongEhab() {
             ctx.fillStyle = "#FFF";
             ctx.font = "20px Arial";
             ctx.textAlign = "left";
+
+            let player = await translateKey("player");
+            let useWS = await translateKey("useWS");
+            ctx.fillText(player+" 1", 20, canvas.height / 2 - 10);
+            ctx.fillText(useWS+" (W / S)", 20, canvas.height / 2 + 10);
     
-            ctx.fillText("Player 1", 20, canvas.height / 2 - 10);
-            ctx.fillText("Use (W / S)", 20, canvas.height / 2 + 10);
-    
-            ctx.fillText("Player 2", canvas.width - 100, canvas.height / 2 - 10);
-            ctx.fillText("Use (↑ / ↓)", canvas.width - 100, canvas.height / 2 + 10);
+            ctx.fillText(player+" 2", canvas.width - 100, canvas.height / 2 - 10);
+            ctx.fillText(useWS+" (↑ / ↓)", canvas.width - 150, canvas.height / 2 + 10);
     
             ctx.font = "bold 30px Arial";
-            ctx.fillText("Whoever scores 7 goals first wins", canvas.width / 2 - 225, canvas.height / 2 - 20);
+            let whoevergets = await translateKey("whoevergets");
+            ctx.fillText(whoevergets, canvas.width / 2 - 200, canvas.height / 2 - 20);
     
             ctx.font = "bold 30px Arial";
-            ctx.fillText("Starting in: " + seconds, canvas.width / 2 - 100, canvas.height / 2 + 50);
+            let starting = await translateKey("starting");
+            ctx.fillText(starting + seconds, canvas.width / 2 - 100, canvas.height / 2 + 50);
     
             setTimeout(function () {
                 showStartMessageWithCountdown(seconds - 1);
@@ -158,12 +162,13 @@ function showPongEhab() {
         }
     }
   
-      function showGameOverModal2(winner) {
+      async function showGameOverModal2(winner) {
           ctx.fillStyle = "white";
           ctx.font = "48px Arial";
-          ctx.fillText(`${winner} Won!`, canvas.width / 4, canvas.height / 2 );
-          
-          
+          ctx.textAlign = "center";
+          let won = await translateKey("won");
+          ctx.fillText(`${winner} `+won, canvas.width / 2, canvas.height / 2);
+
           const newGamButton2 = document.getElementById('newGamButton');
           if (newGamButton2)
               document.getElementById('newGamButton').style.display = 'block';
@@ -192,7 +197,7 @@ function showPongEhab() {
           document.removeEventListener('keyup', keyUpHandler);
       }
   
-        function update() {
+        async function update() {
             if (gameOver) return;
   
             if (wPressed && player1.y > 0) player1.y -= 8;
@@ -210,11 +215,12 @@ function showPongEhab() {
               ball.velocityY = -Math.abs(ball.velocityY);
             }
   
+            let player = await translateKey("player");
             if (ball.x - ball.radius < 0) {
                 player2.score++;
                 if (player2.score >= 7) {
                     gameOver = true;
-                    showGameOverModal('Player 2');
+                    showGameOverModal(player+" 2");
                     disableControls();
                 } else {
                     resetBall();
@@ -223,7 +229,7 @@ function showPongEhab() {
                 player1.score++;
                 if (player1.score >= 7) {
                     gameOver = true;
-                    showGameOverModal('Player 1');
+                    showGameOverModal(player+" 1");
                     disableControls();
                 } else {
                     resetBall();

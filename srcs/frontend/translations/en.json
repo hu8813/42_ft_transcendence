@@ -152,8 +152,10 @@
   "wontext": "YOU WON\nPLAY AGAIN",
   "losetext": "CPU WON\nPLAY AGAIN",
   "useWS":"use",
-  "whoevergets":"Whoever gets 7 goals loses",
-  "starting": "Starting in",
-  "changePhoto": "Upload Photo"
-
+  "whoevergets":"Whoever concedes 7 goals loses",
+  "starting": "Starting in ",
+  "changePhoto": "Upload Photo",
+  "plagain": "Play again!",
+  "lost": "lost!",
+  "won": "won!"
 }

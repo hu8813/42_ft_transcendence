@@ -150,9 +150,12 @@
     "WinningRatelbl": "胜率",
     "wontext": "你赢了\n再玩一次",
     "losetext": "CPU赢了\n再玩一次",
-    "useWS": "使用",
-    "whoevergets": "谁得到7个进球谁输",
-    "starting": "开始于",
-    "changePhoto": "上传照片"
+    "useWS":"使用",
+"whoevergets":"谁丢掉7个球谁就输了",
+"starting":"从开始 ",
+    "changePhoto": "上传照片",
+    "plagain": "再玩一次！",
+"lost": "输了！",
+"won": "赢了！"
   }
   

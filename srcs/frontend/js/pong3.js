@@ -143,7 +143,7 @@ function showPong3() {
             ball.speed += 0.1;
         }
 
-        function showStartMessageWithCountdown(seconds) {
+        async function showStartMessageWithCountdown(seconds) {
             if (seconds > 0) {
                 ctx.fillStyle = "rgba(0, 0, 0, 0.7)";
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -152,20 +152,25 @@ function showPong3() {
                 ctx.font = "20px Arial";
                 ctx.textAlign = "left";
 
-                ctx.fillText("Player 1", 20, canvas.height / 2 - 10);
-                ctx.fillText("Use (W / S)", 20, canvas.height / 2 + 10);
+                let player = await translateKey("player");
+                let useWS = await translateKey("useWS");
+                ctx.fillText(player+" 1", 20, canvas.height / 2 - 10);
+                ctx.fillText(useWS+" (W / S)", 20, canvas.height / 2 + 10);
 
-                ctx.fillText("Player 2", canvas.width - 100, canvas.height / 2 - 10);
-                ctx.fillText("Use (↑ / ↓)", canvas.width - 100, canvas.height / 2 + 10);
+                ctx.fillText(player+" 2", canvas.width - 100, canvas.height / 2 - 10);
+                ctx.fillText(useWS+" (↑ / ↓)", canvas.width - 150, canvas.height / 2 + 10);
 
-                ctx.fillText("Player 3", canvas.width / 2 - 50, canvas.height - 50);
-                ctx.fillText("Use (V / B)", canvas.width / 2 - 50, canvas.height - 30);
+                ctx.fillText(player+" 3", canvas.width / 2 - 50, canvas.height - 50);
+                ctx.fillText(useWS+" (V / B)", canvas.width / 2 - 50, canvas.height - 30);
 
                 ctx.font = "bold 30px Arial";
-                ctx.fillText("Whoever gets 7 goals loses", canvas.width / 2 - 190, canvas.height / 2 - 20);
+                let whoevergets = await translateKey("whoevergets");
+                ctx.textAlign = "center";
+                ctx.fillText(whoevergets, canvas.width / 2, canvas.height / 2 - 20);
 
                 ctx.font = "bold 30px Arial";
-                ctx.fillText("Starting in: " + seconds, canvas.width / 2 - 100, canvas.height / 2 + 50);
+                let starting = await translateKey("starting");
+                ctx.fillText(starting + seconds, canvas.width / 2, canvas.height / 2 + 50);
 
                 setTimeout(function () {
                     showStartMessageWithCountdown(seconds - 1);
@@ -187,11 +192,12 @@ function showPong3() {
             }
         }
 
-        function showGameOverModal2(loser) {
+        async function showGameOverModal2(loser) {
             ctx.fillStyle = "white";
             ctx.font = "48px Arial";
-            ctx.fillText(`${loser} lost!`, canvas.width / 4, canvas.height / 2);
-
+            ctx.textAlign = "center";
+            let lost = await translateKey("lost");
+            ctx.fillText(`${loser} `+lost, canvas.width / 2, canvas.height / 4);
 
             const newGButton2 = document.getElementById('newGButton');
             if (newGButton2)
@@ -221,7 +227,7 @@ function showPong3() {
             document.removeEventListener('keyup', keyUpHandler);
         }
 
-        function update() {
+        async function update() {
             if (gameOver) return;
 
 
@@ -242,12 +248,12 @@ function showPong3() {
                 ball.velocityY = -ball.velocityY;
             }
 
-
+            let player = await translateKey("player");
             if (ball.x - ball.radius < 0) {
                 player1.score++;
                 if (player1.score >= 7) {
                     gameOver = true;
-                    showGameOverModal('Player 1');
+                    showGameOverModal(player+" 1");
                     disableControls();
                 } else {
                     resetBall();
@@ -256,7 +262,7 @@ function showPong3() {
                 player2.score++;
                 if (player2.score >= 7) {
                     gameOver = true;
-                    showGameOverModal('Player 2');
+                    showGameOverModal(player+" 2");
                     disableControls();
                 } else {
                     resetBall();
@@ -273,7 +279,7 @@ function showPong3() {
                     player3.score++;
                     if (player3.score >= 7) {
                         gameOver = true;
-                        showGameOverModal('Player 3');
+                        showGameOverModal(player+" 3");
                         disableControls();
                     } else {
                         resetBall();

@@ -150,8 +150,11 @@
   "WinningRatelbl": "Gewinnquote",
   "wontext": "SIE HABEN GEWONNEN\nSPIELEN SIE WIEDER",
   "losetext": "CPU GEWONNEN\nSPIELEN SIE WIEDER",
-  "useWS": "verwenden",
-  "whoevergets": "Wer 7 Tore erzielt, verliert",
-  "starting": "Beginn in",
-  "changePhoto": "Foto hochladen"
+  "useWS": "verwende",
+  "whoevergets": "Wer 7 Tore bekommt, verliert",
+  "starting": "Beginn in ",
+  "changePhoto": "Foto hochladen",
+  "plagain": "Spiel nochmal!",
+  "lost": "verliert!",
+  "won": "gewinnt!"
 }

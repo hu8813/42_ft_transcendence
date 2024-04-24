@@ -150,8 +150,11 @@
   "WinningRatelbl": "Tasso di Vittoria",
   "wontext": "HAI VINTO\nGIOCA ANCORA",
   "losetext": "CPU HA VINTO\nGIOCA ANCORA",
-  "useWS": "usa",
-  "whoevergets": "Chi ottiene 7 gol perde",
-  "starting": "Inizio in",
-  "changePhoto": "Carica Foto"
+  "useWS":"usare",
+"whoevergets":"Chi subisce 7 gol perde",
+"starting":"Inizio in ",
+  "changePhoto": "Carica Foto",
+  "plagain": "Gioca di nuovo!",
+"lost": "perde!",
+"won": "vince!"
 }

@@ -150,8 +150,11 @@
   "WinningRatelbl": "Taxa de Vitória",
   "wontext": "VOCÊ VENCEU\nJOGAR NOVAMENTE",
   "losetext": "CPU VENCEU\nJOGAR NOVAMENTE",
-  "useWS": "usar",
-  "whoevergets": "Quem conseguir 7 gols perde",
-  "starting": "Começando em",
-  "changePhoto": "Enviar Foto"
+  "useWS":"usar",
+"whoevergets":"Quem sofrer 7 gols perde",
+"starting":"Começando em ",
+  "changePhoto": "Enviar Foto",
+  "plagain": "Jogue novamente!",
+"lost": "perde!",
+"won": "ganha!"
 }

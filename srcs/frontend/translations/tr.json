@@ -150,8 +150,11 @@
   "WinningRatelbl": "Kazanma Oranı",
   "wontext": "KAZANDINIZ\nTEKRAR OYNA",
   "losetext": "CPU KAZANDI\nTEKRAR OYNA",
-  "useWS": "kullan",
-  "whoevergets": "7 golü atan kaybeder",
-  "starting": "Başlama",
-  "changePhoto": "Fotoğraf Yükle"
+  "useWS":"kullan",
+"whoevergets":"7 gol yiyen kaybeder",
+"starting":"Başlangıç ",
+  "changePhoto": "Fotoğraf Yükle",
+  "plagain": "Tekrar oyna!",
+"lost": "kaybetti!",
+"won": "kazandı!"
 }

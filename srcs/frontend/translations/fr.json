@@ -150,8 +150,11 @@
   "WinningRatelbl": "Taux de réussite",
   "wontext": "VOUS AVEZ GAGNÉ\nREJOUER",
   "losetext": "CPU A GAGNÉ\nREJOUER",
-  "useWS": "utiliser",
-  "whoevergets": "Celui qui obtient 7 buts perd",
-  "starting": "Début dans",
-  "changePhoto": "Télécharger une photo"
+  "useWS":"utiliser",
+"whoevergets":"Celui qui encaisse 7 buts perd",
+"starting":"Commence dans ",
+  "changePhoto": "Télécharger une photo",
+  "plagain": "Rejouer!",
+"lost": "perd!",
+"won": "gagne!"
 }

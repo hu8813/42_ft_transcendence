@@ -150,9 +150,12 @@
   "WinningRatelbl": "Tasa de Ganancia",
   "wontext": "HAS GANADO\nJUGAR DE NUEVO",
   "losetext": "LA CPU GANÓ\nJUGAR DE NUEVO",
-  "useWS": "usar",
-  "whoevergets": "Quien obtenga 7 goles pierde",
-  "starting": "Comenzando en",
-  "changePhoto": "Subir Foto"
+  "useWS":"usar",
+"whoevergets":"Quien reciba 7 goles pierde",
+"starting":"Comenzando en ",
+  "changePhoto": "Subir Foto",
+  "plagain": "¡Juega de nuevo!",
+"lost": "¡pierde!",
+"won": "¡gana!"
   }
   
