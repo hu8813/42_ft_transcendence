@@ -336,7 +336,8 @@ async function deleteProfile() {
 async function fetchAndDisplayProfile() {
     const errorMessageElement = document.getElementById('errorMessage');
     csrfToken = await getCSRFCookie();
-
+    updateNavigation() ;
+    translate(currentLanguage);
     try {
         const profileData = await fetchProfileData();
         const user = profileData.user_info || {};
@@ -345,6 +346,13 @@ async function fetchAndDisplayProfile() {
         const email = user.email || 'Not available';
         const score = user.score || 0;
         const csrfTokenNew = user.csrfToken || csrfToken;
+        let isLoggedIn2;
+        if (localStorage.getItem('isLoggedIn') === 'true') {
+            if (typeof isLoggedIn === 'undefined')
+                isLoggedIn2 = true;
+            else if (isLoggedIn === false)
+                isLoggedIn2 = true;
+        }
         if (csrfTokenNew)
             setCSRFCookie(csrfTokenNew);
 

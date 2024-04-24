@@ -81,7 +81,7 @@ document.addEventListener("DOMContentLoaded", async function() {
       const userNickname = userData.userNickname || userData.nickname;
       localStorage.setItem("isLoggedIn", true);
       localStorage.setItem("userNickname", userNickname );
-      
+      //let isLoggedIn = true;
       setTimeout(() => {
         window.location.href = "/#profile";
     }, 2000);

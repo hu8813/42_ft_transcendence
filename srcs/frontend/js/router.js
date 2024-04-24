@@ -484,7 +484,7 @@ function updateNavigation() {
 
 
 
-  const menuItems = isLoggedIn ?
+  const menuItems = isLoggedIn || localStorage.getItem('isLoggedIn') === 'true' ?
     ['Play!', 'Chat', 'Leaderboard', 'Profile', 'Logout'] :
     ['Home', 'Login'];
 
