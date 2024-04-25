@@ -70,7 +70,7 @@ function getPlayerNames(playerCount, currentPlayerIndex, players) {
 
     input.onkeydown = function(event) {
         if (event.key === 'Enter') {
-            let playerName = input.value.replace(/[^a-z0-9]/gi, '').substring(0, 7);
+            let playerName = input.value.replace(/[^a-z0-9]/gi, '').substring(0, 10);
             if (!playerName) {
                 playerName = `X${currentPlayerIndex}`;
             } else {
@@ -108,6 +108,7 @@ function showTournament(players, playerCount) {
     let winners = [];
 
     function displayMessage(message, duration) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.fillStyle = "rgba(0, 0, 0, 0.75)";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
     
@@ -127,7 +128,6 @@ function showTournament(players, playerCount) {
         }, duration);
     }
     
-
     function nextMatch() {
         if (currentMatch >= roundMatches) { 
             players.splice(0, players.length, ...winners);
@@ -136,23 +136,24 @@ function showTournament(players, playerCount) {
             currentMatch = 0;
             if (roundMatches < 1) {
                 console.log(`The winner of the tournament is Player ${players[0]}! Congratulations!`);
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
                 ctx.fillStyle = "rgba(0, 0, 0, 0.7)";
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
 
                 ctx.fillStyle = "#FFF";        
                 ctx.font = "bold 30px Arial";
                 ctx.textAlign = "center";
-
-                ctx.fillText(`The winner of the tournament is`, canvas.width / 2.2 , canvas.height / 3);
-                //ctx.fillText(`🏆🏆   ${players[0]} !  🏆🏆`, canvas.width / 2 , canvas.height / 2.4);
-                ctx.fillText(`${players[0]} !`, canvas.width / 2 , canvas.height / 2.4);
+                
+                ctx.fillText(`The winner of the tournament is`, canvas.width / 2 , canvas.height / 3);
+                ctx.fillText(`🏆🏆   ${players[0]} !  🏆🏆`, canvas.width / 2 , canvas.height / 2.4);
+                //ctx.fillText(`${players[0]} !`, canvas.width / 2 , canvas.height / 2.4);
                 ctx.fillText(`Congratulations!`, canvas.width / 2 , canvas.height / 2);
                 return;
             }
         }
         let matchPlayers = [players[currentMatch * 2], players[currentMatch * 2 + 1]];
-        console.log(`Match ${currentMatch + 1}: Player ${matchPlayers[0]} vs Player ${matchPlayers[1]}`);
-        displayMessage(`Player ${matchPlayers[0]} vs Player ${matchPlayers[1]}`, 3000);
+        console.log(` ${currentMatch + 1}:  ${matchPlayers[0]} vs  ${matchPlayers[1]}`);
+        displayMessage(` ${matchPlayers[0]} vs  ${matchPlayers[1]}`, 3000);
         setTimeout(function() {
             showPongTour(matchPlayers[0], matchPlayers[1], roundMatches === 1, handleWinner);
         }, 3000); 
@@ -168,7 +169,7 @@ function showTournament(players, playerCount) {
     let initialMessage = "Tournament starts now.\n";
     for (let i = 0; i < roundMatches; i++) {
         let matchPlayers = [players[i * 2], players[i * 2 + 1]];
-        initialMessage += `Match ${i + 1}: Player ${matchPlayers[0]} vs Player ${matchPlayers[1]}\n`;
+        initialMessage += `Match ${i + 1}:  ${matchPlayers[0]} vs  ${matchPlayers[1]}\n`;
     }
     displayMessage(initialMessage, 3000);
 
@@ -426,15 +427,15 @@ function showPongTour(player1Name, player2Name, isFinal, handleWinner) {
     }
 
     function showGameOverModal2(winnerName) {
-    ctx.fillStyle = "rgba(0, 0, 0, 0.75)";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-    setTimeout(function() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        setTimeout(function() {
+        ctx.fillStyle = "rgba(0, 0, 0, 0.75)";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
         ctx.fillStyle = "#FFF";
         ctx.font = "bold 30px Arial";
         ctx.textAlign = "center";
         
-        ctx.fillText(`${winnerName} Won!`, canvas.width / 2, canvas.height / 2);
+        ctx.fillText(`🏆 ${winnerName} Won! 🏆`, canvas.width / 2, canvas.height / 2);
     }, 1000);
     console.log(`${winnerName} Won!`);
     }
