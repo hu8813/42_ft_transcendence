@@ -90,8 +90,10 @@ def remove_friend(request):
         token = request.headers.get('Authorization', '').split('Bearer ')[-1]
         payload = jwt.decode(token, settings.SIGNING_KEY, algorithms=['HS256'])
         user_id = payload['user_id']
-        user_requester = User.objects.get(pk=user_id)
         
+        user_requester = User.objects.get(pk=user_id)
+        if user_id and 'user_id' not in request.session:
+            request.session['user_id'] = user_id
         username = request.GET.get('username')
         
         if not username:
@@ -131,7 +133,8 @@ def add_friend(request):
         payload = jwt.decode(token, settings.SIGNING_KEY, algorithms=['HS256'])
         user_id = payload['user_id']
         user_requester = User.objects.get(pk=user_id)
-        
+        if user_id and 'user_id' not in request.session:
+            request.session['user_id'] = user_id
         username = request.GET.get('username')
         
         if not username:
@@ -169,12 +172,14 @@ def get_friends(request):
         token = request.headers.get('Authorization', '').split('Bearer ')[-1]
         payload = jwt.decode(token, settings.SIGNING_KEY, algorithms=['HS256'])
         user_id = payload['user_id']
-        
+        if user_id and 'user_id' not in request.session:
+            request.session['user_id'] = user_id
         user = User.objects.get(pk=user_id)
         
         requested_username = request.GET.get('username')
-        
         if requested_username:
+            if len(requested_username) > 50 or is_valid_username(requested_username):
+                return JsonResponse({'error': 'Invalid username format'}, status=400)
             requested_user = User.objects.get(username=requested_username)
             friends = requested_user.friends.all()
         else:
@@ -217,7 +222,8 @@ def get_blocked_users(request):
         token = request.headers.get('Authorization', '').split('Bearer ')[-1]
         payload = jwt.decode(token, settings.SIGNING_KEY, algorithms=['HS256'])
         user_id = payload['user_id']
-        
+        if user_id and 'user_id' not in request.session:
+            request.session['user_id'] = user_id
         user_requester = User.objects.get(pk=user_id)
         
         blocked_users = user_requester.blocked_users.all()
@@ -235,7 +241,8 @@ def unblock_user(request):
         payload = jwt.decode(token, settings.SIGNING_KEY, algorithms=['HS256'])
         user_id = payload['user_id']
         user_requester = User.objects.get(pk=user_id)
-        
+        if user_id and 'user_id' not in request.session:
+            request.session['user_id'] = user_id
         username = request.GET.get('username')
         
         if not username:
@@ -274,7 +281,8 @@ def block_user(request):
         payload = jwt.decode(token, settings.SIGNING_KEY, algorithms=['HS256'])
         user_id = payload['user_id']
         user_requester = User.objects.get(pk=user_id)
-        
+        if user_id and 'user_id' not in request.session:
+            request.session['user_id'] = user_id
         username = request.GET.get('username')
         
         if not username:
@@ -313,7 +321,8 @@ def fetch_achievements(request):
         token = request.headers.get('Authorization', '').split('Bearer ')[-1]
         payload = jwt.decode(token, settings.SIGNING_KEY, algorithms=['HS256'])
         user_id = payload['user_id']
-        
+        if user_id and 'user_id' not in request.session:
+            request.session['user_id'] = user_id
         achievements = Achievement.objects.filter(user_id=user_id).first()
 
         if not achievements:
@@ -468,14 +477,14 @@ def messages(request):
 
 
 def chat(request):
-    return render(request, 'chatpage.html')
+    return JsonResponse({'error': str(e)}, status=404)
 
 from django.contrib.sessions.models import Session
 
 def get_profile_info(request):
     username = request.GET.get('username')
     
-    if not username:
+    if not username or not is_valid_username(username):
         return JsonResponse({'error': 'Username parameter is missing'}, status=400)
     token = request.headers.get('Authorization', '').split('Bearer ')[-1]
     
@@ -485,7 +494,8 @@ def get_profile_info(request):
         user_requester = User.objects.get(pk=user_id)
         user = User.objects.get(username=username)
         csrf_token = get_token(request)
-        
+        if user_id and 'user_id' not in request.session:
+            request.session['user_id'] = user_id
         is_online = False
         active_sessions = Session.objects.filter(expire_date__gte=timezone.now())
         for session in active_sessions:
@@ -600,7 +610,8 @@ def proxy_viewb(request):
     code = request.GET.get('code')
     if not code:
         return JsonResponse({'error': 'Code parameter is missing'}, status=400)
-
+    if len(code) != 64 or not re.match(r'^[a-zA-Z0-9]+$', code):
+        return JsonResponse({'error': 'Invalid code format'}, status=400) 
     client_id = os.getenv('CLIENT_ID')
     client_secret = os.getenv('CLIENT_SECRET')
     redirect_uri = os.getenv('REDIRECT_URI')
@@ -665,7 +676,8 @@ def proxy_viewc(request):
     code = request.GET.get('code')
     if not code:
         return JsonResponse({'error': 'Code parameter is missing'}, status=400)
-
+    if len(code) != 64 or not re.match(r'^[a-zA-Z0-9]+$', code):
+        return JsonResponse({'error': 'Invalid code format'}, status=400)
     client_id = os.getenv('CLIENT_ID')
     client_secret = os.getenv('CLIENT_SECRET')
     redirect_uri = os.getenv('REDIRECT_URI')
@@ -785,6 +797,8 @@ def upload_avatar(request):
             payload = jwt.decode(token, settings.SIGNING_KEY, algorithms=['HS256'])
             user_id = payload['user_id']
             user = User.objects.get(pk=user_id)
+            if user_id and 'user_id' not in request.session:
+                request.session['user_id'] = user_id
         except jwt.ExpiredSignatureError:
             return Response({"message": "JWT token has expired."}, status=status.HTTP_401_UNAUTHORIZED)
         except jwt.InvalidTokenError:
@@ -825,7 +839,8 @@ def update_score(request):
         payload = jwt.decode(token, settings.SIGNING_KEY, algorithms=['HS256'])
         user_id = payload['user_id']
         user = User.objects.get(pk=user_id)
-        
+        if user_id and 'user_id' not in request.session:
+            request.session['user_id'] = user_id
         result = request.GET.get('result') 
         user.score += 1
         user.save()
@@ -896,7 +911,8 @@ def leaderboard(request):
         payload = jwt.decode(token, settings.SIGNING_KEY, algorithms=['HS256'])
         user_id = payload['user_id']
         user = User.objects.get(pk=user_id)
-        
+        if user_id and 'user_id' not in request.session:
+            request.session['user_id'] = user_id
         leaderboard_users = User.objects.order_by('-score')[:100]  
 
         leaderboard_data = []
@@ -972,12 +988,11 @@ def register(request):
             password = request.POST.get('password')
             confirm_password = request.POST.get('confirm_password')
 
-            # Input validation
             if not all([username, email, password, confirm_password]):
                 return JsonResponse({"error": "All fields are required."}, status=400)
 
-            if not re.match(r'^[\w-]+$', username):
-                return JsonResponse({"error": "Username can only contain alphanumeric characters, underscores, and hyphens."}, status=400)
+            if len(username) > 50 or not is_valid_username(username):
+                return JsonResponse({"error": "Username can only contain alphanumeric characters, underscores, and hyphens. Max. 50chars."}, status=400)
 
             if not re.match(r'^[\w\.-]+@[\w\.-]+$', email):
                 return JsonResponse({"error": "Invalid email format. Please enter a valid email address."}, status=400)
@@ -994,7 +1009,6 @@ def register(request):
             if not all(char.isalnum() or char in ['_', '-'] for char in username):
                 return JsonResponse({"error": "Username can only contain alphanumeric characters, underscores, and hyphens."}, status=400)
 
-            # Check for existing username and email
             if User.objects.filter(username=username).exists():
                 return JsonResponse({"error": "Username already exists. Please choose a different username."}, status=400)
 
@@ -1004,7 +1018,6 @@ def register(request):
             if password != confirm_password:
                 return JsonResponse({"error": "Passwords do not match. Please make sure your passwords match."}, status=400)
 
-            # Create user
             user = User.objects.create_user(username=username, email=email, password=password, score=0)
             user.nickname = username
             user.is_oauth_user = False
@@ -1012,7 +1025,7 @@ def register(request):
             
             return JsonResponse({"message": "Registration successful. You can now log in."}, status=200)
 
-        except IntegrityError:
+        except Exception as e:
             return JsonResponse({"error": "An error occurred while registering. Please try again later."}, status=400)
 
     else:
@@ -1023,6 +1036,11 @@ def login_view(request):
         if request.method == 'POST':
             username = request.POST.get('username')
             password = request.POST.get('password')
+            if not all([username, password]):
+	            return JsonResponse({"error": "All fields are required."}, status=400)
+            if len(username) > 50 or not is_valid_username(username):
+                return JsonResponse({'error': 'Invalid username format'}, status=400)
+            
             user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
@@ -1048,7 +1066,7 @@ def login_view(request):
             else:
                 return JsonResponse({'error': 'Invalid login credentials'}, status=400)
         else:
-            return render(request, 'login.html')
+            return JsonResponse({'error': str(e)}, status=404)
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=400)
 
@@ -1123,7 +1141,8 @@ def manage_profile(request):
         user_id = payload['user_id']
         user = User.objects.get(pk=user_id)
         csrf_token = get_token(request)
-        
+        if user_id and 'user_id' not in request.session:
+            request.session['user_id'] = user_id
         if request.method == 'GET':
             user_info = {
                 'userNickname': getattr(user, 'nickname', 'unknown'),
@@ -1215,7 +1234,10 @@ def check_2fa_code(request):
 
     if not username or not code:
         return JsonResponse({'error': 'Username or code parameter is missing'}, status=400)
-
+    if len(code) != 64 or not re.match(r'^[a-zA-Z0-9]+$', code):
+        return JsonResponse({'error': 'Invalid code format'}, status=400)
+    if len(username) > 50 or not is_valid_username(username):
+        return JsonResponse({'error': 'Invalid username format'}, status=400)
     try:
         user = User.objects.get(username=username)
         saved_activation_code = user.activation_code
@@ -1237,7 +1259,8 @@ def get_2fa_status(request):
 
     if not username:
         return JsonResponse({'error': 'Username parameter is missing'}, status=400)
-
+    if len(username) > 50 or not is_valid_username(username):
+        return JsonResponse({'error': 'Invalid username format'}, status=400)
     try:
         user = User.objects.get(username=username)
         is_2fa_enabled = user.two_factor_enabled if hasattr(user, 'two_factor_enabled') else False
@@ -1252,7 +1275,8 @@ def generate_qr_code(request):
         payload = jwt.decode(token, settings.SIGNING_KEY, algorithms=['HS256'])
         user_id = payload['user_id']
         user = User.objects.get(pk=user_id)
-        
+        if user_id and 'user_id' not in request.session:
+            request.session['user_id'] = user_id
         if user.two_factor_enabled:
             return JsonResponse({'error': '2FA is already enabled'}, status=400)
         
@@ -1305,7 +1329,8 @@ def activate_2fa(request):
             payload = jwt.decode(token, settings.SIGNING_KEY, algorithms=['HS256'])
             user_id = payload['user_id']
             user = User.objects.get(pk=user_id)
-            
+            if user_id and 'user_id' not in request.session:
+                request.session['user_id'] = user_id
             
             saved_activation_code = user.activation_code
             
@@ -1339,6 +1364,8 @@ def deactivate_2fa(request):
             payload = jwt.decode(token, settings.SIGNING_KEY, algorithms=['HS256'])
             user_id = payload['user_id']
             user = User.objects.get(pk=user_id)
+            if user_id and 'user_id' not in request.session:
+                request.session['user_id'] = user_id
             if not user.two_factor_enabled:
                 return JsonResponse({'error': '2FA is not enabled for this user'}, status=400)
             user.two_factor_enabled = False  
