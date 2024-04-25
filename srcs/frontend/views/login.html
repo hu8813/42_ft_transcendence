@@ -1,13 +1,13 @@
 <div class="login-form" style="margin-top: 3rem" id="container">
   <div class="wrapper" style="max-width: 350px; margin: 0 auto;">
     <div class="loader"></div>
-    <br/><br/><br/>
+  
     <button onclick="window.location.href = getBackendSigninURL()" id="signin-btn" class="rounded mb-4 bn" style="width: auto; min-width: 50%; max-width: 250px; margin: 0 auto; text-align: center; display: flex; align-items: center; justify-content: center;  color: #333333;">
       <span class="bn mr-2" style="font-size: 1.3em;">&#128100;</span>
       <span id="signInWith42" style="font-size: 1em;">Sign In with 42</span>
     </button>
     
-    <br/>
+    
     <div class="or-separator mb-4">
       <span class="or-text" id="or">or</span>
     </div>
@@ -33,7 +33,17 @@
           style="width: 80%; max-width: 200px;"
         />
       </div>
-      <button id="login" class="bn btn mt-3" style="width: 80%; max-width: 200px; margin: 0 auto;" onclick="handleLogin();">
+      <div id="2fa-code-container" class="form-field d-flex align-items-center" style="display: none !important;">
+        <span class="fas fa-lock"></span>
+        <input
+          type="text"
+          name="two-factor-code"
+          id="twoFactorCode"
+          placeholder="2FA Code"
+          style="width: 80%; max-width: 200px;"
+        />
+      </div>
+      <button id="login" class="bn btn mt-3" style="width: 80%; max-width: 200px; margin: 0 auto;" >
         Login
       </button>
       

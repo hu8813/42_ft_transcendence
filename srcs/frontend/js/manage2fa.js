@@ -1,12 +1,12 @@
 async function display2faPage() {
-    async function check2FAStatus() {
+    async function check2FAStatus(username) {
         try {
             
             const jwtToken = localStorage.getItem('jwtToken');
             const csrfToken = await getCSRFCookie();
             let username = localStorage.getItem('userLogin');
             const response = await fetch(`/api/2fa-status?username=${username}`, {
-                method: 'GET',
+                method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${jwtToken}`,
                     'X-CSRFToken': csrfToken
@@ -20,6 +20,7 @@ async function display2faPage() {
             const data = await response.json();
 
             const statusElement = document.getElementById('status');
+            console.log("2fa enabled", data.enabled);
             statusElement.textContent = data.enabled ? 'Enabled' : 'Not enabled';
 
             
@@ -145,8 +146,8 @@ async function display2faPage() {
             errorLabel.style.color = 'red'; 
         }
     }
-    
-    check2FAStatus();
+    username = localStorage.getItem('userLogin');
+    check2FAStatus(username);
 
     document.getElementById('enable2FA').addEventListener('click', enableOrDisable2FA);
     document.getElementById('activate2FA').addEventListener('click', activate2FA);

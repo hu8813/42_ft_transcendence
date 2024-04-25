@@ -634,6 +634,8 @@ def proxy_userinfo(request):
             'score': authenticated_user2.score,
             'email': authenticated_user2.email,
             'csrfToken': csrf_token,
+            'is_oauth_user': authenticated_user2.is_oauth_user,
+            'two_factor_enabled': authenticated_user2.two_factor_enabled
         }
         return JsonResponse({'user': user_info})
     except User.DoesNotExist:
@@ -1271,7 +1273,7 @@ def check_2fa_code(request):
 
     if not username or not code:
         return JsonResponse({'error': 'Username or code parameter is missing'}, status=400)
-    if len(code) != 64 or not re.match(r'^[a-zA-Z0-9]+$', code):
+    if len(code) != 6 or not re.match(r'^\d+$', code):
         return JsonResponse({'error': 'Invalid code format'}, status=400)
     if len(username) > 50 or not is_valid_username(username):
         return JsonResponse({'error': 'Invalid username format'}, status=400)
@@ -1292,15 +1294,21 @@ def check_2fa_code(request):
         return JsonResponse({'error': 'User not found'}, status=404)
     
 def get_2fa_status(request):
-    username = request.GET.get('username', None)
+    username = request.POST.get('username', None)
 
-    if not username:
-        return JsonResponse({'error': 'Username parameter is missing'}, status=400)
-    if len(username) > 50 or not is_valid_username(username):
+    if not username or username == 'null':
+        try:
+            user_id = request.session.get('user_id')
+            user = User.objects.get(pk=user_id)
+            username = user.username
+        except:
+            return JsonResponse({'error': 'Username parameter is missing'}, status=400)
+    elif len(username) > 50 or not is_valid_username(username):
         return JsonResponse({'error': 'Invalid username format'}, status=400)
     try:
         user = User.objects.get(username=username)
-        is_2fa_enabled = user.two_factor_enabled if hasattr(user, 'two_factor_enabled') else False
+        is_2fa_enabled = user.two_factor_enabled
+        #is_2fa_enabled = is_2fa_enabled == 't'
         return JsonResponse({'enabled': is_2fa_enabled})
     except User.DoesNotExist:
         return JsonResponse({'error': 'User not found'}, status=404)

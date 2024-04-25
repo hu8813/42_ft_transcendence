@@ -167,5 +167,6 @@
   "leftside": "You are on the left side.",
   "moving": "use 'W' and 'S' to move.",
 
-  "wanttoplay": "Do you want to play a game?"
+  "wanttoplay": "Do you want to play a game?",
+  "return-home": "Redirecting to Homepage"
 }
