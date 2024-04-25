@@ -885,7 +885,7 @@ def update_score(request):
             user.games_won = user.games_won + 1 
         elif result == 'lost':
             user.games_lost = user.games_lost + 1   
-        user.games_played = user.games_played + 1  
+        user.games_played = user.games_played + 1
         user.save()
 
         Achievement.objects.create(

@@ -412,7 +412,8 @@ async function updateOnlineUsers() {
             inviteToPlayLink.innerHTML = '<i class="bi bi-controller"></i> Invite to Play';
             inviteToPlayLink.addEventListener('click', async (event) => {
                 event.preventDefault();
-                const message = `${user.nickname}, want to play a game?`; // Customize the invitation message
+                wanttoplay = await translateKey('wanttoplay');
+                const message = `${user.nickname}, ${wanttoplay}`; // Customize the invitation message
                 sendMessageToUser(user.nickname, message);
             });
             linksContainer.appendChild(inviteToPlayLink);
