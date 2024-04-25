@@ -149,13 +149,14 @@ function showPlayerAi1Page() {
             ctx.font = "48px Arial";
             ctx.fillText(`${winner} Won!`, canvas.width / 2, canvas.height / 2.5);
             
-            
-            const newGButton2 = document.getElementById('newGButton');
-            if (newGButton2)
-                document.getElementById('newGButton').style.display = 'block';
-            newGameButton();
+            setTimeout(() => {
+                const newGButton2 = document.getElementById('newGButton');
+                if (newGButton2)
+                    document.getElementById('newGButton').style.display = 'block';
+                newGameButton();
+            }, 1000);
         }
-
+        
         let gameOverMessage = '';
 
         function showGameOver() {

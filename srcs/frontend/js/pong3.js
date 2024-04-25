@@ -201,15 +201,17 @@ function showPong3() {
             let lost = await translateKey("lost");
             ctx.fillText(`${loser} `+lost, canvas.width / 2, canvas.height / 4);
 
-            const newGButton2 = document.getElementById('newGButton');
-            if (newGButton2)
-                document.getElementById('newGButton').style.display = 'block';
-            newGButton();
+            setTimeout(() => {
+                const newGButton2 = document.getElementById('newGButton');
+                if (newGButton2)
+                    document.getElementById('newGButton').style.display = 'block';
+                newGButton();
+            }, 1000);
             gameOver = true;
         }
 
 
-        async function update() {
+        function update() {
             if (gameOver) return;
 
 
@@ -230,42 +232,18 @@ function showPong3() {
                 ball.velocityY = -ball.velocityY;
             }
 
-            let player = await translateKey("player");
             if (ball.x - ball.radius < 0) {
                 player1.score++;
-                // if (player1.score >= 7) {
-                //     gameOver = true;
-                //     showGameOverModal(player+" 1");
-                // } else {
-                //     resetBall();
-                // }
                 resetBall();
             } else if (ball.x + ball.radius > canvas.width) {
                 player2.score++;
-                // if (player2.score >= 7) {
-                //     gameOver = true;
-                //     showGameOverModal(player+" 2");
-                // } else {
-                //     resetBall();
-                // }
                 resetBall();
             }
-
-
             if (ball.y + ball.radius >= canvas.height - 10) {
                 if (ball.x >= player3.x && ball.x <= (player3.x + player3.width)) {
-
                     ball.velocityY = -ball.speed;
                 } else {
-
                     player3.score++;
-                    // if (player3.score >= 7) {
-                    //     gameOver = true;
-                    //     showGameOverModal(player+" 3");
-                    //     disableControls();
-                    // } else {
-                    //     resetBall();
-                    // }
                     resetBall();
                 }
             }
@@ -275,21 +253,23 @@ function showPong3() {
             if (collisionDetect(player2, ball)) handlePaddleBallCollision(player2, ball);
         }
 
-        function resetBall() {
+        async function resetBall() {
             ball.x = canvas.width / 2;
             ball.y = canvas.height / 2;
             ball.velocityX = (Math.random() > 0.5 ? 1 : -1) * ball.speed;
             ball.velocityY = (Math.random() * 2 - 1) * ball.speed;
             ball.speed = 7;
-        
+
+            let player = await translateKey("player");
+
             if (player1.score >= 7 || player2.score >= 7 || player3.score >= 7) {
                 setTimeout(() => {
                     if (player1.score >= 7) {
-                        showGameOverModal("Player 1");
+                        showGameOverModal(player+" 1");
                     } else if (player2.score >= 7) {
-                        showGameOverModal("Player 2");
+                        showGameOverModal(player+" 2");
                     } else if (player3.score >= 7){
-                        showGameOverModal("Player 3");
+                        showGameOverModal(player+" 3");
                     }
                 }, 100);
             }

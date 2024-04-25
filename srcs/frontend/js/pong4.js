@@ -47,6 +47,7 @@ function showPong4() {
             score: 0
         };
 
+
         const player4 = {
             x: canvas.width / 2 - paddleHeight / 2,
             y: 10,
@@ -68,7 +69,7 @@ function showPong4() {
 
         document.addEventListener('keydown', keyDownHandler);
         document.addEventListener('keyup', keyUpHandler);
-        canvas.addEventListener('mousemove', mouseMoveHandler);
+        // canvas.addEventListener('mousemove', mouseMoveHandler);
 
         document.addEventListener("visibilitychange", function () {
             if (document.visibilityState === 'hidden') {
@@ -140,12 +141,12 @@ function showPong4() {
             }
         }
 
-        function mouseMoveHandler(event) {
-            let canvasRect = canvas.getBoundingClientRect();
-            let scaleX = canvas.width / canvasRect.width;
-            let mouseX = (event.clientX - canvasRect.left) * scaleX;
-            player3.x = Math.max(Math.min(mouseX - (player3.width / 2), canvas.width - player3.width), 0);
-        }
+        // function mouseMoveHandler(event) {
+        //     let canvasRect = canvas.getBoundingClientRect();
+        //     let scaleX = canvas.width / canvasRect.width;
+        //     let mouseX = (event.clientX - canvasRect.left) * scaleX;
+        //     player3.x = Math.max(Math.min(mouseX - (player3.width / 2), canvas.width - player3.width), 0);
+        // }
 
         function collisionDetect(player, ball) {
             player.top = player.y;
@@ -240,14 +241,16 @@ function showPong4() {
             ctx.textAlign = "center";
             let lost = await translateKey("lost");
             ctx.fillText(`${loser} `+lost, canvas.width / 2, canvas.height / 2);
-            const nGButton2 = document.getElementById('nGButton');
-            if (nGButton2)
-                document.getElementById('nGButton').style.display = 'block';
-            nGButton();
+            setTimeout(() => {
+                const nGButton2 = document.getElementById('nGButton');
+                if (nGButton2)
+                    document.getElementById('nGButton').style.display = 'block';
+                nGButton();
+            }, 1000);
             gameOver = true;
         }
 
-        async function update() {
+        function update() {
             if (gameOver) return;
 
             // Player 1 and Player 2 vertical movement
@@ -272,43 +275,18 @@ function showPong4() {
             if (ball.y - ball.radius < 0 || ball.y + ball.radius > canvas.height) {
                 ball.velocityY = -ball.velocityY;
             }
-            let player = await translateKey("player");
-            // Ball collisions with players and scoring
+
             if (ball.x - ball.radius < 0) {
                 player1.score++;
-                // if (player1.score >= 7) {
-                //     gameOver = true;
-                //     showGameOverModal(player+" 1");
-                // } else {
-                //     resetBall();
-                // }
                 resetBall();
             } else if (ball.x + ball.radius > canvas.width) {
                 player2.score++;
-                // if (player2.score >= 7) {
-                //     gameOver = true;
-                //     showGameOverModal(player+" 2");
-                // } else {
-                //     resetBall();
-                // }
                 resetBall();
             } else if (ball.y + ball.radius >= canvas.height) {
                 player3.score++;
-                // if (player3.score >= 7) {
-                //     gameOver = true;
-                //     showGameOverModal(player+" 3");
-                // } else {
-                //     resetBall();
-                // }
                 resetBall();
             } else if (ball.y - ball.radius <= 0) {
                 player4.score++;
-                // if (player4.score >= 7) {
-                //     gameOver = true;
-                //     showGameOverModal(player+" 4");
-                // } else {
-                //     resetBall();
-                // }
                 resetBall();
             }
 
@@ -327,23 +305,25 @@ function showPong4() {
             }
         }
 
-        function resetBall() {
+        async function resetBall() {
             ball.x = canvas.width / 2;
             ball.y = canvas.height / 2;
             ball.velocityX = (Math.random() > 0.5 ? 1 : -1) * ball.speed;
             ball.velocityY = (Math.random() * 2 - 1) * ball.speed;
             ball.speed = 7;
+
+            let player = await translateKey("player");
         
             if (player1.score >= 7 || player2.score >= 7 || player3.score >= 7 || player4.score >= 7) {
                 setTimeout(() => {
                     if (player1.score >= 7) {
-                        showGameOverModal("Player 1");
+                        showGameOverModal(player+" 1");
                     } else if (player2.score >= 7) {
-                        showGameOverModal("Player 2");
+                        showGameOverModal(player+" 2");
                     } else if (player3.score >= 7){
-                        showGameOverModal("Player 3");
+                        showGameOverModal(player+" 3");
                     } else if (player4.score >= 7){
-                        showGameOverModal("Player 4");
+                        showGameOverModal(player+" 4");
                     }
                 }, 100);
             }
