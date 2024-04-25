@@ -331,6 +331,7 @@ def fetch_game_history(request):
             game_history_data.append({
                 'opponent': achievement.opponent,
                 'game_type': achievement.game_type,
+                'tournaments_won': achievement.tournaments_won,
                 'date_time_played': achievement.date_time_played.strftime('%Y-%m-%d %H:%M:%S')  # Convert to string
             })
 
