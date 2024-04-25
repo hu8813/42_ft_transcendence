@@ -298,10 +298,10 @@ async function updateOnlineUsers() {
         online_users.forEach(user => {
             const listItem = document.createElement('li');
             listItem.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-center');
-
+        
             const userContainer = document.createElement('div');
             userContainer.classList.add('d-flex', 'align-items-center');
-
+        
             const userImage = document.createElement('img');
             userImage.src = user.image_link || './src/emptyavatar.jpeg';
             userImage.alt = user.nickname;
@@ -309,25 +309,25 @@ async function updateOnlineUsers() {
             userImage.height = 32;
             userImage.classList.add('rounded-circle', 'mr-3');
             userContainer.appendChild(userImage);
-
+        
             const userInfo = document.createElement('div');
             const nickname = document.createElement('span');
             nickname.textContent = user.nickname;
             userInfo.appendChild(nickname);
             userContainer.appendChild(userInfo);
-
+        
             listItem.appendChild(userContainer);
-
+        
             const linksContainer = document.createElement('div');
             linksContainer.classList.add('user-links', 'd-none');
-
+        
             const viewProfileLink = document.createElement('a');
             viewProfileLink.href = `/#viewprofile?u=${user.username}`;
             viewProfileLink.classList.add('btn', 'btn-info', 'btn-sm', 'mr-1');
             viewProfileLink.innerHTML = '<i class="bi bi-search"></i> View Profile';
             viewProfileLink.target = '_blank';
             linksContainer.appendChild(viewProfileLink);
-
+        
             const addFriendLink = document.createElement('a');
             addFriendLink.href = `/#add-friend?u=${user.username}`;
             addFriendLink.classList.add('btn', 'btn-success', 'btn-sm', 'mr-1');
@@ -337,7 +337,7 @@ async function updateOnlineUsers() {
                 try {
                     let jwtToken = localStorage.getItem('jwtToken');
                     let csrfToken = await getCSRFCookie();
-            
+        
                     const response = await fetch(`/api/add-friend?username=${user.username}`, {
                         method: 'POST',
                         headers: {
@@ -345,7 +345,7 @@ async function updateOnlineUsers() {
                             'X-CSRFToken': csrfToken
                         }
                     });
-            
+        
                     const responseData = await response.json();
                     if (response.ok) {
                         messageContainer.textContent = responseData.message;
@@ -359,7 +359,7 @@ async function updateOnlineUsers() {
                 }
             });
             linksContainer.appendChild(addFriendLink);
-
+        
             const blockLink = document.createElement('a');
             blockLink.href = `/block/${user.nickname}`;
             blockLink.classList.add('btn', 'btn-danger', 'btn-sm', 'mr-1');
@@ -369,7 +369,7 @@ async function updateOnlineUsers() {
                 try {
                     let jwtToken = localStorage.getItem('jwtToken');
                     let csrfToken = await getCSRFCookie();
-            
+        
                     const response = await fetch(`/api/block-user?username=${user.username}`, {
                         method: 'POST',
                         headers: {
@@ -377,7 +377,7 @@ async function updateOnlineUsers() {
                             'X-CSRFToken': csrfToken
                         }
                     });
-            
+        
                     const responseData = await response.json();
                     if (response.ok) {
                         messageContainer.textContent = responseData.message;
@@ -390,9 +390,9 @@ async function updateOnlineUsers() {
                     showNotification('Oops, ' + error.message, false);
                 }
             });
-            
+        
             linksContainer.appendChild(blockLink);
-
+        
             const sendMessageBtn = document.createElement('button');
             sendMessageBtn.innerHTML = '<i class="bi bi-envelope"></i> Send Message';
             sendMessageBtn.classList.add('btn', 'btn-primary', 'btn-sm');
@@ -403,18 +403,30 @@ async function updateOnlineUsers() {
                     sendMessageToUser(user.nickname, message);
                 }
             });
-            recipientName = user.nickname;
             linksContainer.appendChild(sendMessageBtn);
-
+        
+            // Invite to Play link
+            const inviteToPlayLink = document.createElement('a');
+            inviteToPlayLink.href = '#'; // Provide a proper link to handle sending an invitation
+            inviteToPlayLink.classList.add('btn', 'btn-warning', 'btn-sm', 'mr-1');
+            inviteToPlayLink.innerHTML = '<i class="bi bi-controller"></i> Invite to Play';
+            inviteToPlayLink.addEventListener('click', async (event) => {
+                event.preventDefault();
+                const message = `${user.nickname}, want to play a game?`; // Customize the invitation message
+                sendMessageToUser(user.nickname, message);
+            });
+            linksContainer.appendChild(inviteToPlayLink);
+        
             listItem.appendChild(linksContainer);
-
+        
             listItem.addEventListener('click', () => {
                 //recipientSelect.value = user.username;
-
+        
                 linksContainer.classList.toggle('d-none');
             });
             onlineUsersList.appendChild(listItem);
         });
+        
     } catch (error) {
         console.error('Error fetching online users:', error);
     }
