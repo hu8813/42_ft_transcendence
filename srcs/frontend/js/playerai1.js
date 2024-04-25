@@ -202,7 +202,7 @@ function showPlayerAi1Page() {
                     const jwtToken = localStorage.getItem('jwtToken');
                     const csrfToken = await getCSRFCookie(); 
                     try {
-                    const response = await fetch(`/api/update-score?result=lost`, {
+                    const response = await fetch(`/api/update-score?result=lost&gametype=pong&oppononent=cpu`, {
                         method: 'POST',
                         headers: {
                             'Authorization': `Bearer ${jwtToken}`,
@@ -229,7 +229,7 @@ function showPlayerAi1Page() {
                     const jwtToken = localStorage.getItem('jwtToken');
                     const csrfToken = await getCSRFCookie(); 
                     try {
-                    const response = await fetch(`/api/update-score?result=win`, {
+                    const response = await fetch(`/api/update-score?result=win&gametype=pong&oppononent=cpu`, {
                         method: 'POST',
                         headers: {
                             'Authorization': `Bearer ${jwtToken}`,

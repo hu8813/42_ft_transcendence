@@ -70,7 +70,7 @@ function showTic1() {
             const jwtToken = localStorage.getItem('jwtToken');
             const csrfToken = await getCSRFCookie(); 
             try {
-            const response = await fetch(`/api/update-score?result=win`, {
+            const response = await fetch(`/api/update-score?result=win&gametype=tictac&oppononent=cpu`, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${jwtToken}`,
@@ -92,7 +92,7 @@ function showTic1() {
             const jwtToken = localStorage.getItem('jwtToken');
             const csrfToken = await getCSRFCookie(); 
             try {
-            const response = await fetch(`/api/update-score?result=lost`, {
+            const response = await fetch(`/api/update-score?result=lost&gametype=tictac&oppononent=cpu`, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${jwtToken}`,

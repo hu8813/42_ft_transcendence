@@ -62,7 +62,8 @@ urlpatterns = [
     path('api/remove-friend', views.remove_friend, name='remove_friend'),
 
     path('api/friends', views.get_friends, name='get_friends'),
-    path('api/user-achievements', views.fetch_achievements, name='fetch_achievements'),
+    path('api/fetch_achievements', views.fetch_achievements, name='fetch_achievements'),
+    path('api/fetch_game_history', views.fetch_game_history, name='fetch_game_history'),
     path('api/get-blocked-users/', views.get_blocked_users, name='get_blocked_users'),
 
 

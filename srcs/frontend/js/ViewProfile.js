@@ -22,8 +22,8 @@ async function fetchAndDisplayViewProfile(username) {
             const nickname = user.nickname || 'Not available';
             const score = user.score || '0';
             const isOnline = user.is_online || false;
-            const gamesPlayed = profileData.games_played || '0';
-            const winningRate = profileData.winning_rate || '0';
+            const gamesPlayed = user.games_played || '0';
+            const winningRate = user.winning_rate || '0';
 
             document.querySelector('.profile-pic').src = imageLink;
             document.getElementById('nicknameadr2').textContent = nickname;

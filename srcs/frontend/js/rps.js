@@ -47,7 +47,7 @@ async function playRPS() {
                     const jwtToken = localStorage.getItem('jwtToken');
                     const csrfToken = await getCSRFCookie(); 
                     try {
-                        const response = await fetch(`/api/update-score?result=win`, {
+                        const response = await fetch(`/api/update-score?result=win&gametype=rps&oppononent=cpu`, {
                             method: 'POST',
                             headers: {
                                 'Authorization': `Bearer ${jwtToken}`,
@@ -71,7 +71,7 @@ async function playRPS() {
                     const jwtToken = localStorage.getItem('jwtToken');
                     const csrfToken = await getCSRFCookie(); 
                     try {
-                        const response = await fetch(`/api/update-score?result=lost`, {
+                        const response = await fetch(`/api/update-score?result=lost&gametype=rps&oppononent=cpu`, {
                             method: 'POST',
                             headers: {
                                 'Authorization': `Bearer ${jwtToken}`,

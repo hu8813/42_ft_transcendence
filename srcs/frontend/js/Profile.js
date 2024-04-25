@@ -8,11 +8,44 @@ function displayErrorMessage(message) {
     }
 }
 
-function showGameHistory() {
+async function showGameHistory() {
+    try {
+        const jwtToken = localStorage.getItem('jwtToken');
+        
+        const gameHistoryResponse = await fetch('/api/fetch_game_history', {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${jwtToken}`,
+                'X-CSRFToken': csrfToken
+            }
+        });
 
-    const gameHistory = document.getElementById('gameHistory');
-    const gameHistoryButton = document.getElementById('gameHistoryButton');
+        if (gameHistoryResponse.ok) {
+            const gameHistoryData = await gameHistoryResponse.json();
+
+            const gameHistoryContainer = document.getElementById('gameHistory');
+            gameHistoryContainer.innerHTML = ''; 
+
+            gameHistoryData.forEach(game => {
+                const gameElement = document.createElement('div');
+                gameElement.classList.add('game-item');
+                gameElement.innerHTML = `
+                    <div><strong>Opponent:</strong> ${game.opponent || 'cpu'}</div>
+                    <div><strong>Game Type:</strong> ${game.game_type}</div>
+                    <div><strong>Date Played:</strong> ${game.date_time_played}</div>
+                `;
+                gameHistoryContainer.appendChild(gameElement);
+            });
+        } else {
+            throw new Error('Failed to fetch game history');
+        }
+    } catch (error) {
+        displayErrorMessage(error.message);
+        console.error('Error fetching and displaying game history:', error);
+    }
 }
+
+
 function isLocalDeployment() {
     return window.location.href.includes("pong42");
 }
@@ -127,7 +160,7 @@ async function updateProfile(data) {
         const formData = new FormData();
         let res;
         if (data.nickname) {
-            const maxNicknameLength = 50;
+            const maxNicknameLength = 20;
             if (data.nickname.length > maxNicknameLength) {
                 displayErrorMessage(`Nickname exceeds the maximum allowed length of ${maxNicknameLength} characters.`);
                 return;
@@ -168,8 +201,8 @@ async function updateProfile(data) {
             body: formData
         });
         if (!response.ok) {
-            const errorData = await response.json(); // Parse JSON response
-            const errorMessage = errorData.error; // Extract error message
+            const errorData = await response.json(); 
+            const errorMessage = errorData.error; 
             throw new Error('Failed to update profile: ' + errorMessage);
         }
         
@@ -252,23 +285,24 @@ async function fetchAndDisplayFriends() {
     }
 }
 
-
-async function fetchAndDisplayAchievements() {
+async function showAchievements() {
     try {
         const jwtToken = localStorage.getItem('jwtToken');
-        const response = await fetch('/api/user-achievements', {
+        
+        const achievementsResponse = await fetch('/api/fetch_achievements', {
             method: 'GET',
             headers: {
-                'Authorization': `Bearer ${jwtToken}`
+                'Authorization': `Bearer ${jwtToken}`,
+                'X-CSRFToken': csrfToken
             }
         });
 
-        if (response.ok) {
-            const achievementsData = await response.json();
+        if (achievementsResponse.ok) {
+            const achievementsData = await achievementsResponse.json();
 
             const gamesPlayed = achievementsData.games_played || 0;
             const gamesWon = achievementsData.games_won || 0;
-            const winningRate = gamesPlayed > 0 ? ((gamesWon / gamesPlayed) * 100).toFixed(2) : 0;
+            const winningRate = achievementsData.winning_rate || 0;
 
             const totalPlayedElement = document.getElementById('total-played');
             if (totalPlayedElement) {
@@ -290,7 +324,7 @@ async function fetchAndDisplayAchievements() {
                 totalLostElement.textContent = `${achievementsData.games_lost || 0}`;
             }
         } else {
-            const achievementsNotFound = await response.json();
+            const achievementsNotFound = await achievementsResponse.json();
             if (achievementsNotFound.error) {
                 if (document.getElementById('total-played'))
                     document.getElementById('total-played').textContent = '0';
@@ -303,12 +337,11 @@ async function fetchAndDisplayAchievements() {
             }
         }
     } catch (error) {
-        if (response && response.message)
-        displayErrorMessage(response.message);
-
+        displayErrorMessage(error.message);
         console.error('Error fetching and displaying achievements:', error);
     }
 }
+
 
 async function deleteProfile() {
     try {
@@ -347,6 +380,10 @@ async function fetchAndDisplayProfile() {
         const score = user.score || 0;
         const csrfTokenNew = user.csrfToken || csrfToken;
         let isLoggedIn2;
+        const gamesPlayed = user.games_played || 0;
+        const gamesWon = user.games_won || 0;
+        const winningRate = user.winning_rate || 0;
+
         if (localStorage.getItem('isLoggedIn') === 'true') {
             if (typeof isLoggedIn === 'undefined')
                 isLoggedIn2 = true;
@@ -378,6 +415,26 @@ async function fetchAndDisplayProfile() {
         const scorelement = document.getElementById('scorerate');
         if (scorelement) {
             scorelement.textContent = score;
+        }
+        
+        const totalPlayedElement = document.getElementById('total-played');
+        if (totalPlayedElement) {
+        totalPlayedElement.textContent = `${gamesPlayed}`;
+        }
+
+        const winningRateElement = document.getElementById('winning-rate');
+        if (winningRateElement) {
+        winningRateElement.textContent = `${winningRate}%`;
+        }
+
+        const totalWonElement = document.getElementById('total-won');
+        if (totalWonElement) {
+        totalWonElement.textContent = `${gamesWon}`;
+        }
+
+        const totalLostElement = document.getElementById('total-lost');
+        if (totalLostElement) {
+        totalLostElement.textContent = `${user.games_lost || 0}`;
         }
         if (document.getElementById('playerProfileTtile')) {
             document.getElementById('playerProfileTtile').textContent = nickname;
@@ -455,7 +512,7 @@ async function fetchAndDisplayProfile() {
         }
 
         await fetchAndDisplayFriends();
-        await fetchAndDisplayAchievements();
+        //await showAchievements();
 
     } catch (error) {
         console.error('Error fetching and displaying profile:', error);

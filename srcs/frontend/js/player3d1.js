@@ -398,7 +398,7 @@ function showPlayer3d1Page() {
             const jwtToken = localStorage.getItem('jwtToken');
             const csrfToken = await getCSRFCookie(); 
             try {
-                const response = await fetch(`/api/update-score?result=${gameResult}`, {
+                const response = await fetch(`/api/update-score?result=${gameResult}&gametype=pong&oppononent=cpu`, {
                     method: 'POST',
                     headers: {
                         'Authorization': `Bearer ${jwtToken}`,

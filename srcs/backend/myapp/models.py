@@ -10,7 +10,10 @@ class User(AbstractUser):
     two_factor_enabled = models.BooleanField(default=False)
     activation_code = models.CharField(max_length=255, blank=True, null=True)
     is_oauth_user = models.BooleanField(default=True)
-    
+    games_played = models.IntegerField(default=0)  
+    games_won = models.IntegerField(default=0)  
+    games_lost = models.IntegerField(default=0) 
+
     class Meta:
         managed = False
         db_table = 'auth_user'
@@ -37,7 +40,13 @@ class Achievement(models.Model):
     games_lost = models.IntegerField(default=0)
     tournaments_won = models.IntegerField(default=0)
     favorite_game = models.CharField(max_length=100, blank=True, null=True)
-    
+    date_time_played = models.DateTimeField(auto_now_add=True)
+    opponent = models.CharField(max_length=100)
+    game_type = models.CharField(max_length=100)
+
+    def __str__(self):
+        return f"Achievement for {self.user.username} on {self.date_time_played}"
+
 class MyAppUserGroups(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     group = models.ForeignKey(Group, on_delete=models.CASCADE)

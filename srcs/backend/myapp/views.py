@@ -316,6 +316,34 @@ def block_user(request):
         return JsonResponse({'message': str(e)}, status=401)
 
 
+def fetch_game_history(request):
+    try:
+        token = request.headers.get('Authorization', '').split('Bearer ')[-1]
+        payload = jwt.decode(token, settings.SIGNING_KEY, algorithms=['HS256'])
+        user_id = payload['user_id']
+        if user_id and 'user_id' not in request.session:
+            request.session['user_id'] = user_id
+
+        game_history = Achievement.objects.filter(user_id=user_id)
+
+        game_history_data = []
+        for achievement in game_history:
+            game_history_data.append({
+                'opponent': achievement.opponent,
+                'game_type': achievement.game_type,
+                'date_time_played': achievement.date_time_played.strftime('%Y-%m-%d %H:%M:%S')  # Convert to string
+            })
+
+        return JsonResponse(game_history_data, safe=False)  # Set safe=False to allow serialization of lists
+    except jwt.ExpiredSignatureError:
+        return JsonResponse({'error': 'JWT token expired'}, status=401)
+    except jwt.InvalidTokenError:
+        return JsonResponse({'error': 'Invalid JWT token'}, status=401)
+    except KeyError:
+        return JsonResponse({'error': 'User ID not found in token'}, status=400)
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=400)
+
 def fetch_achievements(request):
     try:
         token = request.headers.get('Authorization', '').split('Bearer ')[-1]
@@ -332,9 +360,7 @@ def fetch_achievements(request):
             'games_played': achievements.games_played,
             'games_won': achievements.games_won,
             'games_lost': achievements.games_lost,
-            'tournaments_won': achievements.tournaments_won,
-            'favorite_game': achievements.favorite_game,
-            
+            'winning_rate': round((achievements.games_won / achievements.games_played) * 100, 2) if achievements.games_played > 0 else 0,
         }
 
         return JsonResponse(data)
@@ -346,7 +372,7 @@ def fetch_achievements(request):
         return JsonResponse({'error': 'User ID not found in token'}, status=400)
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=400)
-    
+
 def logout_view(request):
     token = request.headers.get('Authorization', '').split('Bearer ')[-1]
 
@@ -508,9 +534,9 @@ def get_profile_info(request):
         achievements = Achievement.objects.filter(user_id=user.id).first()
 
         # Calculate winning rate
-        games_played = achievements.games_played if achievements else 0
-        games_won = achievements.games_won if achievements else 0
-        games_lost = achievements.games_lost if achievements else 0
+        games_played = user.games_played
+        games_won = user.games_won
+        games_lost = user.games_lost
         winning_rate = round((games_won / games_played) * 100, 2) if games_played > 0 else 0
         
         user_info = {
@@ -832,7 +858,6 @@ def upload_avatar(request):
     except Exception as e:
         print(f"An error occurred: {str(e)}")
         return Response({"message": "An error occurred while uploading the avatar."}, status=401)
-
 def update_score(request):
     token = request.headers.get('Authorization', '').split('Bearer ')[-1]
     try:
@@ -842,26 +867,30 @@ def update_score(request):
         if user_id and 'user_id' not in request.session:
             request.session['user_id'] = user_id
         result = request.GET.get('result') 
-        user.score += 1
-        user.save()
-
-        # Try to retrieve the Achievement object for the user
-        try:
-            achievements = Achievement.objects.get(user=user)
-        except Achievement.DoesNotExist:
-            # If Achievement object does not exist, create a new one
-            achievements = Achievement.objects.create(user=user)
-
-        achievements.games_played += 1
+        opponent = request.GET.get('opponent')
+        if not opponent:
+            opponent = 'cpu'
+        gametype = request.GET.get('gametype')
 
         if result == 'win':
-            achievements.games_won += 1
+            user.games_won = user.games_won + 1 
         elif result == 'lost':
-            achievements.games_lost += 1
+            user.games_lost = user.games_lost + 1   
+        user.games_played = user.games_played + 1  
+        user.save()
 
-        achievements.save()
+        Achievement.objects.create(
+            user=user,
+            games_played=user.games_played,
+            games_won=user.games_won,
+            games_lost=user.games_lost,
+            tournaments_won=1 if result == 'win' else 0,
+            date_time_played=timezone.now(),
+            game_type=gametype,
+            opponent=opponent
+        )
 
-        return JsonResponse({'message': 'Score and achievements updated successfully'})
+        return JsonResponse({'message': 'Score and game history updated successfully'})
     except jwt.ExpiredSignatureError:
         return JsonResponse({'error': 'JWT signature has expired'}, status=401)
     except jwt.InvalidTokenError:
@@ -917,13 +946,8 @@ def leaderboard(request):
 
         leaderboard_data = []
         for user in leaderboard_users:
-            try:
-                achievements = Achievement.objects.get(user=user)
-                total_games_played = achievements.games_played
-                total_games_won = achievements.games_won
-            except Achievement.DoesNotExist:
-                total_games_played = 0
-                total_games_won = 0
+            total_games_played = user.games_played
+            total_games_won = user.games_won
 
             winning_rate = 0
             if total_games_played > 0:
@@ -936,7 +960,7 @@ def leaderboard(request):
                 'image_link': user.image_link,
                 'score': user.score,
                 'is_online': user.is_authenticated,
-                'winning_rate': round(winning_rate/100, 2)  # Round to 2 decimal places
+                'winning_rate': round(winning_rate/100, 2)
             }
             leaderboard_data.append(user_data)
         
@@ -1151,6 +1175,10 @@ def manage_profile(request):
                 'email': getattr(user, 'email', 'unknown'),
                 'userLogin': getattr(user, 'username', 'unknown'),
                 'csrfToken': csrf_token,
+                'games_played': user.games_played,
+                'games_won': user.games_won,
+                'games_lost': user.games_lost,
+                'winning_rate': round((user.games_won / user.games_played) * 100, 2) if user.games_played > 0 else 0,
             }
             return JsonResponse({'user_info': user_info})
         
