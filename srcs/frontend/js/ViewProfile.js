@@ -80,8 +80,8 @@ async function fetchAndDisplayViewProfile(username) {
                             gameElement.classList.add('game-item', 'mb-3', 'border', 'border-primary', 'rounded', 'p-3');
                             gameElement.innerHTML = `
                                 <div><strong>Opponent:</strong> ${game.opponent || 'cpu'}</div>
-                                <div><strong>Game Type:</strong> ${game.game_type}</div>
-                                <div><strong>Date Played:</strong> ${game.date_time_played}</div>
+                                <div><strong>Game:</strong> ${game.game_type}</div>
+                                <div><strong>Date:</strong> ${game.date_time_played}</div>
                                 <div><strong>Result:</strong> 
                                     ${game.tournaments_won ? '<i class="bi bi-trophy-fill text-success fs-5"></i>' : '<i class="bi bi-emoji-frown-fill text-danger fs-5"></i>'}
                                 </div>

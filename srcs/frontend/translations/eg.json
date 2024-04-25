@@ -164,5 +164,20 @@
   "tourna": "يبدأ البطولة الآن.",
   "scoregoals": "الذي يسجل 7 أهداف أولا يفوز",
   "leftside": "أنت على الجانب الأيسر.",
-  "moving": "استخدم 'W' و 'S' للتحرك."
+  "moving": "استخدم 'W' و 'S' للتحرك.",
+  "wanttoplay": "هل ترغب في اللعب بلعبة؟",
+  "return-home": "توجيه إلى الصفحة الرئيسية",
+  "disable2fa": "تعطيل 2FA",
+  "enable2fa": "تمكين 2FA",
+  "2FAenabled": "ممكّن",
+  "2FAdisabled": "معطّل",
+  "manage2fa": "إدارة 2FA",
+  "2FAstatus": "حالة 2FA الحالية:",
+  "scanQR": "امسح الرمز الشريطي QR أدناه باستخدام Google Authenticator لتمكين 2FA:",
+  "enterCode": "أدخل رمز التفعيل",
+  "activate2fa": "تفعيل 2FA",
+  "invalidCode": "رمز تفعيل غير صالح",
+  "2faFailed": "فشل في إلغاء تنشيط 2FA. يرجى المحاولة مرة أخرى في وقت لاحق.",
+  "2faDeactivated": "تم إلغاء تنشيط 2FA بنجاح.",
+  "2faActivated": "تم تنشيط 2FA بنجاح."
 }

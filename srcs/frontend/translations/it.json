@@ -164,5 +164,20 @@
   "tourna": "Il torneo inizia ora.",
   "scoregoals": "Chi segna per primo 7 gol vince",
   "leftside": "Sei sul lato sinistro.",
-  "moving": "usa 'W' e 'S' per muoverti."
+  "moving": "usa 'W' e 'S' per muoverti.",
+  "wanttoplay": "Vuoi giocare a un gioco?",
+  "return-home": "Reindirizzamento alla Homepage",
+  "disable2fa": "Disabilita 2FA",
+  "enable2fa": "Abilita 2FA",
+  "2FAenabled": "Abilitato",
+  "2FAdisabled": "Disabilitato",
+  "manage2fa": "Gestisci 2FA",
+  "2FAstatus": "Stato attuale del 2FA:",
+  "scanQR": "Scansiona il codice QR sottostante con Google Authenticator per abilitare il 2FA:",
+  "enterCode":"Inserisci il codice di attivazione",
+  "activate2fa": "Attiva 2FA",
+  "invalidCode": "Codice di attivazione non valido",
+  "2faFailed":"Impossibile disattivare il 2FA. Riprova più tardi.",
+  "2faDeactivated":"Il 2FA è stato disattivato con successo.",
+  "2faActivated":"Il 2FA è stato attivato con successo."
 }
