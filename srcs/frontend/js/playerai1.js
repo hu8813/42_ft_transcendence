@@ -103,8 +103,8 @@ function showPlayerAi1Page() {
             const button = document.getElementById('newGameButton');
             if (button)
             {
-              button.style.display = 'block'; 
-            button.addEventListener('click', function() {
+                button.style.display = 'block'; 
+                button.addEventListener('click', function() {
                 location.reload(); 
             });
           }
@@ -146,15 +146,17 @@ function showPlayerAi1Page() {
         function showGameOverModal2(winner) {
             ctx.fillStyle = "white";
             ctx.font = "48px Arial";
-            ctx.fillText(`${winner} Won!`, canvas.width / 4, canvas.height / 2);
+            ctx.fillText(`${winner} Won!`, canvas.width / 2, canvas.height / 2.5);
             
             
             const newGButton2 = document.getElementById('newGButton');
             if (newGButton2)
-            document.getElementById('newGButton').style.display = 'block';
-        newGameButton();
+                document.getElementById('newGButton').style.display = 'block';
+            newGameButton();
         }
+
         let gameOverMessage = '';
+
         function showGameOver() {
             ctx.fillStyle = "rgba(0, 0, 0, 0.7)";
             ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -172,23 +174,40 @@ function showPlayerAi1Page() {
             gameOver = true;
         }
         
-        
+        function resetGame() {
+            player1.y = canvas.height / 2 - paddleHeight / 2;
+            CPU.y = canvas.height / 2 - paddleHeight / 2;        
+            resetBall();
+        }
+         
         async function update() {
             if (gameOver || isGamePaused) return;
-            
-            if (wPressed && player1.y > 0) player1.y -= 8;
-            if (sPressed && (player1.y + player1.height) < canvas.height) player1.y += 8;
+
+            const paddleSpeed = 8; //---------------
+            const cpuReactionBuffer = 40;//----
+
+            // if (wPressed && player1.y > 0) player1.y -= 8;
+            // if (sPressed && (player1.y + player1.height) < canvas.height) player1.y += 8;
         
-            let cpuSpeed = 0.2;
-            CPU.y += (ball.y - (CPU.y + CPU.height / 2)) * cpuSpeed;
+            if (wPressed && player1.y > 0) player1.y -= paddleSpeed;
+            if (sPressed && (player1.y + player1.height) < canvas.height) player1.y += paddleSpeed;
+
+            // let cpuSpeed = 0.2;
+            // CPU.y += (ball.y - (CPU.y + CPU.height / 2)) * cpuSpeed;
+            // CPU.y = Math.max(Math.min(CPU.y, canvas.height - CPU.height), 0);
+
+            //----
+            if (Math.abs(ball.y - (CPU.y + CPU.height / 2)) > cpuReactionBuffer) {
+                let cpuDirection = ball.y < CPU.y + CPU.height / 2 ? -1 : 1;
+                CPU.y += cpuDirection * paddleSpeed;
+            }
             CPU.y = Math.max(Math.min(CPU.y, canvas.height - CPU.height), 0);
+            //-------------
+        
         
             ball.x += ball.velocityX;
             ball.y += ball.velocityY;
         
-            /* if (ball.y - ball.radius < 0 || ball.y + ball.radius > canvas.height) {
-                ball.velocityY = -ball.velocityY;
-            } */
             if (ball.y - ball.radius < 0) {
                 ball.velocityY = Math.abs(ball.velocityY);
             } else if (ball.y + ball.radius > canvas.height) {
@@ -220,7 +239,8 @@ function showPlayerAi1Page() {
                     }
                     showGameOverModal('CPU');
                 } else {
-                    resetBall();
+                    //resetBall();
+                    resetGame();
                 }
             } else if (ball.x + ball.radius > canvas.width) {
                 player1.score++;
@@ -247,7 +267,8 @@ function showPlayerAi1Page() {
                     }
                     showGameOverModal('player1');
                 } else {
-                    resetBall();
+                    //resetBall();
+                    resetGame();
                 }
             }
         
@@ -260,20 +281,13 @@ function showPlayerAi1Page() {
         }
         
 
-        /* function resetBall() {
+        function resetBall() {
             ball.x = canvas.width / 2;
             ball.y = canvas.height / 2;
             ball.velocityX = (Math.random() > 0.5 ? 1 : -1) * ball.speed;
             ball.velocityY = (Math.random() * 2 - 1) * ball.speed;
             ball.speed = 7;
-        } */
-        function resetBall() {
-            ball.x = canvas.width / 2;
-            ball.y = Math.random() * (canvas.height - ball.radius * 2) + ball.radius;
-            ball.velocityX = (Math.random() > 0.5 ? 1 : -1) * ball.speed;
-            ball.velocityY = (Math.random() * 2 - 1) * ball.speed;
-            ball.speed = 7;
-        }
+        } 
 
         function draw() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);

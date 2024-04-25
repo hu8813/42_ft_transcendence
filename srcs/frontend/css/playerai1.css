@@ -16,10 +16,10 @@
 
 #newGameButton {
     position: absolute;
-    top: 50%;
+    top: 57%;
     left: 50%;
     transform: translate(-50%, -50%);
-    padding: 10px 20px;
+    padding: 10px 12px;
     font-size: 18px;
     color: #FFF;
     background-color: #007bff;
@@ -28,3 +28,4 @@
     cursor: pointer;
     display: none;
 }
+
