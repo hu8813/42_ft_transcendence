@@ -7,7 +7,6 @@ function displayErrorMessage(message) {
         errorMessageElement.style.fontSize = '0.6em';
     }
 }
-
 async function showGameHistory() {
     try {
         const jwtToken = localStorage.getItem('jwtToken');
@@ -26,13 +25,19 @@ async function showGameHistory() {
             const gameHistoryContainer = document.getElementById('gameHistory');
             gameHistoryContainer.innerHTML = ''; 
 
+            // Sort game history by date_time_played in descending order
+            gameHistoryData.sort((a, b) => new Date(b.date_time_played) - new Date(a.date_time_played));
+
             gameHistoryData.forEach(game => {
                 const gameElement = document.createElement('div');
-                gameElement.classList.add('game-item');
+                gameElement.classList.add('game-item', 'mb-3', 'border', 'border-primary', 'rounded', 'p-3');
                 gameElement.innerHTML = `
                     <div><strong>Opponent:</strong> ${game.opponent || 'cpu'}</div>
                     <div><strong>Game Type:</strong> ${game.game_type}</div>
                     <div><strong>Date Played:</strong> ${game.date_time_played}</div>
+                    <div><strong>Result:</strong> 
+                        ${game.tournaments_won ? '<i class="bi bi-trophy-fill text-success fs-5"></i>' : '<i class="bi bi-emoji-frown-fill text-danger fs-5"></i>'}
+                    </div>
                 `;
                 gameHistoryContainer.appendChild(gameElement);
             });
@@ -44,7 +49,6 @@ async function showGameHistory() {
         console.error('Error fetching and displaying game history:', error);
     }
 }
-
 
 function isLocalDeployment() {
     return window.location.href.includes("pong42");
