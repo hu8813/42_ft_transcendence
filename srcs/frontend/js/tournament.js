@@ -72,7 +72,7 @@ function getPlayerNames(playerCount, currentPlayerIndex, players) {
         if (event.key === 'Enter') {
             let playerName = input.value.replace(/[^a-z0-9]/gi, '').substring(0, 7);
             if (!playerName) {
-                playerName = `Player${currentPlayerIndex}`;
+                playerName = `X${currentPlayerIndex}`;
             } else {
                 let suffix = 1;
                 let originalPlayerName = playerName;
@@ -93,25 +93,6 @@ function getPlayerNames(playerCount, currentPlayerIndex, players) {
         }
     };
 }
-
-function startTournament(playerCount) {
-    console.log(`Tournament with ${playerCount} players is starting.`);
-    const players = [];
-    for (let i = 1; i <= playerCount; i++) {
-        let playerName = prompt(`Enter name for Player ${i}:`);
-
-        if (playerName === null) {
-            window.location.reload();
-            return;
-        }
-        if (playerName)
-            playerName = playerName.replace(/[^a-z0-9]/gi, '').substring(0, 7);
-        players.push(playerName || `X ${i}`);
-    }
-    shuffleArray(players);
-    showTournament(players, playerCount);
-}
-
 
 function showTournament(players, playerCount) {
     const canvas = document.getElementById('canvastour');
