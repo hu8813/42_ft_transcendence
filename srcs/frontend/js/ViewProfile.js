@@ -1,4 +1,17 @@
+window.addEventListener('click', function(event) {
+    const gameHistoryContainer = document.getElementById('gameHistory2');
+    if (gameHistoryContainer && event.target !== gameHistoryContainer && !gameHistoryContainer.contains(event.target)) {
+        gameHistoryContainer.style.display = 'none';
+    }
+});
 
+// Function to close the game history container
+function closeGameHistory() {
+    const gameHistoryContainer = document.getElementById('gameHistory2');
+    if (gameHistoryContainer) {
+        gameHistoryContainer.style.display = 'none';
+    }
+}
 
 async function fetchAndDisplayViewProfile(username) {
      
@@ -55,8 +68,10 @@ async function fetchAndDisplayViewProfile(username) {
                         const gameHistoryData = await gameHistoryResponse.json();
             
                         const gameHistoryContainer = document.getElementById('gameHistory2');
-                        gameHistoryContainer.innerHTML = ''; 
-            
+                        if (gameHistoryContainer){
+                            gameHistoryContainer.style.display = 'flex'; // Change display to flex
+                            gameHistoryContainer.innerHTML = '<button id="closeGameHistoryBtn" class="close-button" onclick="closeGameHistory()">Close</button>';
+                        }
                         // Sort game history by date_time_played in descending order
                         gameHistoryData.sort((a, b) => new Date(b.date_time_played) - new Date(a.date_time_played));
             
@@ -81,6 +96,7 @@ async function fetchAndDisplayViewProfile(username) {
                     console.error('Error fetching and displaying game history:', error);
                 }
             });
+            
 
             document.getElementById('addfriend').addEventListener('click', async function() {
                 try {
