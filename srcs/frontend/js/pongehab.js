@@ -162,34 +162,19 @@ function showPongEhab() {
             }
         }
 
-        async function showGameOverModal2(winner) {
-          ctx.fillStyle = "white";
-          ctx.font = "48px Arial";
-          ctx.textAlign = "center";
-          let won = await translateKey("won");
-          ctx.fillText(`${winner} `+won, canvas.width / 2, canvas.height / 2);
-
-          const newGamButton2 = document.getElementById('newGamButton');
-          if (newGamButton2)
-              document.getElementById('newGamButton').style.display = 'block';
-          newGamButton();
-        }
-  
-        let gameOverMessage = '';
-    
-        function showGameOver() {
+        async function showGameOverModal(winner) {
             ctx.fillStyle = "rgba(0, 0, 0, 0.7)";
             ctx.fillRect(0, 0, canvas.width, canvas.height);
-
             ctx.fillStyle = "white";
             ctx.font = "48px Arial";
             ctx.textAlign = "center";
-            ctx.fillText(gameOverMessage, canvas.width / 2, canvas.height / 2 - 100); 
-        }
+            let won = await translateKey("won");
+            ctx.fillText(`${winner} `+won, canvas.width / 2, canvas.height / 2);
 
-        function showGameOverModal(winner) {
-            gameOverMessage = `${winner} Won!`;
-            showGameOverModal2(winner);
+            const newGamButton2 = document.getElementById('newGamButton');
+            if (newGamButton2)
+                document.getElementById('newGamButton').style.display = 'block';
+            newGamButton();
             gameOver = true;
         }
 
@@ -261,9 +246,6 @@ function showPongEhab() {
             drawPaddle(player2.x, player2.y, player2.width, player2.height, player2.color);
             drawBall(ball.x, ball.y, ball.radius, ball.color);
             drawScore();
-            if (gameOver) {
-              showGameOver(); 
-          }
         }
   
         function drawPaddle(x, y, width, height, color) {

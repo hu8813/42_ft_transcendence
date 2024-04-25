@@ -254,9 +254,18 @@ function showPong4() {
 
         }
 
-        function showGameOverModal(loser) {
-            gameOverMessage = `${loser} lost!`;
-            showGameOverModal2(loser);
+        async function showGameOverModal(loser) {
+            ctx.fillStyle = "rgba(0, 0, 0, 0.7)";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = "white";
+            ctx.font = "48px Arial";
+            ctx.textAlign = "center";
+            let lost = await translateKey("lost");
+            ctx.fillText(`${loser} `+lost, canvas.width / 2, canvas.height / 2);
+            const nGButton2 = document.getElementById('nGButton');
+            if (nGButton2)
+                document.getElementById('nGButton').style.display = 'block';
+            nGButton();
             gameOver = true;
         }
 
@@ -289,36 +298,40 @@ function showPong4() {
             // Ball collisions with players and scoring
             if (ball.x - ball.radius < 0) {
                 player1.score++;
-                if (player1.score >= 7) {
-                    gameOver = true;
-                    showGameOverModal(player+" 1");
-                } else {
-                    resetBall();
-                }
+                // if (player1.score >= 7) {
+                //     gameOver = true;
+                //     showGameOverModal(player+" 1");
+                // } else {
+                //     resetBall();
+                // }
+                resetBall();
             } else if (ball.x + ball.radius > canvas.width) {
                 player2.score++;
-                if (player2.score >= 7) {
-                    gameOver = true;
-                    showGameOverModal(player+" 2");
-                } else {
-                    resetBall();
-                }
+                // if (player2.score >= 7) {
+                //     gameOver = true;
+                //     showGameOverModal(player+" 2");
+                // } else {
+                //     resetBall();
+                // }
+                resetBall();
             } else if (ball.y + ball.radius >= canvas.height) {
                 player3.score++;
-                if (player3.score >= 7) {
-                    gameOver = true;
-                    showGameOverModal(player+" 3");
-                } else {
-                    resetBall();
-                }
+                // if (player3.score >= 7) {
+                //     gameOver = true;
+                //     showGameOverModal(player+" 3");
+                // } else {
+                //     resetBall();
+                // }
+                resetBall();
             } else if (ball.y - ball.radius <= 0) {
                 player4.score++;
-                if (player4.score >= 7) {
-                    gameOver = true;
-                    showGameOverModal(player+" 4");
-                } else {
-                    resetBall();
-                }
+                // if (player4.score >= 7) {
+                //     gameOver = true;
+                //     showGameOverModal(player+" 4");
+                // } else {
+                //     resetBall();
+                // }
+                resetBall();
             }
 
             // Ball collisions with players
@@ -336,12 +349,33 @@ function showPong4() {
             }
         }
 
+        // function resetBall() {
+        //     ball.x = canvas.width / 2;
+        //     ball.y = canvas.height / 2;
+        //     ball.velocityX = (Math.random() > 0.5 ? 1 : -1) * ball.speed;
+        //     ball.velocityY = (Math.random() * 2 - 1) * ball.speed;
+        //     ball.speed = 7;
+        // }
         function resetBall() {
             ball.x = canvas.width / 2;
             ball.y = canvas.height / 2;
             ball.velocityX = (Math.random() > 0.5 ? 1 : -1) * ball.speed;
             ball.velocityY = (Math.random() * 2 - 1) * ball.speed;
             ball.speed = 7;
+        
+            if (player1.score >= 7 || player2.score >= 7 || player3.score >= 7 || player4.score >= 7) {
+                setTimeout(() => {
+                    if (player1.score >= 7) {
+                        showGameOverModal("Player 1");
+                    } else if (player2.score >= 7) {
+                        showGameOverModal("Player 2");
+                    } else if (player3.score >= 7){
+                        showGameOverModal("Player 3");
+                    } else if (player4.score >= 7){
+                        showGameOverModal("Player 4");
+                    }
+                }, 100);
+            }
         }
 
         function drawScore() {

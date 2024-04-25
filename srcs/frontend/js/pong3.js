@@ -192,7 +192,9 @@ function showPong3() {
             }
         }
 
-        async function showGameOverModal2(loser) {
+        async function showGameOverModal(loser) {
+            ctx.fillStyle = "rgba(0, 0, 0, 0.7)";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
             ctx.fillStyle = "white";
             ctx.font = "48px Arial";
             ctx.textAlign = "center";
@@ -203,29 +205,9 @@ function showPong3() {
             if (newGButton2)
                 document.getElementById('newGButton').style.display = 'block';
             newGButton();
-        }
-
-        function showGameOver() {
-            ctx.fillStyle = "rgba(0, 0, 0, 0.7)";
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-            ctx.fillStyle = "white";
-            ctx.font = "48px Arial";
-            ctx.textAlign = "center";
-            ctx.fillText(gameOverMessage, canvas.width / 2, canvas.height / 2 - 100);
-
-        }
-
-        function showGameOverModal(loser) {
-            gameOverMessage = `${loser} lost!`;
-            showGameOverModal2(loser);
             gameOver = true;
         }
 
-        function disableControls() {
-            document.removeEventListener('keydown', keyDownHandler);
-            document.removeEventListener('keyup', keyUpHandler);
-        }
 
         async function update() {
             if (gameOver) return;
@@ -251,22 +233,22 @@ function showPong3() {
             let player = await translateKey("player");
             if (ball.x - ball.radius < 0) {
                 player1.score++;
-                if (player1.score >= 7) {
-                    gameOver = true;
-                    showGameOverModal(player+" 1");
-                    disableControls();
-                } else {
-                    resetBall();
-                }
+                // if (player1.score >= 7) {
+                //     gameOver = true;
+                //     showGameOverModal(player+" 1");
+                // } else {
+                //     resetBall();
+                // }
+                resetBall();
             } else if (ball.x + ball.radius > canvas.width) {
                 player2.score++;
-                if (player2.score >= 7) {
-                    gameOver = true;
-                    showGameOverModal(player+" 2");
-                    disableControls();
-                } else {
-                    resetBall();
-                }
+                // if (player2.score >= 7) {
+                //     gameOver = true;
+                //     showGameOverModal(player+" 2");
+                // } else {
+                //     resetBall();
+                // }
+                resetBall();
             }
 
 
@@ -277,13 +259,14 @@ function showPong3() {
                 } else {
 
                     player3.score++;
-                    if (player3.score >= 7) {
-                        gameOver = true;
-                        showGameOverModal(player+" 3");
-                        disableControls();
-                    } else {
-                        resetBall();
-                    }
+                    // if (player3.score >= 7) {
+                    //     gameOver = true;
+                    //     showGameOverModal(player+" 3");
+                    //     disableControls();
+                    // } else {
+                    //     resetBall();
+                    // }
+                    resetBall();
                 }
             }
 
@@ -293,12 +276,31 @@ function showPong3() {
         }
 
 
+        // function resetBall() {
+        //     ball.x = canvas.width / 2;
+        //     ball.y = canvas.height / 2;
+        //     ball.velocityX = (Math.random() > 0.5 ? 1 : -1) * ball.speed;
+        //     ball.velocityY = (Math.random() * 2 - 1) * ball.speed;
+        //     ball.speed = 7;
+        // }
         function resetBall() {
             ball.x = canvas.width / 2;
             ball.y = canvas.height / 2;
             ball.velocityX = (Math.random() > 0.5 ? 1 : -1) * ball.speed;
             ball.velocityY = (Math.random() * 2 - 1) * ball.speed;
             ball.speed = 7;
+        
+            if (player1.score >= 7 || player2.score >= 7 || player3.score >= 7) {
+                setTimeout(() => {
+                    if (player1.score >= 7) {
+                        showGameOverModal("Player 1");
+                    } else if (player2.score >= 7) {
+                        showGameOverModal("Player 2");
+                    } else if (player3.score >= 7){
+                        showGameOverModal("Player 3");
+                    }
+                }, 100);
+            }
         }
 
         function drawScore() {
@@ -317,10 +319,6 @@ function showPong3() {
             drawPaddle(player3.x, player3.y, player3.width, player3.height, player3.color);
             drawBall(ball.x, ball.y, ball.radius, ball.color);
             drawScore();
-            if (gameOver) {
-                showGameOver();
-            }
-
         }
 
         function drawPaddle(x, y, width, height, color) {
