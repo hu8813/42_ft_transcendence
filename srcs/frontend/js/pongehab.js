@@ -214,9 +214,22 @@ function showPongEhab() {
             let player = await translateKey("player");
             if (ball.x - ball.radius < 0) {
                 player2.score++;
+                // if (player2.score === 7) {
+                //     gameOver = true;
+                //     showGameOverModal(player+" 2");
+                // } else {
+                //     resetBall();
+                // }
                 resetBall();
             } else if (ball.x + ball.radius > canvas.width) {
                 player1.score++;
+                // if (player1.score === 7) {
+                //     gameOver = true;
+                //     showGameOverModal(player+" 1");
+                //     disableControls();
+                // } else {
+                //     resetBall();
+                // }
                 resetBall();
             }
   
