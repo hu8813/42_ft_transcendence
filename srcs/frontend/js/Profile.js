@@ -7,6 +7,7 @@ function displayErrorMessage(message) {
         errorMessageElement.style.fontSize = '0.6em';
     }
 }
+
 async function showGameHistory() {
     try {
         const jwtToken = localStorage.getItem('jwtToken');

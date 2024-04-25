@@ -315,7 +315,6 @@ def block_user(request):
     except Exception as e:
         return JsonResponse({'message': str(e)}, status=401)
 
-
 def fetch_game_history(request):
     try:
         token = request.headers.get('Authorization', '').split('Bearer ')[-1]
@@ -323,6 +322,13 @@ def fetch_game_history(request):
         user_id = payload['user_id']
         if user_id and 'user_id' not in request.session:
             request.session['user_id'] = user_id
+        username = request.GET.get('username')
+        
+        if username and is_valid_username(username):
+            user = User.objects.get(username=username)
+            user_id = user.id
+        else:
+            user = User.objects.get(id=user_id)
 
         game_history = Achievement.objects.filter(user_id=user_id)
 
@@ -340,6 +346,8 @@ def fetch_game_history(request):
         return JsonResponse({'error': 'JWT token expired'}, status=401)
     except jwt.InvalidTokenError:
         return JsonResponse({'error': 'Invalid JWT token'}, status=401)
+    except User.DoesNotExist:
+        return JsonResponse({'error': 'User not found'}, status=404)
     except KeyError:
         return JsonResponse({'error': 'User ID not found in token'}, status=400)
     except Exception as e:
