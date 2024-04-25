@@ -162,5 +162,8 @@
   "enter": "Enter name for Player",
   "winner": "The winner of the tournament is",
   "congrats": "Congratulations!",
-  "tourna": "Tournament starts now."
+  "tourna": "Tournament starts now.",
+  "scoregoals": "Whoever scores 7 goals first wins",
+  "leftside": "You are on the left side.",
+  "moving": "use 'W' and 'S' to move."
 }

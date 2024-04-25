@@ -161,6 +161,9 @@
     "enter": "玩家姓名",
     "winner": "比赛的赢家是玩家",
     "congrats": "祝贺！",
-    "tourna": "比赛现在开始。"
+    "tourna": "比赛现在开始。",
+    "scoregoals": "先进7球者获胜",
+  "leftside": "你在左侧。",
+  "moving": "使用 'W' 和 'S' 进行移动."
   }
   

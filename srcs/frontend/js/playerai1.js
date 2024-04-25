@@ -112,7 +112,7 @@ function showPlayerAi1Page() {
 
         showStartMessageWithCountdown(5);
 
-        function showStartMessageWithCountdown(seconds) {
+        async function showStartMessageWithCountdown(seconds) {
             if(seconds > 0) {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 ctx.fillStyle = "rgba(0, 0, 0, 0.7)"; 
@@ -121,19 +121,20 @@ function showPlayerAi1Page() {
                 ctx.fillStyle = "#FFF"; 
                 ctx.font = "30px Arial";
                 ctx.textAlign = "center";
-                ctx.fillText("Whoever scores 7 goals first wins", canvas.width / 2, canvas.height / 2 - 120);
+                let scoregoals = await translateKey("scoregoals");
+                ctx.fillText(scoregoals, canvas.width / 2, canvas.height / 2 - 120);
                 
                 ctx.font = "bold 50px Arial";
                 ctx.fillText(seconds, canvas.width / 2, canvas.height / 2 + 5);
                 
                 ctx.font = "25px Arial";
-                ctx.fillText("You are on the left side.", canvas.width / 2, canvas.height / 2 + 80);
+                let leftside = await translateKey("leftside");
+                ctx.fillText(leftside, canvas.width / 2, canvas.height / 2 + 80);
                 
                 ctx.font = "25px Arial";
-                ctx.fillText("if you play on the pc, use 'W' to move up and 'S' to move down.", canvas.width / 2, canvas.height / 2 + 130);        
-                
-    
-                
+                let moving = await translateKey("moving");
+                ctx.fillText(moving, canvas.width / 2, canvas.height / 2 + 130);        
+
                 setTimeout(function() {
                 showStartMessageWithCountdown(seconds - 1);
                 }, 1000);
