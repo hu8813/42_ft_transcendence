@@ -184,28 +184,18 @@ function showPlayerAi1Page() {
         async function update() {
             if (gameOver || isGamePaused) return;
 
-            const paddleSpeed = 8; //---------------
-            const cpuReactionBuffer = 40;//----
+            const paddleSpeed = 8;
+            const cpuReactionBuffer = 40;
 
-            // if (wPressed && player1.y > 0) player1.y -= 8;
-            // if (sPressed && (player1.y + player1.height) < canvas.height) player1.y += 8;
-        
             if (wPressed && player1.y > 0) player1.y -= paddleSpeed;
             if (sPressed && (player1.y + player1.height) < canvas.height) player1.y += paddleSpeed;
 
-            // let cpuSpeed = 0.2;
-            // CPU.y += (ball.y - (CPU.y + CPU.height / 2)) * cpuSpeed;
-            // CPU.y = Math.max(Math.min(CPU.y, canvas.height - CPU.height), 0);
-
-            //----
             if (Math.abs(ball.y - (CPU.y + CPU.height / 2)) > cpuReactionBuffer) {
                 let cpuDirection = ball.y < CPU.y + CPU.height / 2 ? -1 : 1;
                 CPU.y += cpuDirection * paddleSpeed;
             }
             CPU.y = Math.max(Math.min(CPU.y, canvas.height - CPU.height), 0);
-            //-------------
-        
-        
+
             ball.x += ball.velocityX;
             ball.y += ball.velocityY;
         
@@ -240,7 +230,6 @@ function showPlayerAi1Page() {
                     }
                     showGameOverModal('CPU');
                 } else {
-                    //resetBall();
                     resetGame();
                 }
             } else if (ball.x + ball.radius > canvas.width) {
@@ -268,7 +257,6 @@ function showPlayerAi1Page() {
                     }
                     showGameOverModal('player1');
                 } else {
-                    //resetBall();
                     resetGame();
                 }
             }
@@ -280,7 +268,6 @@ function showPlayerAi1Page() {
                 handlePaddleBallCollision(CPU, ball);
             }
         }
-        
 
         function resetBall() {
             ball.x = canvas.width / 2;

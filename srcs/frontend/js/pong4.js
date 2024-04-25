@@ -232,28 +232,6 @@ function showPong4() {
             }
         }
 
-        async function showGameOverModal2(loser) {
-            ctx.fillStyle = "white";
-            ctx.font = "48px Arial";
-            ctx.textAlign = "center";
-            let lost = await translateKey("lost");
-            ctx.fillText(`${loser} `+lost, canvas.width / 2, canvas.height / 2);
-            const nGButton2 = document.getElementById('nGButton');
-            if (nGButton2)
-                document.getElementById('nGButton').style.display = 'block';
-            nGButton();
-        }
-
-        function showGameOver() {
-            ctx.fillStyle = "rgba(0, 0, 0, 0.7)";
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = "white";
-            ctx.font = "48px Arial";
-            ctx.textAlign = "center";
-            ctx.fillText(gameOverMessage, canvas.width / 2, canvas.height / 2 - 100);
-
-        }
-
         async function showGameOverModal(loser) {
             ctx.fillStyle = "rgba(0, 0, 0, 0.7)";
             ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -349,13 +327,6 @@ function showPong4() {
             }
         }
 
-        // function resetBall() {
-        //     ball.x = canvas.width / 2;
-        //     ball.y = canvas.height / 2;
-        //     ball.velocityX = (Math.random() > 0.5 ? 1 : -1) * ball.speed;
-        //     ball.velocityY = (Math.random() * 2 - 1) * ball.speed;
-        //     ball.speed = 7;
-        // }
         function resetBall() {
             ball.x = canvas.width / 2;
             ball.y = canvas.height / 2;
