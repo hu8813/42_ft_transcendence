@@ -151,10 +151,15 @@
   "wontext": "KAZANDINIZ\nTEKRAR OYNA",
   "losetext": "CPU KAZANDI\nTEKRAR OYNA",
   "useWS":"kullan",
-"whoevergets":"7 gol yiyen kaybeder",
-"starting":"Başlangıç ",
+  "whoevergets":"7 gol yiyen kaybeder",
+  "starting":"Başlangıç ",
   "changePhoto": "Fotoğraf Yükle",
   "plagain": "Tekrar oyna!",
-"lost": "kaybetti!",
-"won": "kazandı!"
+  "lost": "kaybetti!",
+  "won": "kazandı!",
+  "howmany": "Turnuvaya kaç oyuncu katılacak?",
+  "enter": "Oyuncu adı",
+  "winner": "Turnuvanın kazananı Oyuncu",
+  "congrats": "Tebrikler!",
+  "tourna": "Turnuva şimdi başlıyor."
 }

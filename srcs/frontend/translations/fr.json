@@ -151,10 +151,15 @@
   "wontext": "VOUS AVEZ GAGNÉ\nREJOUER",
   "losetext": "CPU A GAGNÉ\nREJOUER",
   "useWS":"utiliser",
-"whoevergets":"Celui qui encaisse 7 buts perd",
-"starting":"Commence dans ",
+  "whoevergets":"Celui qui encaisse 7 buts perd",
+  "starting":"Commence dans ",
   "changePhoto": "Télécharger une photo",
   "plagain": "Rejouer!",
-"lost": "perd!",
-"won": "gagne!"
+  "lost": "perd!",
+  "won": "gagne!",
+  "howmany": "Combien de joueurs participeront au tournoi?",
+  "enter": "Nom du joueur",
+  "winner": "Le gagnant du tournoi est le joueur",
+  "congrats": "Félicitations!",
+  "tourna": "Le tournoi commence maintenant."
 }

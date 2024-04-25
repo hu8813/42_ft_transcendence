@@ -1,4 +1,4 @@
-function askPlayerCount() {
+async function askPlayerCount() {
     const canvas = document.getElementById('canvastour');
     if (!canvas) return;
 
@@ -13,7 +13,8 @@ function askPlayerCount() {
     ctx.font = "30px Arial";
     ctx.fillStyle = "white";
     ctx.textAlign = "center";
-    ctx.fillText("How many players will there be in the tournament?", canvas.width / 2, canvas.height / 2.3);
+    let howmany = await translateKey("howmany");
+    ctx.fillText(howmany, canvas.width / 2, canvas.height / 2.3);
 
     ctx.fillStyle = "#4CAF50";
     ctx.fillRect(canvas.width / 4 - 50, canvas.height / 2, 100, 50);
@@ -38,13 +39,14 @@ function askPlayerCount() {
     });
 }
 
-function getPlayerNames(playerCount, currentPlayerIndex, players) {
+async function getPlayerNames(playerCount, currentPlayerIndex, players) {
     const canvas = document.getElementById('canvastour');
     const input = document.createElement('input');
     if (!canvas) return;
 
     input.type = 'text';
-    input.placeholder = `Enter name for Player ${currentPlayerIndex}`;
+    let enter = await translateKey("enter");
+    input.placeholder = enter+` ${currentPlayerIndex}`;
     input.style.position = 'absolute';
     input.style.zIndex = '10';
     document.body.appendChild(input);
@@ -94,7 +96,7 @@ function getPlayerNames(playerCount, currentPlayerIndex, players) {
     };
 }
 
-function showTournament(players, playerCount) {
+async function showTournament(players, playerCount) {
     const canvas = document.getElementById('canvastour');
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
@@ -128,13 +130,15 @@ function showTournament(players, playerCount) {
         }, duration);
     }
     
-    function nextMatch() {
+    async function nextMatch() {
         if (currentMatch >= roundMatches) { 
             players.splice(0, players.length, ...winners);
             winners = [];
             roundMatches /= 2;
             currentMatch = 0;
             if (roundMatches < 1) {
+                let winner = await translateKey("winner");
+                let congrats = await translateKey("congrats");
                 console.log(`The winner of the tournament is Player ${players[0]}! Congratulations!`);
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 ctx.fillStyle = "rgba(0, 0, 0, 0.7)";
@@ -144,10 +148,10 @@ function showTournament(players, playerCount) {
                 ctx.font = "bold 30px Arial";
                 ctx.textAlign = "center";
                 
-                ctx.fillText(`The winner of the tournament is`, canvas.width / 2 , canvas.height / 3);
+                ctx.fillText(winner, canvas.width / 2 , canvas.height / 3);
                 ctx.fillText(`🏆🏆   ${players[0]} !  🏆🏆`, canvas.width / 2 , canvas.height / 2.4);
                 //ctx.fillText(`${players[0]} !`, canvas.width / 2 , canvas.height / 2.4);
-                ctx.fillText(`Congratulations!`, canvas.width / 2 , canvas.height / 2);
+                ctx.fillText(congrats, canvas.width / 2 , canvas.height / 2);
                 return;
             }
         }
@@ -164,9 +168,9 @@ function showTournament(players, playerCount) {
         currentMatch++;
         nextMatch();
     }
-
+    let tourna = await translateKey("tourna");
     console.log("Tournament starts now.");
-    let initialMessage = "Tournament starts now.\n";
+    let initialMessage = tourna+"\n";
     for (let i = 0; i < roundMatches; i++) {
         let matchPlayers = [players[i * 2], players[i * 2 + 1]];
         initialMessage += `Match ${i + 1}:  ${matchPlayers[0]} vs  ${matchPlayers[1]}\n`;
@@ -239,7 +243,7 @@ function showPongTour(player1Name, player2Name, isFinal, handleWinner) {
 
     showStartMessageWithCountdown(5);
 
-    function showStartMessageWithCountdown(seconds) {
+    async function showStartMessageWithCountdown(seconds) {
         if (seconds > 0) {
             ctx.fillStyle = "rgba(0, 0, 0, 0.7)";
             ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -248,14 +252,17 @@ function showPongTour(player1Name, player2Name, isFinal, handleWinner) {
             ctx.font = "20px Arial";
             ctx.textAlign = "left";
     
-            ctx.fillText("Use (W / S)", 20, canvas.height / 2 + 10);
+            let useWS = await translateKey("useWS");
+            ctx.fillText(useWS+" (W / S)", 20, canvas.height / 2 + 10);
     
-            ctx.fillText("Use (↑ / ↓)", canvas.width - 100, canvas.height / 2 + 10);
+            ctx.fillText(useWS+" (↑ / ↓)", canvas.width - 150, canvas.height / 2 + 10);
             ctx.font = "bold 30px Arial";
-            ctx.fillText("Whoever scores 7 goals first wins", canvas.width / 2 - 220, canvas.height / 2 - 20);
+            let whoevergets = await translateKey("whoevergets");
+            ctx.fillText(whoevergets, canvas.width / 2 - 220, canvas.height / 2 - 20);
 
             ctx.font = "bold 30px Arial";
-            ctx.fillText("Starting in: " + seconds, canvas.width / 2 - 100, canvas.height / 2 + 50);
+            let starting = await translateKey("starting");
+            ctx.fillText(starting + seconds, canvas.width / 2 - 100, canvas.height / 2 + 50);
 
             setTimeout(function () {
                 showStartMessageWithCountdown(seconds - 1);
@@ -428,14 +435,14 @@ function showPongTour(player1Name, player2Name, isFinal, handleWinner) {
 
     function showGameOverModal2(winnerName) {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        setTimeout(function() {
+        setTimeout(async function() {
+        let won = await translateKey("won");
         ctx.fillStyle = "rgba(0, 0, 0, 0.75)";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         ctx.fillStyle = "#FFF";
         ctx.font = "bold 30px Arial";
         ctx.textAlign = "center";
-        
-        ctx.fillText(`🏆 ${winnerName} Won! 🏆`, canvas.width / 2, canvas.height / 2);
+        ctx.fillText(`🏆 ${winnerName} `+won+` 🏆`, canvas.width / 2, canvas.height / 2);
     }, 1000);
     console.log(`${winnerName} Won!`);
     }

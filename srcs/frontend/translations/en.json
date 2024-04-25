@@ -157,5 +157,10 @@
   "changePhoto": "Upload Photo",
   "plagain": "Play again!",
   "lost": "lost!",
-  "won": "won!"
+  "won": "won!",
+  "howmany": "How many players will there be in the tournament?",
+  "enter": "Enter name for Player",
+  "winner": "The winner of the tournament is",
+  "congrats": "Congratulations!",
+  "tourna": "Tournament starts now."
 }

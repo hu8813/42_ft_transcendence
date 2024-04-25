@@ -151,10 +151,15 @@
   "wontext": "VOCÊ VENCEU\nJOGAR NOVAMENTE",
   "losetext": "CPU VENCEU\nJOGAR NOVAMENTE",
   "useWS":"usar",
-"whoevergets":"Quem sofrer 7 gols perde",
-"starting":"Começando em ",
+  "whoevergets":"Quem sofrer 7 gols perde",
+  "starting":"Começando em ",
   "changePhoto": "Enviar Foto",
   "plagain": "Jogue novamente!",
-"lost": "perde!",
-"won": "ganha!"
+  "lost": "perde!",
+  "won": "ganha!",
+  "howmany": "Quantos jogadores participarão no torneio?",
+  "enter": "Nome do jogador",
+  "winner": "O vencedor do torneio é o jogador",
+  "congrats": "Parabéns!",
+  "tourna": "O torneio começa agora."
 }

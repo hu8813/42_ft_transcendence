@@ -156,5 +156,10 @@
   "changePhoto": "Foto hochladen",
   "plagain": "Spiel nochmal!",
   "lost": "verliert!",
-  "won": "gewinnt!"
+  "won": "gewinnt!",
+  "howmany": "Wie viele Spieler werden am Turnier teilnehmen?",
+  "enter": "Name für Spieler",
+  "winner": "Der Gewinner des Turniers ist Spieler",
+  "congrats": "Herzlichen Glückwunsch!",
+  "tourna": "Das Turnier beginnt jetzt."
 }
