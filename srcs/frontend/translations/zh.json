@@ -151,11 +151,16 @@
     "wontext": "你赢了\n再玩一次",
     "losetext": "CPU赢了\n再玩一次",
     "useWS":"使用",
-"whoevergets":"谁丢掉7个球谁就输了",
-"starting":"从开始 ",
+    "whoevergets":"谁丢掉7个球谁就输了",
+    "starting":"从开始 ",
     "changePhoto": "上传照片",
     "plagain": "再玩一次！",
-"lost": "输了！",
-"won": "赢了！"
+    "lost": "输了！",
+    "won": "赢了！",
+    "howmany": "比赛中会有多少玩家参与？",
+    "enter": "玩家姓名",
+    "winner": "比赛的赢家是玩家",
+    "congrats": "祝贺！",
+    "tourna": "比赛现在开始。"
   }
   
