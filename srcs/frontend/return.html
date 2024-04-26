@@ -6,19 +6,7 @@
 <title>Login Return</title>
 </head>
 <body>
-<div id="login-status2"></div>
-<div id="error-message" style="display: none; text-align: center; margin-top: 20px; color: red;"></div>
-<div style="display: flex; justify-content: center; margin-top: 20px;">
-  <button id="return-home" style="padding: 10px 20px; background-color: #007bff; color: #fff; border: none; border-radius: 5px; cursor: pointer;">Redirecting to Homepage</button>
-</div>
-
 <script>
-    
-const loginStatus2 = document.getElementById("login-status2");
-const errorMessage = document.getElementById("error-message");
-const returnHomeButton = document.getElementById("return-home");
-
-let attempts = 0;
 
 async function getCSRFCookie() {
   const csrfCookieName = 'csrftoken'; 
@@ -49,30 +37,6 @@ async function getCSRFCookie() {
   }
 }
 
-
-async function check2FACode(username, code) {
-    try {
-        const csrfToken = await getCSRFCookie();
-
-        const response = await fetch(`/api/check-2fa-code?username=${username}&code=${code}`, {
-            method: 'GET',
-            headers: {
-                'X-CSRFToken': csrfToken
-            }
-        });
-
-        if (!response.ok) {
-            throw new Error('Failed to check 2FA code');
-        }
-
-        const data = await response.json();
-
-        return data.valid;
-    } catch (error) {
-        console.error('Error checking 2FA code:', error);
-        return false;
-    }
-}
 
 function getCookie(name) {
   const cookies = document.cookie.split(';');
@@ -115,49 +79,17 @@ document.addEventListener("DOMContentLoaded", async function() {
       const responseData = await response.json();
       const userData = responseData.user; 
       const userNickname = userData.userNickname || userData.nickname;
-      const is_oauth_user = userData.is_oauth_user;
-      const two_factor_enabled = userData.two_factor_enabled;
-      if (is_oauth_user && two_factor_enabled) {
-        while (attempts < 3) {
-          const twoFactorCode = prompt("Enter your 2FA code:");
-          if (!twoFactorCode) {
-              errorMessage.textContent = "2FA code is required.";
-              errorMessage.style.display = "block";
-              return;
-          }
-          
-          const is2FACodeValid = await check2FACode(userData.login, twoFactorCode);
-          if (!is2FACodeValid) {
-              attempts++;
-              errorMessage.textContent = `Invalid 2FA code. You have ${3 - attempts} attempts left.`;
-              errorMessage.style.display = "block";
-              if (attempts === 3) {
-                  errorMessage.textContent = "You have used all your attempts. Returning to homepage...";
-                  errorMessage.style.display = "block";
-                  setTimeout(() => {
-                      window.location.href = "/";
-                  }, 2000);
-              }
-          } else {
-              errorMessage.style.display = "none";
-              localStorage.setItem("isLoggedIn", true);
-              localStorage.setItem("userNickname", userNickname );
-              setTimeout(() => {
-                  window.location.href = "/#profile";
-              }, 2000);
-              break;
-          }
-        }
-      }
+      localStorage.setItem("isLoggedIn", true);
+      localStorage.setItem("userNickname", userNickname );
+      //let isLoggedIn = true;
+      setTimeout(() => {
+        window.location.href = "/#profile";
+    }, 2000);
     } catch (error) {
       console.error("Error fetching user info:", error);
       window.location.href = "/#logout";
     }
   }
-});
-
-returnHomeButton.addEventListener("click", () => {
-  window.location.href = "/";
 });
 
 </script>
