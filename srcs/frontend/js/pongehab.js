@@ -115,17 +115,6 @@ function showPongEhab() {
             ball.velocityY = ball.speed * Math.sin(angleRad);
             ball.speed += 0.1;
         }
-
-        function newGamButton() {
-            const button = document.getElementById('newGamButton');
-            if (button)
-            {
-                button.style.display = 'block'; 
-                button.addEventListener('click', function() {
-                location.reload(); 
-                });
-            }
-        }
         
         showStartMessageWithCountdown(5);
 
@@ -169,16 +158,23 @@ function showPongEhab() {
             ctx.font = "48px Arial";
             ctx.textAlign = "center";
             let won = await translateKey("won");
-            ctx.fillText(`${winner} `+won, canvas.width / 2, canvas.height / 2);
-
-            setTimeout(() => {
-                const newGamButton2 = document.getElementById('newGamButton');
-                if (newGamButton2)
-                    document.getElementById('newGamButton').style.display = 'block';
-                newGamButton();
-            }, 1000);
+            ctx.fillText(`${winner} ` + won, canvas.width / 2, canvas.height / 2.3);
+        
+            ctx.font = "24px Arial";
+            ctx.fillText("Click anywhere to play again", canvas.width / 2, canvas.height / 2 + 50);
+            
             gameOver = true;
+            addCanvasClickListener();
         }
+        
+        function addCanvasClickListener() {
+            canvas.addEventListener('click', function handleClick() {
+                location.reload();
+                canvas.removeEventListener('click', handleClick);
+            }, { once: true });
+        }
+        
+        
 
         function update() {
             if (gameOver|| isGamePaused) return;
