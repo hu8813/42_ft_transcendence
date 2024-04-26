@@ -179,6 +179,14 @@
   "invalidCode": "无效的激活码",
   "2faFailed":"无法停用2FA。请稍后重试。",
   "2faDeactivated":"2FA已成功停用。",
-  "2faActivated":"2FA已成功激活。"
+  "2faActivated":"2FA已成功激活。",
+  "single": "单人游戏 (CPU)",
+"multi": "多人游戏 (本地)",
+"multi2": "多人游戏 2 名玩家 (本地)",
+"multi3": "多人游戏 3 名玩家 (本地)",
+"multi4": "多人游戏 4 名玩家 (本地)",
+"tournament": "锦标赛",
+"rps": "石头剪刀布"
+
   }
   

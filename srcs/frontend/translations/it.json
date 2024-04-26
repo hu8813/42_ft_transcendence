@@ -179,5 +179,13 @@
   "invalidCode": "Codice di attivazione non valido",
   "2faFailed":"Impossibile disattivare il 2FA. Riprova più tardi.",
   "2faDeactivated":"Il 2FA è stato disattivato con successo.",
-  "2faActivated":"Il 2FA è stato attivato con successo."
+  "2faActivated":"Il 2FA è stato attivato con successo.",
+  "single": "Giocatore singolo (CPU)",
+"multi": "Multigiocatore (locale)",
+"multi2": "Multigiocatore 2 giocatori (locale)",
+"multi3": "Multigiocatore 3 giocatori (locale)",
+"multi4": "Multigiocatore 4 giocatori (locale)",
+"tournament": "Torneo",
+"rps": "Carta Forbice Sasso"
+
 }

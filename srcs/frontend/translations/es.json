@@ -179,6 +179,14 @@
   "invalidCode": "Código de activación no válido",
   "2faFailed": "No se pudo desactivar 2FA. Por favor, inténtalo de nuevo más tarde.",
   "2faDeactivated": "2FA se ha desactivado correctamente.",
-  "2faActivated": "2FA se ha activado correctamente."
+  "2faActivated": "2FA se ha activado correctamente.",
+  "single": "Un jugador (CPU)",
+"multi": "Multijugador (local)",
+"multi2": "Multijugador 2 jugadores (local)",
+"multi3": "Multijugador 3 jugadores (local)",
+"multi4": "Multijugador 4 jugadores (local)",
+"tournament": "Torneo",
+"rps": "Piedra Papel Tijeras"
+
   }
   

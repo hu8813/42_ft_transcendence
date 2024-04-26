@@ -180,5 +180,12 @@
   "invalidCode": "Invalid activation code",
   "2faFailed":"Failed to deactivate 2FA. Please try again later.",
   "2faDeactivated":"2FA has been deactivated successfully.",
-  "2faActivated":"2FA has been activated successfully."
+  "2faActivated":"2FA has been activated successfully.",
+  "single": "Single Player (CPU)",
+  "multi": "Multiplayer (local)",
+  "multi2": "Multiplayer 2 Players (local)",
+  "multi3": "Multiplayer 3 Players (local)",
+  "multi4": "Multiplayer 4 Players (local)",
+  "tournament": "Tournament",
+  "rps": "Rock Paper Scissors"
 }

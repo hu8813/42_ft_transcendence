@@ -144,10 +144,11 @@ function showPlayerAi1Page() {
             }
         }
 
-        function showGameOverModal2(winner) {
+        async function showGameOverModal2(winner) {
             ctx.fillStyle = "white";
             ctx.font = "48px Arial";
-            ctx.fillText(`${winner} Won!`, canvas.width / 2, canvas.height / 2.5);
+            let won = await translateKey("won");
+            ctx.fillText(`${winner} `+won, canvas.width / 2, canvas.height / 2.5);
             
             setTimeout(() => {
                 const newGButton2 = document.getElementById('newGButton');

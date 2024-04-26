@@ -179,5 +179,13 @@
   "invalidCode": "Código de ativação inválido",
   "2faFailed":"Falha ao desativar o 2FA. Por favor, tente novamente mais tarde.",
   "2faDeactivated":"O 2FA foi desativado com sucesso.",
-  "2faActivated":"O 2FA foi ativado com sucesso."
+  "2faActivated":"O 2FA foi ativado com sucesso.",
+  "single": "Jogador Único (CPU)",
+"multi": "Multijogador (local)",
+"multi2": "Multijogador 2 jogadores (local)",
+"multi3": "Multijogador 3 jogadores (local)",
+"multi4": "Multijogador 4 jogadores (local)",
+"tournament": "Torneio",
+"rps": "Pedra Papel Tesoura"
+
 }

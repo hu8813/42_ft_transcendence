@@ -1,4 +1,5 @@
-function showGameModes() {
+async function showGameModes() {
+    let rps = await translateKey("rps");
     const initialVisibleData = [
         {
             text: "Pong42",
@@ -13,62 +14,59 @@ function showGameModes() {
             associatedCards: ["#tic1", "#tic2"] 
         },
         {
-            text: "Rock Paper Scissors",
+            text: rps,
             imgPlaceholder: './src/rps.png',
             href: "#rps", 
         }
     ];
-
+    let training = await translateKey("training");
+    let single = await translateKey("single");
+    let multi = await translateKey("multi");
+    let multi2 = await translateKey("multi2");
+    let multi3 = await translateKey("multi3");
+    let multi4 = await translateKey("multi4");
+    let tournament = await translateKey("tournament");
     const additionalData = [
         {
-            text: "Training (3D)",
+            text: training,
             imgPlaceholder: '../src/cpu.jpeg',
             href: "#player3d1",
         },
         {
-            text: "Single Player (CPU)",
+            text: single,
             imgPlaceholder: '../src/tournament.jpeg',
             href: "#playerai1",
         },
         {
-            text: "Multiplayer (local)",
+            text: multi,
             imgPlaceholder: './src/multiplayer.jpeg',
             href: "#pongMultiplayer",
             associatedCards: ["#pongehab", "#pong3", "#pong4"] 
         },
         {
-            text: "Multiplayer 2 Players (local)",
+            text: multi2,
             imgPlaceholder: './src/playagainst.jpeg',
             href: "#pongehab",
         },
         {
-            text: "Multiplayer 3 Players (local)",
+            text: multi3,
             imgPlaceholder: './src/multiplayer.jpeg',
             href: "#pong3",
         },
         {
-            text: "Multiplayer 4 Players (local)",
+            text: multi4,
             imgPlaceholder: './src/multiplayer.jpeg',
             href: "#pong4",
         },
         {
-            text: "Tournament",
+            text: tournament,
             imgPlaceholder: './src/multiplayer.jpeg',
             href: "#tournament",
         },
-        {
-            text: "Single Player (CPU)",
-            imgPlaceholder: './src/multiplayer.jpeg',
-            href: "#tic1",
-        },
-        {
-            text: "2 Players (local)",
-            imgPlaceholder: './src/multiplayer.jpeg',
-            href: "#tic2",
-        }
-        
         
     ];
+
+
 
     const container = document.querySelector('.gameModes');
     const cardsContainer = document.createElement('div');
@@ -104,7 +102,7 @@ function showGameModes() {
         card.style.borderStyle = "solid";
         parent.appendChild(card);
         card.addEventListener('click', (event) => {
-            if (data.text === "Pong42" || data.text === "Tic Tac Toe" || data.text === "Multiplayer (local)") {
+            if (data.text === "Pong42" || data.text === "Tic Tac Toe" || data.text === multi) {
                 event.preventDefault();
                 isDeeperLevel = true;
                 backButton.style.display = 'inline-block';

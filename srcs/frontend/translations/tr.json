@@ -164,5 +164,13 @@
   "tourna": "Turnuva şimdi başlıyor.",
   "scoregoals": "İlk 7 golü atan kazanır",
   "leftside": "Solu taraftasınız.",
-  "moving": "'W' ve 'S' kullanarak hareket edin."
+  "moving": "'W' ve 'S' kullanarak hareket edin.",
+  "single": "Tek Oyuncu (CPU)",
+"multi": "Çoklu Oyuncu (yerel)",
+"multi2": "Çoklu Oyuncu 2 Oyuncu (yerel)",
+"multi3": "Çoklu Oyuncu 3 Oyuncu (yerel)",
+"multi4": "Çoklu Oyuncu 4 Oyuncu (yerel)",
+"tournament": "Turnuva",
+"rps": "Taş Kağıt Makas"
+
 }
