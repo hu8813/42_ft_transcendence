@@ -11,7 +11,6 @@ function showPlayer3d1Page() {
     let ball, paddle1, paddle2;
     let ballDirX = 1, ballDirY = 1, ballSpeed = 3;
     let maxScore = 7;
-    let difficulty = 0.7;
     const Key = {
         _pressed: {},
         LEFT_ARROW: 37,
@@ -69,17 +68,17 @@ function showPlayer3d1Page() {
     function showInstructions() {
         instructionsModal.style.display = "block !important" ;
         document.getElementById("instructions3d").style.display = "bloc! important";
-        const closeBtn = instructionsModal.querySelector(".close");
-        closeBtn.addEventListener("click", function () {
-            instructionsModal.style.display = "block";
-            setup();
-        });
-        window.onclick = function(event) {
-            if (event.target == instructionsModal) {
-                instructionsModal.style.display = "block !important";
-                setup();
-            }
-        };
+        // const closeBtn = instructionsModal.querySelector(".close");
+        // closeBtn.addEventListener("click", function () {
+        //     instructionsModal.style.display = "block";
+        //     setup();
+        // });
+        // window.onclick = function(event) {
+        //     if (event.target == instructionsModal) {
+        //         instructionsModal.style.display = "block !important";
+        //         setup();
+        //     }
+        // };
     }
     function draw() {
         renderer.render(scene, camera);
@@ -100,128 +99,75 @@ function showPlayer3d1Page() {
         draw();
     }
     function createScene() {
-        const WIDTH = 950,
-            HEIGHT = 480;
-        const VIEW_ANGLE = 50,
-            ASPECT = WIDTH / HEIGHT,
-            NEAR = 0.1,
-            FAR = 10000;
+        const WIDTH = 950, HEIGHT = 480;
         const c = document.getElementById("gameCanvas3d");
         renderer = new THREE.WebGLRenderer();
-        camera =
-            new THREE.PerspectiveCamera(
-                VIEW_ANGLE,
-                ASPECT,
-                NEAR,
-                FAR);
+        camera = new THREE.PerspectiveCamera(45, WIDTH / HEIGHT, 1, 1000);
         scene = new THREE.Scene();
         scene.add(camera);
-        camera.position.z = 320;
         renderer.setSize(WIDTH, HEIGHT);
         c.appendChild(renderer.domElement);
-        const planeWidth = fieldWidth,
-            planeHeight = fieldHeight,
-            planeQuality = 10;
-        const paddle1Material =
-            new THREE.MeshLambertMaterial({
-                color: 0x0A0A0A
-            });
-        const paddle2Material =
-            new THREE.MeshLambertMaterial({
-                color: 0x550055
-            });
-        const planeMaterial =
-            new THREE.MeshLambertMaterial({
-                color: 0x6495ED
-            });
-        const tableMaterial =
-            new THREE.MeshLambertMaterial({
-                color: 0x8B4513
-            });
-        const groundMaterial =
-            new THREE.MeshLambertMaterial({
-                color: 0x333333
-            });
-        const plane = new THREE.Mesh(
-            new THREE.PlaneGeometry(
-                planeWidth * 0.95,
-                planeHeight,
-                planeQuality,
-                planeQuality),
-            planeMaterial);
-        scene.background = new THREE.Color(0x333333);
-        scene.add(plane);
-        plane.receiveShadow = true;
-        const table = new THREE.Mesh(
-            new THREE.BoxGeometry(
-                planeWidth * 1.05,
-                planeHeight * 1.03,
-                100,
-                planeQuality,
-                planeQuality,
-                1),
-            tableMaterial);
-        table.position.z = -51;
-        scene.add(table);
-        table.receiveShadow = true;
-        const radius = 5,
-            segments = 6,
-            rings = 6;
-        const sphereMaterial =
-            new THREE.MeshLambertMaterial({
-                color: 0xD43001
-            });
-        ball = new THREE.Mesh(
-            new THREE.SphereGeometry(
-                radius,
-                segments,
-                rings),
-            sphereMaterial);
-        scene.add(ball);
-        ball.position.x = 0;
-        ball.position.y = 0;
-        ball.position.z = radius;
-        ball.receiveShadow = true;
-        ball.castShadow = true;
-        paddleDepth = 10;
-        paddleQuality = 1;
-        paddle1 = new THREE.Mesh(
-            new THREE.BoxGeometry(
-                paddleWidth,
-                paddleHeight,
-                paddleDepth,
-                paddleQuality,
-                paddleQuality,
-                paddleQuality),
-            paddle1Material);
-        scene.add(paddle1);
-        paddle1.receiveShadow = true;
-        paddle1.castShadow = true;
-        paddle2 = new THREE.Mesh(
-            new THREE.BoxGeometry(
-                paddleWidth,
-                paddleHeight,
-                paddleDepth,
-                paddleQuality,
-                paddleQuality,
-                paddleQuality),
-            paddle2Material);
-        scene.add(paddle2);
-        paddle2.receiveShadow = true;
-        paddle2.castShadow = true;
-        paddle1.position.x = -fieldWidth / 2 + paddleWidth;
-        paddle2.position.x = fieldWidth / 2 - paddleWidth;
-        paddle1.position.z = paddleDepth;
-        paddle2.position.z = paddleDepth;
-        const ground = new THREE.Mesh(
-            new THREE.BoxGeometry(
-                1000,
-                1000,
-                3,
-                1,
-                1,
-                1),
-            groundMaterial);
+        const planeWidth = fieldWidth, planeHeight = fieldHeight, planeQuality = 10;
+        const paddle1Material = new THREE.MeshLambertMaterial({ color: 0x00ff00 });
+        const paddle2Material = new THREE.MeshLambertMaterial({ color: 0x550055 });
+        const planeMaterial = new THREE.MeshLambertMaterial({ color: 0x2D4329 });
+        const tableMaterial = new THREE.MeshLambertMaterial({ color: 0x1A2A1A });
+// CONTROLS //
+// const controls = new OrbitControls(camera, renderer.domElement);
+// controls.update();
+
+// CONTROLS //
+  const lineWidth = 1;
+  const lineMaterial = new THREE.MeshBasicMaterial({ color: 0xFFFFFF });
+
+  const centerLine = new THREE.Mesh(new THREE.BoxGeometry(fieldWidth, lineWidth, lineWidth),lineMaterial);
+  centerLine.position.z = lineWidth / 2;
+  scene.add(centerLine);
+
+  const sideLineLeft = new THREE.Mesh(new THREE.BoxGeometry(lineWidth, fieldHeight, lineWidth),lineMaterial);
+  sideLineLeft.position.x = -fieldWidth / 2 + lineWidth / 2;
+  scene.add(sideLineLeft);
+
+const sideLineRight = new THREE.Mesh(new THREE.BoxGeometry(lineWidth, fieldHeight, lineWidth), lineMaterial);
+sideLineRight.position.x = fieldWidth / 2 - lineWidth / 2;
+scene.add(sideLineRight);
+
+const textureLoader = new THREE.TextureLoader();
+const groundMaterial = new THREE.MeshBasicMaterial({ map: textureLoader.load('../src/ground.jpg') });
+const plane = new THREE.Mesh(new THREE.PlaneGeometry(planeWidth * 0.95, planeHeight, planeQuality, planeQuality),planeMaterial);
+const bgLoader = new THREE.TextureLoader(); 
+scene.background = bgLoader.load('../src/tt.jpg');
+scene.add(plane);
+plane.receiveShadow = true;
+const table = new THREE.Mesh(new THREE.BoxGeometry(planeWidth * 1.05, planeHeight * 1.03, 100, planeQuality, planeQuality,1),tableMaterial);
+table.position.z = -51;
+scene.add(table);
+table.receiveShadow = true;
+
+const sphereMaterial = new THREE.MeshLambertMaterial({ color: 0xD43001 });
+ball = new THREE.Mesh(new THREE.SphereGeometry(5, 6, 6),sphereMaterial);
+scene.add(ball);
+ball.position.x = 0;
+ball.position.y = 0;
+ball.position.z = 5;
+ball.receiveShadow = true;
+ball.castShadow = true;
+
+paddleDepth = 10;
+paddleQuality = 10;
+paddle1 = new THREE.Mesh(new THREE.BoxGeometry(paddleWidth,paddleHeight,paddleDepth,paddleQuality,paddleQuality,paddleQuality),paddle1Material);
+scene.add(paddle1);
+paddle1.receiveShadow = true;
+paddle1.castShadow = true;
+paddle2 = new THREE.Mesh(new THREE.BoxGeometry(paddleWidth,paddleHeight,paddleDepth,paddleQuality,paddleQuality,paddleQuality),paddle2Material);
+scene.add(paddle2);
+paddle2.receiveShadow = true;
+paddle2.castShadow = true;
+paddle1.position.x = -fieldWidth / 2 + paddleWidth;
+paddle2.position.x = fieldWidth / 2 - paddleWidth;
+paddle1.position.z = paddleDepth;
+paddle2.position.z = paddleDepth;
+const ground = new THREE.Mesh(new THREE.BoxGeometry(1000,1000,3,1,1,1),groundMaterial);
         ground.position.z = -132;
         ground.receiveShadow = true;
         scene.add(ground);
@@ -236,6 +182,7 @@ function showPlayer3d1Page() {
         spotLight = new THREE.SpotLight(0xF8D898);
         spotLight.position.set(0, 0, 460);
         spotLight.intensity = 1.5;
+        spotLight.angle = 0.5;
         spotLight.castShadow = true;
         scene.add(spotLight);
         renderer.shadowMap.enabled = true;
@@ -319,13 +266,9 @@ function showPlayer3d1Page() {
     }
 
     function cameraPhysics() {
-        spotLight.position.x = ball.position.x * 2;
-        spotLight.position.y = ball.position.y * 2;
-        camera.position.x = paddle1.position.x - 100;
-        camera.position.y += (paddle1.position.y - camera.position.y) * 0.05;
-        camera.position.z = paddle1.position.z + 100 + 0.04 * (-ball.position.x + paddle1.position.x);
-        camera.rotation.x = -0.01 * (ball.position.y) * Math.PI / 180;
-        camera.rotation.y = -60 * Math.PI / 180;
+        camera.position.x = paddle1.position.x - 130;
+        camera.position.z = paddle1.position.z + 100;
+        camera.rotation.y = -70 * Math.PI / 180;
         camera.rotation.z = -90 * Math.PI / 180;
     }
 
