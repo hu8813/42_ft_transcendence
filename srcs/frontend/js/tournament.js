@@ -52,6 +52,7 @@ async function getPlayerNames(playerCount, currentPlayerIndex, players) {
     document.body.appendChild(input);
 
     const updateInputPositionAndSize = () => {
+        if (!document.body.contains(input)) return;
         const canvasRect = canvas.getBoundingClientRect();
         const canvasWidth = canvasRect.width;
         
@@ -67,6 +68,24 @@ async function getPlayerNames(playerCount, currentPlayerIndex, players) {
 
     updateInputPositionAndSize();
     window.addEventListener('resize', updateInputPositionAndSize);
+
+        function removeInput() {
+            if (document.body.contains(input)) {
+                document.body.removeChild(input);
+                window.removeEventListener('resize', updateInputPositionAndSize);
+                document.removeEventListener('visibilitychange', checkCanvasVisibility);
+                clearInterval(visibilityInterval);
+            }
+        }
+
+        function checkCanvasVisibility() {
+            if (document.visibilityState !== 'visible' || !document.body.contains(canvas) || canvas.offsetWidth === 0) {
+                removeInput();
+            }
+        }
+    
+        document.addEventListener('visibilitychange', checkCanvasVisibility);
+        const visibilityInterval = setInterval(checkCanvasVisibility, 500);
     
     input.focus();
 
@@ -83,10 +102,9 @@ async function getPlayerNames(playerCount, currentPlayerIndex, players) {
                     suffix++;
                 }
             }
-            players.push(playerName);
-            document.body.removeChild(input);
-            window.removeEventListener('resize', updateInputPositionAndSize);
-            if (currentPlayerIndex < playerCount) {
+             players.push(playerName);
+             removeInput();
+             if (currentPlayerIndex < playerCount) {
                 getPlayerNames(playerCount, currentPlayerIndex + 1, players);
             } else {
                 shuffleArray(players);
@@ -444,6 +462,5 @@ function showPongTour(player1Name, player2Name, isFinal, handleWinner) {
         ctx.textAlign = "center";
         ctx.fillText(`🏆 ${winnerName} `+won+` 🏆`, canvas.width / 2, canvas.height / 2);
     }, 1000);
-    console.log(`${winnerName} Won!`);
     }
 }
