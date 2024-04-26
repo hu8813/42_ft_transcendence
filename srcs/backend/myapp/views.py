@@ -583,9 +583,10 @@ def signin42c(request):
     referral_url = request.GET.get('referral_url')
     
     if referral_url:
+        request.session['referral_url'] = referral_url
         referral_url = quote(referral_url)  
-    
-    authorization_url = f'https://pong42.vercel.app/callback.html?client_id={client_id}&referral_url={referral_url}'
+    print(referral_url, request.session['referral_url'])
+    authorization_url = f'https://api.intra.42.fr/oauth/authorize?client_id={client_id}&response_type=code&redirect_uri={referral_url}/api/proxyc/'
     return HttpResponseRedirect(authorization_url)
 
 def signin42(request):
@@ -717,7 +718,8 @@ def proxy_viewc(request):
         return JsonResponse({'error': 'Invalid code format'}, status=400)
     client_id = os.getenv('CLIENT_ID')
     client_secret = os.getenv('CLIENT_SECRET')
-    redirect_uri = os.getenv('REDIRECT_URI')
+    redirect_uri = request.session.get('referral_url')+'/api/proxyc/'
+    print(redirect_uri)
     csrf_token = get_token(request)
 
     if not client_id or not client_secret or not redirect_uri:
