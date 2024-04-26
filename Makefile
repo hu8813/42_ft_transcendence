@@ -1,5 +1,5 @@
 up: check_env
-	$(eval VOLUME_PATH := $(HOME)/volumes)
+#	$(eval VOLUME_PATH := $(HOME)/volumes)
 #	mkdir -p $(HOME)/volumes/grafana
 #	mkdir -p $(HOME)/volumes/prometheus
 	open https://localhost:8443/ || true

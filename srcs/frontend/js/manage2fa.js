@@ -6,7 +6,7 @@ async function display2faPage() {
     let faDeactivated = await translateKey('2faDeactivated');
     let faActivated = await translateKey('2faActivated');
     let faFailed = await translateKey('2faFailed');
-    //let activate2fa = await translateKey('activate2FA');
+    let activate2fa = await translateKey('activate2fa');
     async function check2FAStatus(username) {
         try {
             
@@ -173,7 +173,7 @@ async function display2faPage() {
 
     document.getElementById('enable2FA').addEventListener('click', enableOrDisable2FA);
     
-    document.getElementById('activate2FA').addEventListener('click', activate2fa);
+    cument.getElementById('activate2FA').addEventListener('click', activate2fa);
     currrentLanguage2 = localStorage.getItem('language');
     translate(currrentLanguage2);
 }

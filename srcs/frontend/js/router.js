@@ -45,29 +45,13 @@ if (paramsIndex2 !== -1) {
 }
 
 let csrfToken;
-function getBackendURL() {
-  const currentURL = window.location.href;
-  const privateIPRegex = /^(10\.|192\.168\.|172\.(1[6-9]|2[0-9]|3[0-1])\.)/;
-  let backendURL = "";
-  
-  if (currentURL.includes("localhost") || currentURL.includes("127.0.0.1") || privateIPRegex.test(currentURL)) {
-      backendURL = "/api";
-  } else {
-      backendURL = "/api";
-  }
-  
-  return backendURL;
-}
+
 
 function getBackendSigninURL() {
   const currentURL = new URL(window.location.href);
-  let backendSigninURL = "/api/signin42b/"; 
+  const referralURL = encodeURIComponent(currentURL.origin);
+  let backendSigninURL = `/api/signin42c/?referral_url=${referralURL}`;
   
-  if ((currentURL.hostname === "localhost" || currentURL.hostname === "127.0.0.1" || currentURL.hostname.match(/^10\.|192\.168\.|172\.(1[6-9]|2[0-9]|3[0-1])\./))) {
-      const referralURL = encodeURIComponent(currentURL.origin);
-      backendSigninURL = `/api/signin42c/?referral_url=${referralURL}`;
-  }
- 
 return backendSigninURL;
 }
 

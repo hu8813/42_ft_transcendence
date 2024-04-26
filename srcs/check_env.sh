@@ -70,7 +70,6 @@ prompt_for_variable CLIENT_ID "Enter OAuth Client ID: "
 prompt_for_variable CLIENT_SECRET "Enter OAuth Client Secret: "
 prompt_for_variable REDIRECT_URI "Enter OAuth Redirect URI: "
 
-set_default_variable BACKEND_URL "https://localhost:8443/api"
 set_default_variable POSTGRES_PORT "5432"
 
 pgpassword_value=$(read_var_from_env_file PGPASSWORD)
