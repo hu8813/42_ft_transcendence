@@ -19,11 +19,11 @@ DJANGO_ALLOW_ASYNC_UNSAFE = True
 SIGNING_KEY = os.environ.get("JWT_SECRET_KEY")
 
 if os.environ.get('DEBUG') in ['1', 'true']:
-    #SECURE_SSL_REDIRECT = True
-    #SESSION_COOKIE_SECURE = True
-    #CSRF_COOKIE_SECURE = True
     DEBUG = True
 
+PBKDF2_ITERATIONS = 180000  # Number of iterations (default is 180,000)
+PBKDF2_SALT_LENGTH = 12     # Length of generated salt (default is 12)
+PBKDF2_DIGEST = 'sha256'
 PASSWORD_HASHERS = [
     'django.contrib.auth.hashers.PBKDF2PasswordHasher',  # Default PBKDF2 algorithm
     'django.contrib.auth.hashers.Argon2PasswordHasher',  # Argon2 algorithm (recommended for newer projects)

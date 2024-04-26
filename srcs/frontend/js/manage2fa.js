@@ -6,6 +6,7 @@ async function display2faPage() {
     let faDeactivated = await translateKey('2faDeactivated');
     let faActivated = await translateKey('2faActivated');
     let faFailed = await translateKey('2faFailed');
+    //let activate2fa = await translateKey('activate2FA');
     async function check2FAStatus(username) {
         try {
             
@@ -98,8 +99,12 @@ async function display2faPage() {
             });
     
             if (response.ok) {
-                
-                location.reload();
+                showNotification(faActivated, true);
+                document.getElementById('qrCodeSection').style.display = 'none';
+                document.getElementById('qrCode').innerHTML = '';
+                document.getElementById('activationCode').value = '';
+                document.getElementById('errorLabel').textContent = '';  
+                //location.reload();
             } else {
                 const responseData = await response.json();
                 throw new Error(responseData.error || 'Failed to activate 2FA');
@@ -167,7 +172,8 @@ async function display2faPage() {
     check2FAStatus(username);
 
     document.getElementById('enable2FA').addEventListener('click', enableOrDisable2FA);
-    document.getElementById('activate2FA').addEventListener('click', activate2FA);
+    
+    document.getElementById('activate2FA').addEventListener('click', activate2fa);
     currrentLanguage2 = localStorage.getItem('language');
     translate(currrentLanguage2);
 }
