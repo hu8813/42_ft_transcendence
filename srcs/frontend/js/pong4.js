@@ -69,7 +69,6 @@ function showPong4() {
 
         document.addEventListener('keydown', keyDownHandler);
         document.addEventListener('keyup', keyUpHandler);
-        // canvas.addEventListener('mousemove', mouseMoveHandler);
 
         document.addEventListener("visibilitychange", function () {
             if (document.visibilityState === 'hidden') {
@@ -141,13 +140,6 @@ function showPong4() {
             }
         }
 
-        // function mouseMoveHandler(event) {
-        //     let canvasRect = canvas.getBoundingClientRect();
-        //     let scaleX = canvas.width / canvasRect.width;
-        //     let mouseX = (event.clientX - canvasRect.left) * scaleX;
-        //     player3.x = Math.max(Math.min(mouseX - (player3.width / 2), canvas.width - player3.width), 0);
-        // }
-
         function collisionDetect(player, ball) {
             player.top = player.y;
             player.right = player.x + player.width;
@@ -179,16 +171,6 @@ function showPong4() {
             ball.velocityX = direction * ball.speed * Math.cos(angleRad);
             ball.velocityY = ball.speed * Math.sin(angleRad) * (player === player3 || player === player4 ? -1 : 1);
             ball.speed += 0.1;
-        }
-
-        function nGButton() {
-            const button = document.getElementById('nGButton');
-            if (button) {
-                button.style.display = 'block';
-                button.addEventListener('click', function () {
-                    location.reload();
-                });
-            }
         }
 
         showStartMessageWithCountdown(15);
@@ -241,17 +223,23 @@ function showPong4() {
             ctx.textAlign = "center";
             let lost = await translateKey("lost");
             ctx.fillText(`${loser} `+lost, canvas.width / 2, canvas.height / 2);
-            setTimeout(() => {
-                const nGButton2 = document.getElementById('nGButton');
-                if (nGButton2)
-                    document.getElementById('nGButton').style.display = 'block';
-                nGButton();
-            }, 1000);
+            
+            ctx.font = "24px Arial";
+            ctx.fillText("Click anywhere to play again", canvas.width / 2, canvas.height / 2 + 50);
+            
             gameOver = true;
+            addCanvasClickListener();
+        }
+
+        function addCanvasClickListener() {
+            canvas.addEventListener('click', function handleClick() {
+                location.reload();
+                canvas.removeEventListener('click', handleClick);
+            }, { once: true });
         }
 
         function update() {
-            if (gameOver) return;
+            if (gameOver|| isGamePaused) return;
 
             // Player 1 and Player 2 vertical movement
             if (wPressed && player1.y > 0) player1.y -= 8;
@@ -349,9 +337,6 @@ function showPong4() {
             drawPaddle(player4.x, player4.y, player4.width, player4.height, player4.color);
             drawBall(ball.x, ball.y, ball.radius, ball.color);
             drawScore();
-            if (gameOver) {
-                showGameOver();
-            }
         }
 
         function drawPaddle(x, y, width, height, color) {

@@ -259,6 +259,14 @@ function showPongTour(player1Name, player2Name, isFinal, handleWinner) {
         resetBall();
     }
 
+    document.addEventListener("visibilitychange", function () {
+        if (document.visibilityState === 'hidden') {
+            isGamePaused = true;
+        } else {
+            isGamePaused = false;
+        }
+    });
+
     showStartMessageWithCountdown(5);
 
     async function showStartMessageWithCountdown(seconds) {
@@ -354,7 +362,7 @@ function showPongTour(player1Name, player2Name, isFinal, handleWinner) {
     }
 
     function update() {
-        if (gameOver) return;
+        if (gameOver|| isGamePaused) return;
 
         if (wPressed && player1.y > 0) player1.y -= 8;
         if (sPressed && player1.y < canvas.height - player1.height) player1.y += 8;

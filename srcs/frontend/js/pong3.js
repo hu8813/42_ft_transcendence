@@ -206,8 +206,7 @@ function showPong3() {
         }
 
         function update() {
-            if (gameOver) return;
-
+            if (gameOver|| isGamePaused) return;
 
             if (wPressed && player1.y > 0) player1.y -= 8;
             else if (sPressed && player1.y < canvas.height - player1.height) player1.y += 8;
@@ -220,7 +219,6 @@ function showPong3() {
 
             ball.x += ball.velocityX;
             ball.y += ball.velocityY;
-
 
             if (ball.y - ball.radius < 0 || ball.y + ball.radius > canvas.height) {
                 ball.velocityY = -ball.velocityY;
@@ -241,7 +239,6 @@ function showPong3() {
                     resetBall();
                 }
             }
-
 
             if (collisionDetect(player1, ball)) handlePaddleBallCollision(player1, ball);
             if (collisionDetect(player2, ball)) handlePaddleBallCollision(player2, ball);
@@ -307,6 +304,5 @@ function showPong3() {
             }
             requestAnimationFrame(gameLoop);;
         }
-
     }
 }
