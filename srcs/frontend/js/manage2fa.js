@@ -1,4 +1,8 @@
 async function display2faPage() {
+    let disable2faVal = await translateKey('disable2fa');
+    let enable2faVal = await translateKey('enable2fa');
+    let FAenabledVal = await translateKey('2FAdisabled');
+    let FAenabledVal2 = await translateKey('2FAenabled');
     async function check2FAStatus(username) {
         try {
             
@@ -18,17 +22,16 @@ async function display2faPage() {
             }
 
             const data = await response.json();
-
+            
             const statusElement = document.getElementById('2FAdisabled');
             //console.log("2fa enabled", data.enabled);
-            statusElement.textContent = data.enabled ? 'Enabled' : 'Not enabled';
+            statusElement.textContent = data.enabled ? FAenabledVal2 : FAenabledVal;
 
-            
             const enable2FAButton = document.getElementById('enable2FA');
             if (data.enabled) {
-                enable2FAButton.textContent = 'Disable 2FA';
+                enable2FAButton.textContent = disable2faVal;
             } else {
-                enable2FAButton.textContent = 'Enable 2FA';
+                enable2FAButton.textContent = enable2faVal;
             }
         } catch (error) {
             console.error('Error checking 2FA status:', error);
@@ -136,15 +139,17 @@ async function display2faPage() {
         const statusElement = document.getElementById('2FAdisabled');
         if (button.textContent === 'Enable 2FA') {
             await enable2FA();
-            button.textContent = 'Disable 2FA';
+            
+            button.textContent = disable2faVal;
             if (statusElement) 
-                statusElement.textContent = 'Enabled';
+                statusElement.textContent = FAenabledVal;
             
         } else {
             await disable2FA();
-            button.textContent = 'Enable 2FA';
+            
+            button.textContent = enable2faVal;
             if (statusElement) 
-                statusElement.textContent = 'Disabled';
+                statusElement.textContent = FAenabledVal2;
         }
     }
     
@@ -160,4 +165,6 @@ async function display2faPage() {
 
     document.getElementById('enable2FA').addEventListener('click', enableOrDisable2FA);
     document.getElementById('activate2FA').addEventListener('click', activate2FA);
+    currrentLanguage2 = localStorage.getItem('language');
+    translate(currrentLanguage2);
 }
