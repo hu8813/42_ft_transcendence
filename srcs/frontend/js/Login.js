@@ -37,7 +37,7 @@ async function handleLogin(msg) {
         try {
 
             const csrfToken = await getCSRFCookie();
-            console.log("username", username);
+            //console.log("username", username);
             const response = await fetch(`/api/2fa-status?username=${username}`, {
                 method: 'POST',
                 headers: {
@@ -50,7 +50,7 @@ async function handleLogin(msg) {
             }
 
             const data = await response.json();
-            console.log("2fa enabled", data.enabled);
+            //console.log("2fa enabled", data.enabled);
             return data.enabled;
         } catch (error) {
             console.error('Error checking 2FA status:', error);

@@ -59,15 +59,17 @@ async function addfriend(username) {
         
         const responseData = await response.json();
         if (response.ok) {
-            messageContainer.textContent = responseData.message;
-            messageContainer.style.color = 'green';
+            // messageContainer.textContent = responseData.message;
+            // messageContainer.style.color = 'green';
+            showNotification(responseData.message, true);
         } else {
             throw new Error('Failed to add friend '+responseData.message);
         }
     } catch (error) {
         console.error('Error adding friend:', error);
-        messageContainer.textContent = 'Opps '+error.message;
-        messageContainer.style.color = 'red';
+        // messageContainer.textContent = 'Opps '+error.message;
+        // messageContainer.style.color = 'red';
+        showNotification(responseData.message, false);
     }
 }
 
@@ -87,16 +89,17 @@ async function blockUser(username) {
         
         const responseData = await response.json();
         if (response.ok) {
-            messageContainer.textContent = responseData.message;
-            messageContainer.style.color = 'green';
+            // messageContainer.textContent = responseData.message;
+            // messageContainer.style.color = 'green';
+            showNotification(responseData.message, true);
         } else {
             throw new Error('Failed to block user '+responseData.message);
         }
     } catch (error) {
         console.error('Error blocking user:', error);
-        messageContainer.textContent = 'Opps '+error.message;
-        messageContainer.style.color = 'red';
-        showToast('Oops, ' + error.message, false);
+        // messageContainer.textContent = 'Opps '+error.message;
+        // messageContainer.style.color = 'red';
+        showNotification(responseData.message, false);
     }
 }
 
@@ -348,8 +351,9 @@ async function updateOnlineUsers() {
         
                     const responseData = await response.json();
                     if (response.ok) {
-                        messageContainer.textContent = responseData.message;
-                        messageContainer.style.color = 'green';
+                        //messageContainer.textContent = responseData.message;
+                        //messageContainer.style.color = 'green';
+                        showNotification(responseData.message, true);
                     } else {
                         throw new Error('Failed to add friend ' + responseData.message);
                     }
@@ -380,8 +384,9 @@ async function updateOnlineUsers() {
         
                     const responseData = await response.json();
                     if (response.ok) {
-                        messageContainer.textContent = responseData.message;
-                        messageContainer.style.color = 'green';
+                        // messageContainer.textContent = responseData.message;
+                        // messageContainer.style.color = 'green';
+                        showNotification(responseData.message, true);
                     } else {
                         throw new Error('Failed to block user ' + responseData.message);
                     }
