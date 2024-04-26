@@ -211,15 +211,13 @@ CSRF_TRUSTED_ORIGINS = [
     'https://169.254.131.21',
     'https://20.79.107.6',
     'http://169.254.131.21',
-    'http://20.79.107.6',
-    'https://10.13.0.0/16'
+    'http://20.79.107.6'
 ]
 
 CORS_ALLOWED_ORIGINS = [
     'https://192.168.32.1',
     'http://localhost:8080',
     'http://localhost',
-    'https://10.13.0.0/16',
     'https://localhost',
     'http://localhost:8443',
     'https://localhost:8443',

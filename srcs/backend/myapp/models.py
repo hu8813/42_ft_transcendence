@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser, Group, Permission
-
+from django.utils import timezone
 class User(AbstractUser):
     score = models.IntegerField(default=0)
     nickname = models.CharField(max_length=50, blank=True, null=True)
@@ -40,9 +40,9 @@ class Achievement(models.Model):
     games_lost = models.IntegerField(default=0)
     tournaments_won = models.IntegerField(default=0)
     favorite_game = models.CharField(max_length=100, blank=True, null=True)
-    date_time_played = models.DateTimeField(auto_now_add=True)
-    opponent = models.CharField(max_length=100)
-    game_type = models.CharField(max_length=100)
+    date_time_played = models.DateTimeField(default=timezone.now)
+    opponent = models.CharField(max_length=100,default='cpu')
+    game_type = models.CharField(max_length=100,default='pong')
 
     def __str__(self):
         return f"Achievement for {self.user.username} on {self.date_time_played}"
