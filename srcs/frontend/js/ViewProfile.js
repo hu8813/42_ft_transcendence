@@ -1,9 +1,4 @@
-window.addEventListener('click', function(event) {
-    const gameHistoryContainer = document.getElementById('gameHistory2');
-    if (gameHistoryContainer && event.target !== gameHistoryContainer && !gameHistoryContainer.contains(event.target)) {
-        gameHistoryContainer.style.display = 'none';
-    }
-});
+
 
 // Function to close the game history container
 function closeGameHistory() {
@@ -14,7 +9,12 @@ function closeGameHistory() {
 }
 
 async function fetchAndDisplayViewProfile(username) {
-     
+    window.addEventListener('click', function(event) {
+        const gameHistoryContainer = document.getElementById('gameHistory2');
+        if (gameHistoryContainer && event.target !== gameHistoryContainer && !gameHistoryContainer.contains(event.target)) {
+            gameHistoryContainer.style.display = 'none';
+        }
+    });
     try {
         let jwtToken = localStorage.getItem('jwtToken');
         let csrfToken = await getCSRFCookie();

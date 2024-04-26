@@ -8,11 +8,17 @@ function displayErrorMessage(message) {
     }
 }
 
-async function showGameHistory() {
+async function showGameHistory2() {
+    window.addEventListener('click', function(event) {
+        const gameHistoryContainer = document.getElementById('gameHistory');
+        if (gameHistoryContainer && event.target !== gameHistoryContainer && !gameHistoryContainer.contains(event.target)) {
+            gameHistoryContainer.style.display = 'none';
+        }
+    });
     try {
         const jwtToken = localStorage.getItem('jwtToken');
         
-        const gameHistoryResponse = await fetch('/api/fetch_game_history', {
+        const gameHistoryResponse = await fetch(`/api/fetch_game_history`, {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${jwtToken}`,
@@ -24,8 +30,10 @@ async function showGameHistory() {
             const gameHistoryData = await gameHistoryResponse.json();
 
             const gameHistoryContainer = document.getElementById('gameHistory');
-            gameHistoryContainer.innerHTML = ''; 
-
+            if (gameHistoryContainer){
+                gameHistoryContainer.style.display = 'flex'; // Change display to flex
+                gameHistoryContainer.innerHTML = '<button id="closeGameHistoryBtn" class="close-button" onclick="closeGameHistory2()">Close</button>';
+            }
             // Sort game history by date_time_played in descending order
             gameHistoryData.sort((a, b) => new Date(b.date_time_played) - new Date(a.date_time_played));
 
@@ -116,7 +124,12 @@ async function fetchProfileData() {
         throw new Error('Failed to fetch profile data');
     }
 }
-
+function closeGameHistory2() {
+    const gameHistoryContainer = document.getElementById('gameHistory');
+    if (gameHistoryContainer) {
+        gameHistoryContainer.style.display = 'none';
+    }
+}
 
 async function selectAvatar(imageLink) {
     try {

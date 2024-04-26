@@ -223,6 +223,7 @@ li {
   flex-direction: row; /* Change flex direction to row */
   color: #333333;
   max-height: 80vh; /* Limit height to 80% of viewport height */
+  max-width: 80vw; /* Limit width to 80% of viewport width */
   overflow-y: auto; /* Enable vertical scrolling */
   z-index: 1000; /* Ensure it's above other elements */
 }
@@ -243,3 +244,4 @@ li {
 .close-button:hover {
   color: #555;
 }
+
