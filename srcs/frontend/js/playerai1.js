@@ -99,17 +99,6 @@ function showPlayerAi1Page() {
             ball.speed += 0.1;
         }
 
-        function newGameButton() {
-            const button = document.getElementById('newGameButton');
-            if (button)
-            {
-                button.style.display = 'block'; 
-                button.addEventListener('click', function() {
-                location.reload(); 
-            });
-          }
-        }
-
         showStartMessageWithCountdown(5);
 
         async function showStartMessageWithCountdown(seconds) {
@@ -148,15 +137,24 @@ function showPlayerAi1Page() {
             ctx.fillStyle = "white";
             ctx.font = "48px Arial";
             let won = await translateKey("won");
-            ctx.fillText(`${winner} `+won, canvas.width / 2, canvas.height / 2.5);
-            
-            setTimeout(() => {
-                const newGButton2 = document.getElementById('newGButton');
-                if (newGButton2)
-                    document.getElementById('newGButton').style.display = 'block';
-                newGameButton();
-            }, 1000);
+            ctx.fillText(`${winner} ` + won, canvas.width / 2, canvas.height / 2 - 50);
+        
+            ctx.font = "24px Arial";
+            ctx.fillText("Click anywhere to play again", canvas.width / 2, canvas.height / 2 + 50);
+        
+            canvas.addEventListener('click', function handleClick() {
+                location.reload();
+                canvas.removeEventListener('click', handleClick);
+            }, { once: true }); 
         }
+        
+        if (gameOver) {
+            canvas.addEventListener('click', function handleClick() {
+                location.reload();
+                canvas.removeEventListener('click', handleClick);
+            }, { once: true });
+        }
+        
         
         let gameOverMessage = '';
 
@@ -223,7 +221,6 @@ function showPlayerAi1Page() {
                     });
                     if (response.ok) {
                         await fetchLeaderboardData();
-                        //console.log('User score updated successfully');
                     } else {
                         console.error('Failed to update user score');
                     }
@@ -250,7 +247,6 @@ function showPlayerAi1Page() {
                     });
                     if (response.ok) {
                         await fetchLeaderboardData();
-                        //console.log('User score updated successfully');
                     } else {
                         console.error('Failed to update user score');
                     }
