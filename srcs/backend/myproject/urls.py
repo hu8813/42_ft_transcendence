@@ -16,9 +16,7 @@ urlpatterns = [
     path('ws/chatpage/', consumers.ChatConsumer.as_asgi()),
     path('ws/pingpong/', consumers.PingPongConsumer.as_asgi()),
 
-
     path('api/login/', views.login_view, name='api_login'),
-    path('api/ping/', views.login_view, name='api_ping'),
     path('api/register/', views.register, name='api_register'),
     path('api/leaderboard/', views.leaderboard, name='api_leaderboard'),
     path('api/tournaments/', views.tournaments, name='api_tournaments'),

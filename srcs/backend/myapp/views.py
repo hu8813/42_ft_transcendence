@@ -1074,7 +1074,7 @@ def login_view(request):
             username = request.POST.get('username')
             password = request.POST.get('password')
             if not all([username, password]):
-	            return JsonResponse({"error": "All fields are required."}, status=400)
+                return JsonResponse({"error": "All fields are required."}, status=400)
             if len(username) > 50 or not is_valid_username(username):
                 return JsonResponse({'error': 'Invalid username format'}, status=400)
             
@@ -1103,7 +1103,7 @@ def login_view(request):
             else:
                 return JsonResponse({'error': 'Invalid login credentials'}, status=400)
         else:
-            return JsonResponse({'error': str(e)}, status=404)
+            return JsonResponse({'error': 'Unknown method'}, status=401)
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=400)
 
