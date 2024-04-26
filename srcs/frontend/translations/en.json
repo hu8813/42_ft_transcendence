@@ -187,5 +187,7 @@
   "multi3": "Multiplayer 3 Players (local)",
   "multi4": "Multiplayer 4 Players (local)",
   "tournament": "Tournament",
-  "rps": "Rock Paper Scissors"
+  "rps": "Rock Paper Scissors",
+  
+  "training": "Training"
 }

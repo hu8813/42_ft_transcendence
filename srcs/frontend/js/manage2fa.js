@@ -3,6 +3,9 @@ async function display2faPage() {
     let enable2faVal = await translateKey('enable2fa');
     let FAenabledVal = await translateKey('2FAdisabled');
     let FAenabledVal2 = await translateKey('2FAenabled');
+    let faDeactivated = await translateKey('2faDeactivated');
+    let faActivated = await translateKey('2faActivated');
+    let faFailed = await translateKey('2faFailed');
     async function check2FAStatus(username) {
         try {
             
@@ -59,9 +62,9 @@ async function display2faPage() {
             if (response.ok) {
                 const statusElement = document.getElementById('status');
                 if (statusElement) {
-                    statusElement.textContent = 'Not enabled';
+                    statusElement.textContent = FAenabledVal;
                 }
-                showNotification("2FA deactivated successfully.", true);
+                showNotification(faDeactivated, true);
                 document.getElementById('qrCodeSection').style.display = 'none';
                 document.getElementById('qrCode').innerHTML = '';
                 document.getElementById('activationCode').value = '';
@@ -72,7 +75,7 @@ async function display2faPage() {
             }
         } catch (error) {
             console.error('Error deactivating 2FA:', error);
-            showNotification("Failed to deactivate 2FA. Please try again later.", false);
+            showNotification(faFailed, false);
             displayError(error.message);
         }
     }
@@ -137,7 +140,7 @@ async function display2faPage() {
     async function enableOrDisable2FA() {
         const button = document.getElementById('enable2FA');
         const statusElement = document.getElementById('2FAdisabled');
-        if (button.textContent === 'Enable 2FA') {
+        if (button.textContent === enable2faVal) {
             await enable2FA();
             
             button.textContent = disable2faVal;
