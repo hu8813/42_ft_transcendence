@@ -1295,24 +1295,33 @@ def check_2fa_code(request):
     
 def get_2fa_status(request):
     username = request.POST.get('username', None)
-
+    user = None
+    if not username:
+        username = request.GET.get('username', None)
     if not username or username == 'null':
         try:
-            user_id = request.session.get('user_id')
+            token = request.headers.get('Authorization', '').split('Bearer ')[-1]
+            payload = jwt.decode(token, settings.SIGNING_KEY, algorithms=['HS256'])
+            user_id = payload.get('user_id')
             user = User.objects.get(pk=user_id)
             username = user.username
-        except:
-            return JsonResponse({'error': 'Username parameter is missing'}, status=400)
+        except jwt.ExpiredSignatureError:
+            return JsonResponse({'error': 'Token expired'}, status=401)
+        except jwt.InvalidTokenError:
+            return JsonResponse({'error': 'Invalid token'}, status=401)
+        except User.DoesNotExist:
+            return JsonResponse({'error': 'User not found'}, status=404)
     elif len(username) > 50 or not is_valid_username(username):
         return JsonResponse({'error': 'Invalid username format'}, status=400)
+    
     try:
-        user = User.objects.get(username=username)
+        if not user:
+            user = User.objects.get(username=username)
         is_2fa_enabled = user.two_factor_enabled
-        #is_2fa_enabled = is_2fa_enabled == 't'
         return JsonResponse({'enabled': is_2fa_enabled})
     except User.DoesNotExist:
         return JsonResponse({'error': 'User not found'}, status=404)
-    
+
 def generate_qr_code(request):
     token = request.headers.get('Authorization', '').split('Bearer ')[-1]
     

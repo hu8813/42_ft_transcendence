@@ -73,8 +73,7 @@ async function handleLogin(msg) {
             const formData = new FormData(loginForm);
             const username = formData.get("username");
 
-            const is2FAEnabled = await check2FAStatus(username);
-
+            
             for (const [key, value] of formData.entries()) {
                 if (value.length > 50) {
                     loginStatus.textContent = `${key} cannot exceed 50 characters.`;
@@ -82,7 +81,8 @@ async function handleLogin(msg) {
                     return;
                 }
             }
-
+            const is2FAEnabled = await check2FAStatus(username);
+            
             if (is2FAEnabled) {
                 if (twoFactorCodeContainer)
                 twoFactorCodeContainer.style.display = "block";
@@ -108,8 +108,8 @@ async function handleLogin(msg) {
                 if (twoFactorCodeContainer)
                     twoFactorCodeContainer.style.display = "none";
                 if (twoFactorCodeInput)
-                    twoFactorCodeInput.style.display = "block";
-                loginStatus.textContent = "2FA is correct.";
+                    twoFactorCodeInput.style.display = "none";
+                loginStatus.textContent = "Check ok.";
                 loginStatus.style.color = "green";
             }
 

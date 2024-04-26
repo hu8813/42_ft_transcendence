@@ -35,6 +35,7 @@ ALLOWED_HOSTS = [
     '192.168.32.1',
     '169.254.131.21',
     '20.79.107.6',
+    '10.13.0.0/16',
     'pong42.azurewebsites.net',
     '127.0.0.1',
     'pong42.vercel.app',
@@ -190,6 +191,10 @@ CSRF_TRUSTED_ORIGINS = [
     'http://localhost:8443',
     'https://localhost:8443',
     'https://localhost:443',
+    'https://10.13.1.1:8443',
+    'https://10.13.1.2:8443',
+    'https://10.13.1.3:8443',
+    'https://10.13.1.4:8443',
     'http://127.0.0.1',
     'https://127.0.0.1:8000',
     'https://127.0.0.1',
@@ -206,13 +211,15 @@ CSRF_TRUSTED_ORIGINS = [
     'https://169.254.131.21',
     'https://20.79.107.6',
     'http://169.254.131.21',
-    'http://20.79.107.6'
+    'http://20.79.107.6',
+    'https://10.13.0.0/16'
 ]
 
 CORS_ALLOWED_ORIGINS = [
     'https://192.168.32.1',
     'http://localhost:8080',
     'http://localhost',
+    'https://10.13.0.0/16',
     'https://localhost',
     'http://localhost:8443',
     'https://localhost:8443',
@@ -220,6 +227,10 @@ CORS_ALLOWED_ORIGINS = [
     'http://127.0.0.1',
     'https://127.0.0.1:8000',
     'https://127.0.0.1',
+    'https://10.13.1.1:8443',
+    'https://10.13.1.2:8443',
+    'https://10.13.1.3:8443',
+    'https://10.13.1.4:8443',
     'http://127.0.0.1:5500',
     'https://pong42.vercel.app',
     'http://pong42.vercel.app',

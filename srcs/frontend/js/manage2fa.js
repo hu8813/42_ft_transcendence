@@ -19,8 +19,8 @@ async function display2faPage() {
 
             const data = await response.json();
 
-            const statusElement = document.getElementById('status');
-            console.log("2fa enabled", data.enabled);
+            const statusElement = document.getElementById('2FAdisabled');
+            //console.log("2fa enabled", data.enabled);
             statusElement.textContent = data.enabled ? 'Enabled' : 'Not enabled';
 
             
@@ -59,6 +59,9 @@ async function display2faPage() {
                     statusElement.textContent = 'Not enabled';
                 }
                 showNotification("2FA deactivated successfully.", true);
+                document.getElementById('qrCodeSection').style.display = 'none';
+                document.getElementById('qrCode').innerHTML = '';
+                document.getElementById('activationCode').value = '';
                 document.getElementById('errorLabel').textContent = '';  
             } else {
                 const responseData = await response.json();
@@ -130,12 +133,18 @@ async function display2faPage() {
     
     async function enableOrDisable2FA() {
         const button = document.getElementById('enable2FA');
+        const statusElement = document.getElementById('2FAdisabled');
         if (button.textContent === 'Enable 2FA') {
             await enable2FA();
             button.textContent = 'Disable 2FA';
+            if (statusElement) 
+                statusElement.textContent = 'Enabled';
+            
         } else {
             await disable2FA();
             button.textContent = 'Enable 2FA';
+            if (statusElement) 
+                statusElement.textContent = 'Disabled';
         }
     }
     
