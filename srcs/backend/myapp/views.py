@@ -585,7 +585,7 @@ def signin42c(request):
     if referral_url:
         request.session['referral_url'] = referral_url
         referral_url = quote(referral_url)  
-    print(referral_url, request.session['referral_url'])
+    #print(referral_url, request.session['referral_url'])
     authorization_url = f'https://api.intra.42.fr/oauth/authorize?client_id={client_id}&response_type=code&redirect_uri={referral_url}/api/proxyc/'
     return HttpResponseRedirect(authorization_url)
 
@@ -719,7 +719,7 @@ def proxy_viewc(request):
     client_id = os.getenv('CLIENT_ID')
     client_secret = os.getenv('CLIENT_SECRET')
     redirect_uri = request.session.get('referral_url')+'/api/proxyc/'
-    print(redirect_uri)
+    #print(redirect_uri)
     csrf_token = get_token(request)
 
     if not client_id or not client_secret or not redirect_uri:
@@ -869,7 +869,7 @@ def upload_avatar(request):
         else:
             return Response({"message": "No avatar file provided."}, status=status.HTTP_400_BAD_REQUEST)
     except Exception as e:
-        print(f"An error occurred: {str(e)}")
+        #print(f"An error occurred: {str(e)}")
         return Response({"message": "An error occurred while uploading the avatar."}, status=401)
 def update_score(request):
     token = request.headers.get('Authorization', '').split('Bearer ')[-1]

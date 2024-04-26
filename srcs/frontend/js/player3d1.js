@@ -335,7 +335,8 @@ const ground = new THREE.Mesh(new THREE.BoxGeometry(1000,1000,3,1,1,1),groundMat
                 winnerBoardElement.style.display = "block";
                 winnerBoardElement.innerHTML = refresh;
                 startGameButton.style.display = "block";
-                startGameButton.innerHTML = "Play Again";
+                let plagain = await translateKey("plagain");
+                startGameButton.innerHTML = plagain;
                 startGameButton.addEventListener("click", function () {
                     location.reload();
                 });

@@ -49,7 +49,7 @@ async function showGameHistory2() {
                 gameElement.innerHTML = `
                     <div><strong>`+op+`:</strong> ${game.opponent || 'cpu'}</div>
                     <div><strong>`+gm+`:</strong> ${game.game_type}</div>
-                    <div><strong>`+gm+`:</strong> ${game.date_time_played}</div>
+                    <div><strong>`+dt+`:</strong> ${game.date_time_played}</div>
                     <div><strong>`+res+`:</strong> 
                         ${game.tournaments_won ? '<i class="bi bi-trophy-fill text-success fs-5"></i>' : '<i class="bi bi-emoji-frown-fill text-danger fs-5"></i>'}
                     </div>

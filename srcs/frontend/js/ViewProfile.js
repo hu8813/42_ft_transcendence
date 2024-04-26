@@ -52,7 +52,7 @@ async function fetchAndDisplayViewProfile(username) {
             statusIndicator.classList.toggle('offline', !isOnline);
             statusIndicator.title = isOnline ? 'Online' : 'Offline';
             
-            document.getElementById('showGameHistoryBtn2').addEventListener('click', async function() {
+            document.getElementById('gamehistory').addEventListener('click', async function() {
                 try {
                     const jwtToken = localStorage.getItem('jwtToken');
                     
@@ -66,23 +66,29 @@ async function fetchAndDisplayViewProfile(username) {
             
                     if (gameHistoryResponse.ok) {
                         const gameHistoryData = await gameHistoryResponse.json();
+                        let cls = await translateKey("cls");
             
                         const gameHistoryContainer = document.getElementById('gameHistory2');
                         if (gameHistoryContainer){
                             gameHistoryContainer.style.display = 'flex'; // Change display to flex
-                            gameHistoryContainer.innerHTML = '<button id="closeGameHistoryBtn" class="close-button" onclick="closeGameHistory()">Close</button>';
+                            gameHistoryContainer.innerHTML = '<button id="closeGameHistoryBtn" class="close-button" onclick="closeGameHistory()">'+cls+'</button>';
                         }
                         // Sort game history by date_time_played in descending order
                         gameHistoryData.sort((a, b) => new Date(b.date_time_played) - new Date(a.date_time_played));
             
+                        let op = await translateKey("op");
+                        let gm = await translateKey("gm");
+                        let dt = await translateKey("dt");
+                        let res = await translateKey("res");
+
                         gameHistoryData.forEach(game => {
                             const gameElement = document.createElement('div');
                             gameElement.classList.add('game-item', 'mb-3', 'border', 'border-primary', 'rounded', 'p-3');
                             gameElement.innerHTML = `
-                                <div><strong>Opponent:</strong> ${game.opponent || 'cpu'}</div>
-                                <div><strong>Game:</strong> ${game.game_type}</div>
-                                <div><strong>Date:</strong> ${game.date_time_played}</div>
-                                <div><strong>Result:</strong> 
+                                <div><strong>`+op+`:</strong> ${game.opponent || 'cpu'}</div>
+                                <div><strong>`+gm+`:</strong> ${game.game_type}</div>
+                                <div><strong>`+dt+`:</strong> ${game.date_time_played}</div>
+                                <div><strong>`+res+`:</strong> 
                                     ${game.tournaments_won ? '<i class="bi bi-trophy-fill text-success fs-5"></i>' : '<i class="bi bi-emoji-frown-fill text-danger fs-5"></i>'}
                                 </div>
                             `;
