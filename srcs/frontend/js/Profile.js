@@ -29,22 +29,28 @@ async function showGameHistory2() {
         if (gameHistoryResponse.ok) {
             const gameHistoryData = await gameHistoryResponse.json();
 
+            let cls = await translateKey("cls");
             const gameHistoryContainer = document.getElementById('gameHistory');
             if (gameHistoryContainer){
                 gameHistoryContainer.style.display = 'flex'; // Change display to flex
-                gameHistoryContainer.innerHTML = '<button id="closeGameHistoryBtn" class="close-button" onclick="closeGameHistory2()">Close</button>';
+                gameHistoryContainer.innerHTML = '<button id="closeGameHistoryBtn" class="close-button" onclick="closeGameHistory2()">'+cls+'</button>';
             }
             // Sort game history by date_time_played in descending order
             gameHistoryData.sort((a, b) => new Date(b.date_time_played) - new Date(a.date_time_played));
+
+            let op = await translateKey("op");
+            let gm = await translateKey("gm");
+            let dt = await translateKey("dt");
+            let res = await translateKey("res");
 
             gameHistoryData.forEach(game => {
                 const gameElement = document.createElement('div');
                 gameElement.classList.add('game-item', 'mb-3', 'border', 'border-primary', 'rounded', 'p-3');
                 gameElement.innerHTML = `
-                    <div><strong>Opponent:</strong> ${game.opponent || 'cpu'}</div>
-                    <div><strong>Game:</strong> ${game.game_type}</div>
-                    <div><strong>Date:</strong> ${game.date_time_played}</div>
-                    <div><strong>Result:</strong> 
+                    <div><strong>`+op+`:</strong> ${game.opponent || 'cpu'}</div>
+                    <div><strong>`+gm+`:</strong> ${game.game_type}</div>
+                    <div><strong>`+gm+`:</strong> ${game.date_time_played}</div>
+                    <div><strong>`+res+`:</strong> 
                         ${game.tournaments_won ? '<i class="bi bi-trophy-fill text-success fs-5"></i>' : '<i class="bi bi-emoji-frown-fill text-danger fs-5"></i>'}
                     </div>
                 `;
@@ -486,8 +492,9 @@ async function fetchAndDisplayProfile() {
         }
 
         if (document.getElementById('changeNick')) {
+            let newNick = await translateKey("newNick");
             document.getElementById('changeNick').addEventListener('click', async function () {
-                const newNickname = prompt("Enter new nickname");
+                const newNickname = prompt(newNick);
                 if (newNickname !== null && newNickname.trim() !== "") {
                     try {
                         await updateProfile({ nickname: newNickname });

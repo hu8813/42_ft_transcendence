@@ -310,16 +310,18 @@ const ground = new THREE.Mesh(new THREE.BoxGeometry(1000,1000,3,1,1,1),groundMat
     async function matchScoreCheck() {
         let gameResult;
         let message;
+        let cpuwins = await translateKey("cpuwins");  
+        let playwins = await translateKey("playwins");  
         if (score1 >= maxScore) {
             ballSpeed = 0;
             gameResult = 'win';
-            message = "Player wins!";
+            message = playwins;
             bounceTime++;
             paddle1.position.z = Math.sin(bounceTime * 0.1) * 10;
         } else if (score2 >= maxScore) {
             ballSpeed = 0;
             gameResult = 'lost';
-            message = "CPU wins!";
+            message = cpuwins;
             bounceTime++;
             paddle2.position.z = Math.sin(bounceTime * 0.1) * 10;
         }
@@ -328,9 +330,10 @@ const ground = new THREE.Mesh(new THREE.BoxGeometry(1000,1000,3,1,1,1),groundMat
             if (scores3dElement)
                 scores3dElement.innerHTML = message;
     
-            if (winnerBoardElement) {   
+            if (winnerBoardElement) {
+                let refresh = await translateKey("refresh");  
                 winnerBoardElement.style.display = "block";
-                winnerBoardElement.innerHTML = "Refresh to play again";
+                winnerBoardElement.innerHTML = refresh;
                 startGameButton.style.display = "block";
                 startGameButton.innerHTML = "Play Again";
                 startGameButton.addEventListener("click", function () {

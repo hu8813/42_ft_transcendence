@@ -188,6 +188,15 @@
   "multi4": "Multiplayer 4 Players (local)",
   "tournament": "Tournament",
   "rps": "Rock Paper Scissors",
-  
-  "training": "Training"
+  "newNick": "Enter new nickname",
+  "training": "Training",
+  "gamehistory": "Show Game History",
+  "op": "Opponent",
+  "gm": "Game",
+  "dt": "Date",
+  "res": "Result",
+  "cls": "close",
+  "refresh": "Refresh to play again",
+  "cpuwins": "CPU wins!",
+  "playwins": "Player wins!"
 }

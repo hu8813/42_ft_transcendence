@@ -181,12 +181,21 @@
   "2faDeactivated": "2FA se ha desactivado correctamente.",
   "2faActivated": "2FA se ha activado correctamente.",
   "single": "Un jugador (CPU)",
-"multi": "Multijugador (local)",
-"multi2": "Multijugador 2 jugadores (local)",
-"multi3": "Multijugador 3 jugadores (local)",
-"multi4": "Multijugador 4 jugadores (local)",
-"tournament": "Torneo",
-"rps": "Piedra Papel Tijeras",
-"training": "Entrenamiento"
+  "multi": "Multijugador (local)",
+  "multi2": "Multijugador 2 jugadores (local)",
+  "multi3": "Multijugador 3 jugadores (local)",
+  "multi4": "Multijugador 4 jugadores (local)",
+  "tournament": "Torneo",
+  "rps": "Piedra Papel Tijeras",
+  "training": "Entrenamiento",
+  "gamehistory": "Mostrar historial de juegos",
+  "op": "Oponente",
+  "gm": "Juego",
+  "dt": "Fecha",
+  "res": "Resultado",
+  "cls": "cerrar",
+  "refresh": "Actualizar para jugar de nuevo",
+  "cpuwins": "¡La CPU gana!",
+  "playwins": "¡El jugador gana!"
   }
   

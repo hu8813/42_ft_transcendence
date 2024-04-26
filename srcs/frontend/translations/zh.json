@@ -181,12 +181,21 @@
   "2faDeactivated":"2FA已成功停用。",
   "2faActivated":"2FA已成功激活。",
   "single": "单人游戏 (CPU)",
-"multi": "多人游戏 (本地)",
-"multi2": "多人游戏 2 名玩家 (本地)",
-"multi3": "多人游戏 3 名玩家 (本地)",
-"multi4": "多人游戏 4 名玩家 (本地)",
-"tournament": "锦标赛",
-"rps": "石头剪刀布",
-"training": "培训"
+  "multi": "多人游戏 (本地)",
+  "multi2": "多人游戏 2 名玩家 (本地)",
+  "multi3": "多人游戏 3 名玩家 (本地)",
+  "multi4": "多人游戏 4 名玩家 (本地)",
+  "tournament": "锦标赛",
+  "rps": "石头剪刀布",
+  "training": "培训",
+  "gamehistory": "显示游戏历史记录",
+  "op": "对手",
+  "gm": "游戏",
+  "dt": "日期",
+  "res": "结果",
+  "cls": "关闭",
+  "refresh": "刷新以重新开始游戏",
+  "cpuwins": "CPU 赢了!",
+  "playwins": "玩家赢了!"
   }
   

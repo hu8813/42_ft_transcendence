@@ -64,12 +64,12 @@ async function showGameModes() {
             href: "#tournament",
         },
         {
-            text: "Single Player (CPU)",
+            text: single,
             imgPlaceholder: './src/multiplayer.jpeg',
             href: "#tic1",
         },
         {
-            text: "2 Players (local)",
+            text: multi2,
             imgPlaceholder: './src/multiplayer.jpeg',
             href: "#tic2",
         }

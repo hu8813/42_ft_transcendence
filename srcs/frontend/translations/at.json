@@ -187,5 +187,16 @@
   "multi3": "Mehrspieler 3 Spieler (lokal)",
   "multi4": "Mehrspieler 4 Spieler (lokal)",
   "tournament": "Turnier",
-  "rps": "Schere Stein Papier"
+  "rps": "Schere Stein Papier",
+  "newNick": "Gib einen neuen Spitznamen ein",
+  "gamehistory": "Spielverlauf anzeigen",
+  "op": "Gegner",
+  "gm": "Spiel",
+  "dt": "Datum",
+  "res": "Ergebnis",
+  "cls": "schließen",
+  "refresh": "Aktualisieren, um erneut zu spielen",
+  "cpuwins": "CPU gewinnt!",
+  "playwins": "Spieler gewinnt!"
+
 }
