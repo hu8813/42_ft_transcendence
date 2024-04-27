@@ -382,9 +382,9 @@ def fetch_achievements(request):
         return JsonResponse({'error': str(e)}, status=400)
 
 def logout_view(request):
-    token = request.headers.get('Authorization', '').split('Bearer ')[-1]
 
     try:
+        token = request.headers.get('Authorization', '').split('Bearer ')[-1]
         payload = jwt.decode(token, settings.SIGNING_KEY, algorithms=['HS256'])
         user_id = payload.get('user_id')
         
@@ -407,10 +407,12 @@ def logout_view(request):
     except jwt.InvalidTokenError:
         return JsonResponse({'error': 'Invalid token'}, status=401)
 
-
 def get_all_users(request):
-    all_users = MyAppUser.objects.values_list('username', flat=True)
-    return JsonResponse(list(all_users), safe=False)
+    try:
+        all_users = MyAppUser.objects.values_list('username', flat=True)
+        return JsonResponse(list(all_users), safe=False)
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)
 
 
 
@@ -479,33 +481,38 @@ def show_feedbacks(request):
         return JsonResponse({'error': 'Invalid request method'}, status=400)
 
 
-
 def messages(request):
     if request.method == 'GET':
-        messages = list(Message.objects.order_by('created_at')[:50].values())
-        return JsonResponse(messages, safe=False)
+        try:
+            messages = list(Message.objects.order_by('created_at')[:50].values())
+            return JsonResponse(messages, safe=False)
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=500)
     elif request.method == 'POST':
         try:
             data = json.loads(request.body)
         except json.JSONDecodeError:
             return JsonResponse({'error': 'Invalid JSON data'}, status=400)
         
-        name = escape(data.get('name', ''))
-        text = escape(data.get('text', ''))
-        recipient = escape(data.get('recipient', ''))
-        csrf_token = get_token(request) 
+        try:
+            name = escape(data.get('name', ''))
+            text = escape(data.get('text', ''))
+            recipient = escape(data.get('recipient', ''))
+            csrf_token = get_token(request) 
 
-        message = Message.objects.create(name=name, text=text, recipient=recipient)
-        
-        message_data = {
-            'id': message.id,
-            'name': message.name,
-            'text': message.text,
-            'recipient': message.recipient,
-            'created_at': timezone.localtime(message.created_at).timestamp(),
-            'csrfToken': csrf_token,
-        }
-        return JsonResponse(message_data)
+            message = Message.objects.create(name=name, text=text, recipient=recipient)
+            
+            message_data = {
+                'id': message.id,
+                'name': message.name,
+                'text': message.text,
+                'recipient': message.recipient,
+                'created_at': timezone.localtime(message.created_at).timestamp(),
+                'csrfToken': csrf_token,
+            }
+            return JsonResponse(message_data)
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=500)
     else:
         return JsonResponse({'error': 'Method not allowed'}, status=405)
 
@@ -513,60 +520,59 @@ def messages(request):
 def chat(request):
     return JsonResponse({'error': str(e)}, status=404)
 
-from django.contrib.sessions.models import Session
-
 def get_profile_info(request):
-    username = request.GET.get('username')
-    
-    if not username or not is_valid_username(username):
-        return JsonResponse({'error': 'Username parameter is missing'}, status=400)
-    token = request.headers.get('Authorization', '').split('Bearer ')[-1]
-    
     try:
-        payload = jwt.decode(token, settings.SIGNING_KEY, algorithms=['HS256'])
-        user_id = payload['user_id']
-        user_requester = MyAppUser.objects.get(pk=user_id)
-        user = MyAppUser.objects.get(username=username)
-        csrf_token = get_token(request)
-        if user_id and 'user_id' not in request.session:
-            request.session['user_id'] = user_id
-        is_online = False
-        active_sessions = Session.objects.filter(expire_date__gte=timezone.now())
-        for session in active_sessions:
-            session_data = session.get_decoded()
-            if '_auth_user_id' in session_data and str(user.id) == session_data['_auth_user_id']:
-                is_online = True
-                break
+        username = request.GET.get('username')
         
-        # Query achievements for the user
-        achievements = Achievement.objects.filter(user_id=user.id).first()
+        if not username or not is_valid_username(username):
+            return JsonResponse({'error': 'Username parameter is missing'}, status=400)
+        token = request.headers.get('Authorization', '').split('Bearer ')[-1]
+        
+        try:
+            payload = jwt.decode(token, settings.SIGNING_KEY, algorithms=['HS256'])
+            user_id = payload['user_id']
+            user_requester = MyAppUser.objects.get(pk=user_id)
+            user = MyAppUser.objects.get(username=username)
+            csrf_token = get_token(request)
+            if user_id and 'user_id' not in request.session:
+                request.session['user_id'] = user_id
+            is_online = False
+            active_sessions = Session.objects.filter(expire_date__gte=timezone.now())
+            for session in active_sessions:
+                session_data = session.get_decoded()
+                if '_auth_user_id' in session_data and str(user.id) == session_data['_auth_user_id']:
+                    is_online = True
+                    break
+            
+            # Query achievements for the user
+            achievements = Achievement.objects.filter(user_id=user.id).first()
 
-        # Calculate winning rate
-        games_played = user.games_played
-        games_won = user.games_won
-        games_lost = user.games_lost
-        winning_rate = round((games_won / games_played) * 100, 2) if games_played > 0 else 0
-        
-        user_info = {
-            'nickname': user.nickname,
-            'login': user.username,
-            'score': user.score,
-            'image_link': user.image_link,
-            'csrfToken': csrf_token,
-            'is_online': is_online,
-            'games_played': games_played,
-            'games_won': games_won,
-            'games_lost': games_lost,
-            'winning_rate': winning_rate
-        }
-        
-        return JsonResponse({'user': user_info})
-    except jwt.ExpiredSignatureError:
-        return JsonResponse({'error': 'Token has expired'}, status=401)
-    except jwt.InvalidTokenError:
-        return JsonResponse({'error': 'Invalid token'}, status=401)
-    except MyAppUser.DoesNotExist:
-        return JsonResponse({'error': 'User not found'}, status=404)
+            # Calculate winning rate
+            games_played = user.games_played
+            games_won = user.games_won
+            games_lost = user.games_lost
+            winning_rate = round((games_won / games_played) * 100, 2) if games_played > 0 else 0
+            
+            user_info = {
+                'nickname': user.nickname,
+                'login': user.username,
+                'score': user.score,
+                'image_link': user.image_link,
+                'csrfToken': csrf_token,
+                'is_online': is_online,
+                'games_played': games_played,
+                'games_won': games_won,
+                'games_lost': games_lost,
+                'winning_rate': winning_rate
+            }
+            
+            return JsonResponse({'user': user_info})
+        except jwt.ExpiredSignatureError:
+            return JsonResponse({'error': 'Token has expired'}, status=401)
+        except jwt.InvalidTokenError:
+            return JsonResponse({'error': 'Invalid token'}, status=401)
+        except MyAppUser.DoesNotExist:
+            return JsonResponse({'error': 'User not found'}, status=404)
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=400)
 
@@ -588,11 +594,7 @@ def signin42c(request):
         return HttpResponseRedirect(referral_url or '/') 
 
 def proxy_userinfo(request):
-    
-    #code = request.GET.get('code')
-    #if not code:
-    
-   
+ 
     try:
         jwt_token = request.headers.get('Authorization')
         if not jwt_token:
@@ -630,104 +632,113 @@ def proxy_userinfo(request):
         return JsonResponse({'error': 'User not found'}, status=404)
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=400)
-
 def proxy_viewc(request):
-    code = request.GET.get('code')
-    if not code:
-        return JsonResponse({'error': 'Code parameter is missing'}, status=400)
-    if len(code) != 64 or not re.match(r'^[a-zA-Z0-9]+$', code):
-        return JsonResponse({'error': 'Invalid code format'}, status=400)
-    client_id = os.getenv('CLIENT_ID')
-    client_secret = os.getenv('CLIENT_SECRET')
-    redirect_uri = request.session.get('referral_url')+'/api/proxyc/'
-    #print(redirect_uri)
-    csrf_token = get_token(request)
-
-    if not client_id or not client_secret or not redirect_uri:
-        return JsonResponse({'error': 'Environment variables are not set correctly'}, status=400)
-
-    data = {
-        'grant_type': 'authorization_code',
-        'client_id': client_id,
-        'client_secret': client_secret,
-        'code': code,
-        'redirect_uri': redirect_uri,
-        'csrfToken': csrf_token,
-    }
-
     try:
-        response = requests.post('https://api.intra.42.fr/oauth/token', data=data)
-        response.raise_for_status()
+        code = request.GET.get('code')
+        if not code:
+            return JsonResponse({'error': 'Code parameter is missing'}, status=400)
+        if len(code) != 64 or not re.match(r'^[a-zA-Z0-9]+$', code):
+            return JsonResponse({'error': 'Invalid code format'}, status=400)
+        client_id = os.getenv('CLIENT_ID')
+        client_secret = os.getenv('CLIENT_SECRET')
+        redirect_uri = request.session.get('referral_url')+'/api/proxyc/'
+        #print(redirect_uri)
+        csrf_token = get_token(request)
 
-        access_token = response.json().get('access_token')
+        if not client_id or not client_secret or not redirect_uri:
+            return JsonResponse({'error': 'Environment variables are not set correctly'}, status=400)
 
-        user_data_response = requests.get('https://api.intra.42.fr/v2/me', headers={'Authorization': f'Bearer {access_token}'})
-        user_data_response.raise_for_status()
+        data = {
+            'grant_type': 'authorization_code',
+            'client_id': client_id,
+            'client_secret': client_secret,
+            'code': code,
+            'redirect_uri': redirect_uri,
+            'csrfToken': csrf_token,
+        }
 
-        user_data = user_data_response.json()
-        login = user_data.get('login')
-        email = user_data.get('email')
-        image_data = user_data.get('image', {})
-        image_link = image_data.get('versions', {}).get('medium', image_data.get('link'))
-
-        
         try:
-            user = MyAppUser.objects.get(username=login)
-            if not user.is_oauth_user: 
-                redirect_url = f'/#login?m=oauth'
-                return redirect(redirect_url)
-        except MyAppUser.DoesNotExist:
+            response = requests.post('https://api.intra.42.fr/oauth/token', data=data)
+            response.raise_for_status()
+
+            access_token = response.json().get('access_token')
+
+            user_data_response = requests.get('https://api.intra.42.fr/v2/me', headers={'Authorization': f'Bearer {access_token}'})
+            user_data_response.raise_for_status()
+
+            user_data = user_data_response.json()
+            login = user_data.get('login')
+            email = user_data.get('email')
+            image_data = user_data.get('image', {})
+            image_link = image_data.get('versions', {}).get('medium', image_data.get('link'))
+
+            
             try:
-                user = MyAppUser.objects.get(email=email)
+                user = MyAppUser.objects.get(username=login)
                 if not user.is_oauth_user: 
                     redirect_url = f'/#login?m=oauth'
                     return redirect(redirect_url)
             except MyAppUser.DoesNotExist:
-                user = MyAppUser.objects.create_user(username=login, email=email)
-                user.nickname = user_data.get('nickname', user.username)
-                user.image_link = image_link
-                user.is_oauth_user = True
-                user.save()
+                try:
+                    user = MyAppUser.objects.get(email=email)
+                    if not user.is_oauth_user: 
+                        redirect_url = f'/#login?m=oauth'
+                        return redirect(redirect_url)
+                except MyAppUser.DoesNotExist:
+                    user = MyAppUser.objects.create_user(username=login, email=email)
+                    user.nickname = user_data.get('nickname', user.username)
+                    user.image_link = image_link
+                    user.is_oauth_user = True
+                    user.save()
 
 
-        token = AccessToken.for_user(user)
-        encoded_token = str(token)
-        redirect_url = f'/return.html?jwtToken={encoded_token}'
+            token = AccessToken.for_user(user)
+            encoded_token = str(token)
+            redirect_url = f'/return.html?jwtToken={encoded_token}'
 
-        return redirect(redirect_url)
-    except requests.RequestException as e:
+            return redirect(redirect_url)
+        except requests.RequestException as e:
+            return JsonResponse({'error': str(e)}, status=400)
+    except Exception as e:
         return JsonResponse({'error': str(e)}, status=400)
-
 @api_view(['POST'])
 def obtain_token(request):
     if request.method == 'POST':
-        username = request.data.get('username')
-        password = request.data.get('password')
-        user = MyAppUser.objects.filter(username=username).first()
-        if user is not None and user.check_password(password):
-            token, created = Token.objects.get_or_create(user=user)
-            return Response({'token': token.key})
-        else:
-            return Response({'error': 'Invalid credentials'}, status=400)
+        try:
+            username = request.data.get('username')
+            password = request.data.get('password')
+            user = MyAppUser.objects.filter(username=username).first()
+            if user is not None and user.check_password(password):
+                token, created = Token.objects.get_or_create(user=user)
+                return Response({'token': token.key})
+            else:
+                return Response({'error': 'Invalid credentials'}, status=400)
+        except Exception as e:
+            return Response({'error': str(e)}, status=400)
 
 
 def get_email(request):
-    
-    
-    user = request.user  
-    if user.is_authenticated:
-        email = user.email
-        return JsonResponse({'email': email})
-    else:
-        return JsonResponse({'error': 'User is not authenticated'}, status=401)
+    try:
+        user = request.user  
+        if user.is_authenticated:
+            email = user.email
+            return JsonResponse({'email': email})
+        else:
+            return JsonResponse({'error': 'User is not authenticated'}, status=401)
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=400)
+
 
 def get_nickname(request):
-    user = request.user
-    if user.is_authenticated:
-        nickname = user.nickname  
-        return JsonResponse({'nickname': nickname})
-    else:
-        return JsonResponse({'error': 'User is not authenticated'}, status=401)
+    try:
+        user = request.user
+        if user.is_authenticated:
+            nickname = user.nickname  
+            return JsonResponse({'nickname': nickname})
+        else:
+            return JsonResponse({'error': 'User is not authenticated'}, status=401)
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=400)
 
 @api_view(['POST'])
 def update_nickname(request):
@@ -794,8 +805,8 @@ def upload_avatar(request):
         return Response({"message": "An error occurred while uploading the avatar."}, status=401)
         
 def update_score(request):
-    token = request.headers.get('Authorization', '').split('Bearer ')[-1]
     try:
+        token = request.headers.get('Authorization', '').split('Bearer ')[-1]
         payload = jwt.decode(token, settings.SIGNING_KEY, algorithms=['HS256'])
         user_id = payload['user_id']
         user = MyAppUser.objects.get(pk=user_id)
@@ -836,23 +847,17 @@ def update_score(request):
         return JsonResponse({'error': 'User not found'}, status=404)
 
 def get_score(request):
-    
-    users = MyAppUser.objects.all()
-    
-    
-    user_data = serialize('json', users)
-    
-    
-    score = 100  
-    
-    
-    response_data = {
-        'score': score,
-        'users': user_data
-    }
-    
-    return JsonResponse(response_data)
-
+    try:
+        users = MyAppUser.objects.all()
+        user_data = serialize('json', users)
+        score = 100  
+        response_data = {
+            'score': score,
+            'users': user_data
+        }
+        return JsonResponse(response_data)
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=400)
 
 def ping(request):
     return JsonResponse({'message': 'Server is awake!'})
@@ -871,9 +876,9 @@ def tournaments(request):
 
 
 def leaderboard(request):
-    token = request.headers.get('Authorization', '').split('Bearer ')[-1]
     
     try:
+        token = request.headers.get('Authorization', '').split('Bearer ')[-1]
         payload = jwt.decode(token, settings.SIGNING_KEY, algorithms=['HS256'])
         user_id = payload['user_id']
         user = MyAppUser.objects.get(pk=user_id)
@@ -909,36 +914,44 @@ def leaderboard(request):
         return JsonResponse({'error': 'Invalid token'}, status=401)
     except MyAppUser.DoesNotExist:
         return JsonResponse({'error': 'User not found'}, status=404)
-    
+
 def fetch_messages(request):
     if request.method != 'GET':
-        return JsonResponse({'error': 'Method not allowed'}, status=405)  
+        return JsonResponse({'error': 'Method not allowed'}, status=405)
 
-    channel_layer = get_channel_layer()
-    async_to_sync(channel_layer.group_send)("chat_group", {"type": "fetch_messages"})
-    return JsonResponse({'status': 'success'})
+    try:
+        channel_layer = get_channel_layer()
+        async_to_sync(channel_layer.group_send)("chat_group", {"type": "fetch_messages"})
+        return JsonResponse({'status': 'success'})
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=400)
 
 
 def send_message(request):
     if request.method != 'POST':
-        return JsonResponse({'error': 'Method not allowed'}, status=405)  
+        return JsonResponse({'error': 'Method not allowed'}, status=405)
 
     try:
         message_data = json.loads(request.body)
         message = message_data['message']
+        channel_layer = get_channel_layer()
+        async_to_sync(channel_layer.group_send)("chat_group", {"type": "send_message", "message": message})
+        return JsonResponse({'status': 'success'})
     except json.JSONDecodeError:
-        return JsonResponse({'error': 'Invalid JSON data'}, status=400)  
+        return JsonResponse({'error': 'Invalid JSON data'}, status=400)
     except KeyError:
-        return JsonResponse({'error': 'Missing required field "message"'}, status=400)  
+        return JsonResponse({'error': 'Missing required field "message"'}, status=400)
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=400)
 
-    channel_layer = get_channel_layer()
-    async_to_sync(channel_layer.group_send)("chat_group", {"type": "send_message", "message": message})
-    return JsonResponse({'status': 'success'})
 
 @ensure_csrf_cookie
 def get_csrf_token(request):
-    csrf_token = get_token(request)    
-    return JsonResponse({'csrfToken': csrf_token})
+    try:
+        csrf_token = get_token(request)
+        return JsonResponse({'csrfToken': csrf_token})
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=400)
 
 
 def register(request):
@@ -1032,35 +1045,39 @@ def login_view(request):
         return JsonResponse({'error': str(e)}, status=400)
 
 
-
 def update_player_position(request):
     if request.method == 'POST':
-        
-        player_id = request.POST.get('player_id')
-        position_x = request.POST.get('position_x')
-        position_y = request.POST.get('position_y')
-
-        
         try:
-            player = Player.objects.get(id=player_id)
+            player_id = request.POST.get('player_id')
+            position_x = request.POST.get('position_x')
+            position_y = request.POST.get('position_y')
+
+            # Validate input
+            if not player_id or not position_x or not position_y:
+                return JsonResponse({'success': False, 'error': 'Missing required fields'})
+
+            # Check if player exists
+            player = Player.objects.filter(id=player_id).first()
+            if not player:
+                return JsonResponse({'success': False, 'error': 'Player not found'})
+
+            # Update player position
             player.position_x = position_x
             player.position_y = position_y
             player.save()
             return JsonResponse({'success': True})
-        except Player.DoesNotExist:
-            return JsonResponse({'success': False, 'error': 'Player not found'})
+        except Exception as e:
+            return JsonResponse({'success': False, 'error': str(e)})
 
-    
     return JsonResponse({'success': False, 'error': 'Invalid HTTP method'})
 
-
 def get_game_state(request):
-    
-    players = Player.objects.all()
-    game_state = [{'id': player.id, 'name': player.name, 'position_x': player.position_x, 'position_y': player.position_y} for player in players]
-    return JsonResponse({'game_state': game_state})
-
-waiting_queue = []
+    try:
+        players = Player.objects.all()
+        game_state = [{'id': player.id, 'name': player.name, 'position_x': player.position_x, 'position_y': player.position_y} for player in players]
+        return JsonResponse({'game_state': game_state})
+    except Exception as e:
+        return JsonResponse({'error': str(e)})
 
 
 def home(request):
@@ -1069,35 +1086,34 @@ def home(request):
 def custom_404(request, exception):
     return render(request, '404.html', status=404)
 
-
 def check_player_waiting(request, user_login):
     global waiting_queue
 
-    
-    if waiting_queue:
-        
-        matched_user = waiting_queue.pop(0)  
-        
-        return JsonResponse({'waiting': True, 'matched_user': matched_user, 'current_user': user_login})
-    else:
-        
-        waiting_queue.append(user_login)  
-        return JsonResponse({'waiting': False})
-
-
+    try:
+        if waiting_queue:
+            matched_user = waiting_queue.pop(0)
+            return JsonResponse({'waiting': True, 'matched_user': matched_user, 'current_user': user_login})
+        else:
+            waiting_queue.append(user_login)
+            return JsonResponse({'waiting': False})
+    except Exception as e:
+        return JsonResponse({'error': str(e)})
 
 
 def cancel_waiting(request, user_login):
     global waiting_queue
 
-    
-    waiting_queue = [player for player in waiting_queue if player != user_login]
-    return JsonResponse({'message': f'User {user_login} removed from waiting queue'})
+    try:
+        waiting_queue = [player for player in waiting_queue if player != user_login]
+        return JsonResponse({'message': f'User {user_login} removed from waiting queue'})
+    except Exception as e:
+        return JsonResponse({'error': str(e)})
+
 
 def manage_profile(request):
-    token = request.headers.get('Authorization', '').split('Bearer ')[-1]
     
     try:
+        token = request.headers.get('Authorization', '').split('Bearer ')[-1]
         payload = jwt.decode(token, settings.SIGNING_KEY, algorithms=['HS256'])
         user_id = payload['user_id']
         user = MyAppUser.objects.get(pk=user_id)
@@ -1249,9 +1265,9 @@ def get_2fa_status(request):
         return JsonResponse({'error': 'User not found'}, status=404)
 
 def generate_qr_code(request):
-    token = request.headers.get('Authorization', '').split('Bearer ')[-1]
     
     try:
+        token = request.headers.get('Authorization', '').split('Bearer ')[-1]
         payload = jwt.decode(token, settings.SIGNING_KEY, algorithms=['HS256'])
         user_id = payload['user_id']
         user = MyAppUser.objects.get(pk=user_id)
@@ -1277,12 +1293,10 @@ def generate_qr_code(request):
         qr.make(fit=True)
         img = qr.make_image(fill_color="black", back_color="white")
         
-        # Convert image to bytes
         img_io = BytesIO()
         img.save(img_io, 'PNG')
         img_bytes = img_io.getvalue()
         
-        # Return the image content in the HTTP response
         response = HttpResponse(img_bytes, content_type='image/png')
         response['Content-Disposition'] = 'inline; filename="qr_code.png"'
         return response
@@ -1293,7 +1307,7 @@ def generate_qr_code(request):
         return JsonResponse({'error': 'Invalid token'}, status=401)
     except MyAppUser.DoesNotExist:
         return JsonResponse({'error': 'User not found'}, status=404)
-    
+   
 
 def activate_2fa(request):
     if request.method == 'POST':
@@ -1337,8 +1351,8 @@ def activate_2fa(request):
     
 def deactivate_2fa(request):
     if request.method == 'POST':
-        token = request.headers.get('Authorization', '').split('Bearer ')[-1]
         try:
+            token = request.headers.get('Authorization', '').split('Bearer ')[-1]
             payload = jwt.decode(token, settings.SIGNING_KEY, algorithms=['HS256'])
             user_id = payload['user_id']
             user = MyAppUser.objects.get(pk=user_id)
