@@ -572,16 +572,21 @@ def get_profile_info(request):
         return JsonResponse({'error': str(e)}, status=400)
 
 def signin42c(request):
-    client_id = os.getenv('CLIENT_ID')
+    try:
+        client_id = os.getenv('CLIENT_ID')
 
-    referral_url = request.GET.get('referral_url')
+        referral_url = request.GET.get('referral_url')
+        
+        if referral_url:
+            request.session['referral_url'] = referral_url
+            referral_url = quote(referral_url)  
+        
+        authorization_url = f'https://api.intra.42.fr/oauth/authorize?client_id={client_id}&response_type=code&redirect_uri={referral_url}/api/proxyc/'
+        
+        return HttpResponseRedirect(authorization_url)
     
-    if referral_url:
-        request.session['referral_url'] = referral_url
-        referral_url = quote(referral_url)  
-    #print(referral_url, request.session['referral_url'])
-    authorization_url = f'https://api.intra.42.fr/oauth/authorize?client_id={client_id}&response_type=code&redirect_uri={referral_url}/api/proxyc/'
-    return HttpResponseRedirect(authorization_url)
+    except Exception as e:
+        return HttpResponseRedirect(referral_url or '/') 
 
 def proxy_userinfo(request):
     
