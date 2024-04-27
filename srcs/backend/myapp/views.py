@@ -808,9 +808,11 @@ def update_score(request):
         gametype = request.GET.get('gametype')
 
         if result == 'win':
-            user.games_won = user.games_won + 1 
+            user.games_won = user.games_won + 1
+            user.score = user.score + 1 
         elif result == 'lost':
-            user.games_lost = user.games_lost + 1   
+            user.games_lost = user.games_lost + 1
+            user.score = user.score - 1   
         user.games_played = user.games_played + 1
         user.save()
 
