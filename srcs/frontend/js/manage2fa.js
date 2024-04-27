@@ -173,7 +173,7 @@ async function display2faPage() {
 
     document.getElementById('enable2FA').addEventListener('click', enableOrDisable2FA);
     
-    cument.getElementById('activate2FA').addEventListener('click', activate2fa);
+    document.getElementById('activate2FA').addEventListener('click', activate2fa);
     currrentLanguage2 = localStorage.getItem('language');
     translate(currrentLanguage2);
 }

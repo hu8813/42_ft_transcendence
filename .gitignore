@@ -6,3 +6,6 @@ certs
 localhost.crt
 localhost.key
 srcs/certs
+media
+media/*
+migrations/*
