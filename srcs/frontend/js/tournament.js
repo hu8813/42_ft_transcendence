@@ -1,4 +1,5 @@
-async function askPlayerCount() {
+async function showTournamentPage() {
+async function askPlayerCount(tournamentName) {
     const canvas = document.getElementById('canvastour');
     if (!canvas) return;
 
@@ -35,11 +36,11 @@ async function askPlayerCount() {
         
         canvas.removeEventListener('click', handler);
 
-        getPlayerNames(playerCount, 1, []);
+        getPlayerNames(playerCount, 1, [], tournamentName);
     });
 }
 
-async function getPlayerNames(playerCount, currentPlayerIndex, players) {
+async function getPlayerNames(playerCount, currentPlayerIndex, players, tournamentName) {
     const canvas = document.getElementById('canvastour');
     const input = document.createElement('input');
     if (!canvas) return;
@@ -108,15 +109,73 @@ async function getPlayerNames(playerCount, currentPlayerIndex, players) {
                 getPlayerNames(playerCount, currentPlayerIndex + 1, players);
             } else {
                 shuffleArray(players);
-                showTournament(players, playerCount);
+                showTournament(players, playerCount, tournamentName);
             }
         }
     };
 }
-
-async function showTournament(players, playerCount) {
+async function askTournamentName() {
     const canvas = document.getElementById('canvastour');
     if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+    canvas.width = 800;
+    canvas.height = 600;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    ctx.fillStyle = "rgba(0, 0, 0, 0.75)";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    ctx.font = "30px Arial";
+    ctx.fillStyle = "white";
+    ctx.textAlign = "center";
+    let enterName = await translateKey("enterTournamentName");
+    ctx.fillText(enterName, canvas.width / 2, canvas.height / 2.3);
+
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.placeholder = enterName;
+    input.style.position = 'absolute';
+    input.style.zIndex = '10';
+    document.body.appendChild(input);
+
+    const updateInputPositionAndSize = () => {
+        if (!document.body.contains(input)) return;
+        const canvasRect = canvas.getBoundingClientRect();
+        const canvasWidth = canvasRect.width;
+        
+        const inputWidth = Math.max(250, Math.min(380, canvasWidth * 0.8));
+        input.style.width = `${inputWidth}px`;
+        const fontSize = Math.max(inputWidth / 25, 12);
+        input.style.fontSize = `${fontSize}px`;
+
+        input.style.left = `${canvasRect.left + canvasWidth / 2}px`;
+        input.style.top = `${canvasRect.top + canvasRect.height * 0.65}px`;
+        input.style.transform = 'translate(-50%, -50%)';
+    };
+
+    updateInputPositionAndSize();
+    window.addEventListener('resize', updateInputPositionAndSize);
+
+    input.focus();
+
+    input.addEventListener('keydown', async function(event) {
+        if (event.key === 'Enter') {
+            const tournamentName = input.value.trim();
+            if (!tournamentName) {
+                // Show an error message or handle empty input
+                return;
+            }
+            document.body.removeChild(input);
+            await askPlayerCount(tournamentName);
+        }
+    });
+}
+
+async function showTournament(players, playerCount, tournamentName) {
+    const canvas = document.getElementById('canvastour');
+    if (!canvas) return;
+    const gameData = [];
     const ctx = canvas.getContext('2d');
     canvas.width = 800;
     canvas.height = 600;
@@ -158,6 +217,7 @@ async function showTournament(players, playerCount) {
                 let winner = await translateKey("winner");
                 let congrats = await translateKey("congrats");
                 console.log(`The winner of the tournament is Player ${players[0]}! Congratulations!`);
+                await sendTournamentData(gameData);
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 ctx.fillStyle = "rgba(0, 0, 0, 0.7)";
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -181,17 +241,67 @@ async function showTournament(players, playerCount) {
         }, 3000); 
     }    
 
-    function handleWinner(winnerName) {
+    async function sendTournamentData(tournamentData) {
+        try {
+            let csrfToken = await getCSRFCookie();
+            let jwtToken = localStorage.getItem('jwtToken');
+            const response = await fetch('/api/save_tournament_data', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrfToken,
+                    'Authorization': `Bearer ${jwtToken}`
+                },
+                body: JSON.stringify({ tournamentData })
+            });
+    
+            if (response.ok) {
+                const responseData = await response.json();
+                console.log(responseData.message); // Log success message from backend
+            } else {
+                throw new Error('Failed to send tournament data to the backend');
+            }
+        } catch (error) {
+            console.error('Error sending tournament data to the backend:', error);
+        }
+    }
+
+    async function handleWinner(winnerName) {
         winners.push(winnerName);
         currentMatch++;
+        
+        try {
+            const jwtToken = localStorage.getItem('jwtToken');
+            const csrfToken = await getCSRFCookie(); // Make sure to define this function to retrieve CSRF token
+            
+            // Collect all game data from the console.log statements
+            
+            for (let i = 0; i < winners.length; i++) {
+                const matchPlayers = [players[i * 2], players[i * 2 + 1]];
+                const gameResult = winners[i] ? `${winners[i]} won!` : ''; // Determine the winner of each match
+                gameData.push({ matchNumber: i + 1, players: matchPlayers, result: gameResult });
+            }
+            
+            // Send tournament data to the backend
+           
+        } catch (error) {
+            console.error('Error saving tournament data:', error);
+            //displayErrorMessage('Failed to save tournament data');
+        }
         nextMatch();
     }
+    
+
+    
     let tourna = await translateKey("tourna");
+    let tournamentData = []; 
     console.log("Tournament starts now.");
     let initialMessage = tourna+"\n";
     for (let i = 0; i < roundMatches; i++) {
         let matchPlayers = [players[i * 2], players[i * 2 + 1]];
-        initialMessage += `Match ${i + 1}:  ${matchPlayers[0]} vs  ${matchPlayers[1]}\n`;
+        let matchResult = `${i + 1}: ${matchPlayers[0]} vs ${matchPlayers[1]}`;
+        console.log(matchResult); 
+        tournamentData.push({ matchNumber: i + 1, players: matchPlayers, result: null, tournamentName: tournamentName });
     }
     displayMessage(initialMessage, 3000);
 
@@ -471,4 +581,12 @@ function showPongTour(player1Name, player2Name, isFinal, handleWinner) {
         ctx.fillText(`🏆 ${winnerName} `+won+` 🏆`, canvas.width / 2, canvas.height / 2);
     }, 1000);
     }
+}
+
+const canvas = document.getElementById('canvastour');
+if (canvas) {
+//await askTournamentName();
+await askPlayerCount("Tournament");
+}
+
 }

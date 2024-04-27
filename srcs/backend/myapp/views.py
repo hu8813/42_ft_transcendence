@@ -1371,3 +1371,84 @@ def deactivate_2fa(request):
             return JsonResponse({'error': 'User not found'}, status=404)
     else:
         return JsonResponse({'error': 'Method not allowed'}, status=405)
+
+def save_tournament_data(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            tournament_data = data.get('tournamentData', [])
+            tournament_name = data.get('tournamentName')
+
+            if not tournament_name:
+                tournament_name = 'Tournament ' + str(timezone.now().strftime('%Y%m%d%H%M%S'))
+
+            tournament, created = Tournament.objects.get_or_create(name=tournament_name)
+
+            # Clear the matches field before appending match information
+            tournament.matches = ''
+
+            for game in tournament_data:
+                match_number = game.get('matchNumber')
+                players = game.get('players')
+                result = game.get('result')
+
+                match_info = f"{players[0]} - {players[1]}, 🏆 {result}\n"  # Use cup emoji for winner
+                tournament.matches += match_info
+                
+                if match_number == len(tournament_data):
+                    tournament.winner = result
+
+            tournament.save()
+            return JsonResponse({'message': 'Tournament data saved successfully'})
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=400)
+    else:
+        return JsonResponse({'error': 'Only POST method is allowed'}, status=405)
+
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            tournament_data = data.get('tournamentData', [])
+            tournament_name = data.get('tournamentName')
+
+            if not tournament_name:
+                tournament_name = 'Tournament ' + str(timezone.now().strftime('%Y%m%d%H%M%S'))
+
+            tournament, created = Tournament.objects.get_or_create(name=tournament_name)
+            
+            for game in tournament_data:
+                match_number = game.get('matchNumber')
+                players = game.get('players')
+                result = game.get('result')
+                
+                match_info = f"{players[0]} - {players[1]}, {result}\n"
+                tournament.matches += match_info
+                
+                if match_number == len(tournament_data):
+                    tournament.winner = result
+
+            tournament.save()
+            return JsonResponse({'message': 'Tournament data saved successfully'})
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=400)
+    else:
+        return JsonResponse({'error': 'Only POST method is allowed'}, status=405)
+
+def get_tournament_data(request):
+    try:
+        tournaments = Tournament.objects.order_by('-saved_date')[:100]
+
+        tournament_data_list = []
+
+        for tournament in tournaments:
+            tournament_data = {
+                'name': tournament.name,
+                'saved_date': tournament.saved_date.strftime('%Y-%m-%d'),
+                'winner': tournament.winner,
+                'matches': tournament.matches.splitlines()
+            }
+            tournament_data_list.append(tournament_data)
+
+        return JsonResponse({'tournamentData': tournament_data_list})
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=401)

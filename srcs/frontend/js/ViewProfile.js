@@ -45,7 +45,7 @@ async function fetchAndDisplayViewProfile(username) {
             document.getElementById('nicknameadr2').textContent = nickname;
             document.getElementById('scoreadr').textContent = score;
             document.getElementById('gamesPlayed').textContent = gamesPlayed;
-            document.getElementById('winningRate').textContent = winningRate;
+            document.getElementById('winningRate').textContent = winningRate + '%';
             
             const statusIndicator = document.getElementById('statusIndicator');
             statusIndicator.classList.toggle('online', isOnline);
@@ -74,6 +74,10 @@ async function fetchAndDisplayViewProfile(username) {
                             gameHistoryContainer.innerHTML = '<button id="closeGameHistoryBtn" class="close-button" onclick="closeGameHistory()">'+cls+'</button>';
                         }
                         // Sort game history by date_time_played in descending order
+                        if (gameHistoryData.length === 0) {
+                            let emptyGameHistory = await translateKey("emptyGameHistory");
+                            gameHistoryContainer.innerHTML += `<div class="mb-3"><br/> `+ emptyGameHistory +` </div>`;
+                        } else {
                         gameHistoryData.sort((a, b) => new Date(b.date_time_played) - new Date(a.date_time_played));
             
                         let op = await translateKey("op");
@@ -94,6 +98,7 @@ async function fetchAndDisplayViewProfile(username) {
                             `;
                             gameHistoryContainer.appendChild(gameElement);
                         });
+                    }
                     } else {
                         throw new Error('Failed to fetch game history');
                     }

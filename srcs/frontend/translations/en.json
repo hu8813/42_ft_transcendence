@@ -198,5 +198,7 @@
   "cls": "close",
   "refresh": "Refresh to play again",
   "cpuwins": "CPU wins!",
-  "playwins": "Player wins!"
+  "playwins": "Player wins!",
+
+  "emptyGameHistory": "No game history available"
 }

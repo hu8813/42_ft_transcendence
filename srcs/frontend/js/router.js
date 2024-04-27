@@ -24,6 +24,7 @@ const routes = {
   "#tic1": "/views/tic1.html",
   "#tic2": "/views/tic2.html",
   "#tournament": "/views/tournament.html",
+  "#tournaments": "/views/alltournaments.html",
   "#viewprofile": "/views/viewprofile.html",
   "#rps" : "/views/rps.html",
   "#chatselect" : "/views/chatselect.html",
@@ -351,10 +352,14 @@ const handleLocation = async () => {
     case '#tic2':
       showTic2();
       break;
+    case '#tournaments':
+      allTournaments();
+      break;
     case '#tournament':
-      const tournamentHtml = await fetch(routes[path]).then((data) => data.text());
-      document.getElementById("app").innerHTML = tournamentHtml;
-      askPlayerCount();
+      // const tournamentHtml = await fetch(routes[path]).then((data) => data.text());
+      // document.getElementById("app").innerHTML = tournamentHtml;
+      // askPlayerCount();
+      showTournamentPage();
       break;
     case '#contact':
       showImprint();

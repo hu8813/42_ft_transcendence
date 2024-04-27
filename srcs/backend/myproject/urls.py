@@ -55,8 +55,9 @@ urlpatterns = [
     path('api/block-user', views.block_user, name='block_user'),
     path('api/unblock-user', views.unblock_user, name='unblock_user'),
     path('api/remove-friend', views.remove_friend, name='remove_friend'),
-
     path('api/friends', views.get_friends, name='get_friends'),
+    path('api/save_tournament_data', views.save_tournament_data, name='save_tournament_data'),
+    path('api/get_tournament_data', views.get_tournament_data, name='get_tournament_data'),
     path('api/fetch_achievements', views.fetch_achievements, name='fetch_achievements'),
     path('api/fetch_game_history', views.fetch_game_history, name='fetch_game_history'),
     path('api/get-blocked-users/', views.get_blocked_users, name='get_blocked_users'),

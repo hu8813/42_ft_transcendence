@@ -63,8 +63,10 @@ class MyAppUserPermissions(models.Model):
         db_table = 'myapp_user_permissions'
 
 class Tournament(models.Model):
-    name = models.CharField(max_length=100)
-    start_date = models.DateField()
+    name = models.CharField(max_length=100, default='pong42')
+    saved_date = models.DateField(default=timezone.now) 
+    winner = models.CharField(max_length=100, default='')
+    matches = models.TextField(default='')  
 
     class Meta:
         db_table = 'tournaments'
