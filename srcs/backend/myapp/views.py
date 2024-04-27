@@ -37,7 +37,6 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.sessions.backends.db import SessionStore
 from urllib.parse import quote
 from django.db.models import Case, When
-from pyotp import TOTP
 from django.db.models import F, ExpressionWrapper, FloatField
 from django.db import IntegrityError
 
@@ -793,6 +792,7 @@ def upload_avatar(request):
     except Exception as e:
         #print(f"An error occurred: {str(e)}")
         return Response({"message": "An error occurred while uploading the avatar."}, status=401)
+        
 def update_score(request):
     token = request.headers.get('Authorization', '').split('Bearer ')[-1]
     try:
@@ -809,7 +809,7 @@ def update_score(request):
 
         if result == 'win':
             user.games_won = user.games_won + 1
-            user.score = user.score + 1 
+            user.score = user.score + 2
         elif result == 'lost':
             user.games_lost = user.games_lost + 1
             user.score = user.score - 1   
@@ -1211,7 +1211,7 @@ def check_2fa_code(request):
             return JsonResponse({'error': '2FA is not enabled for the user'}, status=400)
 
         
-        totp = TOTP(saved_activation_code)
+        totp = pyotp.TOTP(saved_activation_code)
         if not totp.verify(code):
             return JsonResponse({'error': 'Invalid 2FA code'}, status=400)
 
@@ -1263,11 +1263,9 @@ def generate_qr_code(request):
         secret_key = pyotp.random_base32()
         user.activation_code = secret_key
         user.save()
-        totp = TOTP(secret_key)
+        totp = pyotp.TOTP(secret_key)
         
-        
-        
-        qr_url = totp.provisioning_uri(user.email, issuer_name='Pong42')
+        qr_url = pyotp.TOTP.provisioning_uri(user.email, issuer_name='Pong42')
         
         qr = qrcode.QRCode(
             version=1,
@@ -1279,16 +1277,16 @@ def generate_qr_code(request):
         qr.make(fit=True)
         img = qr.make_image(fill_color="black", back_color="white")
         
-        filename = f'{user.username}_qr_code.png'
+        # Convert image to bytes
         img_io = BytesIO()
         img.save(img_io, 'PNG')
-        img_file = ContentFile(img_io.getvalue())
-        path = default_storage.save(filename, img_file)
+        img_bytes = img_io.getvalue()
         
-        with default_storage.open(path) as f:
-            response = HttpResponse(f.read(), content_type='image/png')
-            response['Content-Disposition'] = 'inline; filename="qr_code.png"'
-            return response
+        # Return the image content in the HTTP response
+        response = HttpResponse(img_bytes, content_type='image/png')
+        response['Content-Disposition'] = 'inline; filename="qr_code.png"'
+        return response
+    
     except jwt.ExpiredSignatureError:
         return JsonResponse({'error': 'Token has expired'}, status=401)
     except jwt.InvalidTokenError:
@@ -1315,7 +1313,7 @@ def activate_2fa(request):
             saved_activation_code = user.activation_code
             
             
-            totp = TOTP(saved_activation_code)
+            totp = pyotp.TOTP(saved_activation_code)
             if not totp.verify(activation_code):
                 return JsonResponse({'error': 'Invalid activation code'}, status=400)
                 

@@ -120,8 +120,7 @@ while true; do
     fi
 done
 
-# Start Gunicorn with SSL certificate and key
-echo "Starting backend with Gunicorn!"
+echo "Starting backend"
 python3 manage.py makemigrations > /dev/null 2>&1
 python3 manage.py migrate > /dev/null 2>&1
 python manage.py collectstatic > /dev/null 2>&1
