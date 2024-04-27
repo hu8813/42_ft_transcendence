@@ -7,7 +7,6 @@ requests
 djangorestframework-simplejwt
 channels
 channels_redis
-python-socketio
 aiohttp
 uvicorn
 whitenoise

@@ -1,7 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser, Group, Permission
 from django.utils import timezone
-class User(AbstractUser):
+
+class MyAppUser(AbstractUser):
     score = models.IntegerField(default=0)
     nickname = models.CharField(max_length=50, blank=True, null=True)
     image_link = models.URLField(null=True, blank=True)
@@ -15,7 +16,7 @@ class User(AbstractUser):
     games_lost = models.IntegerField(default=0) 
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'auth_user'
 
     groups = models.ManyToManyField(
@@ -34,7 +35,7 @@ class User(AbstractUser):
     )
 
 class Achievement(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(MyAppUser, on_delete=models.CASCADE)
     games_played = models.IntegerField(default=0)
     games_won = models.IntegerField(default=0)
     games_lost = models.IntegerField(default=0)
@@ -48,14 +49,14 @@ class Achievement(models.Model):
         return f"Achievement for {self.user.username} on {self.date_time_played}"
 
 class MyAppUserGroups(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(MyAppUser, on_delete=models.CASCADE)
     group = models.ForeignKey(Group, on_delete=models.CASCADE)
 
     class Meta:
         db_table = 'myapp_user_groups'
 
 class MyAppUserPermissions(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(MyAppUser, on_delete=models.CASCADE)
     permission = models.ForeignKey(Permission, on_delete=models.CASCADE)
 
     class Meta:
@@ -69,7 +70,7 @@ class Tournament(models.Model):
         db_table = 'tournaments'
 
 class UserProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(MyAppUser, on_delete=models.CASCADE)
     score = models.IntegerField(default=0)
     nickname = models.CharField(max_length=100)
 
@@ -82,7 +83,7 @@ class Player(models.Model):
     position_y = models.IntegerField(default=0)
 
 class WaitingPlayer(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(MyAppUser, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.user.username
@@ -103,19 +104,17 @@ class Feedback(models.Model):
     def __str__(self):
         return self.feedback_text
 
-
 class Channel(models.Model):
     name = models.CharField(max_length=100)
-    owner = models.ForeignKey(User, on_delete=models.CASCADE)
-    moderator = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='moderator_channels')
+    owner = models.ForeignKey(MyAppUser, on_delete=models.CASCADE)
+    moderator = models.ForeignKey(MyAppUser, on_delete=models.SET_NULL, null=True, blank=True, related_name='moderator_channels')
     password = models.CharField(max_length=100, blank=True)
 
     def __str__(self):
         return self.name
-    
 
 class GameStats(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(MyAppUser, on_delete=models.CASCADE)
     opponent = models.CharField(max_length=100)  # Name of the opponent or "CPU"
     win = models.BooleanField()  # True if the user won, False if lost
     date_time_played = models.DateTimeField(auto_now_add=True)

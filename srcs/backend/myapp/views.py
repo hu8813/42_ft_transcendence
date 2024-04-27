@@ -14,7 +14,7 @@ import requests
 import uuid
 import os
 import json
-from .models import Tournament, User, Player, WaitingPlayer, Message, UserProfile, Feedback, Achievement, MyAppUserGroups, MyAppUserPermissions, Channel, GameStats
+from .models import Tournament, MyAppUser, Player, WaitingPlayer, Message, UserProfile, Feedback, Achievement, MyAppUserGroups, MyAppUserPermissions, Channel, GameStats
 from django.utils import timezone
 from django.db import IntegrityError
 from django.utils.html import escape
@@ -91,7 +91,7 @@ def remove_friend(request):
         payload = jwt.decode(token, settings.SIGNING_KEY, algorithms=['HS256'])
         user_id = payload['user_id']
         
-        user_requester = User.objects.get(pk=user_id)
+        user_requester = MyAppUser.objects.get(pk=user_id)
         if user_id and 'user_id' not in request.session:
             request.session['user_id'] = user_id
         username = request.GET.get('username')
@@ -102,7 +102,7 @@ def remove_friend(request):
         if not is_valid_username(username):
             return JsonResponse({'message': "Invalid username format. Only alphanumeric characters, underscore, and hyphen are allowed, and the length should not exceed 50 characters."}, status=400)
         
-        friend = User.objects.get(username=username)
+        friend = MyAppUser.objects.get(username=username)
         
         if friend == user_requester:
             return JsonResponse({'message': "You cannot remove yourself as a friend."}, status=400)
@@ -115,7 +115,7 @@ def remove_friend(request):
         
         return JsonResponse({'message': f"{friend.username} removed from friends successfully."})
     
-    except User.DoesNotExist:
+    except MyAppUser.DoesNotExist:
         return JsonResponse({'message': "Friend not found."}, status=404)
     except jwt.ExpiredSignatureError:
         return JsonResponse({'message': "JWT token has expired."}, status=401)
@@ -132,7 +132,7 @@ def add_friend(request):
         token = request.headers.get('Authorization', '').split('Bearer ')[-1]
         payload = jwt.decode(token, settings.SIGNING_KEY, algorithms=['HS256'])
         user_id = payload['user_id']
-        user_requester = User.objects.get(pk=user_id)
+        user_requester = MyAppUser.objects.get(pk=user_id)
         if user_id and 'user_id' not in request.session:
             request.session['user_id'] = user_id
         username = request.GET.get('username')
@@ -143,7 +143,7 @@ def add_friend(request):
         if not is_valid_username(username):
             return JsonResponse({'message': "Invalid username format. Only alphanumeric characters, underscore, and hyphen are allowed, and the length should not exceed 50 characters."}, status=400)
         
-        friend = User.objects.get(username=username)
+        friend = MyAppUser.objects.get(username=username)
         
         if friend == user_requester:
             return JsonResponse({'message': "You cannot add yourself as a friend."}, status=400)
@@ -156,7 +156,7 @@ def add_friend(request):
         
         return JsonResponse({'message': f"{friend.username} added as a friend successfully."})
     
-    except User.DoesNotExist:
+    except MyAppUser.DoesNotExist:
         return JsonResponse({'message': "Friend not found."}, status=404)
     except jwt.ExpiredSignatureError:
         return JsonResponse({'message': "JWT token has expired."}, status=401)
@@ -174,13 +174,13 @@ def get_friends(request):
         user_id = payload['user_id']
         if user_id and 'user_id' not in request.session:
             request.session['user_id'] = user_id
-        user = User.objects.get(pk=user_id)
+        user = MyAppUser.objects.get(pk=user_id)
         
         requested_username = request.GET.get('username')
         if requested_username:
             if len(requested_username) > 50 or is_valid_username(requested_username):
                 return JsonResponse({'error': 'Invalid username format'}, status=400)
-            requested_user = User.objects.get(username=requested_username)
+            requested_user = MyAppUser.objects.get(username=requested_username)
             friends = requested_user.friends.all()
         else:
             friends = user.friends.all()
@@ -212,7 +212,7 @@ def get_friends(request):
         return JsonResponse({'error': 'JWT token expired'}, status=401)
     except jwt.InvalidTokenError:
         return JsonResponse({'error': 'Invalid JWT token'}, status=401)
-    except User.DoesNotExist:
+    except MyAppUser.DoesNotExist:
         return JsonResponse({'error': 'User not found'}, status=404)
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=400)
@@ -224,7 +224,7 @@ def get_blocked_users(request):
         user_id = payload['user_id']
         if user_id and 'user_id' not in request.session:
             request.session['user_id'] = user_id
-        user_requester = User.objects.get(pk=user_id)
+        user_requester = MyAppUser.objects.get(pk=user_id)
         
         blocked_users = user_requester.blocked_users.all()
         
@@ -240,7 +240,7 @@ def unblock_user(request):
         token = request.headers.get('Authorization', '').split('Bearer ')[-1]
         payload = jwt.decode(token, settings.SIGNING_KEY, algorithms=['HS256'])
         user_id = payload['user_id']
-        user_requester = User.objects.get(pk=user_id)
+        user_requester = MyAppUser.objects.get(pk=user_id)
         if user_id and 'user_id' not in request.session:
             request.session['user_id'] = user_id
         username = request.GET.get('username')
@@ -251,7 +251,7 @@ def unblock_user(request):
         if not is_valid_username(username):
             return JsonResponse({'message': "Invalid username format. Only alphanumeric characters, underscore, and hyphen are allowed, and the length should not exceed 50 characters."}, status=400)
         
-        user_to_unblock = User.objects.get(username=username)
+        user_to_unblock = MyAppUser.objects.get(username=username)
         
         if user_to_unblock == user_requester:
             return JsonResponse({'message': "You cannot unblock yourself."}, status=400)
@@ -264,7 +264,7 @@ def unblock_user(request):
         
         return JsonResponse({'message': f"{user_to_unblock.username} unblocked successfully."})
     
-    except User.DoesNotExist:
+    except MyAppUser.DoesNotExist:
         return JsonResponse({'message': "User to unblock not found."}, status=404)
     except jwt.ExpiredSignatureError:
         return JsonResponse({'message': "JWT token has expired."}, status=401)
@@ -280,7 +280,7 @@ def block_user(request):
         token = request.headers.get('Authorization', '').split('Bearer ')[-1]
         payload = jwt.decode(token, settings.SIGNING_KEY, algorithms=['HS256'])
         user_id = payload['user_id']
-        user_requester = User.objects.get(pk=user_id)
+        user_requester = MyAppUser.objects.get(pk=user_id)
         if user_id and 'user_id' not in request.session:
             request.session['user_id'] = user_id
         username = request.GET.get('username')
@@ -291,7 +291,7 @@ def block_user(request):
         if not is_valid_username(username):
             return JsonResponse({'message': "Invalid username format. Only alphanumeric characters, underscore, and hyphen are allowed, and the length should not exceed 50 characters."}, status=400)
         
-        user_to_block = User.objects.get(username=username)
+        user_to_block = MyAppUser.objects.get(username=username)
         
         if user_to_block == user_requester:
             return JsonResponse({'message': "You cannot block yourself."}, status=400)
@@ -304,7 +304,7 @@ def block_user(request):
         
         return JsonResponse({'message': f"{user_to_block.username} blocked successfully."})
     
-    except User.DoesNotExist:
+    except MyAppUser.DoesNotExist:
         return JsonResponse({'message': "User to block not found."}, status=404)
     except jwt.ExpiredSignatureError:
         return JsonResponse({'message': "JWT token has expired."}, status=401)
@@ -325,10 +325,10 @@ def fetch_game_history(request):
         username = request.GET.get('username')
         
         if username and is_valid_username(username):
-            user = User.objects.get(username=username)
+            user = MyAppUser.objects.get(username=username)
             user_id = user.id
         else:
-            user = User.objects.get(id=user_id)
+            user = MyAppUser.objects.get(id=user_id)
 
         game_history = Achievement.objects.filter(user_id=user_id)
 
@@ -346,7 +346,7 @@ def fetch_game_history(request):
         return JsonResponse({'error': 'JWT token expired'}, status=401)
     except jwt.InvalidTokenError:
         return JsonResponse({'error': 'Invalid JWT token'}, status=401)
-    except User.DoesNotExist:
+    except MyAppUser.DoesNotExist:
         return JsonResponse({'error': 'User not found'}, status=404)
     except KeyError:
         return JsonResponse({'error': 'User ID not found in token'}, status=400)
@@ -410,7 +410,7 @@ def logout_view(request):
 
 
 def get_all_users(request):
-    all_users = User.objects.values_list('username', flat=True)
+    all_users = MyAppUser.objects.values_list('username', flat=True)
     return JsonResponse(list(all_users), safe=False)
 
 
@@ -449,7 +449,7 @@ def get_online_users(request):
         online_users = []
         for user_id in online_user_ids:
             try:
-                user = User.objects.get(id=user_id)
+                user = MyAppUser.objects.get(id=user_id)
                 online_users.append({
                     'username': user.username,
                     'nickname': user.nickname,
@@ -526,8 +526,8 @@ def get_profile_info(request):
     try:
         payload = jwt.decode(token, settings.SIGNING_KEY, algorithms=['HS256'])
         user_id = payload['user_id']
-        user_requester = User.objects.get(pk=user_id)
-        user = User.objects.get(username=username)
+        user_requester = MyAppUser.objects.get(pk=user_id)
+        user = MyAppUser.objects.get(username=username)
         csrf_token = get_token(request)
         if user_id and 'user_id' not in request.session:
             request.session['user_id'] = user_id
@@ -566,7 +566,7 @@ def get_profile_info(request):
         return JsonResponse({'error': 'Token has expired'}, status=401)
     except jwt.InvalidTokenError:
         return JsonResponse({'error': 'Invalid token'}, status=401)
-    except User.DoesNotExist:
+    except MyAppUser.DoesNotExist:
         return JsonResponse({'error': 'User not found'}, status=404)
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=400)
@@ -603,7 +603,7 @@ def proxy_userinfo(request):
         
         if authenticated_user is None:
            return JsonResponse({'error': 'Invalid or expired JWT token'}, status=401)
-        authenticated_user2 = User.objects.get(id=authentication_result[1]['user_id'])
+        authenticated_user2 = MyAppUser.objects.get(id=authentication_result[1]['user_id'])
         
         #print(authentication_result[1]['user_id'])
         session = SessionStore()
@@ -622,7 +622,7 @@ def proxy_userinfo(request):
             'two_factor_enabled': authenticated_user2.two_factor_enabled
         }
         return JsonResponse({'user': user_info})
-    except User.DoesNotExist:
+    except MyAppUser.DoesNotExist:
         return JsonResponse({'error': 'User not found'}, status=404)
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=400)
@@ -668,18 +668,18 @@ def proxy_viewc(request):
 
         
         try:
-            user = User.objects.get(username=login)
+            user = MyAppUser.objects.get(username=login)
             if not user.is_oauth_user: 
                 redirect_url = f'/#login?m=oauth'
                 return redirect(redirect_url)
-        except User.DoesNotExist:
+        except MyAppUser.DoesNotExist:
             try:
-                user = User.objects.get(email=email)
+                user = MyAppUser.objects.get(email=email)
                 if not user.is_oauth_user: 
                     redirect_url = f'/#login?m=oauth'
                     return redirect(redirect_url)
-            except User.DoesNotExist:
-                user = User.objects.create_user(username=login, email=email)
+            except MyAppUser.DoesNotExist:
+                user = MyAppUser.objects.create_user(username=login, email=email)
                 user.nickname = user_data.get('nickname', user.username)
                 user.image_link = image_link
                 user.is_oauth_user = True
@@ -699,7 +699,7 @@ def obtain_token(request):
     if request.method == 'POST':
         username = request.data.get('username')
         password = request.data.get('password')
-        user = User.objects.filter(username=username).first()
+        user = MyAppUser.objects.filter(username=username).first()
         if user is not None and user.check_password(password):
             token, created = Token.objects.get_or_create(user=user)
             return Response({'token': token.key})
@@ -730,7 +730,7 @@ def update_nickname(request):
     if request.method == 'POST' and 'nickname' in request.POST:
         try:
             new_nickname = request.POST.get('nickname')
-            user = User.objects.filter(nickname=new_nickname).first()
+            user = MyAppUser.objects.filter(nickname=new_nickname).first()
             if user is not None:
                 return JsonResponse({'error': 'Nickname is already used'}, status=400)
             
@@ -752,14 +752,14 @@ def upload_avatar(request):
         try:
             payload = jwt.decode(token, settings.SIGNING_KEY, algorithms=['HS256'])
             user_id = payload['user_id']
-            user = User.objects.get(pk=user_id)
+            user = MyAppUser.objects.get(pk=user_id)
             if user_id and 'user_id' not in request.session:
                 request.session['user_id'] = user_id
         except jwt.ExpiredSignatureError:
             return Response({"message": "JWT token has expired."}, status=status.HTTP_401_UNAUTHORIZED)
         except jwt.InvalidTokenError:
             return Response({"message": "Invalid JWT token."}, status=status.HTTP_401_UNAUTHORIZED)
-        except User.DoesNotExist:
+        except MyAppUser.DoesNotExist:
             return Response({"message": "User does not exist."}, status=status.HTTP_401_UNAUTHORIZED)
 
         if request.method == 'POST' and request.FILES.get('image'):
@@ -793,7 +793,7 @@ def update_score(request):
     try:
         payload = jwt.decode(token, settings.SIGNING_KEY, algorithms=['HS256'])
         user_id = payload['user_id']
-        user = User.objects.get(pk=user_id)
+        user = MyAppUser.objects.get(pk=user_id)
         if user_id and 'user_id' not in request.session:
             request.session['user_id'] = user_id
         result = request.GET.get('result') 
@@ -825,12 +825,12 @@ def update_score(request):
         return JsonResponse({'error': 'JWT signature has expired'}, status=401)
     except jwt.InvalidTokenError:
         return JsonResponse({'error': 'Invalid JWT token'}, status=401)
-    except User.DoesNotExist:
+    except MyAppUser.DoesNotExist:
         return JsonResponse({'error': 'User not found'}, status=404)
 
 def get_score(request):
     
-    users = User.objects.all()
+    users = MyAppUser.objects.all()
     
     
     user_data = serialize('json', users)
@@ -869,10 +869,10 @@ def leaderboard(request):
     try:
         payload = jwt.decode(token, settings.SIGNING_KEY, algorithms=['HS256'])
         user_id = payload['user_id']
-        user = User.objects.get(pk=user_id)
+        user = MyAppUser.objects.get(pk=user_id)
         if user_id and 'user_id' not in request.session:
             request.session['user_id'] = user_id
-        leaderboard_users = User.objects.order_by('-score')[:100]  
+        leaderboard_users = MyAppUser.objects.order_by('-score')[:100]  
 
         leaderboard_data = []
         for user in leaderboard_users:
@@ -900,7 +900,7 @@ def leaderboard(request):
         return JsonResponse({'error': 'Token has expired'}, status=401)
     except jwt.InvalidTokenError:
         return JsonResponse({'error': 'Invalid token'}, status=401)
-    except User.DoesNotExist:
+    except MyAppUser.DoesNotExist:
         return JsonResponse({'error': 'User not found'}, status=404)
     
 def fetch_messages(request):
@@ -963,16 +963,16 @@ def register(request):
             if not all(char.isalnum() or char in ['_', '-'] for char in username):
                 return JsonResponse({"error": "Username can only contain alphanumeric characters, underscores, and hyphens."}, status=400)
 
-            if User.objects.filter(username=username).exists():
+            if MyAppUser.objects.filter(username=username).exists():
                 return JsonResponse({"error": "Username already exists. Please choose a different username."}, status=400)
 
-            if User.objects.filter(email=email).exists():
+            if MyAppUser.objects.filter(email=email).exists():
                 return JsonResponse({"error": "Email already exists. Please use a different email address."}, status=400)
 
             if password != confirm_password:
                 return JsonResponse({"error": "Passwords do not match. Please make sure your passwords match."}, status=400)
 
-            user = User.objects.create_user(username=username, email=email, password=password, score=0)
+            user = MyAppUser.objects.create_user(username=username, email=email, password=password, score=0)
             user.nickname = username
             user.is_oauth_user = False
             user.save()
@@ -997,7 +997,7 @@ def login_view(request):
             
             user = authenticate(username=username, password=password)
             if user is not None:
-                user = User.objects.get(username=username)
+                user = MyAppUser.objects.get(username=username)
                 login(request, user)
                 token = AccessToken.for_user(user)
                 session = SessionStore()
@@ -1093,7 +1093,7 @@ def manage_profile(request):
     try:
         payload = jwt.decode(token, settings.SIGNING_KEY, algorithms=['HS256'])
         user_id = payload['user_id']
-        user = User.objects.get(pk=user_id)
+        user = MyAppUser.objects.get(pk=user_id)
         csrf_token = get_token(request)
         if user_id and 'user_id' not in request.session:
             request.session['user_id'] = user_id
@@ -1134,7 +1134,7 @@ def manage_profile(request):
                 if not re.match(r'^[a-zA-Z0-9_-]+$', new_nickname):
                     return JsonResponse({'error': 'Invalid nickname format. Only alphanumeric characters, underscore, and hyphen are allowed.'}, status=400)
 
-                user2 = User.objects.filter(nickname=new_nickname).first()
+                user2 = MyAppUser.objects.filter(nickname=new_nickname).first()
                 if user2 is not None:
                     return JsonResponse({'error': 'Nickname already exists'}, status=400)
 
@@ -1180,7 +1180,7 @@ def manage_profile(request):
         return JsonResponse({'error': 'Token has expired'}, status=401)
     except jwt.InvalidTokenError:
         return JsonResponse({'error': 'Invalid token'}, status=401)
-    except User.DoesNotExist:
+    except MyAppUser.DoesNotExist:
         return JsonResponse({'error': 'User not found'}, status=404)
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=400)
@@ -1197,7 +1197,7 @@ def check_2fa_code(request):
     if len(username) > 50 or not is_valid_username(username):
         return JsonResponse({'error': 'Invalid username format'}, status=400)
     try:
-        user = User.objects.get(username=username)
+        user = MyAppUser.objects.get(username=username)
         saved_activation_code = user.activation_code
 
         if not saved_activation_code:
@@ -1209,7 +1209,7 @@ def check_2fa_code(request):
             return JsonResponse({'error': 'Invalid 2FA code'}, status=400)
 
         return JsonResponse({'valid': True})
-    except User.DoesNotExist:
+    except MyAppUser.DoesNotExist:
         return JsonResponse({'error': 'User not found'}, status=404)
     
 def get_2fa_status(request):
@@ -1222,23 +1222,23 @@ def get_2fa_status(request):
             token = request.headers.get('Authorization', '').split('Bearer ')[-1]
             payload = jwt.decode(token, settings.SIGNING_KEY, algorithms=['HS256'])
             user_id = payload.get('user_id')
-            user = User.objects.get(pk=user_id)
+            user = MyAppUser.objects.get(pk=user_id)
             username = user.username
         except jwt.ExpiredSignatureError:
             return JsonResponse({'error': 'Token expired'}, status=401)
         except jwt.InvalidTokenError:
             return JsonResponse({'error': 'Invalid token'}, status=401)
-        except User.DoesNotExist:
+        except MyAppUser.DoesNotExist:
             return JsonResponse({'error': 'User not found'}, status=404)
     elif len(username) > 50 or not is_valid_username(username):
         return JsonResponse({'error': 'Invalid username format'}, status=400)
     
     try:
         if not user:
-            user = User.objects.get(username=username)
+            user = MyAppUser.objects.get(username=username)
         is_2fa_enabled = user.two_factor_enabled
         return JsonResponse({'enabled': is_2fa_enabled})
-    except User.DoesNotExist:
+    except MyAppUser.DoesNotExist:
         return JsonResponse({'error': 'User not found'}, status=404)
 
 def generate_qr_code(request):
@@ -1247,7 +1247,7 @@ def generate_qr_code(request):
     try:
         payload = jwt.decode(token, settings.SIGNING_KEY, algorithms=['HS256'])
         user_id = payload['user_id']
-        user = User.objects.get(pk=user_id)
+        user = MyAppUser.objects.get(pk=user_id)
         if user_id and 'user_id' not in request.session:
             request.session['user_id'] = user_id
         if user.two_factor_enabled:
@@ -1286,7 +1286,7 @@ def generate_qr_code(request):
         return JsonResponse({'error': 'Token has expired'}, status=401)
     except jwt.InvalidTokenError:
         return JsonResponse({'error': 'Invalid token'}, status=401)
-    except User.DoesNotExist:
+    except MyAppUser.DoesNotExist:
         return JsonResponse({'error': 'User not found'}, status=404)
     
 
@@ -1301,7 +1301,7 @@ def activate_2fa(request):
             token = request.headers.get('Authorization', '').split('Bearer ')[-1]
             payload = jwt.decode(token, settings.SIGNING_KEY, algorithms=['HS256'])
             user_id = payload['user_id']
-            user = User.objects.get(pk=user_id)
+            user = MyAppUser.objects.get(pk=user_id)
             if user_id and 'user_id' not in request.session:
                 request.session['user_id'] = user_id
             
@@ -1322,7 +1322,7 @@ def activate_2fa(request):
             return JsonResponse({'error': 'Token has expired'}, status=401)
         except jwt.InvalidTokenError:
             return JsonResponse({'error': 'Invalid token'}, status=401)
-        except User.DoesNotExist:
+        except MyAppUser.DoesNotExist:
             return JsonResponse({'error': 'User not found'}, status=404)
         except Exception as e:
             return JsonResponse({'error': str(e)}, status=401)
@@ -1336,7 +1336,7 @@ def deactivate_2fa(request):
         try:
             payload = jwt.decode(token, settings.SIGNING_KEY, algorithms=['HS256'])
             user_id = payload['user_id']
-            user = User.objects.get(pk=user_id)
+            user = MyAppUser.objects.get(pk=user_id)
             if user_id and 'user_id' not in request.session:
                 request.session['user_id'] = user_id
             if not user.two_factor_enabled:
@@ -1348,7 +1348,7 @@ def deactivate_2fa(request):
             return JsonResponse({'error': 'Token has expired'}, status=401)
         except jwt.InvalidTokenError:
             return JsonResponse({'error': 'Invalid token'}, status=401)
-        except User.DoesNotExist:
+        except MyAppUser.DoesNotExist:
             return JsonResponse({'error': 'User not found'}, status=404)
     else:
         return JsonResponse({'error': 'Method not allowed'}, status=405)

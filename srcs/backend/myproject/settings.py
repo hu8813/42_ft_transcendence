@@ -7,6 +7,7 @@ from datetime import timedelta
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+AUTH_USER_MODEL = 'myapp.MyAppUser'
 SESSION_COOKIE_AGE = 36000
 
 SECRET_KEY = os.getenv('SECRET_KEY')
@@ -55,8 +56,6 @@ ALLOWED_HOSTS = [
 ]
 
 
-SOCKETIO_HOST = "0.0.0.0"
-SOCKETIO_PORT = 8001
 
 INSTALLED_APPS = [
     'daphne',
@@ -72,7 +71,6 @@ INSTALLED_APPS = [
     'corsheaders',
     'myapp',
     'channels',
-    'socketio',
 ]
 
 MIDDLEWARE = [
