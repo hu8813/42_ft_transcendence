@@ -571,12 +571,6 @@ def get_profile_info(request):
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=400)
 
-def signin42b(request):
-    redirect_uri = os.getenv('REDIRECT_URI')
-    client_id = os.getenv('CLIENT_ID')
-    authorization_url = f'https://api.intra.42.fr/oauth/authorize?client_id={client_id}&redirect_uri={redirect_uri}&response_type=code'
-    return HttpResponseRedirect(authorization_url)
-
 def signin42c(request):
     client_id = os.getenv('CLIENT_ID')
 
@@ -587,17 +581,6 @@ def signin42c(request):
         referral_url = quote(referral_url)  
     #print(referral_url, request.session['referral_url'])
     authorization_url = f'https://api.intra.42.fr/oauth/authorize?client_id={client_id}&response_type=code&redirect_uri={referral_url}/api/proxyc/'
-    return HttpResponseRedirect(authorization_url)
-
-def signin42(request):
-    
-    redirect_uri = os.getenv('REACT_APP_REDIRECT_URI')
-    client_id = os.getenv('REACT_APP_CLIENT_ID')
-    
-    
-    authorization_url = f'https://api.intra.42.fr/oauth/authorize?client_id={client_id}&redirect_uri={redirect_uri}&response_type=code'
-    
-    
     return HttpResponseRedirect(authorization_url)
 
 def proxy_userinfo(request):
@@ -644,72 +627,6 @@ def proxy_userinfo(request):
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=400)
 
-def proxy_viewb(request):
-    code = request.GET.get('code')
-    if not code:
-        return JsonResponse({'error': 'Code parameter is missing'}, status=400)
-    if len(code) != 64 or not re.match(r'^[a-zA-Z0-9]+$', code):
-        return JsonResponse({'error': 'Invalid code format'}, status=400) 
-    client_id = os.getenv('CLIENT_ID')
-    client_secret = os.getenv('CLIENT_SECRET')
-    redirect_uri = os.getenv('REDIRECT_URI')
-    csrf_token = get_token(request)
-
-    if not client_id or not client_secret or not redirect_uri:
-        return JsonResponse({'error': 'Environment variables are not set correctly'}, status=400)
-
-    data = {
-        'grant_type': 'authorization_code',
-        'client_id': client_id,
-        'client_secret': client_secret,
-        'code': code,
-        'redirect_uri': redirect_uri,
-        'csrfToken': csrf_token,
-    }
-
-    try:
-        response = requests.post('https://api.intra.42.fr/oauth/token', data=data)
-        response.raise_for_status()
-
-        access_token = response.json().get('access_token')
-
-        user_data_response = requests.get('https://api.intra.42.fr/v2/me', headers={'Authorization': f'Bearer {access_token}'})
-        user_data_response.raise_for_status()
-
-        user_data = user_data_response.json()
-        login = user_data.get('login')
-        email = user_data.get('email')
-        image_data = user_data.get('image', {})
-        image_link = image_data.get('versions', {}).get('medium', image_data.get('link'))
-        
-        
-        try:
-            user = User.objects.get(username=login)
-            if not user.is_oauth_user: 
-                redirect_url = f'https://pong42.vercel.app/#login?m=oauth'
-                return redirect(redirect_url)
-                #return JsonResponse({'error': 'OAuth registration is not allowed for existing users'}, status=400)
-        except User.DoesNotExist:
-            try:
-                user = User.objects.get(email=email)
-                if not user.is_oauth_user: 
-                    redirect_url = f'https://pong42.vercel.app/#login?m=oauth'
-                    return redirect(redirect_url)
-            except User.DoesNotExist:
-                user = User.objects.create_user(username=login, email=email)
-                user.nickname = user_data.get('nickname', user.username)
-                user.image_link = image_link
-                user.is_oauth_user = True
-                user.save()
-
-        token = AccessToken.for_user(user)
-        encoded_token = str(token)
-        redirect_url = f'https://pong42.vercel.app/return.html?jwtToken={encoded_token}'
-
-        return redirect(redirect_url)
-    except requests.RequestException as e:
-        return JsonResponse({'error': str(e)}, status=400)
-    
 def proxy_viewc(request):
     code = request.GET.get('code')
     if not code:
@@ -1080,6 +997,7 @@ def login_view(request):
             
             user = authenticate(username=username, password=password)
             if user is not None:
+                user = User.objects.get(username=username)
                 login(request, user)
                 token = AccessToken.for_user(user)
                 session = SessionStore()
@@ -1087,7 +1005,6 @@ def login_view(request):
                 session.create()
                 encoded_token = str(token)
                 csrf_token = get_token(request)
-
                 user_info = {
                     'message': 'Login successful',
                     'jwt_token': encoded_token,

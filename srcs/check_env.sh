@@ -68,7 +68,6 @@ prompt_for_variable POSTGRES_DB "Enter PostgreSQL database name: "
 prompt_for_variable SECRET_KEY "Enter Django secret key: "
 prompt_for_variable CLIENT_ID "Enter OAuth Client ID: "
 prompt_for_variable CLIENT_SECRET "Enter OAuth Client Secret: "
-prompt_for_variable REDIRECT_URI "Enter OAuth Redirect URI: "
 
 set_default_variable POSTGRES_PORT "5432"
 

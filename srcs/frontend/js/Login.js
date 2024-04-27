@@ -137,7 +137,7 @@ async function handleLogin(msg) {
                         localStorage.setItem("userLogin", data.userLogin);
                     }
                     if ('userNickname' in data) {
-                        localStorage.setItem("userNickname", data.userLogin);
+                        localStorage.setItem("userNickname", data.userNickname);
                     }
 
                     setTimeout(() => {
