@@ -11,7 +11,7 @@ async function showGameModes() {
             text: "Tic Tac Toe",
             imgPlaceholder: './src/tictactoe.png',
             href: "#tictactoe",
-            associatedCards: ["#tic1", "#tic2"] 
+            associatedCards: ["#tic1", "#tic2", "#tournament2"] 
         },
         {
             text: rps,
@@ -72,6 +72,12 @@ async function showGameModes() {
             text: multi2,
             imgPlaceholder: './src/multiplayer.jpeg',
             href: "#tic2",
+        }
+        ,
+        {
+            text: multi2,
+            imgPlaceholder: './src/multiplayer.jpeg',
+            href: "#tournament2",
         }
         
     ];
