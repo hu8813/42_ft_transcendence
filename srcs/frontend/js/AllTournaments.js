@@ -51,17 +51,20 @@ function allTournaments() {
                         const row = document.createElement('tr');
                         row.innerHTML = `
                             <td>${index + 1}</td>
-                            <td>${tournament.saved_date}</td>
                             <td>${tournament.name}</td>
                             <td>${tournament.winner}</td>
+                            <td><button class="details-btn">+</button></td> <!-- Add a button for details -->
                         `;
                         leaderboardBody.appendChild(row);
-    
-                        // Attach event listener to the row
-                        row.addEventListener('click', () => {
+                    
+                        // Attach event listener to the button
+                        const detailsBtn = row.querySelector('.details-btn');
+                        detailsBtn.addEventListener('click', (event) => {
+                            event.stopPropagation(); // Prevent the row click event from triggering
                             showTournamentDetails(tournament);
                         });
                     });
+                    
     
                     renderPaginationControls();
                 }
