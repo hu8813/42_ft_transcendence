@@ -3,14 +3,3 @@
     <h2>Logging out...</h2>
   </hgroup>
 </div>
-
-<script>
-  setTimeout(() => {
-      const language = localStorage.getItem("language");
-      localStorage.clear(); 
-      if (language) {
-          localStorage.setItem("language", language);
-      }
-      window.location.href = "/"; 
-  }, 2000);
-</script>

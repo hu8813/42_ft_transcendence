@@ -13,7 +13,8 @@ class MyAppUser(AbstractUser):
     is_oauth_user = models.BooleanField(default=True)
     games_played = models.IntegerField(default=0)  
     games_won = models.IntegerField(default=0)  
-    games_lost = models.IntegerField(default=0) 
+    games_lost = models.IntegerField(default=0)
+    is_online = models.BooleanField(default=False) 
 
     class Meta:
         managed = True

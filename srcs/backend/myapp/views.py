@@ -161,56 +161,6 @@ def add_friend(request):
         return JsonResponse({'message': "Invalid or missing user_id in JWT token."}, status=401)
     except Exception as e:
         return JsonResponse({'message': str(e)}, status=401)
-    
-def get_friends(request):
-    try:
-        token = request.headers.get('Authorization', '').split('Bearer ')[-1]
-        payload = jwt.decode(token, settings.SIGNING_KEY, algorithms=['HS256'])
-        user_id = payload['user_id']
-        if user_id and 'user_id' not in request.session:
-            request.session['user_id'] = user_id
-        user = MyAppUser.objects.get(pk=user_id)
-        
-        requested_username = request.GET.get('username')
-        if requested_username:
-            if len(requested_username) > 50 or is_valid_username(requested_username):
-                return JsonResponse({'error': 'Invalid username format'}, status=400)
-            requested_user = MyAppUser.objects.get(username=requested_username)
-            friends = requested_user.friends.all()
-        else:
-            friends = user.friends.all()
-        time_threshold = timezone.now() - timedelta(seconds=settings.SESSION_COOKIE_AGE) + timedelta(minutes=42)
-
-        active_sessions = Session.objects.filter(expire_date__gte=time_threshold)
-        online_user_ids = set()
-        
-        for session in active_sessions:
-            user_id = session.get_decoded().get('_auth_user_id')
-            if user_id:
-                online_user_ids.add(user_id)
-                #expire_date = session.expire_date
-                #print(f"User ID: {user_id}, Session Expiry Date: {expire_date}")
-        friend_list = []
-        
-        for friend in friends:
-            is_online = str(friend.id) in online_user_ids
-            friend_info = {
-                'username': friend.username,
-                'nickname': friend.nickname,
-                'image_link': friend.image_link,
-                'status': 'online' if is_online else 'offline'
-            }
-            friend_list.append(friend_info)
-        return JsonResponse({'friends': friend_list})
-    
-    except jwt.ExpiredSignatureError:
-        return JsonResponse({'error': 'JWT token expired'}, status=401)
-    except jwt.InvalidTokenError:
-        return JsonResponse({'error': 'Invalid JWT token'}, status=401)
-    except MyAppUser.DoesNotExist:
-        return JsonResponse({'error': 'User not found'}, status=404)
-    except Exception as e:
-        return JsonResponse({'error': str(e)}, status=400)
 
 def get_blocked_users(request):
     try:
@@ -377,24 +327,37 @@ def fetch_achievements(request):
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=400)
 
+@csrf_exempt
 def logout_view(request):
 
     try:
         token = request.headers.get('Authorization', '').split('Bearer ')[-1]
         payload = jwt.decode(token, settings.SIGNING_KEY, algorithms=['HS256'])
         user_id = payload.get('user_id')
-        
-        session_key = f"_auth_user_id:{user_id}"
-        
-        if session_key:
-            try:
-                session = Session.objects.get(session_key=session_key)
+
+        if user_id is None or user_id == '':
+            user_id = request.session.get('user_id')
+
+        if user_id is None or user_id == '':
+            request.session.flush()
+            return JsonResponse({'success': 'Logged out successfully'})
+
+        try:
+            user = MyAppUser.objects.get(id=user_id)
+            user.is_online = False
+            user.save()
+        except MyAppUser.DoesNotExist:
+            pass
+
+        active_sessions = Session.objects.all()
+        for session in active_sessions:
+            decoded_data = session.get_decoded()
+            session_user_id = decoded_data.get('_auth_user_id')
+            if session_user_id == str(user_id):
                 session.delete()
-            except Session.DoesNotExist:
-                pass
+
 
         request.session.flush()
-        
 
         return JsonResponse({'success': 'Logged out successfully'})
     
@@ -402,13 +365,93 @@ def logout_view(request):
         return JsonResponse({'error': 'Token has expired'}, status=401)
     except jwt.InvalidTokenError:
         return JsonResponse({'error': 'Invalid token'}, status=401)
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=401)
 
+def get_friends(request):
+    try:
+        token = request.headers.get('Authorization', '').split('Bearer ')[-1]
+        payload = jwt.decode(token, settings.SIGNING_KEY, algorithms=['HS256'])
+        user_id = payload['user_id']
+        if user_id and 'user_id' not in request.session:
+            request.session['user_id'] = user_id
+        user = MyAppUser.objects.get(pk=user_id)
+        
+        requested_username = request.GET.get('username')
+        if requested_username:
+            if len(requested_username) > 50 or not is_valid_username(requested_username):
+                return JsonResponse({'error': 'Invalid username format'}, status=400)
+            requested_user = MyAppUser.objects.get(username=requested_username)
+            friends = requested_user.friends.all()
+        else:
+            friends = user.friends.all()
+        
+        # Get online user IDs
+        time_threshold = timezone.now() - timedelta(seconds=settings.SESSION_COOKIE_AGE) + timedelta(minutes=42)
+        active_sessions = Session.objects.filter(expire_date__gte=time_threshold)
+        online_user_ids = {str(session.get_decoded().get('_auth_user_id')) for session in active_sessions}
+
+        friend_list = []
+        for friend in friends:
+            is_online = str(friend.id) in online_user_ids and friend.is_online
+            friend_info = {
+                'username': friend.username,
+                'nickname': friend.nickname,
+                'image_link': friend.image_link,
+                'status': 'online' if is_online else 'offline'
+            }
+            friend_list.append(friend_info)
+        
+        return JsonResponse({'friends': friend_list})
+    
+    except jwt.ExpiredSignatureError:
+        return JsonResponse({'error': 'JWT token expired'}, status=401)
+    except jwt.InvalidTokenError:
+        return JsonResponse({'error': 'Invalid JWT token'}, status=401)
+    except MyAppUser.DoesNotExist:
+        return JsonResponse({'error': 'User not found'}, status=404)
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=400)
+
+
+@csrf_exempt
+def get_online_users(request):
+    try:
+        time_threshold = timezone.now() - timedelta(seconds=settings.SESSION_COOKIE_AGE) + timedelta(minutes=42)
+
+        active_sessions = Session.objects.filter(expire_date__gte=time_threshold)
+
+        online_users = MyAppUser.objects.filter(is_online=True)
+
+        online_users_data = []
+        for user in online_users:
+            has_active_session = any(session.get_decoded().get('_auth_user_id') == str(user.id) for session in active_sessions)
+            
+            if not has_active_session:
+                user.is_online = False
+                user.save()
+                continue
+            
+            online_users_data.append({
+                'username': user.username,
+                'nickname': user.nickname,
+                'image_link': user.image_link if hasattr(user, 'image_link') else None
+            })
+
+        if not online_users_data:
+            return JsonResponse({'online_users': []})  
+
+        return JsonResponse({'online_users': online_users_data})
+
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=400)
+    
 def get_all_users(request):
     try:
         all_users = MyAppUser.objects.values_list('username', flat=True)
         return JsonResponse(list(all_users), safe=False)
     except Exception as e:
-        return JsonResponse({'error': str(e)}, status=500)
+        return JsonResponse({'error': str(e)}, status=401)
 
 
 
@@ -430,38 +473,6 @@ def submit_feedback(request):
         return JsonResponse({'error': 'Invalid request method'}, status=400)
 
 
-@csrf_exempt
-def get_online_users(request):
-    try:
-        time_threshold = timezone.now() - timedelta(seconds=settings.SESSION_COOKIE_AGE) + timedelta(minutes=42)
-
-        active_sessions = Session.objects.filter(expire_date__gte=time_threshold)
-        
-        online_user_ids = set()  
-        for session in active_sessions:
-            decoded_data = session.get_decoded()
-            user_id = decoded_data.get('_auth_user_id')
-            online_user_ids.add(user_id)  
-        
-        online_users = []
-        for user_id in online_user_ids:
-            try:
-                user = MyAppUser.objects.get(id=user_id)
-                online_users.append({
-                    'username': user.username,
-                    'nickname': user.nickname,
-                    'image_link': user.image_link if hasattr(user, 'image_link') else None
-                })
-            except ObjectDoesNotExist:
-                pass
-        
-        if not online_users:
-            return JsonResponse({'online_users': []})  
-        
-        return JsonResponse({'online_users': online_users})
-    
-    except Exception as e:
-        return JsonResponse({'error': str(e)}, status=400)
 
 def show_feedbacks(request):
     if request.method == 'GET':
@@ -483,7 +494,7 @@ def messages(request):
             messages = list(Message.objects.order_by('created_at')[:50].values())
             return JsonResponse(messages, safe=False)
         except Exception as e:
-            return JsonResponse({'error': str(e)}, status=500)
+            return JsonResponse({'error': str(e)}, status=401)
     elif request.method == 'POST':
         try:
             data = json.loads(request.body)
@@ -508,7 +519,7 @@ def messages(request):
             }
             return JsonResponse(message_data)
         except Exception as e:
-            return JsonResponse({'error': str(e)}, status=500)
+            return JsonResponse({'error': str(e)}, status=401)
     else:
         return JsonResponse({'error': 'Method not allowed'}, status=405)
 
@@ -532,13 +543,12 @@ def get_profile_info(request):
             csrf_token = get_token(request)
             if user_id and 'user_id' not in request.session:
                 request.session['user_id'] = user_id
-            is_online = False
-            active_sessions = Session.objects.filter(expire_date__gte=timezone.now())
-            for session in active_sessions:
-                session_data = session.get_decoded()
-                if '_auth_user_id' in session_data and str(user.id) == session_data['_auth_user_id']:
-                    is_online = True
-                    break
+            is_online = user.is_online
+            user_id = user.id
+            # if is_online:
+            #     active_sessions = Session.objects.filter(expire_date__gte=timezone.now(), _auth_user_id=user_id)
+            #     if not active_sessions.exists():
+            #         is_online = False
             
             # Query achievements for the user
             achievements = Achievement.objects.filter(user_id=user.id).first()
@@ -687,7 +697,8 @@ def proxy_viewc(request):
                     user.is_oauth_user = True
                     user.save()
 
-
+            user.is_online = True
+            user.save()
             token = AccessToken.for_user(user)
             encoded_token = str(token)
             redirect_url = f'/return.html?jwtToken={encoded_token}'
@@ -697,6 +708,7 @@ def proxy_viewc(request):
             return JsonResponse({'error': str(e)}, status=400)
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=400)
+    
 @api_view(['POST'])
 def obtain_token(request):
     if request.method == 'POST':
@@ -1017,6 +1029,8 @@ def login_view(request):
             if user is not None:
                 user = MyAppUser.objects.get(username=username)
                 login(request, user)
+                user.is_online = True
+                user.save()  # Save the user instance to persist the changes
                 token = AccessToken.for_user(user)
                 session = SessionStore()
                 session['user_id'] = user.id
@@ -1041,7 +1055,6 @@ def login_view(request):
             return JsonResponse({'error': 'Unknown method'}, status=401)
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=400)
-
 
 def update_player_position(request):
     if request.method == 'POST':
