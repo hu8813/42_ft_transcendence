@@ -194,6 +194,7 @@ async function changeLanguage(languageCode) {
   translationsCache = {};
   await fetchAndCacheTranslations(languageCode);
   translate(languageCode);
+  location.reload();
 }
 
 

@@ -2,6 +2,14 @@ async function handleLogin(msg) {
     translate(currentLanguage);
     let translatedOauthError = await translateKey("oauthError");
     let translatedSuccessMsg = await translateKey("successMsg");
+    let max50chars = await translateKey("max50chars");
+    let invalidUsername = await translateKey("invalidUsername");
+    let invalidPass = await translateKey("invalidPass");
+    let need2fa = await translateKey("need2fa");
+    let invalid2fa = await translateKey("invalid2fa");
+    let loginFailed = await translateKey("loginFailed");
+    let errorLogin = await translateKey("errorLogin");
+
     if (msgReg && msgReg === "oauth")
         msgReg = translatedOauthError;
     if (msgReg && msgReg === "success")
@@ -76,16 +84,7 @@ async function handleLogin(msg) {
             const formData = new FormData(loginForm);
             const username = formData.get("username");
             const password = formData.get("password");
-            const oauthError = await translateKey("oauthError");
-            const successMsg = await translateKey("successMsg");
-            const max50chars = await translateKey("max50chars");
-            const invalidUsername = await translateKey("invalidUsername");
-            const invalidPass = await translateKey("invalidPass");
-            const need2fa = await translateKey("need2fa");
-            const invalid2fa = await translateKey("invalid2fa");
-            const loginFailed = await translateKey("loginFailed");
-            const errorLogin = await translateKey("errorLogin");
-
+            
             
             for (const [key, value] of formData.entries()) {
                 if (value.length > 50) {
@@ -179,7 +178,7 @@ async function handleLogin(msg) {
                         loginStatus.textContent = data.error;
                         loginStatus.style.color = "red";
                     } else {
-                        loginStatus.textContent = "Login failed. Please check your credentials.";
+                        loginStatus.textContent = `${loginFailed}`;
                         loginStatus.style.color = "red";
                     }
 
@@ -188,7 +187,7 @@ async function handleLogin(msg) {
                 }
             } catch (error) {
                 console.error("Error logging in:", error);
-                loginStatus.textContent = "Error logging in. Please try again later.";
+                loginStatus.textContent = `${errorLogin}`;
                 loginStatus.style.color = "red";
 
                 if (submitButton)
