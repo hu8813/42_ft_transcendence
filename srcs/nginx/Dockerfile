@@ -16,3 +16,6 @@ COPY conf/nginx.conf /etc/nginx/nginx.conf
 COPY start.sh .
 
 ENTRYPOINT ["dumb-init", "./start.sh"]
+#ENTRYPOINT ["./start.sh"]
+#ENTRYPOINT ["nginx"]
+

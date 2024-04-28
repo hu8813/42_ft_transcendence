@@ -65,18 +65,18 @@ async function showGameModes() {
         },
         {
             text: single,
-            imgPlaceholder: './src/tictac1.jpeg',
+            imgPlaceholder: './src/tictac1.png',
             href: "#tic1",
         },
         {
             text: multi2,
-            imgPlaceholder: './src/tictac2.jpeg',
+            imgPlaceholder: './src/tic3.png',
             href: "#tic2",
         }
         ,
         {
             text: multi2,
-            imgPlaceholder: './src/multiplayer.jpeg',
+            imgPlaceholder: './src/tictac2.png',
             href: "#tournament2",
         }
         
