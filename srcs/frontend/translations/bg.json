@@ -196,5 +196,8 @@
   "cls": "затвори",
   "refresh": "Опресняване за повторно игра",
   "cpuwins": "CPU печели!",
-  "playwins": "Играчът печели!"
+  "playwins": "Играчът печели!",
+  "emptyGameHistory": "Няма налична игрална история",
+  "show-tournaments": "Покажи турнири",
+  "tournaments-history": "История на турнирите"
 }

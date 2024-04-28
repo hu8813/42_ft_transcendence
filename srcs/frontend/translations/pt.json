@@ -196,5 +196,8 @@
   "cls": "fechar",
   "refresh": "Atualizar para jogar novamente",
   "cpuwins": "CPU vence!",
-  "playwins": "Jogador vence!"
+  "playwins": "Jogador vence!",
+  "emptyGameHistory": "Nenhum histórico de jogo disponível",
+  "show-tournaments": "Mostrar Torneios",
+  "tournaments-history": "Histórico de Torneios"
 }

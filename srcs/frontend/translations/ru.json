@@ -195,5 +195,8 @@
   "cls": "закрыть",
   "refresh": "Обновить, чтобы сыграть еще раз",
   "cpuwins": "Победил CPU!",
-  "playwins": "Победил игрок!"
+  "playwins": "Победил игрок!",
+  "emptyGameHistory": "Нет доступной истории игр",
+  "show-tournaments": "Показать турниры",
+  "tournaments-history": "История турниров"
 }

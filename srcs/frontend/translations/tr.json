@@ -181,5 +181,8 @@
   "cls": "kapat",
   "refresh": "Yeniden oynamak için yenile",
   "cpuwins": "CPU kazandı!",
-  "playwins": "Oyuncu kazandı!"
+  "playwins": "Oyuncu kazandı!",
+  "emptyGameHistory": "Oyun geçmişi yok",
+  "show-tournaments": "Turnuvaları Göster",
+  "tournaments-history": "Turnuva Geçmişi"
 }

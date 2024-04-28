@@ -196,5 +196,8 @@
   "cls": "إغلاق",
   "refresh": "تحديث للعب مرة أخرى",
   "cpuwins": "الكمبيوتر يفوز!",
-  "playwins": "اللاعب يفوز!"
+  "playwins": "اللاعب يفوز!",
+  "emptyGameHistory": "لا تتوفر سجلات الألعاب",
+  "show-tournaments": "عرض البطولات",
+  "tournaments-history": "تاريخ البطولات"
 }

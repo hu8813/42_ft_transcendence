@@ -196,6 +196,9 @@
   "cls": "关闭",
   "refresh": "刷新以重新开始游戏",
   "cpuwins": "CPU 赢了!",
-  "playwins": "玩家赢了!"
+  "playwins": "玩家赢了!",
+  "emptyGameHistory": "没有可用的游戏历史记录",
+  "show-tournaments": "显示比赛",
+  "tournaments-history": "比赛历史"
   }
   

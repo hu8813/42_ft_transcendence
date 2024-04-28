@@ -195,5 +195,8 @@
   "cls": "закрити",
   "refresh": "Оновити, щоб знову грати",
   "cpuwins": "Перемога CPU!",
-  "playwins": "Перемога гравця!"
+  "playwins": "Перемога гравця!",
+  "emptyGameHistory": "Історія гри недоступна",
+  "show-tournaments": "Показати турніри",
+  "tournaments-history": "Історія турнірів"
 }
