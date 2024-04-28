@@ -18,7 +18,7 @@ async function fetchTournaments(page) {
 
         if (response.ok) {
             const data = await response.json();
-            return data;
+            return data.tournamentData; // Extract tournamentData from the JSON response
         } else {
             throw new Error('Failed to fetch tournaments');
         }
@@ -33,24 +33,57 @@ async function displayTournaments(page) {
     if (tournamentList) {
         tournamentList.innerHTML = '';
 
-    const data = await fetchTournaments(page);
-    if (data) {
-        totalTournaments = data.total;
-        const tournaments = data.tournaments;
+        const data = await fetchTournaments(page);
+        if (data) {
+            totalTournaments = data.length; // Use the length of tournamentData array
+            if (totalTournaments === 0) {
+                // Show "No data available" message
+                const noDataMessage = document.createElement('p');
+                noDataMessage.textContent = 'No data available';
+                tournamentList.appendChild(noDataMessage);
+            } else {
+                // Render the list of tournaments
+                data.forEach(tournament => {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = tournament.name;
+                    listItem.addEventListener('click', () => {
+                        showTournamentDetails(tournament);
+                    });
+                    tournamentList.appendChild(listItem);
+                });
 
-        tournaments.forEach(tournament => {
-            const listItem = document.createElement('li');
-            listItem.textContent = tournament.name;
-            listItem.addEventListener('click', () => {
-                showTournamentDetails(tournament);
-            });
-            tournamentList.appendChild(listItem);
-        });
-
-        renderPaginationControls();
+                renderPaginationControls();
+            }
+        }
     }
 }
+
+async function showTournamentDetails(tournament) {
+    // Display tournament details on the page
+    const tournamentDetailsContainer = document.getElementById('tournament-details');
+    tournamentDetailsContainer.innerHTML = '';
+
+    const tournamentName = document.createElement('h2');
+    tournamentName.textContent = tournament.name;
+    tournamentDetailsContainer.appendChild(tournamentName);
+
+    const savedDate = document.createElement('p');
+    savedDate.textContent = `Saved Date: ${tournament.saved_date}`;
+    tournamentDetailsContainer.appendChild(savedDate);
+
+    const winner = document.createElement('p');
+    winner.textContent = `Winner: ${tournament.winner}`;
+    tournamentDetailsContainer.appendChild(winner);
+
+    const matches = document.createElement('ul');
+    tournament.matches.forEach(match => {
+        const matchItem = document.createElement('li');
+        matchItem.textContent = match;
+        matches.appendChild(matchItem);
+    });
+    tournamentDetailsContainer.appendChild(matches);
 }
+
 
 function renderPaginationControls() {
     const totalPages = Math.ceil(totalTournaments / itemsPerPage);
