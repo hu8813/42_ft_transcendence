@@ -1,0 +1,7 @@
+#canvasTouTic2 {
+    display: block;
+      margin: 7% auto; 
+      max-width: 70vw; 
+      max-height: 70vh; 
+      box-shadow: 0 0 15px rgba(0,0,0,0.5); 
+    }
