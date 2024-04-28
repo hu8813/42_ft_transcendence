@@ -92,7 +92,8 @@ function allTournaments() {
         // Display tournament details on the page
         const tournamentDetailsContainer = document.getElementById('tournament-details');
         tournamentDetailsContainer.innerHTML = '';
-    
+        //document.addEventListener('click', closeDetailsContainerOutside);
+
         const closeBtn = document.createElement('button');
         closeBtn.textContent = await translateKey('cls') || 'Close';
         closeBtn.addEventListener('click', () => {
@@ -100,17 +101,17 @@ function allTournaments() {
         });
         tournamentDetailsContainer.appendChild(closeBtn);
     
-        const tournamentName = document.createElement('h2');
-        tournamentName.textContent = tournament.name;
-        tournamentDetailsContainer.appendChild(tournamentName);
+        // const tournamentName = document.createElement('h2');
+        // tournamentName.textContent = tournament.name;
+        // tournamentDetailsContainer.appendChild(tournamentName);
     
-        const savedDate = document.createElement('p');
-        savedDate.textContent = `Date: ${tournament.saved_date}`;
-        tournamentDetailsContainer.appendChild(savedDate);
+        // const savedDate = document.createElement('p');
+        // savedDate.textContent = `Date: ${tournament.saved_date}`;
+        // tournamentDetailsContainer.appendChild(savedDate);
     
-        const winner = document.createElement('p');
-        winner.textContent = `Winner: ${tournament.winner}`;
-        tournamentDetailsContainer.appendChild(winner);
+        // const winner = document.createElement('p');
+        // winner.textContent = `Winner: ${tournament.winner}`;
+        // tournamentDetailsContainer.appendChild(winner);
     
         // Display the matches if available
         if (tournament.matches && tournament.matches.length > 0) {
@@ -119,10 +120,25 @@ function allTournaments() {
             tournamentDetailsContainer.appendChild(matchesTitle);
     
             const matchesList = document.createElement('ul');
-            tournament.matches.forEach(match => {
+            let previousMatch = null; // Variable to store the previous match
+
+            tournament.matches.forEach((match, index) => {
+                // Skip the first match
+                if (index === 0) {
+                    return;
+                }
+
+                // Skip if the current match is the same as the previous match
+                if (match === previousMatch) {
+                    return;
+                }
+
                 const matchItem = document.createElement('li');
                 matchItem.textContent = match;
                 matchesList.appendChild(matchItem);
+
+                // Update the previousMatch variable
+                previousMatch = match;
             });
             tournamentDetailsContainer.appendChild(matchesList);
         }
@@ -130,6 +146,7 @@ function allTournaments() {
         // Show the details container
         tournamentDetailsContainer.style.display = 'block';
     }
+
     
 function closeDetailsContainerOutside(event) {
     const tournamentDetailsContainer = document.getElementById('tournament-details');
