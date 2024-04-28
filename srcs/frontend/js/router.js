@@ -24,6 +24,7 @@ const routes = {
   "#tic1": "/views/tic1.html",
   "#tic2": "/views/tic2.html",
   "#tournament": "/views/tournament.html",
+  "#tournament2": "/views/tournament2.html",
   "#tournaments": "/views/alltournaments.html",
   "#viewprofile": "/views/viewprofile.html",
   "#rps" : "/views/rps.html",
@@ -360,6 +361,9 @@ const handleLocation = async () => {
       // document.getElementById("app").innerHTML = tournamentHtml;
       // askPlayerCount();
       showTournamentPage();
+      break;
+    case '#tournament2':
+      showTournamentTicPage();
       break;
     case '#contact':
       showImprint();
