@@ -65,12 +65,12 @@ async function showGameModes() {
         },
         {
             text: single,
-            imgPlaceholder: './src/multiplayer.jpeg',
+            imgPlaceholder: './src/tictac1.jpeg',
             href: "#tic1",
         },
         {
             text: multi2,
-            imgPlaceholder: './src/multiplayer.jpeg',
+            imgPlaceholder: './src/tictac2.jpeg',
             href: "#tic2",
         }
         ,
