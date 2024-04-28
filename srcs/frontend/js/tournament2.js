@@ -43,8 +43,8 @@ async function showTournamentTicPage() {
     
     async function getPlayerNames(playerCount, currentPlayerIndex, players, tournamentName) {
         const canvas = document.getElementById('canvasTouTic2');
-        const input = document.createElement('input');
         if (!canvas) return;
+        const input = document.createElement('input');
     
         input.type = 'text';
         let enter = await translateKey("enter");
@@ -321,7 +321,10 @@ async function showTournamentTicPage() {
     
     async function showTicTacToeMatch(player1Name, player2Name, isFinalRound, handleWinner) {
         const canvas = document.getElementById('canvasTouTic2');
-    
+        if (!canvas) {
+            console.log('Canvas not found');
+            return;
+        }
         if (canvas) {
             const context = canvas.getContext('2d');
             const canvasSize = 500;
@@ -334,6 +337,7 @@ async function showTournamentTicPage() {
             canvas.width = canvasSize;
             canvas.height = canvasSize;
             context.translate(0.5, 0.5);
+            console.log('Drawing initial board');
     
             function checkWinner() {
                 for (let i = 0; i < 3; i++) {
@@ -366,25 +370,6 @@ async function showTournamentTicPage() {
                 }
                 return null;
             }
-    
-    
-        // function showGameOverMessage(winner) {
-        //     const message = winner === 'nowinner' ? 'The game is tied!' : `Player ${winner} has won!`;
-        //     context.fillStyle = "rgba(0, 0, 0, 0.7)";
-        //     context.fillRect(0, 0, canvasSize, canvasSize);
-        //     context.fillStyle = "white";
-        //     context.font = "48px Arial";
-        //     context.textAlign = "center";
-        //     context.fillText(message, canvasSize / 2, canvasSize / 2);
-    
-        //     setTimeout(() => {
-        //     const nButton2 = document.getElementById('nNButton');
-        //     if (nButton2)
-        //         document.getElementById('nNButton').style.display = 'block';
-        //     nNButton();
-        //     }, 1000);
-        // } 
-        
 
         function showGameOverMessage(winner) {
             const context = canvas.getContext('2d');
@@ -397,6 +382,13 @@ async function showTournamentTicPage() {
             
             const message = winner === 'nowinner' ? 'The game is tied!' : `Player ${winner} has won!`;
             context.fillText(message, canvasSize / 2, canvasSize / 2);
+            if (winner === 'nowinner'){
+                context.font = "20px Arial";
+                context.fillStyle = "white";
+                context.textAlign = "center";
+                context.fillText('it will be played again', canvas.width / 2, canvas.height / 1.7);
+            }
+
         
             setTimeout(() => {
                 context.clearRect(0, 0, canvasSize, canvasSize);
