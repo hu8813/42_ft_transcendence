@@ -1,79 +1,82 @@
 .page-container {
-    max-width: 800px; /* Adjust as needed */
-    margin: 0 auto; /* Center align the content */
-    padding: 20px;
-  }
-  
-  h1 {
-    text-align: center;
-  }
-  
-  .table-container {
-    overflow-x: auto;
-    overflow-y: auto;
-  }
-  
-  table {
-    border-collapse: collapse;
-    width: 100%;
-  }
-  
-  th,
-  td {
-    padding: 1vh 1vw;
-    text-align: left;
-  }
-  
-  th {
-    font-weight: bold;
-  }
-  
-  th span {
-    font-weight: normal;
-  }
-  
-  .pagination-container {
-    text-align: center;
-    margin-top: 20px;
-  }
-  
-  #leaderboard-body + tr > td > div {
-    margin: 0;
-  }
-  
-  #page {
-    margin-right: 5%;
-  }
-  
-  #show-tournaments-link {
-    display: block;
-    text-align: center;
-    margin-top: 20px;
-  }
-  
-  #tournament-details {
-    margin-top: 20px; /* Add margin at the top to separate from the table */
-    max-width: 600px; /* Adjust as needed */
-    margin: 0 auto; /* Center align the content */
-    padding: 20px;
+  max-width: 100%; /* Adjust as needed */
+  margin: 0 auto; /* Center align the content */
+  padding: 20px;
+}
+
+h1 {
+  text-align: center;
+}
+
+.table-container {
+  overflow-x: auto;
+  overflow-y: auto;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th,
+td {
+  padding: 1vh 1vw;
+  text-align: left;
+}
+
+th {
+  font-weight: bold;
+}
+
+th span {
+  font-weight: normal;
+}
+
+.pagination-container {
+  text-align: center;
+  margin-top: 20px;
+}
+
+#leaderboard-body + tr > td > div {
+  margin: 0;
+}
+
+#page {
+  margin-right: 5%;
+}
+
+#show-tournaments-link {
+  display: block;
+  text-align: center;
+  margin-top: 20px;
+}
+
+#tournament-details {
+  margin-top: 20px; /* Add margin at the top to separate from the table */
+  max-width: 100%; /* Adjust as needed */
+  margin: 0 auto; /* Center align the content */
+  padding: 20px;
 }
 
 #tournament-details h3 {
-    margin-bottom: 10px; /* Add margin at the bottom of the "Matches" title */
+  margin-bottom: 10px; /* Add margin at the bottom of the "Matches" title */
 }
 
-  @media only screen and (max-width: 600px) {
-    table th:nth-child(4),
-    table th:nth-child(5),
-    table td:nth-child(4),
-    table td:nth-child(5) {
+@media only screen and (max-width: 600px) {
+  table th:nth-child(4),
+  table th:nth-child(5),
+  table td:nth-child(4),
+  table td:nth-child(5) {
       display: none;
-    }
-  
-    table th,
-    table td {
+  }
+
+  table th,
+  table td {
       padding: 0.5em;
       font-size: 0.8em;
-    }
   }
-  
+
+  .page-container {
+      padding: 10px; /* Adjust padding for smaller screens */
+  }
+}
