@@ -3,9 +3,8 @@ from django.contrib.auth import authenticate, login
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.views.decorators.csrf import csrf_exempt, ensure_csrf_cookie
 from django.core.serializers import serialize
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from rest_framework.authtoken.models import Token
@@ -23,11 +22,9 @@ from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
 from rest_framework_simplejwt.tokens import AccessToken
 import jwt
-from jwt.exceptions import InvalidTokenError
 from rest_framework import status
 import qrcode
 import pyotp
-from django.core.files.base import ContentFile
 from django.core.files.storage import default_storage
 from io import BytesIO
 from django.middleware.csrf import get_token
@@ -36,9 +33,8 @@ from datetime import timedelta
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.sessions.backends.db import SessionStore
 from urllib.parse import quote
-from django.db.models import Case, When
-from django.db.models import F, ExpressionWrapper, FloatField
 from django.db import IntegrityError
+from django.core.paginator import Paginator
 
 
 token_obtain_pair_view = TokenObtainPairView.as_view()
@@ -1407,42 +1403,23 @@ def save_tournament_data(request):
     else:
         return JsonResponse({'error': 'Only POST method is allowed'}, status=405)
 
-    if request.method == 'POST':
-        try:
-            data = json.loads(request.body)
-            tournament_data = data.get('tournamentData', [])
-            tournament_name = data.get('tournamentName')
-
-            if not tournament_name:
-                tournament_name = 'Tournament ' + str(timezone.now().strftime('%Y%m%d%H%M%S'))
-
-            tournament, created = Tournament.objects.get_or_create(name=tournament_name)
-            
-            for game in tournament_data:
-                match_number = game.get('matchNumber')
-                players = game.get('players')
-                result = game.get('result')
-                
-                match_info = f"{players[0]} - {players[1]}, {result}\n"
-                tournament.matches += match_info
-                
-                if match_number == len(tournament_data):
-                    tournament.winner = result
-
-            tournament.save()
-            return JsonResponse({'message': 'Tournament data saved successfully'})
-        except Exception as e:
-            return JsonResponse({'error': str(e)}, status=400)
-    else:
-        return JsonResponse({'error': 'Only POST method is allowed'}, status=405)
-
 def get_tournament_data(request):
     try:
-        tournaments = Tournament.objects.order_by('-saved_date')[:100]
+        # Get page number and items per page from the request
+        page_number = request.GET.get('page', 1)
+        items_per_page = request.GET.get('items', 10)
+
+        # Query all tournaments ordered by saved_date
+        tournaments = Tournament.objects.order_by('-saved_date')
+
+        # Paginate the tournaments
+        paginator = Paginator(tournaments, items_per_page)
+        page = paginator.get_page(page_number)
 
         tournament_data_list = []
 
-        for tournament in tournaments:
+        # Iterate through the tournaments on the current page
+        for tournament in page:
             tournament_data = {
                 'name': tournament.name,
                 'saved_date': tournament.saved_date.strftime('%Y-%m-%d'),
@@ -1451,6 +1428,14 @@ def get_tournament_data(request):
             }
             tournament_data_list.append(tournament_data)
 
-        return JsonResponse({'tournamentData': tournament_data_list})
+        # Return the tournament data for the current page
+        return JsonResponse({
+            'tournamentData': tournament_data_list,
+            'total': paginator.count,
+            'per_page': paginator.per_page,
+            'page': page.number,
+            'has_next': page.has_next(),
+            'has_prev': page.has_previous(),
+        })
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=401)

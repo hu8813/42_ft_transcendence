@@ -200,5 +200,7 @@
   "cpuwins": "CPU wins!",
   "playwins": "Player wins!",
 
-  "emptyGameHistory": "No game history available"
+  "emptyGameHistory": "No game history available",
+  "show-tournaments": "Show Tournaments",
+  "tournaments-history": "Tournaments History"
 }
