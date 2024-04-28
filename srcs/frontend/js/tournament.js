@@ -114,6 +114,7 @@ async function getPlayerNames(playerCount, currentPlayerIndex, players, tourname
         }
     };
 }
+
 async function askTournamentName() {
     const canvas = document.getElementById('canvastour');
     if (!canvas) return;
@@ -297,13 +298,17 @@ async function showTournament(players, playerCount, tournamentName) {
     let tournamentData = []; 
     console.log("Tournament starts now.");
     let initialMessage = tourna+"\n";
+    let plan = tourna+"\n";
     for (let i = 0; i < roundMatches; i++) {
         let matchPlayers = [players[i * 2], players[i * 2 + 1]];
+        plan += `Match ${i + 1}:  ${matchPlayers[0]} vs  ${matchPlayers[1]}\n`;
         let matchResult = `${i + 1}: ${matchPlayers[0]} vs ${matchPlayers[1]}`;
         console.log(matchResult); 
         tournamentData.push({ matchNumber: i + 1, players: matchPlayers, result: null, tournamentName: tournamentName });
     }
     displayMessage(initialMessage, 3000);
+    displayMessage(plan, 7000);
+
 
     setTimeout(nextMatch, 3000);
 }
