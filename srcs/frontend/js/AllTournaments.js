@@ -92,27 +92,17 @@ function allTournaments() {
         // Display tournament details on the page
         const tournamentDetailsContainer = document.getElementById('tournament-details');
         tournamentDetailsContainer.innerHTML = '';
-        //document.addEventListener('click', closeDetailsContainerOutside);
-
+        
         const closeBtn = document.createElement('button');
         closeBtn.textContent = await translateKey('cls') || 'Close';
         closeBtn.addEventListener('click', () => {
             tournamentDetailsContainer.style.display = 'none';
         });
         tournamentDetailsContainer.appendChild(closeBtn);
-    
-        // const tournamentName = document.createElement('h2');
-        // tournamentName.textContent = tournament.name;
-        // tournamentDetailsContainer.appendChild(tournamentName);
-    
-        // const savedDate = document.createElement('p');
-        // savedDate.textContent = `Date: ${tournament.saved_date}`;
-        // tournamentDetailsContainer.appendChild(savedDate);
-    
-        // const winner = document.createElement('p');
-        // winner.textContent = `Winner: ${tournament.winner}`;
-        // tournamentDetailsContainer.appendChild(winner);
-    
+        
+        // Show the details container
+        tournamentDetailsContainer.style.display = 'block';
+        //document.addEventListener('click', closeDetailsContainerOutside);        
         // Display the matches if available
         if (tournament.matches && tournament.matches.length > 0) {
             const matchesTitle = document.createElement('h3');
@@ -121,41 +111,50 @@ function allTournaments() {
     
             const matchesList = document.createElement('ul');
             let previousMatch = null; // Variable to store the previous match
-
+    
             tournament.matches.forEach((match, index) => {
-                // Skip the first match
-                if (index === 0) {
-                    return;
-                }
-
                 // Skip if the current match is the same as the previous match
                 if (match === previousMatch) {
                     return;
                 }
-
+    
                 const matchItem = document.createElement('li');
                 matchItem.textContent = match;
                 matchesList.appendChild(matchItem);
-
+    
                 // Update the previousMatch variable
                 previousMatch = match;
             });
             tournamentDetailsContainer.appendChild(matchesList);
         }
     
-        // Show the details container
-        tournamentDetailsContainer.style.display = 'block';
+        // Set the winner if empty
+        if (!tournament.winner && tournament.matches && tournament.matches.length > 0) {
+            // Extract the winner from the last match
+            const lastMatch = tournament.matches[tournament.matches.length - 1];
+            const matchParts = lastMatch.split(',');
+            if (matchParts.length > 1) {
+                tournament.winner = matchParts[matchParts.length - 1].trim();
+            }
+        }
+        
+    
+        // Display the winner
+        const winnerText = document.createElement('p');
+        let resTrans = await translateKey('res') || `Winner: ${tournament.winner}`;
+        winnerText.textContent = `${resTrans}: ${tournament.winner}`;
+        tournamentDetailsContainer.appendChild(winnerText);
     }
+    
 
     
-function closeDetailsContainerOutside(event) {
-    const tournamentDetailsContainer = document.getElementById('tournament-details');
-    if (!tournamentDetailsContainer.contains(event.target)) {
-        tournamentDetailsContainer.style.display = 'none';
-        detailsContainerOpen = false;
-        document.removeEventListener('click', closeDetailsContainerOutside);
+    function closeDetailsContainerOutside(event) {
+        const tournamentDetailsContainer = document.getElementById('tournament-details');
+        if (!tournamentDetailsContainer.contains(event.target)) {
+            tournamentDetailsContainer.style.display = 'none';
+            document.removeEventListener('click', closeDetailsContainerOutside);
+        }
     }
-}
 
     
     // Initial display

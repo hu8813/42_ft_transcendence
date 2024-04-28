@@ -1375,11 +1375,17 @@ def save_tournament_data(request):
         try:
             data = json.loads(request.body)
             tournament_data = data.get('tournamentData', [])
-            tournament_name = data.get('tournamentName')
-
+            tournament_name = data.get('name')
+            if 'undefined' in tournament_name:
+                current_datetime = timezone.now().strftime('%m/%d %H:%M')
+                tournament_name = re.sub(r'undefined', current_datetime, tournament_name)
             if not tournament_name:
-                tournament_name = 'Tournament ' + str(timezone.now().strftime('%Y%m%d%H%M%S'))
+                tournament_name = 'Tournament ' + timezone.now().strftime('%m%d%H%M')
 
+            winner = data.get('winner')
+            if not winner:
+                winner = ""
+            
             tournament, created = Tournament.objects.get_or_create(name=tournament_name)
 
             # Clear the matches field before appending match information
@@ -1393,9 +1399,9 @@ def save_tournament_data(request):
                 match_info = f"{players[0]} - {players[1]}, 🏆 {result}\n"  # Use cup emoji for winner
                 tournament.matches += match_info
                 
-                if match_number == len(tournament_data):
-                    tournament.winner = result
-
+                # if match_number == len(tournament_data):
+                #     tournament.winner = result
+            tournament.winner = winner
             tournament.save()
             return JsonResponse({'message': 'Tournament data saved successfully'})
         except Exception as e:
@@ -1410,7 +1416,8 @@ def get_tournament_data(request):
         items_per_page = request.GET.get('items', 10)
 
         # Query all tournaments ordered by saved_date
-        tournaments = Tournament.objects.order_by('-saved_date')
+        tournaments = Tournament.objects.order_by('-id')
+
 
         # Paginate the tournaments
         paginator = Paginator(tournaments, items_per_page)

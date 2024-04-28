@@ -218,7 +218,9 @@ async function showTournament(players, playerCount, tournamentName) {
                 let winner = await translateKey("winner");
                 let congrats = await translateKey("congrats");
                 console.log(`The winner of the tournament is Player ${players[0]}! Congratulations!`);
-                await sendTournamentData(gameData);
+                //localStorage.getItem('userNickname') + " " + tournamentName;
+                //gameData.push({result: players[0], name: tournamentName});
+                await sendTournamentData(gameData,  players[0]);
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 ctx.fillStyle = "rgba(0, 0, 0, 0.7)";
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -242,10 +244,12 @@ async function showTournament(players, playerCount, tournamentName) {
         }, 3000); 
     }    
 
-    async function sendTournamentData(tournamentData) {
+    async function sendTournamentData(tournamentData, winnerName) {
         try {
             let csrfToken = await getCSRFCookie();
             let jwtToken = localStorage.getItem('jwtToken');
+            tournamentName = localStorage.getItem('userNickname') + ":pong " + tournamentName;
+
             const response = await fetch('/api/save_tournament_data', {
                 method: 'POST',
                 headers: {
@@ -253,12 +257,14 @@ async function showTournament(players, playerCount, tournamentName) {
                     'X-CSRFToken': csrfToken,
                     'Authorization': `Bearer ${jwtToken}`
                 },
-                body: JSON.stringify({ tournamentData })
+                body: JSON.stringify({ tournamentData, name: tournamentName, winner: winnerName })
+
+                //body: JSON.stringify({ tournamentData}, {name: tournamentName, winner: winnerName })
             });
     
             if (response.ok) {
                 const responseData = await response.json();
-                console.log(responseData.message); // Log success message from backend
+                console.log(responseData.message);  
             } else {
                 throw new Error('Failed to send tournament data to the backend');
             }
@@ -273,13 +279,12 @@ async function showTournament(players, playerCount, tournamentName) {
         
         try {
             const jwtToken = localStorage.getItem('jwtToken');
-            const csrfToken = await getCSRFCookie(); // Make sure to define this function to retrieve CSRF token
+            const csrfToken = await getCSRFCookie(); 
             
-            // Collect all game data from the console.log statements
-            
+             
             for (let i = 0; i < winners.length; i++) {
                 const matchPlayers = [players[i * 2], players[i * 2 + 1]];
-                const gameResult = winners[i] ? `${winners[i]} won!` : ''; // Determine the winner of each match
+                const gameResult = winners[i] ? `${winners[i]} won!` : '';  
                 gameData.push({ matchNumber: i + 1, players: matchPlayers, result: gameResult });
             }
             
