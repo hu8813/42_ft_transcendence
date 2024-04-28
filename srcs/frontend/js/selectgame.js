@@ -75,7 +75,7 @@ async function showGameModes() {
         }
         ,
         {
-            text: multi2,
+            text: tournament,
             imgPlaceholder: './src/tictac2.png',
             href: "#tournament2",
         }

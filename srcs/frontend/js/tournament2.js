@@ -220,6 +220,8 @@ async function showTournamentTicPage() {
                     let congrats = await translateKey("congrats");
                     console.log(`The winner of the tournament is Player ${players[0]}! Congratulations!`);
                     await sendTournamentData(gameData,  players[0]);
+                    canvas.width = 800;
+                    canvas.height = 600;
                     ctx.clearRect(0, 0, canvas.width, canvas.height);
                     ctx.fillStyle = "rgba(0, 0, 0, 0.7)";
                     ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -373,6 +375,8 @@ async function showTournamentTicPage() {
 
         async function showGameOverMessage(winner) {
             const context = canvas.getContext('2d');
+            canvas.width = 650;
+            canvas.height = 600;
             const canvasSize = canvas.width;
             context.fillStyle = "rgba(0, 0, 0, 0.7)";
             context.fillRect(0, 0, canvasSize, canvasSize);
@@ -385,10 +389,10 @@ async function showTournamentTicPage() {
             const message = winner === 'nowinner' ? tied : `🏆 ${winner} 🏆`;
             context.fillText(message, canvasSize / 2, canvasSize / 2);
             if (winner === 'nowinner'){
-                context.font = "20px Arial";
+                context.font = "30px Arial";
                 context.fillStyle = "white";
                 context.textAlign = "center";
-                context.fillText( tied2, canvas.width / 2, canvas.height / 1.7);
+                context.fillText( tied2, canvas.width / 2, canvas.height / 1.5);
             }
 
         
