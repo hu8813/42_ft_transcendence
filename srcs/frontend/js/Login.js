@@ -1,13 +1,15 @@
 async function handleLogin(msg) {
     translate(currentLanguage);
+    let translatedOauthError = await translateKey("oauthError");
+    let translatedSuccessMsg = await translateKey("successMsg");
     if (msgReg && msgReg === "oauth")
-        msgReg = "Error: User already exists. Oauth login is not allowed.";
+        msgReg = translatedOauthError;
     if (msgReg && msgReg === "success")
-        msgReg = "Registration successful. You can now login.";
+        msgReg = translatedSuccessMsg;
     if (msg && msg === "oauth")
-        msg = "Error: User already exists. Oauth login is not allowed.";
+        msg = translatedOauthError;
     if (msg && msg === "success")
-        msg = "Registration successful. You can now login.";
+        msg = translatedSuccessMsg;
 
     async function check2FACode(username, code) {
         try {
@@ -72,15 +74,38 @@ async function handleLogin(msg) {
 
             const formData = new FormData(loginForm);
             const username = formData.get("username");
+            const password = formData.get("password");
+            const oauthError = await translateKey("oauthError");
+            const successMsg = await translateKey("successMsg");
+            const max50chars = await translateKey("max50chars");
+            const invalidUsername = await translateKey("invalidUsername");
+            const invalidPass = await translateKey("invalidPass");
+            const need2fa = await translateKey("need2fa");
+            const invalid2fa = await translateKey("invalid2fa");
+            const loginFailed = await translateKey("loginFailed");
+            const errorLogin = await translateKey("errorLogin");
 
             
             for (const [key, value] of formData.entries()) {
                 if (value.length > 50) {
-                    loginStatus.textContent = `${key} cannot exceed 50 characters.`;
+                    loginStatus.textContent = `${key} ${max50chars}`;
                     loginStatus.style.color = "red";
                     return;
                 }
             }
+            
+            if (!username || !/^[a-zA-Z0-9_-]+$/.test(username)) {
+                loginStatus.textContent = `${invalidUsername}`;
+                loginStatus.style.color = "red";
+                return;
+            }
+            
+            if (!password || /\s/.test(password) || /["'`]/.test(password)) {
+                loginStatus.textContent = `${invalidPass}`;
+                loginStatus.style.color = "red";
+                return;
+            }
+
             const is2FAEnabled = await check2FAStatus(username);
             
             if (is2FAEnabled) {
@@ -93,23 +118,24 @@ async function handleLogin(msg) {
                 const twoFactorCode = twoFactorCodeInput.value.trim();
 
                 if (!twoFactorCode) {
-                    loginStatus.textContent = "2FA code is required.";
+                    loginStatus.textContent = `${need2fa}`;
                     loginStatus.style.color = "red";
                     return;
                 }
-
+                
                 const is2FACodeValid = await check2FACode(username, twoFactorCode);
                 if (!is2FACodeValid) {
-                    loginStatus.textContent = "Invalid 2FA code.";
+                    loginStatus.textContent = `${invalid2fa}`;
                     loginStatus.style.color = "red";
                     return;
                 }
+                
             } else {
                 if (twoFactorCodeContainer)
                     twoFactorCodeContainer.style.display = "none";
                 if (twoFactorCodeInput)
                     twoFactorCodeInput.style.display = "none";
-                loginStatus.textContent = "Check ok.";
+                loginStatus.textContent = " ";
                 loginStatus.style.color = "green";
             }
 

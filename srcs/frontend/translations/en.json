@@ -199,8 +199,17 @@
   "refresh": "Refresh to play again",
   "cpuwins": "CPU wins!",
   "playwins": "Player wins!",
-
   "emptyGameHistory": "No game history available",
   "show-tournaments": "Show Tournaments",
-  "tournaments-history": "Tournaments History"
+  "tournaments-history": "Tournaments History",
+
+  "oauthError": "Error: User already exists. Oauth login is not allowed.",
+  "successMsg": "Registration successful. You can now login.",
+  "max50chars":"cannot exceed 50 characters.",
+  "invalidUsername":"Username is required and can only contain alphanumeric characters, underscore (_), or hyphen (-).",
+  "invalidPass": "Password is required and cannot contain spaces or special characters like single or double quotes.",
+  "need2fa":"2FA code is required.",
+  "invalid2fa":"Invalid 2FA code.",
+  "loginFailed": "Login failed. Please check your credentials.",
+  "errorLogin": "Error logging in. Please try again later."
 }
