@@ -236,7 +236,7 @@ async function showTournamentTicPage() {
             }
             let matchPlayers = [players[currentMatch * 2], players[currentMatch * 2 + 1]];
             console.log(` ${currentMatch + 1}:  ${matchPlayers[0]}  vs  ${matchPlayers[1]}`);
-            displayMessage(` ${matchPlayers[0]} vs  ${matchPlayers[1]}`, 3000);
+            displayMessage(` ${matchPlayers[0]}  vs  ${matchPlayers[1]}`, 3000);
             setTimeout(function() {
                 showTicTacToeMatch(matchPlayers[0], matchPlayers[1], roundMatches === 1, handleWinner);
             }, 3000); 
@@ -319,7 +319,7 @@ async function showTournamentTicPage() {
         }
     }
     
-    async function showTicTacToeMatch(player1Name, player2Name, isFinalRound, callback) {
+    async function showTicTacToeMatch(player1Name, player2Name, isFinalRound, handleWinner) {
         const canvas = document.getElementById('canvasTouTic2');
     
         if (canvas) {
@@ -368,17 +368,6 @@ async function showTournamentTicPage() {
             }
     
     
-            function nNButton() {
-                const button = document.getElementById('nNButton');
-                if (button)
-                {
-                    button.style.display = 'block';
-                    button.addEventListener('click', function() {
-                    location.reload();
-                });
-              }
-            }
-    
         // function showGameOverMessage(winner) {
         //     const message = winner === 'nowinner' ? 'The game is tied!' : `Player ${winner} has won!`;
         //     context.fillStyle = "rgba(0, 0, 0, 0.7)";
@@ -418,6 +407,11 @@ async function showTournamentTicPage() {
                 }
             }, 3000);
         }
+
+        function handleTie() {
+            console.log("The game is tied. Deciding next steps.");
+            showTicTacToeMatch(player1Name, player2Name, isFinalRound, handleWinner);
+        }
         
 
         function addPlayingPiece(mouse) {
@@ -437,7 +431,7 @@ async function showTournamentTicPage() {
                             return;
                         }
     
-                        board[x][y] = player === 1 ? 'X' : 'O';
+                        board[x][y] = player === 1 ? player1Name : player2Name;
                         const drawFunc = player === 1 ? drawX : drawO;
                         drawFunc(xCordinate, yCordinate);
                         drawLines(10, lineColor);
@@ -458,6 +452,7 @@ async function showTournamentTicPage() {
                 }
             }
         }
+
         function drawO(xCordinate, yCordinate) {
             const halfSectionSize = 0.5 * sectionSize;
             const centerX = xCordinate + halfSectionSize;
