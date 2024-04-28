@@ -205,7 +205,7 @@ async function showTournamentTicPage() {
                 ctx.fillText(line, canvas.width / 2, startingHeight + index * lineHeight);
             });
             setTimeout(function() {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                //ctx.clearRect(0, 0, canvas.width, canvas.height);
             }, duration);
         }
         
@@ -380,7 +380,7 @@ async function showTournamentTicPage() {
             context.font = "48px Arial";
             context.textAlign = "center";
             
-            const message = winner === 'nowinner' ? 'The game is tied!' : `Player ${winner} has won!`;
+            const message = winner === 'nowinner' ? 'The game is tied!' : `🏆 ${winner} 🏆`;
             context.fillText(message, canvasSize / 2, canvasSize / 2);
             if (winner === 'nowinner'){
                 context.font = "20px Arial";
