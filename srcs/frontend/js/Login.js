@@ -64,6 +64,7 @@ async function handleLogin(msg) {
     const submitButton = loginForm.querySelector('[type="submit"]');
     const twoFactorCodeContainer = document.getElementById("2fa-code-container");
     const twoFactorCodeInput = document.getElementById("twoFactorCode");
+    
     if (twoFactorCodeInput)
         twoFactorCodeInput.style.display = "none";
     if (twoFactorCodeContainer)
@@ -196,7 +197,14 @@ async function handleLogin(msg) {
 
             return false;
         };
-
+        const usernameElement = document.getElementById("userName");
+        const passwordElement = document.getElementById("pwd");
+        const usernameTrans = await translateKey("username")
+        const passwordTrans = await translateKey("password")
+        if (usernameElement)
+            usernameElement.placeholder = usernameTrans;
+        if (passwordElement)
+            passwordElement.placeholder = passwordTrans;
         loginForm.addEventListener("submit", handleSubmit);
         if (loginStatus && msgReg && msgReg !== null)
             loginStatus.textContent = msgReg;
