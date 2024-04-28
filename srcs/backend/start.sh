@@ -6,8 +6,14 @@
 while true; do
     if nc -z -w 2 $POSTGRES_HOST $POSTGRES_PORT; then
         echo "Postgres is up!"
-        python manage.py makemigrations > /dev/null 2>&1
-        python manage.py migrate > /dev/null 2>&1
+        python manage.py makemigrations admin >/dev/null 2>&1
+        python manage.py makemigrations auth >/dev/null 2>&1
+        python manage.py makemigrations myapp >/dev/null 2>&1
+        python manage.py migrate admin >/dev/null 2>&1
+        python manage.py migrate auth >/dev/null 2>&1
+        python manage.py migrate myapp >/dev/null 2>&1
+        python manage.py migrate >/dev/null 2>&1
+
         
 #         echo "
 
@@ -120,10 +126,15 @@ while true; do
     fi
 done
 
-echo "Starting backend"
-python3 manage.py makemigrations > /dev/null 2>&1
-python3 manage.py migrate > /dev/null 2>&1
+python manage.py makemigrations admin >/dev/null 2>&1
+python manage.py makemigrations auth >/dev/null 2>&1
+python manage.py makemigrations myapp >/dev/null 2>&1
+python manage.py migrate admin >/dev/null 2>&1
+python manage.py migrate auth >/dev/null 2>&1
+python manage.py migrate myapp >/dev/null 2>&1
+python manage.py migrate >/dev/null 2>&1
 python manage.py collectstatic > /dev/null 2>&1
+echo "Starting backend"
 
 #daphne -b 0.0.0.0 -p 8001 myproject.asgi:application &
 #gunicorn myproject.wsgi:application --bind 0.0.0.0:8000 --certfile "/etc/ssl/certs/localhost.crt" --keyfile "/etc/ssl/certs/localhost.key" --workers 4 --timeout 300 
