@@ -235,7 +235,7 @@ async function showTournament(players, playerCount, tournamentName) {
             }
         }
         let matchPlayers = [players[currentMatch * 2], players[currentMatch * 2 + 1]];
-        console.log(` ${currentMatch + 1}:  ${matchPlayers[0]} vs  ${matchPlayers[1]}`);
+        console.log(` ${currentMatch + 1}:  ${matchPlayers[0]}  vs  ${matchPlayers[1]}`);
         displayMessage(` ${matchPlayers[0]} vs  ${matchPlayers[1]}`, 3000);
         setTimeout(function() {
             showPongTour(matchPlayers[0], matchPlayers[1], roundMatches === 1, handleWinner);
