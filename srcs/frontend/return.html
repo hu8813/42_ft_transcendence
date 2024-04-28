@@ -10,14 +10,14 @@
 <div id="login-status2"></div>
 <div id="error-message" style="display: none; text-align: center; margin-top: 20px; color: red;"></div>
 <div style="display: flex; justify-content: center; margin-top: 20px;">
-  <button id="return-home" style="padding: 10px 20px; background-color: #007bff; color: #fff; border: none; border-radius: 5px; cursor: pointer;">Redirecting to Homepage</button>
+ 
 </div>
 
 <script>
     
 const loginStatus2 = document.getElementById("login-status2");
 const errorMessage = document.getElementById("error-message");
-const returnHomeButton = document.getElementById("return-home");
+//const returnHomeButton = document.getElementById("return-home");
 
 let attempts = 0;
 
@@ -166,10 +166,10 @@ document.addEventListener("DOMContentLoaded", async function() {
     }
   }
 });
-
+<!-- 
 returnHomeButton.addEventListener("click", () => {
   window.location.href = "/";
-});
+}); -->
 
 </script>
 </body>
