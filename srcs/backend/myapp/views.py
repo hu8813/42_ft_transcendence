@@ -1279,7 +1279,7 @@ def generate_qr_code(request):
         user.save()
         totp = pyotp.TOTP(secret_key)
         
-        qr_url = pyotp.TOTP.provisioning_uri(user.email, issuer_name='Pong42')
+        qr_url = totp.provisioning_uri(user.email, issuer_name='Pong42')
         
         qr = qrcode.QRCode(
             version=1,

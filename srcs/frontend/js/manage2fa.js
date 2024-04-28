@@ -172,8 +172,8 @@ async function display2faPage() {
     check2FAStatus(username);
 
     document.getElementById('enable2FA').addEventListener('click', enableOrDisable2FA);
-    
-    document.getElementById('activate2FA').addEventListener('click', activate2fa);
+    if (document.getElementById('activate2FA'))
+        document.getElementById('activate2FA').addEventListener('click', activate2fa);
     currrentLanguage2 = localStorage.getItem('language');
     translate(currrentLanguage2);
 }
