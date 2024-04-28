@@ -823,7 +823,9 @@ def update_score(request):
             user.score = user.score + 2
         elif result == 'lost':
             user.games_lost = user.games_lost + 1
-            user.score = user.score - 1   
+            user.score = user.score - 1 
+            if user.score < 0:
+                user.score = 0  
         user.games_played = user.games_played + 1
         user.save()
 

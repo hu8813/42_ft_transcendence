@@ -1,5 +1,4 @@
 function allTournaments() {
-const apiUrl = '/api/get_tournament_data';
 const itemsPerPage = 10; // Adjust as needed
 
 let currentPage = 1;
@@ -10,7 +9,7 @@ async function fetchTournaments(page) {
         const jwtToken = localStorage.getItem('jwtToken');
         const csrfToken = await getCSRFCookie();
 
-        const response = await fetch(`${apiUrl}?page=${page}&items=${itemsPerPage}`, {
+        const response = await fetch(`/api/get_tournament_data?page=${page}&items=${itemsPerPage}`, {
             headers: {
                 'Authorization': `Bearer ${jwtToken}`,
                 'X-CSRFToken': csrfToken
@@ -56,7 +55,7 @@ async function displayTournaments(page) {
 function renderPaginationControls() {
     const totalPages = Math.ceil(totalTournaments / itemsPerPage);
 
-    const paginationContainer = document.getElementById('pagination-container');
+    const paginationContainer = document.getElementById('pagination-container2');
     paginationContainer.innerHTML = '';
 
     for (let i = 1; i <= totalPages; i++) {
