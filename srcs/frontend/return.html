@@ -118,7 +118,6 @@ document.addEventListener("DOMContentLoaded", async function() {
       const userNickname = userData.userNickname || userData.nickname;
       const is_oauth_user = userData.is_oauth_user;
       const two_factor_enabled = userData.two_factor_enabled;
-      console.log(two_factor_enabled);
       if (is_oauth_user) {
         if (two_factor_enabled) {
           while (attempts < 3) {
