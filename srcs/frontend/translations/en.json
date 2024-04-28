@@ -210,5 +210,7 @@
   "need2fa":"2FA code is required.",
   "invalid2fa":"Invalid 2FA code.",
   "loginFailed": "Login failed. Please check your credentials.",
-  "errorLogin": "Error logging in. Please try again later."
+  "errorLogin": "Error logging in. Please try again later.",
+  "tied": "The game is tied!",
+  "tied2": "it will be played again"
 }

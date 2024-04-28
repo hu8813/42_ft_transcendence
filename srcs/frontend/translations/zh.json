@@ -208,6 +208,8 @@
   "need2fa": "需要2FA验证码。",
   "invalid2fa": "无效的2FA验证码。",
   "loginFailed": "登录失败。请检查您的凭据。",
-  "errorLogin": "登录错误。请稍后重试。"
+  "errorLogin": "登录错误。请稍后重试。",
+  "tied": "比赛打成平局了！",
+  "tied2": "将会重新进行比赛。"
   }
   

@@ -209,6 +209,8 @@
   "need2fa":"2FA-Code ist erforderlich.",
   "invalid2fa":"Ungültiger 2FA-Code.",
   "loginFailed": "Anmeldung fehlgeschlagen. Bitte überprüfen Sie Ihre Anmeldeinformationen.",
-  "errorLogin": "Fehler beim Einloggen. Bitte versuchen Sie es später erneut."
+  "errorLogin": "Fehler beim Einloggen. Bitte versuchen Sie es später erneut.",
+  "tied": "Das Spiel ist unentschieden!",
+  "tied2": "Es wird noch einmal gespielt."
 
 }

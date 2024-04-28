@@ -208,5 +208,7 @@
   "need2fa": "O código 2FA é obrigatório.",
   "invalid2fa": "Código 2FA inválido.",
   "loginFailed": "Falha no login. Por favor, verifique suas credenciais.",
-  "errorLogin": "Erro no login. Por favor, tente novamente mais tarde."
+  "errorLogin": "Erro no login. Por favor, tente novamente mais tarde.",
+  "tied": "O jogo está empatado!",
+  "tied2": "Será jogado novamente."
 }

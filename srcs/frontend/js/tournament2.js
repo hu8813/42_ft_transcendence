@@ -371,7 +371,7 @@ async function showTournamentTicPage() {
                 return null;
             }
 
-        function showGameOverMessage(winner) {
+        async function showGameOverMessage(winner) {
             const context = canvas.getContext('2d');
             const canvasSize = canvas.width;
             context.fillStyle = "rgba(0, 0, 0, 0.7)";
@@ -380,13 +380,15 @@ async function showTournamentTicPage() {
             context.font = "48px Arial";
             context.textAlign = "center";
             
-            const message = winner === 'nowinner' ? 'The game is tied!' : `🏆 ${winner} 🏆`;
+            let tied = await translateKey("tied");
+            let tied2 = await translateKey("tied2");
+            const message = winner === 'nowinner' ? tied : `🏆 ${winner} 🏆`;
             context.fillText(message, canvasSize / 2, canvasSize / 2);
             if (winner === 'nowinner'){
                 context.font = "20px Arial";
                 context.fillStyle = "white";
                 context.textAlign = "center";
-                context.fillText('it will be played again', canvas.width / 2, canvas.height / 1.7);
+                context.fillText( tied2, canvas.width / 2, canvas.height / 1.7);
             }
 
         

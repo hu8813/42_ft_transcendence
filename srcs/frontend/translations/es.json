@@ -208,7 +208,9 @@
   "need2fa": "Se requiere el código de 2FA.",
   "invalid2fa": "Código de 2FA inválido.",
   "loginFailed": "Inicio de sesión fallido. Por favor, verifique sus credenciales.",
-  "errorLogin": "Error al iniciar sesión. Por favor, inténtelo de nuevo más tarde."
+  "errorLogin": "Error al iniciar sesión. Por favor, inténtelo de nuevo más tarde.",
+  "tied": "¡El juego está empatado!",
+  "tied2": "Se jugará de nuevo."
 
   }
   

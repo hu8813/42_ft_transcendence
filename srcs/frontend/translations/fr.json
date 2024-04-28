@@ -208,5 +208,7 @@
   "need2fa": "Le code 2FA est requis.",
   "invalid2fa": "Code 2FA invalide.",
   "loginFailed": "Échec de la connexion. Veuillez vérifier vos informations d'identification.",
-  "errorLogin": "Erreur de connexion. Veuillez réessayer plus tard."
+  "errorLogin": "Erreur de connexion. Veuillez réessayer plus tard.",
+  "tied": "Le jeu est à égalité !",
+  "tied2": "Il sera joué de nouveau."
 }

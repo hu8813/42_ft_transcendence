@@ -193,5 +193,8 @@
   "need2fa": "2FA kodu gereklidir.",
   "invalid2fa": "Geçersiz 2FA kodu.",
   "loginFailed": "Giriş başarısız. Lütfen kimlik bilgilerinizi kontrol edin.",
-  "errorLogin": "Giriş hatası. Lütfen daha sonra tekrar deneyin."
+  "errorLogin": "Giriş hatası. Lütfen daha sonra tekrar deneyin.",
+  "tied": "Oyun berabere bitti!",
+  "tied2": "Tekrar oynanacak."
+  
 }
