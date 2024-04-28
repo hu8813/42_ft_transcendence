@@ -94,7 +94,7 @@ function allTournaments() {
         tournamentDetailsContainer.innerHTML = '';
     
         const closeBtn = document.createElement('button');
-        closeBtn.textContent = 'Close';
+        closeBtn.textContent = await translateKey('cls') || 'Close';
         closeBtn.addEventListener('click', () => {
             tournamentDetailsContainer.style.display = 'none';
         });
