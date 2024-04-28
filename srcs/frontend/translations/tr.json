@@ -184,5 +184,14 @@
   "playwins": "Oyuncu kazandı!",
   "emptyGameHistory": "Oyun geçmişi yok",
   "show-tournaments": "Turnuvaları Göster",
-  "tournaments-history": "Turnuva Geçmişi"
+  "tournaments-history": "Turnuva Geçmişi",
+  "oauthError": "Hata: Kullanıcı zaten mevcut. Oauth girişi izin verilmiyor.",
+  "successMsg": "Kayıt başarılı. Şimdi giriş yapabilirsiniz.",
+  "max50chars": "50 karakteri aşamaz.",
+  "invalidUsername": "Kullanıcı adı zorunludur ve yalnızca alfa sayısal karakterler, alt çizgi (_) veya tire (-) içerebilir.",
+  "invalidPass": "Parola zorunludur ve boşluklar veya tek veya çift tırnak gibi özel karakterler içeremez.",
+  "need2fa": "2FA kodu gereklidir.",
+  "invalid2fa": "Geçersiz 2FA kodu.",
+  "loginFailed": "Giriş başarısız. Lütfen kimlik bilgilerinizi kontrol edin.",
+  "errorLogin": "Giriş hatası. Lütfen daha sonra tekrar deneyin."
 }

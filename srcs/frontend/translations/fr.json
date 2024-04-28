@@ -199,5 +199,14 @@
   "playwins": "Le joueur gagne!",
   "emptyGameHistory": "Aucun historique de jeu disponible",
   "show-tournaments": "Afficher les tournois",
-  "tournaments-history": "Historique des tournois"
+  "tournaments-history": "Historique des tournois",
+  "oauthError": "Erreur: L'utilisateur existe déjà. La connexion Oauth n'est pas autorisée.",
+  "successMsg": "Inscription réussie. Vous pouvez maintenant vous connecter.",
+  "max50chars": "ne peut pas dépasser 50 caractères.",
+  "invalidUsername": "Le nom d'utilisateur est requis et ne peut contenir que des caractères alphanumériques, un trait de soulignement (_) ou un tiret (-).",
+  "invalidPass": "Le mot de passe est requis et ne peut pas contenir d'espaces ou de caractères spéciaux comme des guillemets simples ou doubles.",
+  "need2fa": "Le code 2FA est requis.",
+  "invalid2fa": "Code 2FA invalide.",
+  "loginFailed": "Échec de la connexion. Veuillez vérifier vos informations d'identification.",
+  "errorLogin": "Erreur de connexion. Veuillez réessayer plus tard."
 }

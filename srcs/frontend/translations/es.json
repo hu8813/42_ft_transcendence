@@ -199,6 +199,16 @@
   "playwins": "¡El jugador gana!",
   "emptyGameHistory": "No hay historial de juegos disponible",
   "show-tournaments": "Mostrar torneos",
-  "tournaments-history": "Historial de torneos"
+  "tournaments-history": "Historial de torneos",
+  "oauthError": "Error: El usuario ya existe. El inicio de sesión de Oauth no está permitido.",
+  "successMsg": "Registro exitoso. Ahora puede iniciar sesión.",
+  "max50chars": "no puede exceder los 50 caracteres.",
+  "invalidUsername": "Se requiere nombre de usuario y solo puede contener caracteres alfanuméricos, guión bajo (_) o guión (-).",
+  "invalidPass": "Se requiere contraseña y no puede contener espacios o caracteres especiales como comillas simples o dobles.",
+  "need2fa": "Se requiere el código de 2FA.",
+  "invalid2fa": "Código de 2FA inválido.",
+  "loginFailed": "Inicio de sesión fallido. Por favor, verifique sus credenciales.",
+  "errorLogin": "Error al iniciar sesión. Por favor, inténtelo de nuevo más tarde."
+
   }
   

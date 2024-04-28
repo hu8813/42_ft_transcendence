@@ -199,6 +199,15 @@
   "playwins": "玩家赢了!",
   "emptyGameHistory": "没有可用的游戏历史记录",
   "show-tournaments": "显示比赛",
-  "tournaments-history": "比赛历史"
+  "tournaments-history": "比赛历史",
+  "oauthError": "错误：用户已存在。不允许使用Oauth登录。",
+  "successMsg": "注册成功。您现在可以登录。",
+  "max50chars": "不能超过50个字符。",
+  "invalidUsername": "用户名是必填项，只能包含字母数字字符、下划线（_）或连字符（-）。",
+  "invalidPass": "密码是必填项，不能包含空格或特殊字符，如单引号或双引号。",
+  "need2fa": "需要2FA验证码。",
+  "invalid2fa": "无效的2FA验证码。",
+  "loginFailed": "登录失败。请检查您的凭据。",
+  "errorLogin": "登录错误。请稍后重试。"
   }
   

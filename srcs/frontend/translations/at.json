@@ -200,6 +200,15 @@
   "playwins": "Spieler gewinnt!",
   "emptyGameHistory": "Kein Spielverlauf verfügbar",
   "show-tournaments": "Turniere anzeigen",
-  "tournaments-history": "Turniergeschichte"
+  "tournaments-history": "Turniergeschichte",
+  "oauthError": "Fehler: Benutzer existiert bereits. OAuth-Anmeldung ist nicht erlaubt.",
+  "successMsg": "Registrierung erfolgreich. Sie können sich jetzt anmelden.",
+  "max50chars":"darf nicht mehr als 50 Zeichen lang sein.",
+  "invalidUsername":"Benutzername ist erforderlich und darf nur alphanumerische Zeichen, Unterstrich (_) oder Bindestrich (-) enthalten.",
+  "invalidPass": "Passwort ist erforderlich und darf keine Leerzeichen oder Sonderzeichen wie einfache oder doppelte Anführungszeichen enthalten.",
+  "need2fa":"2FA-Code ist erforderlich.",
+  "invalid2fa":"Ungültiger 2FA-Code.",
+  "loginFailed": "Anmeldung fehlgeschlagen. Bitte überprüfen Sie Ihre Anmeldeinformationen.",
+  "errorLogin": "Fehler beim Einloggen. Bitte versuchen Sie es später erneut."
 
 }

@@ -202,7 +202,6 @@
   "emptyGameHistory": "No game history available",
   "show-tournaments": "Show Tournaments",
   "tournaments-history": "Tournaments History",
-
   "oauthError": "Error: User already exists. Oauth login is not allowed.",
   "successMsg": "Registration successful. You can now login.",
   "max50chars":"cannot exceed 50 characters.",
