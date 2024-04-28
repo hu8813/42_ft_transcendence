@@ -6,13 +6,15 @@
 while true; do
     if nc -z -w 2 $POSTGRES_HOST $POSTGRES_PORT; then
         echo "Postgres is up!"
-        python manage.py makemigrations admin >/dev/null 2>&1
-        python manage.py makemigrations auth >/dev/null 2>&1
-        python manage.py makemigrations myapp >/dev/null 2>&1
-        python manage.py migrate admin >/dev/null 2>&1
-        python manage.py migrate auth >/dev/null 2>&1
-        python manage.py migrate myapp >/dev/null 2>&1
-        python manage.py migrate >/dev/null 2>&1
+        # python manage.py makemigrations admin
+        # python manage.py makemigrations auth
+        # python manage.py makemigrations myapp
+        # python manage.py migrate admin
+        # python manage.py migrate auth
+        # python manage.py migrate myapp
+        # python manage.py migrate
+        python manage.py makemigrations admin auth myapp
+        python manage.py migrate
 
         
 #         echo "
@@ -126,14 +128,14 @@ while true; do
     fi
 done
 
-python manage.py makemigrations admin >/dev/null 2>&1
-python manage.py makemigrations auth >/dev/null 2>&1
-python manage.py makemigrations myapp >/dev/null 2>&1
-python manage.py migrate admin >/dev/null 2>&1
-python manage.py migrate auth >/dev/null 2>&1
-python manage.py migrate myapp >/dev/null 2>&1
-python manage.py migrate >/dev/null 2>&1
-python manage.py collectstatic > /dev/null 2>&1
+# python manage.py makemigrations admin >/dev/null 2>&1
+# python manage.py makemigrations auth >/dev/null 2>&1
+# python manage.py makemigrations myapp >/dev/null 2>&1
+# python manage.py migrate admin >/dev/null 2>&1
+# python manage.py migrate auth >/dev/null 2>&1
+# python manage.py migrate myapp >/dev/null 2>&1
+# python manage.py migrate >/dev/null 2>&1
+# python manage.py collectstatic > /dev/null 2>&1
 echo "Starting backend"
 
 #daphne -b 0.0.0.0 -p 8001 myproject.asgi:application &
