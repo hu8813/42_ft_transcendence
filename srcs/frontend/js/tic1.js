@@ -161,13 +161,6 @@ function showTic1() {
             context.stroke();
         }
         
-        /* function getCanvasMousePosition(event) {
-            const rect = canvas.getBoundingClientRect();
-            return {
-                x: event.clientX - rect.left,
-                y: event.clientY - rect.top
-            }
-        } */
         function getCanvasMousePosition(event) {
             const rect = canvas.getBoundingClientRect();
             const scaleX = canvas.width / rect.width;
