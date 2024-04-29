@@ -312,7 +312,7 @@ function showPlayerAi1Page() {
                 update();
                 draw();
             }
-            requestAnimationFrame(gameLoop);;
+            requestAnimationFrame(gameLoop);
         }
     }
 }
