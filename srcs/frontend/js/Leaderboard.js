@@ -71,6 +71,7 @@ function openProfile(username) {
       for (let index = startIndex; index < endIndex; index++) {
         const member = leaderboardData[index];
         const row = document.createElement('tr');
+        let winRate = member.winning_rate * 2;
         row.innerHTML = `
             <td>${index + 1}  &nbsp; ${index < 3 ? `<i class="bi bi-trophy-fill" style="color: ${index === 0 ? 'gold' : (index === 1 ? '#A7A7AD ' : '#A77044')}"></i>` : ''}</td>
             <td>
@@ -86,7 +87,7 @@ function openProfile(username) {
                 </div>
             </td>
             <td>${await calculatePointsProgressBar(member.score)}</td> 
-            <td>${await calculateWinningRateProgressBar(member.winning_rate)}</td>
+            <td>${await calculateWinningRateProgressBar(winRate)}</td>
             <td>${await calculateDaysSinceJoining(member.date_joined)}</td>
         `;
         leaderboardBody.appendChild(row);
