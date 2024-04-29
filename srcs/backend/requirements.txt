@@ -1,5 +1,6 @@
 Django
 gunicorn
+daphne
 psycopg2-binary
 django-cors-headers
 djangorestframework
@@ -7,11 +8,7 @@ requests
 djangorestframework-simplejwt
 channels
 channels_redis
-aiohttp
-uvicorn
-whitenoise
 django-extensions
-daphne
 pyjwt
 qrcode
 pyotp
