@@ -20,7 +20,7 @@ async function getBlockedUsers() {
         const jwtToken = localStorage.getItem('jwtToken');
         const csrfToken = await getCSRFCookie();
 
-        const response = await fetch('/api/get-blocked-users', {
+        const response = await fetch('/api/get-blocked-users/', {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${jwtToken}`,
@@ -33,15 +33,41 @@ async function getBlockedUsers() {
         }
 
         const responseData = await response.json();
-        blockedUsers = responseData.blocked_users || [];
+        const blockedUsers = responseData.blocked_users || [];
+        //console.log('Blocked users:', blockedUsers);
+        
+        return blockedUsers; // Return the blocked users array
     } catch (error) {
         console.error('Error fetching blocked users:', error);
+        throw error; // Rethrow the error to be caught by the caller
     }
 }
 
-function isUserBlocked(username) {
-    return blockedUsers.includes(username);
+
+async function isUserBlocked(username) {
+    return await getBlockedUsers().then(function(blockedUsers) {
+        if (blockedUsers) {
+            //console.log('Blocked users:', blockedUsers, 'len:', blockedUsers.length);
+            if (blockedUsers.length > 0) {
+                let incs = blockedUsers.includes(username);
+                //console.log("inc:" + incs);
+                return incs;
+            } else {
+                //console.log('No blocked users found.');
+                return false;
+            }
+        } else {
+            //console.log('Blocked users data is undefined.');
+            return false;
+        }
+    }).catch(function(error) {
+        console.error('Error checking if user is blocked:', error);
+        return false;
+    });
 }
+
+
+
 
 async function addfriend(username) {  
     try {
@@ -213,7 +239,7 @@ function saveMessageToLocal(message) {
         localStorage.setItem('chatMessages', JSON.stringify(storedMessages));
     }
 }
-function displayMessage(message) {
+async function displayMessage(message) {
     msgerChat = document.getElementById('msger-chat');
     const messageElement = document.createElement('div');
     messageElement.classList.add('msg');
@@ -243,14 +269,12 @@ function displayMessage(message) {
         updateOnlineUsers();
     } else {
         const recipient = message.recipient || '#General';
-        // Check if the message is for general chat or the user's nickname
+
         if (recipient === '#General' || recipient === null || recipient === undefined || recipient === userNickname2) {
-            // Check if the sender is blocked
-            if (!isUserBlocked(message.name)) {
+            if (message.name && !(await isUserBlocked(message.name))) {
                 const messageBubble = document.createElement('div');
                 messageBubble.classList.add('msg', isCurrentUser ? 'right-msg' : 'left-msg', 'msg-bubble');
                 messageBubble.textContent = escapeHTML(message.text);
-
                 const messageInfo = document.createElement('div');
                 messageInfo.classList.add('msg-info');
                 messageInfo.style.textAlign = alignRight;
@@ -263,7 +287,6 @@ function displayMessage(message) {
                 messageElement.appendChild(messageBubble);
             }
         } else if (recipient !== userNickname2) {
-            // Ignore private messages intended for other recipients
             return;
         }
     }
@@ -452,11 +475,12 @@ function playNotificationSound() {
 }
 
 
-function openChat() {
+async function openChat() {
     if (!chatChannel)
         chatChannel = '#General';
     userNickname2= localStorage.getItem('userNickname') || "user42";
     messageInput = document.getElementById('message-input');
+    //blockedUsers = await getBlockedUsers();
     //recipientSelect = document.getElementById('recipient-select');
     onlineUsersList = document.getElementById('online-users-list'); 
     const sendBtn = document.getElementById('msgSend');

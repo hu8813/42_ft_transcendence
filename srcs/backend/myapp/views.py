@@ -172,7 +172,7 @@ def get_blocked_users(request):
         
         blocked_users = user_requester.blocked_users.all()
         
-        blocked_usernames = [user.username for user in blocked_users]
+        blocked_usernames = [user.nickname for user in blocked_users]
         
         return JsonResponse({'blocked_users': blocked_usernames})
     
