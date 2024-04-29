@@ -211,6 +211,7 @@
   "loginFailed": "Anmeldung fehlgeschlagen. Bitte überprüfen Sie Ihre Anmeldeinformationen.",
   "errorLogin": "Fehler beim Einloggen. Bitte versuchen Sie es später erneut.",
   "tied": "Das Spiel ist unentschieden!",
-  "tied2": "Es wird noch einmal gespielt."
+  "tied2": "Es wird noch einmal gespielt.",
+  "anywhere": "Klicken Sie irgendwo, um noch einmal zu spielen"
 
 }

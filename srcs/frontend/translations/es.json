@@ -210,7 +210,8 @@
   "loginFailed": "Inicio de sesión fallido. Por favor, verifique sus credenciales.",
   "errorLogin": "Error al iniciar sesión. Por favor, inténtelo de nuevo más tarde.",
   "tied": "¡El juego está empatado!",
-  "tied2": "Se jugará de nuevo."
+  "tied2": "Se jugará de nuevo.",
+  "anywhere": "Haz clic en cualquier lugar para jugar de nuevo"
 
   }
   

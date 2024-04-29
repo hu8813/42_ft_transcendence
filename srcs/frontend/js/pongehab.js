@@ -158,10 +158,11 @@ function showPongEhab() {
             ctx.font = "48px Arial";
             ctx.textAlign = "center";
             let won = await translateKey("won");
+            let anywhere = await translateKey("anywhere");
             ctx.fillText(`${winner} ` + won, canvas.width / 2, canvas.height / 2.3);
         
             ctx.font = "24px Arial";
-            ctx.fillText("Click anywhere to play again", canvas.width / 2, canvas.height / 2 + 50);
+            ctx.fillText(anywhere, canvas.width / 2, canvas.height / 2 + 50);
             
             gameOver = true;
             addCanvasClickListener();

@@ -210,5 +210,6 @@
   "loginFailed": "Échec de la connexion. Veuillez vérifier vos informations d'identification.",
   "errorLogin": "Erreur de connexion. Veuillez réessayer plus tard.",
   "tied": "Le jeu est à égalité !",
-  "tied2": "Il sera joué de nouveau."
+  "tied2": "Il sera joué de nouveau.",
+  "anywhere": "Cliquez n'importe où pour jouer à nouveau"
 }

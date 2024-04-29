@@ -195,6 +195,8 @@
   "loginFailed": "Giriş başarısız. Lütfen kimlik bilgilerinizi kontrol edin.",
   "errorLogin": "Giriş hatası. Lütfen daha sonra tekrar deneyin.",
   "tied": "Oyun berabere bitti!",
-  "tied2": "Tekrar oynanacak."
+  "tied2": "Tekrar oynanacak.",
+  "anywhere": "Tekrar oynamak için herhangi bir yere tıklayın"
+
   
 }

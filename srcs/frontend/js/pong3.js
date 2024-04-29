@@ -189,10 +189,11 @@ function showPong3() {
             ctx.font = "48px Arial";
             ctx.textAlign = "center";
             let lost = await translateKey("lost");
+            let anywhere = await translateKey("anywhere");
             ctx.fillText(`${loser} `+lost, canvas.width / 2, canvas.height / 4);
             
             ctx.font = "24px Arial";
-            ctx.fillText("Click anywhere to play again", canvas.width / 2, canvas.height / 2 + 50);
+            ctx.fillText( anywhere, canvas.width / 2, canvas.height / 2 + 50);
             
             gameOver = true;
             addCanvasClickListener();

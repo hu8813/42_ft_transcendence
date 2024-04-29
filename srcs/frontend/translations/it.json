@@ -210,5 +210,6 @@
   "loginFailed": "Accesso fallito. Si prega di verificare le credenziali.",
   "errorLogin": "Errore di accesso. Si prega di riprovare più tardi.",
   "tied": "Il gioco è pari!",
-  "tied2": "Sarà giocato di nuovo."
+  "tied2": "Sarà giocato di nuovo.",
+  "anywhere": "Clicca da qualsiasi parte per giocare ancora"
 }
