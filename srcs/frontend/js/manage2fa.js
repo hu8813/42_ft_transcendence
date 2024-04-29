@@ -87,7 +87,7 @@ async function display2faPage() {
             const csrfToken = await getCSRFCookie();
     
             const activationCode = document.getElementById('activationCode').value;
-            console.log(activationCode)
+            //console.log(activationCode)
             const response = await fetch(`/api/2fa-activate`, {
                 method: 'POST',
                 body: JSON.stringify({ activationCode }),
@@ -172,8 +172,8 @@ async function display2faPage() {
     check2FAStatus(username);
 
     document.getElementById('enable2FA').addEventListener('click', enableOrDisable2FA);
-    if (document.getElementById('activate2FA'))
-        document.getElementById('activate2FA').addEventListener('click', activate2fa);
+    if (document.getElementById('activate2fa'))
+        document.getElementById('activate2fa').addEventListener('click', activate2FA);
     currrentLanguage2 = localStorage.getItem('language');
     translate(currrentLanguage2);
 }
