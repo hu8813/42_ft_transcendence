@@ -161,15 +161,16 @@ function showPong4() {
             let collidePoint;
             if (player === player3 || player === player4) {
                 collidePoint = (ball.x - (player.x + player.width / 2)) / (player.width / 2);
+                let angleRad = collidePoint * Math.PI / 4;
+                ball.velocityX = ball.speed * Math.cos(angleRad);
+                ball.velocityY = (player === player3 ? -1 : 1) * ball.speed * Math.sin(angleRad);            
             } else {
                 collidePoint = (ball.y - (player.y + player.height / 2)) / (player.height / 2);
+                let angleRad = collidePoint * Math.PI / 4;
+                let direction = (player === player1) ? 1 : -1;
+                ball.velocityX = direction * ball.speed * Math.cos(angleRad);
+                ball.velocityY = ball.speed * Math.sin(angleRad);
             }
-
-            let angleRad = collidePoint * Math.PI / 4;
-            let direction = (player === player1 || player === player3) ? 1 : -1;
-
-            ball.velocityX = direction * ball.speed * Math.cos(angleRad);
-            ball.velocityY = ball.speed * Math.sin(angleRad) * (player === player3 || player === player4 ? -1 : 1);
             ball.speed += 0.1;
         }
 

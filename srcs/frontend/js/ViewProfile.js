@@ -52,6 +52,123 @@ async function fetchAndDisplayViewProfile(username) {
             statusIndicator.classList.toggle('offline', !isOnline);
             statusIndicator.title = isOnline ? 'Online' : 'Offline';
             
+            document.getElementById('profileActionButtons').addEventListener('click', async function(event) {
+                const target = event.target;
+                try {
+                    let jwtToken = localStorage.getItem('jwtToken');
+                    let csrfToken = await getCSRFCookie();
+            
+                    if (target.id === 'addfriend') {
+                        try {
+                            
+        
+                            
+                            const response = await fetch(`/api/add-friend?username=${username}`, {
+                                method: 'POST',
+                                headers: {
+                                    'Authorization': `Bearer ${jwtToken}`,
+                                    'X-CSRFToken': csrfToken
+                                }
+                            });
+                            
+                            const responseData = await response.json();
+                            if (response.ok) {
+                                messageContainer.textContent = responseData.message;
+                                messageContainer.style.color = 'green';
+                            } else {
+                                throw new Error('Failed to add friend '+responseData.message);
+                            }
+                        } catch (error) {
+                            console.error('Error adding friend:', error);
+                            messageContainer.textContent = 'Opps '+error.message;
+                            messageContainer.style.color = 'red';
+                        }
+                    } else if (target.id === 'removefriend') {
+                        try {
+                           
+        
+                            
+                            
+                            const response = await fetch(`/api/remove-friend?username=${username}`, {
+                                method: 'POST',
+                                headers: {
+                                    'Authorization': `Bearer ${jwtToken}`,
+                                    'X-CSRFToken': csrfToken
+                                }
+                            });
+                            
+                            const responseData = await response.json();
+                            if (response.ok) {
+                                messageContainer.textContent = responseData.message;
+                                messageContainer.style.color = 'green';
+                            } else {
+                                throw new Error('Failed to remove friend ' + responseData.message);
+                            }
+                        } catch (error) {
+                            console.error('Error removing friend:', error);
+                            messageContainer.textContent = 'Opps '+error.message;
+                            messageContainer.style.color = 'red';
+                        }
+                    } else if (target.id === 'blockuser') {
+                        try {
+                            
+                    
+                            
+                            const response = await fetch(`/api/block-user?username=${username}`, {
+                                method: 'POST',
+                                headers: {
+                                    'Authorization': `Bearer ${jwtToken}`,
+                                    'X-CSRFToken': csrfToken
+                                }
+                            });
+                            
+                            const responseData = await response.json();
+                            if (response.ok) {
+                                messageContainer.textContent = responseData.message;
+                                messageContainer.style.color = 'green';
+                            } else {
+                                throw new Error('Failed to block user '+responseData.message);
+                            }
+                        } catch (error) {
+                            console.error('Error blocking user:', error);
+                            messageContainer.textContent = 'Opps '+error.message;
+                            messageContainer.style.color = 'red';
+                        }
+                    } else if (target.id === 'unblockuser') {
+                        try {
+                           
+                            
+                            const response = await fetch(`/api/unblock-user?username=${username}`, {
+                                method: 'POST',
+                                headers: {
+                                    'Authorization': `Bearer ${jwtToken}`,
+                                    'X-CSRFToken': csrfToken
+                                }
+                            });
+                            
+                            const responseData = await response.json();
+                            if (response.ok) {
+                                messageContainer.textContent = responseData.message;
+                                messageContainer.style.color = 'green';
+                            } else {
+                                throw new Error('Failed to unblock user '+responseData.message);
+                            }
+                        } catch (error) {
+                            console.error('Error unblocking user:', error);
+                            messageContainer.textContent = 'Opps '+error.message;
+                            messageContainer.style.color = 'red';
+                        }
+                    }
+                } catch (error) {
+                    console.error('Error handling profile action:', error);
+                    const messageContainer = document.getElementById('messageContainer');
+                    if (messageContainer) {
+                        messageContainer.textContent = 'Oops ' + error.message;
+                        messageContainer.style.color = 'red';
+                    }
+                }
+            });
+            
             document.getElementById('gamehistory').addEventListener('click', async function() {
                 try {
                     const jwtToken = localStorage.getItem('jwtToken');
@@ -73,7 +190,6 @@ async function fetchAndDisplayViewProfile(username) {
                             gameHistoryContainer.style.display = 'flex'; // Change display to flex
                             gameHistoryContainer.innerHTML = '<button id="closeGameHistoryBtn" class="close-button" onclick="closeGameHistory()">'+cls+'</button>';
                         }
-                        // Sort game history by date_time_played in descending order
                         if (gameHistoryData.length === 0) {
                             let emptyGameHistory = await translateKey("emptyGameHistory");
                             gameHistoryContainer.innerHTML += `<div class="mb-3"><br/> `+ emptyGameHistory +` </div>`;
@@ -108,120 +224,8 @@ async function fetchAndDisplayViewProfile(username) {
                 }
             });
             
-
-            document.getElementById('addfriend').addEventListener('click', async function() {
-                try {
-                    let jwtToken = localStorage.getItem('jwtToken');
-                    let csrfToken = await getCSRFCookie();
-
-                    
-                    const response = await fetch(`/api/add-friend?username=${username}`, {
-                        method: 'POST',
-                        headers: {
-                            'Authorization': `Bearer ${jwtToken}`,
-                            'X-CSRFToken': csrfToken
-                        }
-                    });
-                    
-                    const responseData = await response.json();
-                    if (response.ok) {
-                        messageContainer.textContent = responseData.message;
-                        messageContainer.style.color = 'green';
-                    } else {
-                        throw new Error('Failed to add friend '+responseData.message);
-                    }
-                } catch (error) {
-                    console.error('Error adding friend:', error);
-                    messageContainer.textContent = 'Opps '+error.message;
-                    messageContainer.style.color = 'red';
-                }
-            });
-            
-            document.getElementById('blockuser').addEventListener('click', async function() {
-                try {
-                    let jwtToken = localStorage.getItem('jwtToken');
-                    let csrfToken = await getCSRFCookie();
-
-            
-                    
-                    const response = await fetch(`/api/block-user?username=${username}`, {
-                        method: 'POST',
-                        headers: {
-                            'Authorization': `Bearer ${jwtToken}`,
-                            'X-CSRFToken': csrfToken
-                        }
-                    });
-                    
-                    const responseData = await response.json();
-                    if (response.ok) {
-                        messageContainer.textContent = responseData.message;
-                        messageContainer.style.color = 'green';
-                    } else {
-                        throw new Error('Failed to block user '+responseData.message);
-                    }
-                } catch (error) {
-                    console.error('Error blocking user:', error);
-                    messageContainer.textContent = 'Opps '+error.message;
-                    messageContainer.style.color = 'red';
-                }
-            });
-            document.getElementById('removefriend').addEventListener('click', async function() {
-                try {
-                    let jwtToken = localStorage.getItem('jwtToken');
-                    let csrfToken = await getCSRFCookie();
-
-                    
-                    
-                    const response = await fetch(`/api/remove-friend?username=${username}`, {
-                        method: 'POST',
-                        headers: {
-                            'Authorization': `Bearer ${jwtToken}`,
-                            'X-CSRFToken': csrfToken
-                        }
-                    });
-                    
-                    const responseData = await response.json();
-                    if (response.ok) {
-                        messageContainer.textContent = responseData.message;
-                        messageContainer.style.color = 'green';
-                    } else {
-                        throw new Error('Failed to remove friend ' + responseData.message);
-                    }
-                } catch (error) {
-                    console.error('Error removing friend:', error);
-                    messageContainer.textContent = 'Opps '+error.message;
-                    messageContainer.style.color = 'red';
-                }
-            });
-            
-            document.getElementById('unblockuser').addEventListener('click', async function() {
-                try {
-                    let jwtToken = localStorage.getItem('jwtToken');
-                    let csrfToken = await getCSRFCookie();
-
-                    
-                    
-                    const response = await fetch(`/api/unblock-user?username=${username}`, {
-                        method: 'POST',
-                        headers: {
-                            'Authorization': `Bearer ${jwtToken}`,
-                            'X-CSRFToken': csrfToken
-                        }
-                    });
-                    
-                    const responseData = await response.json();
-                    if (response.ok) {
-                        messageContainer.textContent = responseData.message;
-                        messageContainer.style.color = 'green';
-                    } else {
-                        throw new Error('Failed to unblock user '+responseData.message);
-                    }
-                } catch (error) {
-                    console.error('Error unblocking user:', error);
-                    messageContainer.textContent = 'Opps '+error.message;
-                    messageContainer.style.color = 'red';
-                }
-            });
+ 
+               
             
         } else {
             throw new Error('Profile not found');
