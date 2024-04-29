@@ -87,7 +87,12 @@ async function display2faPage() {
             const csrfToken = await getCSRFCookie();
     
             const activationCode = document.getElementById('activationCode').value;
-            //console.log(activationCode)
+    
+            if (!activationCode || !(/^\d{6}$/.test(activationCode))) {
+                displayError('Activation code must be a 6-digit numeric value.');
+                return;
+            }
+    
             const response = await fetch(`/api/2fa-activate`, {
                 method: 'POST',
                 body: JSON.stringify({ activationCode }),
@@ -103,7 +108,7 @@ async function display2faPage() {
                 document.getElementById('qrCodeSection').style.display = 'none';
                 document.getElementById('qrCode').innerHTML = '';
                 document.getElementById('activationCode').value = '';
-                document.getElementById('errorLabel').textContent = '';  
+                document.getElementById('errorLabel').textContent = '';
                 //location.reload();
             } else {
                 const responseData = await response.json();
@@ -114,6 +119,7 @@ async function display2faPage() {
             displayError(error.message);
         }
     }
+    
     
     async function generateQRCode() {
         try {
