@@ -303,7 +303,7 @@ function showPong3() {
                 update();
                 draw();
             }
-            requestAnimationFrame(gameLoop);;
+            requestAnimationFrame(gameLoop);
         }
     }
 }
