@@ -27,18 +27,14 @@ To get started with Pong42, follow these steps:
     cd pong42
     ```
 
-2. **Backend Setup**:
-    ```bash
-    cd backend
-    pip install -r requirements.txt
-    python manage.py migrate
-    python manage.py runserver
-    ```
+2. **Create .env file**:
+    just rename sample.env to .env and use it as Reference
 
-3. **Frontend Setup**:
+3. **Run**:
     ```bash
-    cd frontend
-    open index.html
+    make
+    # OR
+    docker compose up
     ```
 
 ### Live Demo of 42 Transcendence Project
