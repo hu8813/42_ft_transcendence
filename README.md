@@ -41,22 +41,6 @@ To get started with Pong42, follow these steps:
 
 Check out the live demo of the **Pong42** project: [Pong42 Website](https://pong42.vercel.app)
 
-### Screenshots of ft_transcendence Project
-
-![Screenshot](screenshot.png)
-
-### Contributions to 42 Transcendence ft_transcendence Project
-
-Contributions are welcome! If you have any improvements or suggestions, feel free to submit a pull request. For major changes, please open an issue first to discuss what you would like to change.
-
-### License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-### Contact
-
-For any inquiries or support, please reach out via the contact information provided in the repository.
-
 ### Keywords
 
 - Django backend
