@@ -1,8 +1,17 @@
 # Pure JavaScript Frontend with Django Backend
 
+## Team:
+
+Deyan: [ddyankov](https://github.com/ddyankov28)
+Ehab: [eelasam](https://github.com/EhabElasam)
+Hüseyin: [huaydin](https://github.com/hu8813)
+Valentin: [vstockma](https://github.com/vstockma)
+
+
 ## 🏓 42 Transcendence: Pong42 Project 🏓
 
 Welcome to **Pong42**, a school project **42 Transcendence**. This project features a combination of a **Django backend** and a **pure JavaScript (vanilla JS) frontend**. 
+
 
 ![Screenshot](screenshot.png)
 
