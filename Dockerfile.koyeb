@@ -1,0 +1,4 @@
+# it is only for remote deployment on Koyeb
+FROM koyeb/docker-compose
+
+COPY . /app
