@@ -15,6 +15,10 @@ Welcome to **Pong42**, a school project **42 Transcendence**. This project featu
 
 ![Screenshot](screenshot.png)
 
+### Production Setup 
+
+Frontend & Postgresql Db are hosted on Vercel (free), Backend is hosted on Azure as WebApp, could also be hosted on Render (free)
+
 ### Key Features of 42 ft_transcendence Project
 
 - **Django Backend**: Robust and scalable backend developed using the Django framework.
